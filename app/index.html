@@ -560,9 +560,9 @@
     </label>
 
     <label class="layer-row">
-      <input type="checkbox" id="t-temperature-yoy">
+      <input type="checkbox" id="t-temperature-county">
       <span class="row-swatch" data-style="temperature-yoy" aria-hidden="true"></span>
-      <span class="row-label">Temperature YoY (state &Delta;&deg;F)</span>
+      <span class="row-label">Temperature YoY (county &Delta;&deg;F)</span>
       <span class="row-meta">monthly</span>
     </label>
   </div>
@@ -670,12 +670,11 @@
       <span class="tier-chip" style="background:#7a0019">·</span><span>extreme warming (&ge; +2&deg;F)</span>
     </div>
     <div class="legend-caption">
-      Source: NOAA NCEI Climate at a Glance, statewide trailing-12-month
-      mean temperature (<code>tavg</code>). &Delta;&deg;F is the change in
-      trailing-12-month state mean vs one year ago. Fahrenheit zero is
-      arbitrary so the % YoY is informational only — read the &deg;F
-      delta as the headline. Hawaii is not in this CONUS divisional
-      series and renders as no-data.
+      Source: NOAA NCEI Climate at a Glance, <b>county-level</b>
+      trailing-12-month mean temperature (<code>tavg</code>).
+      &Delta;&deg;F is the change vs one year ago. Each data-center
+      marker reads its containing county's value into the site tooltip.
+      Anomaly figure is vs the 1991-2020 normal.
     </div>
   </div>
 
@@ -766,6 +765,19 @@
     6, '#870019',
     '#dddddd'
   ];
+  // Diverging YoY ΔF palette for the county temperature layer (matches
+  // TEMP_DELTA_BANDS in scripts/build_tiles.py).
+  const TEMP_BIN_COLOR = [
+    'match', ['get', 'bin'],
+    0, '#0a3b75',  // extreme cooling (< -2)
+    1, '#4a85c4',  // strong cooling (-2 to -1)
+    2, '#a4c5e5',  // cooling (-1 to -0.3)
+    3, '#e8e8e8',  // stable
+    4, '#f46036',  // warming
+    5, '#d7263d',  // strong warming
+    6, '#7a0019',  // extreme warming (>= 2)
+    '#cfd1d4'
+  ];
   const NO_DATA_OPACITY = ['case', ['==', ['get', 'bin'], -1], 0.18, 0.6];
 
   const MARKER_RADIUS = [
@@ -819,6 +831,7 @@
         'utility': { type: 'vector', url: 'pmtiles://./tiles/utility.pmtiles' },
         'election': { type: 'vector', url: 'pmtiles://./tiles/election.pmtiles' },
         'property-tax': { type: 'vector', url: 'pmtiles://./tiles/property_tax.pmtiles' },
+        'temperature-county': { type: 'vector', url: 'pmtiles://./tiles/temperature.pmtiles' },
         'sites': { type: 'geojson', data: './sites.geojson' },
         'hot-zones': { type: 'geojson', data: './hot_zones.geojson' },
         'ice-zones': { type: 'geojson', data: './ice_hotzones.geojson' },
@@ -971,6 +984,27 @@
         { id: 'property-tax-outline', type: 'line', source: 'property-tax', 'source-layer': 'property_tax',
           minzoom: 5,
           paint: { 'line-color': '#888', 'line-width': 0.3 },
+          layout: { visibility: 'none' } },
+
+        // --- County temperature YoY ΔF (off by default; replaces the
+        //     state-level Temperature YoY layer with county granularity).
+        {
+          id: 'temperature-county-fill', type: 'fill',
+          source: 'temperature-county', 'source-layer': 'temperature',
+          paint: {
+            'fill-color': TEMP_BIN_COLOR,
+            'fill-opacity': ['case',
+              ['==', ['get', 'bin'], -1], 0.12,
+              ['==', ['get', 'bin'],  3], 0.30,  // stable: subtle
+              0.55
+            ]
+          },
+          layout: { visibility: 'none' }
+        },
+        { id: 'temperature-county-outline', type: 'line',
+          source: 'temperature-county', 'source-layer': 'temperature',
+          minzoom: 5,
+          paint: { 'line-color': '#666', 'line-width': 0.25 },
           layout: { visibility: 'none' } },
 
         // --- 2024 presidential election (county margin, off by default) ---
@@ -1233,8 +1267,8 @@
     'homicide-uptick-pulse',
     ['homicide-uptick-fill', 'homicide-uptick-outline', 'homicide-uptick-pulse']));
 
-  bindToggle('t-temperature-yoy', v => setLayers(
-    ['temperature-yoy-fill', 'temperature-yoy-outline'], v));
+  bindToggle('t-temperature-county', v => setLayers(
+    ['temperature-county-fill', 'temperature-county-outline'], v));
 
   map.on('style.load', () => {
     document.querySelectorAll('#layer-panel input[type=checkbox]')
@@ -1298,6 +1332,7 @@
     'protest-zone-marker', 'protest-zone-fill',
     'county-fill', 'utility-fill', 'election-fill', 'property-tax-fill', 'ba-fill',
     'od-uptick-fill', 'homicide-uptick-fill', 'temperature-yoy-fill',
+    'temperature-county-fill',
   ];
   // Lower = higher priority when sorting overlapping hits.
   const PROBE_PRIORITY = {
@@ -1308,7 +1343,7 @@
     'county-fill': 3, 'utility-fill': 4, 'election-fill': 4.3,
     'property-tax-fill': 4.6, 'ba-fill': 5,
     'od-uptick-fill': 6, 'homicide-uptick-fill': 6.1,
-    'temperature-yoy-fill': 6.2,
+    'temperature-yoy-fill': 6.2, 'temperature-county-fill': 4.4,
   };
 
   function tipForFeature(f) {
@@ -1421,6 +1456,18 @@
              `${n.toLocaleString()} Reddit mention${n==1?'':'s'} (${win})` +
              examples;
     }
+    if (f.layer.id.startsWith('temperature-county')) {
+      if (p.delta_f == null) return `<b>${p.name}, ${p.state || ''}</b><br>no temperature data`;
+      const d = +p.delta_f;
+      const sign = d >= 0 ? '+' : '';
+      const arrow = d >= 0.3 ? '↑' : (d <= -0.3 ? '↓' : '·');
+      const anom = (p.anomaly_current != null)
+        ? `<br>vs 1991-2020 normal: <b>${(+p.anomaly_current) >= 0 ? '+' : ''}${(+p.anomaly_current).toFixed(2)} °F</b>` : '';
+      return `<b>${p.name}, ${p.state}</b> &middot; ${p.band || ''} ${arrow}<br>` +
+             `<b>${sign}${d.toFixed(2)} °F YoY</b><br>` +
+             `trailing-12 mean: ${(+p.tavg_current).toFixed(1)} °F (prior ${(+p.tavg_prior).toFixed(1)})` +
+             anom;
+    }
     if (f.layer.id.startsWith('temperature-yoy')) {
       if (p.delta_f == null) return `<b>${p.name}</b><br>no temperature data`;
       const d = +p.delta_f;
@@ -1451,11 +1498,21 @@
       const mw = p.announced_mw != null ? `${Math.round(p.announced_mw).toLocaleString()} MW` : 'n/a';
       const yr = p.online_year != null ? p.online_year : '?';
       const src = p.source ? `<br><a href="${p.source}" target="_blank">source</a>` : '';
+      let temp = '';
+      if (p.temp_delta_f != null) {
+        const d = +p.temp_delta_f;
+        const sign = d >= 0 ? '+' : '';
+        const arrow = d >= 0.3 ? '↑' : (d <= -0.3 ? '↓' : '·');
+        const anom = (p.temp_anomaly_f != null)
+          ? ` (anomaly ${(+p.temp_anomaly_f) >= 0 ? '+' : ''}${(+p.temp_anomaly_f).toFixed(1)})` : '';
+        const cn = p.county_name ? ` &middot; ${p.county_name}` : '';
+        temp = `<br>YoY temp${cn}: <b>${sign}${d.toFixed(2)} °F</b> ${arrow}${anom}`;
+      }
       return `<b>${p.name}</b><br>` +
              `${p.operator}<br>${p.city}, ${p.state}<br>` +
              `BA: ${p.ba_code} (${p.utility})<br>` +
              `${mw} - ${p.status} (${yr})<br>` +
-             `AI focus: <b>${p.ai_focus}</b>` + src;
+             `AI focus: <b>${p.ai_focus}</b>` + temp + src;
     }
     return '';
   }
