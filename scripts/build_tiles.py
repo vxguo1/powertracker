@@ -39,8 +39,34 @@ SITES_OUT = REPO_ROOT / "app" / "sites.geojson"
 TMP_DIR = REPO_ROOT / "data" / "tiles_tmp"
 ELECTION_CSV = REPO_ROOT / "data" / "cache" / "election_2024_county.csv"
 PROPERTY_TAX_CSV = REPO_ROOT / "data" / "cache" / "property_tax_yoy.csv"
+TEMPERATURE_CSV = REPO_ROOT / "data" / "cache" / "temperature_county_yoy.csv"
 
 NO_DATA_BIN = -1
+
+# Diverging Δ°F bands for the county temperature layer (same thresholds
+# as the state-level layer in scripts/fetch_temperature_yoy.py).
+TEMP_DELTA_BANDS: list[tuple[float, str, str]] = [
+    (-100.0, "extreme cooling", "#0a3b75"),
+    (-2.0,   "strong cooling",  "#4a85c4"),
+    (-1.0,   "cooling",         "#a4c5e5"),
+    (-0.3,   "stable",          "#e8e8e8"),
+    ( 0.3,   "warming",         "#f46036"),
+    ( 1.0,   "strong warming",  "#d7263d"),
+    ( 2.0,   "extreme warming", "#7a0019"),
+]
+
+
+def temperature_band(delta_f: float | None) -> tuple[int, str, str]:
+    """Return (bin_index, label, color) for a YoY ΔF value."""
+    if delta_f is None or pd.isna(delta_f):
+        return (NO_DATA_BIN, "no data", "#cfd1d4")
+    chosen = (0, *TEMP_DELTA_BANDS[0][1:])
+    for i, (lower, label, color) in enumerate(TEMP_DELTA_BANDS):
+        if delta_f >= lower:
+            chosen = (i, label, color)
+        else:
+            break
+    return chosen
 
 # Diverging GOP-margin bins for the 2024 presidential map. Margin = per_gop -
 # per_dem (signed percentage points). Bin indices 0..6 map onto a blue->red
@@ -147,6 +173,100 @@ def _enrich_utility(geo: dict, util_yoy: pd.DataFrame) -> dict:
         kept.append(feat)
     geo["features"] = kept
     return geo
+
+
+def _point_in_ring(lon: float, lat: float, ring: list) -> bool:
+    """Ray-cast point-in-polygon over a single closed ring (list of
+    [lon, lat] vertices)."""
+    n = len(ring)
+    inside = False
+    j = n - 1
+    for i in range(n):
+        xi, yi = ring[i][0], ring[i][1]
+        xj, yj = ring[j][0], ring[j][1]
+        if (yi > lat) != (yj > lat):
+            slope = (xj - xi) * (lat - yi) / ((yj - yi) or 1e-12) + xi
+            if lon < slope:
+                inside = not inside
+        j = i
+    return inside
+
+
+def _site_to_county_fips(sites_df: pd.DataFrame, county_geo: dict) -> dict[int, str]:
+    """Returns a dict mapping site-row index -> 5-digit county FIPS via
+    a bbox-filtered ray-cast point-in-polygon. ~106 sites x 3107
+    counties is fast enough not to need anything fancier."""
+    # Precompute a bbox + outer-ring list for each county.
+    county_bboxes: list[tuple[float, float, float, float, str, list[list]]] = []
+    for feat in county_geo["features"]:
+        fips = str(feat.get("id") or feat["properties"].get("GEO_ID", "")[-5:])
+        if not fips:
+            continue
+        geom = feat["geometry"]
+        rings_outer: list[list] = []
+        if geom["type"] == "Polygon":
+            rings_outer.append(geom["coordinates"][0])
+        elif geom["type"] == "MultiPolygon":
+            for poly in geom["coordinates"]:
+                rings_outer.append(poly[0])
+        else:
+            continue
+        # Bbox = min/max over all outer-ring vertices.
+        xs, ys = [], []
+        for ring in rings_outer:
+            for x, y in ring:
+                xs.append(x); ys.append(y)
+        if not xs:
+            continue
+        county_bboxes.append((min(xs), min(ys), max(xs), max(ys), fips, rings_outer))
+
+    out: dict[int, str] = {}
+    for i, (_, r) in enumerate(sites_df.iterrows()):
+        try:
+            lon, lat = float(r.lon), float(r.lat)
+        except (TypeError, ValueError):
+            continue
+        for xmin, ymin, xmax, ymax, fips, rings in county_bboxes:
+            if lon < xmin or lon > xmax or lat < ymin or lat > ymax:
+                continue
+            if any(_point_in_ring(lon, lat, ring) for ring in rings):
+                out[i] = fips
+                break
+    return out
+
+
+def _enrich_temperature(geo: dict, temp: pd.DataFrame) -> dict:
+    """Build a fresh GeoJSON of county polygons annotated with NOAA
+    trailing-12-month tavg YoY delta. Bin via TEMP_DELTA_BANDS so the
+    frontend can render via a MapLibre `match` on `bin`."""
+    temp = temp.copy()
+    temp["fips"] = temp["fips"].astype(str).str.zfill(5)
+    lookup = {r.fips: r for _, r in temp.iterrows()}
+    out_features = []
+    for feat in geo["features"]:
+        fips = str(feat.get("id") or feat["properties"].get("GEO_ID", "")[-5:])
+        name = feat["properties"].get("NAME", "?")
+        r = lookup.get(fips)
+        props: dict = {"fips": fips, "name": name}
+        if r is None or pd.isna(r.delta_f):
+            props["delta_f"] = None
+            props["bin"] = NO_DATA_BIN
+        else:
+            bin_i, band_label, _ = temperature_band(float(r.delta_f))
+            props["delta_f"] = float(r.delta_f)
+            props["tavg_current"] = float(r.tavg_current)
+            props["tavg_prior"] = float(r.tavg_prior)
+            props["anomaly_current"] = (float(r.anomaly_current)
+                                         if not pd.isna(r.anomaly_current) else None)
+            props["state"] = r.state
+            props["bin"] = bin_i
+            props["band"] = band_label
+        out_features.append({
+            "type": "Feature",
+            "geometry": feat["geometry"],
+            "properties": props,
+        })
+    return {"type": "FeatureCollection", "features": out_features}
 
 
 def _enrich_property_tax(geo: dict, tax: pd.DataFrame) -> dict:
@@ -340,32 +460,67 @@ def main() -> None:
     else:
         print(f"\nSkipping property-tax layer ({PROPERTY_TAX_CSV} missing).")
 
+    if TEMPERATURE_CSV.exists():
+        print("\nCounty temperature YoY layer ...")
+        temp = pd.read_csv(TEMPERATURE_CSV, dtype={"fips": str})
+        _build_one("temperature", _enrich_temperature(data.county_geo, temp), "temperature", max_zoom=9)
+    else:
+        print(f"\nSkipping temperature layer ({TEMPERATURE_CSV} missing).")
+
     shutil.rmtree(TMP_DIR, ignore_errors=True)
 
     # Sites: small enough to ship as a static GeoJSON (no tippecanoe needed).
+    # We also annotate each site with its containing county FIPS and that
+    # county's temperature YoY ΔF so the site tooltip can show "Δ°F here"
+    # without needing a runtime spatial join in the browser.
     sites = data.sites
+    temp_by_fips: dict[str, dict] = {}
+    if TEMPERATURE_CSV.exists():
+        for _, r in pd.read_csv(TEMPERATURE_CSV, dtype={"fips": str}).iterrows():
+            temp_by_fips[r.fips.zfill(5)] = {
+                "delta_f": None if pd.isna(r.delta_f) else float(r.delta_f),
+                "tavg_current": None if pd.isna(r.tavg_current) else float(r.tavg_current),
+                "tavg_prior": None if pd.isna(r.tavg_prior) else float(r.tavg_prior),
+                "anomaly": None if pd.isna(r.anomaly_current) else float(r.anomaly_current),
+                "county_name": r["name"],
+            }
+    site_county = _site_to_county_fips(sites, data.county_geo)
+
+    def _site_props(idx: int, r) -> dict:
+        fips = site_county.get(idx)
+        out = {
+            "name": r["name"],
+            "operator": r.operator,
+            "city": r.city,
+            "state": r.state,
+            "ba_code": r.ba_code,
+            "utility": r.utility,
+            "announced_mw": None if pd.isna(r.announced_mw) else float(r.announced_mw),
+            "status": r.status,
+            "online_year": None if pd.isna(r.online_year) else int(r.online_year),
+            "ai_focus": r.ai_focus,
+            "notes": r.notes if isinstance(r.notes, str) else "",
+            "source": r.source if isinstance(r.source, str) else "",
+            "county_fips": fips,
+        }
+        t = temp_by_fips.get(fips) if fips else None
+        if t:
+            out["temp_delta_f"] = t["delta_f"]
+            out["temp_current_f"] = t["tavg_current"]
+            out["temp_prior_f"] = t["tavg_prior"]
+            out["temp_anomaly_f"] = t["anomaly"]
+            out["county_name"] = t["county_name"]
+        return out
+
     sites_geo = {
         "type": "FeatureCollection",
         "features": [
             {
                 "type": "Feature",
                 "geometry": {"type": "Point", "coordinates": [float(r.lon), float(r.lat)]},
-                "properties": {
-                    "name": r["name"],
-                    "operator": r.operator,
-                    "city": r.city,
-                    "state": r.state,
-                    "ba_code": r.ba_code,
-                    "utility": r.utility,
-                    "announced_mw": None if pd.isna(r.announced_mw) else float(r.announced_mw),
-                    "status": r.status,
-                    "online_year": None if pd.isna(r.online_year) else int(r.online_year),
-                    "ai_focus": r.ai_focus,
-                    "notes": r.notes if isinstance(r.notes, str) else "",
-                    "source": r.source if isinstance(r.source, str) else "",
-                },
+                "properties": _site_props(i, r),
             }
-            for _, r in sites.iterrows()
+            for i, (_, r) in enumerate(sites.iterrows())
         ],
     }
     SITES_OUT.parent.mkdir(parents=True, exist_ok=True)
