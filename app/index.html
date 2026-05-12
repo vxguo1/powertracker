@@ -207,6 +207,14 @@
       background: transparent;
       border: 1.5px dashed #7a0019;
     }
+    .row-swatch[data-style="od-uptick"] {
+      background: linear-gradient(to right,
+        #cfd1d4 0%, #cfd1d4 25%, #f46036 50%, #d7263d 75%, #7a0019 100%);
+    }
+    @keyframes od-pulse {
+      0%, 100% { fill-opacity: 0.55; }
+      50%      { fill-opacity: 0.10; }
+    }
 
     .layer-hint {
       margin-top: var(--s-2);
@@ -516,6 +524,13 @@
       <span class="row-label">ICE raid reports</span>
       <span class="row-meta">past 30d</span>
     </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-od-uptick">
+      <span class="row-swatch" data-style="od-uptick" aria-hidden="true"></span>
+      <span class="row-label">OD uptick (state Z)</span>
+      <span class="row-meta">monthly</span>
+    </label>
   </div>
 </aside>
 
@@ -587,6 +602,25 @@
       <span class="tier-chip" style="background:#f46036">B</span><span>&ge; 1 000</span>
       <span class="tier-chip" style="background:#f5a623">C</span><span>&ge; 500</span>
       <span class="tier-chip" style="background:#9e9e9e">D</span><span>&lt; 500 or unknown</span>
+    </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>OD uptick (state, Z-score)</h3>
+    <div class="tier-grid">
+      <span class="tier-chip" style="background:#cfd1d4">·</span><span>normal (z &lt; 1.5)</span>
+      <span class="tier-chip" style="background:#f46036">·</span><span>elevated (1.5 &le; z &lt; 2)</span>
+      <span class="tier-chip" style="background:#d7263d">·</span><span>significant (2 &le; z &lt; 3)</span>
+      <span class="tier-chip" style="background:#7a0019">·</span><span>severe (z &ge; 3, pulsing)</span>
+    </div>
+    <div class="legend-caption">
+      Source: CDC VSRR Provisional Drug Overdose Deaths (state, monthly,
+      trailing 12-month). Z computed per drug class (all-cause, fentanyl,
+      heroin, methadone, semi-synthetic opioids, cocaine, psychostimulants)
+      against baseline <code>[t-72, t-12]</code> months; state level = the
+      most severe class that *also* persisted the prior month. Adapted
+      from the spec's weekly cadence — NEMSIS week-resolution data is not
+      public.
     </div>
   </div>
 
@@ -697,10 +731,44 @@
         'property-tax': { type: 'vector', url: 'pmtiles://./tiles/property_tax.pmtiles' },
         'sites': { type: 'geojson', data: './sites.geojson' },
         'hot-zones': { type: 'geojson', data: './hot_zones.geojson' },
-        'ice-zones': { type: 'geojson', data: './ice_hotzones.geojson' }
+        'ice-zones': { type: 'geojson', data: './ice_hotzones.geojson' },
+        'od-uptick': { type: 'geojson', data: './od_uptick.geojson' }
       },
       layers: [
         { id: 'basemap', type: 'raster', source: 'base' },
+
+        // --- OD-uptick (state-level Z-score classification, off by default).
+        // Sits just above the basemap so any county/utility choropleth the
+        // user enables paints on top of it.
+        {
+          id: 'od-uptick-fill', type: 'fill', source: 'od-uptick',
+          paint: {
+            'fill-color': ['coalesce', ['get', 'fill_color'], '#cfd1d4'],
+            'fill-opacity': ['case',
+              ['==', ['get', 'level'], 'no_data'], 0.12,
+              ['==', ['get', 'level'], 'normal'],  0.18,
+              0.55
+            ]
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'od-uptick-outline', type: 'line', source: 'od-uptick',
+          paint: { 'line-color': '#555', 'line-width': 0.5, 'line-opacity': 0.6 },
+          layout: { visibility: 'none' }
+        },
+        // Pulse overlay: only severe-level states. JS toggles fill-opacity
+        // on a setInterval so the layer breathes red.
+        {
+          id: 'od-uptick-pulse', type: 'fill', source: 'od-uptick',
+          filter: ['==', ['get', 'level'], 'severe'],
+          paint: {
+            'fill-color': '#7a0019',
+            'fill-opacity': 0.55,
+            'fill-outline-color': '#3d000d'
+          },
+          layout: { visibility: 'none' }
+        },
 
         // --- BAs ---
         {
@@ -938,6 +1006,33 @@
   bindToggle('t-ice-zones', v => setLayers(
     ['ice-zone-fill', 'ice-zone-outline', 'ice-zone-marker', 'ice-zone-text'], v));
 
+  // OD uptick: regular fill + outline get toggled normally. The pulse
+  // layer is driven by a setInterval that breathes its fill-opacity so
+  // severe-level states pulse red. The pulse layer only renders when
+  // the user has the OD toggle on AND at least one state is severe.
+  let __odPulseTimer = null;
+  function startOdPulse() {
+    if (__odPulseTimer) return;
+    let t = 0;
+    __odPulseTimer = setInterval(() => {
+      t += 1;
+      const phase = (Math.sin(t * 0.25) + 1) * 0.5; // 0..1
+      if (map.getLayer('od-uptick-pulse')) {
+        map.setPaintProperty('od-uptick-pulse', 'fill-opacity', 0.10 + phase * 0.45);
+      }
+    }, 80);
+  }
+  function stopOdPulse() {
+    if (__odPulseTimer) { clearInterval(__odPulseTimer); __odPulseTimer = null; }
+    if (map.getLayer('od-uptick-pulse')) {
+      map.setPaintProperty('od-uptick-pulse', 'fill-opacity', 0.55);
+    }
+  }
+  bindToggle('t-od-uptick', v => {
+    setLayers(['od-uptick-fill', 'od-uptick-outline', 'od-uptick-pulse'], v);
+    if (v) startOdPulse(); else stopOdPulse();
+  });
+
   map.on('style.load', () => {
     document.querySelectorAll('#layer-panel input[type=checkbox]')
       .forEach(cb => cb.dispatchEvent(new Event('change')));
@@ -986,6 +1081,7 @@
     'hot-zone-marker', 'hot-zone-fill',
     'ice-zone-marker', 'ice-zone-fill',
     'county-fill', 'utility-fill', 'election-fill', 'property-tax-fill', 'ba-fill',
+    'od-uptick-fill',
   ];
   // Lower = higher priority when sorting overlapping hits.
   const PROBE_PRIORITY = {
@@ -994,6 +1090,7 @@
     'ice-zone-marker': 1.5, 'ice-zone-fill': 2.5,
     'county-fill': 3, 'utility-fill': 4, 'election-fill': 4.3,
     'property-tax-fill': 4.6, 'ba-fill': 5,
+    'od-uptick-fill': 6,  // state-level: lowest priority, fills the country
   };
 
   function tipForFeature(f) {
@@ -1018,6 +1115,25 @@
              `2023: $${Math.round(+p.gdp_per_capita_2023).toLocaleString()}<br>` +
              `2024: $${Math.round(+p.gdp_per_capita_2024).toLocaleString()}<br>` +
              `population: ${Math.round(+p.population).toLocaleString()}`;
+    }
+    if (f.layer.id.startsWith('od-uptick')) {
+      if (p.z == null) return `<b>${p.name}</b><br>no overdose data`;
+      const label = {
+        normal: 'normal', elevated: 'elevated',
+        significant: 'significant uptick', severe: 'severe spike'
+      }[p.level] || p.level;
+      const sign = (+p.z) >= 0 ? '+' : '';
+      const driver = p.driver_indicator
+        ? `<br>driver: <b>${p.driver_indicator}</b>`
+        : '';
+      const headline = (p.headline_value != null)
+        ? `<br>all-cause OD (trailing 12mo): ${(+p.headline_value).toLocaleString()}` +
+          (p.headline_z != null ? ` (z=${(+p.headline_z).toFixed(2)})` : '')
+        : '';
+      return `<b>${p.name}</b> &middot; ${label}<br>` +
+             `z=${sign}${(+p.z).toFixed(2)}, prior month z=${(+p.z_prev).toFixed(2)} (persisted)` +
+             driver +
+             headline;
     }
     if (f.layer.id.startsWith('property-tax-')) {
       if (p.bin === -1 || p.growth_pct === null || p.growth_pct === undefined) {
