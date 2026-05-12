@@ -38,6 +38,7 @@ OUT_DIR = REPO_ROOT / "app" / "tiles"
 SITES_OUT = REPO_ROOT / "app" / "sites.geojson"
 TMP_DIR = REPO_ROOT / "data" / "tiles_tmp"
 ELECTION_CSV = REPO_ROOT / "data" / "cache" / "election_2024_county.csv"
+PROPERTY_TAX_CSV = REPO_ROOT / "data" / "cache" / "property_tax_yoy.csv"
 
 NO_DATA_BIN = -1
 
@@ -146,6 +147,36 @@ def _enrich_utility(geo: dict, util_yoy: pd.DataFrame) -> dict:
         kept.append(feat)
     geo["features"] = kept
     return geo
+
+
+def _enrich_property_tax(geo: dict, tax: pd.DataFrame) -> dict:
+    """Build a fresh GeoJSON of county polygons annotated with ACS 5-year
+    median-real-estate-tax YoY change. Mirrors _enrich_election structure
+    so the county GDP tiles remain untouched."""
+    tax = tax.copy()
+    tax["fips"] = tax["fips"].astype(str).str.zfill(5)
+    lookup = {r.fips: r for _, r in tax.iterrows()}
+    out_features = []
+    for feat in geo["features"]:
+        fips = str(feat.get("id") or feat["properties"].get("GEO_ID", "")[-5:])
+        name = feat["properties"].get("NAME", "?")
+        r = lookup.get(fips)
+        props: dict = {"fips": fips, "name": name}
+        if r is None:
+            props["growth_pct"] = None
+            props["bin"] = NO_DATA_BIN
+        else:
+            props["geoname"] = r["name"]
+            props["growth_pct"] = float(r.growth_pct)
+            props["tax_2023"] = int(r.tax_2023)
+            props["tax_2024"] = int(r.tax_2024)
+            props["bin"] = growth_bin(float(r.growth_pct))
+        out_features.append({
+            "type": "Feature",
+            "geometry": feat["geometry"],
+            "properties": props,
+        })
+    return {"type": "FeatureCollection", "features": out_features}
 
 
 def _enrich_election(geo: dict, election: pd.DataFrame) -> dict:
@@ -301,6 +332,13 @@ def main() -> None:
         _build_one("election", _enrich_election(data.county_geo, election), "election", max_zoom=9)
     else:
         print(f"\nSkipping election layer ({ELECTION_CSV} missing).")
+
+    if PROPERTY_TAX_CSV.exists():
+        print("\nProperty-tax layer ...")
+        tax = pd.read_csv(PROPERTY_TAX_CSV, dtype={"fips": str})
+        _build_one("property_tax", _enrich_property_tax(data.county_geo, tax), "property_tax", max_zoom=9)
+    else:
+        print(f"\nSkipping property-tax layer ({PROPERTY_TAX_CSV} missing).")
 
     shutil.rmtree(TMP_DIR, ignore_errors=True)
 

@@ -442,6 +442,13 @@
       <span class="row-meta">2024</span>
     </label>
 
+    <label class="layer-row">
+      <input type="checkbox" id="t-property-tax">
+      <span class="row-swatch" data-style="grad" aria-hidden="true"></span>
+      <span class="row-label">Property tax (median)</span>
+      <span class="row-meta">2023-24</span>
+    </label>
+
     <p class="layer-hint">Zoom in to see county and utility boundaries; fills show at any zoom.</p>
   </div>
 
@@ -654,6 +661,7 @@
         'county': { type: 'vector', url: 'pmtiles://./tiles/county.pmtiles' },
         'utility': { type: 'vector', url: 'pmtiles://./tiles/utility.pmtiles' },
         'election': { type: 'vector', url: 'pmtiles://./tiles/election.pmtiles' },
+        'property-tax': { type: 'vector', url: 'pmtiles://./tiles/property_tax.pmtiles' },
         'sites': { type: 'geojson', data: './sites.geojson' },
         'hot-zones': { type: 'geojson', data: './hot_zones.geojson' }
       },
@@ -703,6 +711,20 @@
         { id: 'utility-outline', type: 'line', source: 'utility', 'source-layer': 'utility',
           minzoom: 5,
           paint: { 'line-color': '#666', 'line-width': 0.3 },
+          layout: { visibility: 'none' } },
+
+        // --- Median property tax YoY (off by default) ---
+        {
+          id: 'property-tax-fill', type: 'fill', source: 'property-tax', 'source-layer': 'property_tax',
+          paint: {
+            'fill-color': BIN_COLOR,
+            'fill-opacity': ['case', ['==', ['get', 'bin'], -1], 0.20, 0.55]
+          },
+          layout: { visibility: 'none' }
+        },
+        { id: 'property-tax-outline', type: 'line', source: 'property-tax', 'source-layer': 'property_tax',
+          minzoom: 5,
+          paint: { 'line-color': '#888', 'line-width': 0.3 },
           layout: { visibility: 'none' } },
 
         // --- 2024 presidential election (county margin, off by default) ---
@@ -827,6 +849,7 @@
   bindToggle('t-ba',      v => setLayers(['ba-fill', 'ba-outline'], v));
   bindToggle('t-county',  v => setLayers(['county-fill', 'county-outline'], v));
   bindToggle('t-utility', v => setLayers(['utility-fill', 'utility-outline'], v));
+  bindToggle('t-property-tax', v => setLayers(['property-tax-fill', 'property-tax-outline'], v));
   bindToggle('t-election', v => setLayers(['election-fill', 'election-outline'], v));
   bindToggle('t-sites-primary', v => setLayers(['sites-primary'], v));
   bindToggle('t-sites-mixed',   v => setLayers(['sites-mixed'], v));
@@ -867,13 +890,14 @@
   const PROBE_LAYERS = [
     ...SITE_LAYER_IDS,
     'hot-zone-marker', 'hot-zone-fill',
-    'county-fill', 'utility-fill', 'election-fill', 'ba-fill',
+    'county-fill', 'utility-fill', 'election-fill', 'property-tax-fill', 'ba-fill',
   ];
   // Lower = higher priority when sorting overlapping hits.
   const PROBE_PRIORITY = {
     'sites-primary': 0, 'sites-mixed': 0, 'sites-minimal': 0,
     'hot-zone-marker': 1, 'hot-zone-fill': 2,
-    'county-fill': 3, 'utility-fill': 4, 'election-fill': 4.5, 'ba-fill': 5,
+    'county-fill': 3, 'utility-fill': 4, 'election-fill': 4.3,
+    'property-tax-fill': 4.6, 'ba-fill': 5,
   };
 
   function tipForFeature(f) {
@@ -898,6 +922,16 @@
              `2023: $${Math.round(+p.gdp_per_capita_2023).toLocaleString()}<br>` +
              `2024: $${Math.round(+p.gdp_per_capita_2024).toLocaleString()}<br>` +
              `population: ${Math.round(+p.population).toLocaleString()}`;
+    }
+    if (f.layer.id.startsWith('property-tax-')) {
+      if (p.bin === -1 || p.growth_pct === null || p.growth_pct === undefined) {
+        return `<b>${p.name} (FIPS ${p.fips})</b><br>no property-tax data`;
+      }
+      const sign = p.growth_pct >= 0 ? '+' : '';
+      return `<b>${p.geoname || p.name}</b><br>` +
+             `median real-estate tax YoY: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
+             `2023: $${Math.round(+p.tax_2023).toLocaleString()}<br>` +
+             `2024: $${Math.round(+p.tax_2024).toLocaleString()}`;
     }
     if (f.layer.id.startsWith('election-')) {
       if (p.bin === -1 || p.margin_pct === null || p.margin_pct === undefined) {
