@@ -81,7 +81,7 @@
       box-shadow: var(--shadow-md);
       color: var(--c-ink);
     }
-    #title-panel  { top: var(--s-3); left: var(--s-3);    max-width: 296px; padding: var(--s-3) var(--s-4); }
+    #title-panel  { top: var(--s-3); left: calc(var(--s-3) + 20px); max-width: 296px; padding: var(--s-3) var(--s-4); }
     #layer-panel  { top: var(--s-3); right: var(--s-3);   width: 260px;     padding: var(--s-3); max-height: calc(100vh - 24px); overflow-y: auto; }
     #legend-panel { bottom: var(--s-3); left: var(--s-3); width: 240px;     padding: var(--s-3); max-height: 72vh; overflow-y: auto; }
 
@@ -215,7 +215,8 @@
       border: 1.5px dashed #1f4e8a;
     }
     .row-swatch[data-style="od-uptick"],
-    .row-swatch[data-style="homicide-uptick"] {
+    .row-swatch[data-style="homicide-uptick"],
+    .row-swatch[data-style="outage-uptick"] {
       background: linear-gradient(to right,
         #cfd1d4 0%, #cfd1d4 25%, #f46036 50%, #d7263d 75%, #7a0019 100%);
     }
@@ -250,7 +251,83 @@
       text-transform: uppercase;
       color: var(--c-ink-soft);
       margin: 0 0 var(--s-2);
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
+    .legend-section h3:hover { color: var(--c-ink); }
+    .legend-section h3::after {
+      content: '\25BE';
+      font-size: 11px;
+      line-height: 1;
+      transition: transform 0.15s ease;
+      color: var(--c-ink-muted);
+      margin-left: 8px;
+    }
+    .legend-section.collapsed h3 { margin-bottom: 0; }
+    .legend-section.collapsed h3::after { transform: rotate(-90deg); }
+    .legend-section.collapsed > *:not(h3) { display: none !important; }
+
+    /* Panel header bar - shared between #layer-panel and #legend-panel. */
+    .panel-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: var(--s-2);
+      padding-bottom: var(--s-2);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .panel-bar .panel-heading { margin: 0; flex: 1 1 auto; }
+    .panel-bar-actions { display: flex; gap: 4px; align-items: center; }
+    .panel-min-btn {
+      background: transparent;
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-sm, 3px);
+      color: var(--c-ink-soft);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1;
+      padding: 1px 6px 2px;
+      min-width: 22px;
+    }
+    .panel-min-btn:hover {
+      background: var(--c-border);
+      color: var(--c-ink);
+    }
+    .legend-toggle-all {
+      background: transparent;
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-sm, 3px);
+      color: var(--c-ink-soft);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      padding: 3px 6px;
+    }
+    .legend-toggle-all:hover {
+      background: var(--c-border);
+      color: var(--c-ink);
+    }
+    /* Minimized panel: shrink to just the bar. */
+    .panel.minimized {
+      width: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      padding: var(--s-2) var(--s-3) !important;
+    }
+    .panel.minimized .panel-bar {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .panel.minimized > *:not(.panel-bar) { display: none !important; }
+    .panel.minimized .legend-toggle-all { display: none !important; }
 
     .ramp {
       display: grid;
@@ -447,7 +524,17 @@
 </aside>
 
 <aside id="layer-panel" class="panel" aria-label="Layer controls">
-  <div class="panel-heading">Layers</div>
+  <div class="panel-bar">
+    <div class="panel-heading">Layers</div>
+    <div class="panel-bar-actions">
+      <button type="button"
+              id="layer-minimize-btn"
+              class="panel-min-btn"
+              aria-controls="layer-panel"
+              aria-expanded="true"
+              title="Minimize / maximize the layer panel">&minus;</button>
+    </div>
+  </div>
 
   <div class="layer-group">
     <div class="group-label">Year-over-year % change</div>
@@ -568,10 +655,36 @@
       <span class="row-label">Temperature YoY (county &Delta;&deg;F)</span>
       <span class="row-meta">monthly</span>
     </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-outage-uptick">
+      <span class="row-swatch" data-style="outage-uptick" aria-hidden="true"></span>
+      <span class="row-label">Power outage uptick (state Z)</span>
+      <span class="row-meta">monthly</span>
+    </label>
   </div>
 </aside>
 
 <aside id="legend-panel" class="panel" aria-label="Legend">
+  <div class="panel-bar">
+    <div class="panel-heading">Legend</div>
+    <div class="panel-bar-actions">
+      <button type="button"
+              id="legend-toggle-all"
+              class="legend-toggle-all"
+              aria-controls="legend-panel"
+              aria-expanded="true"
+              title="Collapse / expand all legend sections">
+        Hide all
+      </button>
+      <button type="button"
+              id="legend-minimize-btn"
+              class="panel-min-btn"
+              aria-controls="legend-panel"
+              aria-expanded="true"
+              title="Minimize / maximize the legend panel">&minus;</button>
+    </div>
+  </div>
   <div class="legend-section">
     <h3>YoY % change</h3>
     <div class="ramp" aria-hidden="true">
@@ -695,6 +808,27 @@
       Z = (TTM rate &minus; mean(2019-2023)) / stdev(2019-2023). State-level
       annual cadence (TTM = trailing 12 months). With only five baseline
       years the stdev estimate is noisy — read Z as directional.
+    </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>Power outage uptick (state, Z-score)</h3>
+    <div class="tier-grid">
+      <span class="tier-chip" style="background:#cfd1d4">·</span><span>normal (z &lt; 1.5)</span>
+      <span class="tier-chip" style="background:#f46036">·</span><span>elevated (1.5 &le; z &lt; 2)</span>
+      <span class="tier-chip" style="background:#d7263d">·</span><span>significant (2 &le; z &lt; 3)</span>
+      <span class="tier-chip" style="background:#7a0019">·</span><span>severe (z &ge; 3, pulsing)</span>
+    </div>
+    <div class="legend-caption">
+      Source: NOAA Storm Events Database. Per state, count outage-driving
+      storm events (thunderstorm wind, tornado, ice storm, hurricane,
+      high wind, winter storm, wildfire, lightning, flash flood) per
+      month, then form a trailing-12-month sum. Z is against baseline
+      <code>[t-72, t-12]</code> months (same shape as OD uptick).
+      Persistence required. This is a weather-event proxy &mdash; federal
+      customer-out data (DOE OE-417) is no longer published at a free
+      public endpoint, so a state can score high if storm activity was
+      unusual even if grids held up.
     </div>
   </div>
 
@@ -841,7 +975,8 @@
         'protest-zones': { type: 'geojson', data: './protest_hotzones.geojson' },
         'od-uptick': { type: 'geojson', data: './od_uptick.geojson' },
         'homicide-uptick': { type: 'geojson', data: './homicide_uptick.geojson' },
-        'temperature-yoy': { type: 'geojson', data: './temperature_yoy.geojson' }
+        'temperature-yoy': { type: 'geojson', data: './temperature_yoy.geojson' },
+        'outage-uptick': { type: 'geojson', data: './outage_uptick.geojson' }
       },
       layers: [
         { id: 'basemap', type: 'raster', source: 'base' },
@@ -927,6 +1062,38 @@
         {
           id: 'temperature-yoy-outline', type: 'line', source: 'temperature-yoy',
           paint: { 'line-color': '#555', 'line-width': 0.5, 'line-opacity': 0.6 },
+          layout: { visibility: 'none' }
+        },
+
+        // --- Power outage uptick (state Z-score, off by default). Same
+        //     paint pipeline as OD / homicide; source is NOAA Storm Events
+        //     event-count proxy (DOE OE-417 customer-out data is no longer
+        //     hosted at a free public endpoint).
+        {
+          id: 'outage-uptick-fill', type: 'fill', source: 'outage-uptick',
+          paint: {
+            'fill-color': ['coalesce', ['get', 'fill_color'], '#cfd1d4'],
+            'fill-opacity': ['case',
+              ['==', ['get', 'level'], 'no_data'], 0.12,
+              ['==', ['get', 'level'], 'normal'],  0.18,
+              0.55
+            ]
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'outage-uptick-outline', type: 'line', source: 'outage-uptick',
+          paint: { 'line-color': '#555', 'line-width': 0.5, 'line-opacity': 0.6 },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'outage-uptick-pulse', type: 'fill', source: 'outage-uptick',
+          filter: ['==', ['get', 'level'], 'severe'],
+          paint: {
+            'fill-color': '#7a0019',
+            'fill-opacity': 0.55,
+            'fill-outline-color': '#3d000d'
+          },
           layout: { visibility: 'none' }
         },
 
@@ -1269,6 +1436,9 @@
   bindToggle('t-homicide-uptick', makePulseToggle(
     'homicide-uptick-pulse',
     ['homicide-uptick-fill', 'homicide-uptick-outline', 'homicide-uptick-pulse']));
+  bindToggle('t-outage-uptick', makePulseToggle(
+    'outage-uptick-pulse',
+    ['outage-uptick-fill', 'outage-uptick-outline', 'outage-uptick-pulse']));
 
   bindToggle('t-temperature-county', v => setLayers(
     ['temperature-county-fill', 'temperature-county-outline'], v));
@@ -1334,8 +1504,8 @@
     'ice-zone-marker', 'ice-zone-fill',
     'protest-zone-marker', 'protest-zone-fill',
     'county-fill', 'utility-fill', 'election-fill', 'property-tax-fill', 'ba-fill',
-    'od-uptick-fill', 'homicide-uptick-fill', 'temperature-yoy-fill',
-    'temperature-county-fill',
+    'od-uptick-fill', 'homicide-uptick-fill', 'outage-uptick-fill',
+    'temperature-yoy-fill', 'temperature-county-fill',
   ];
   // Lower = higher priority when sorting overlapping hits.
   const PROBE_PRIORITY = {
@@ -1345,8 +1515,8 @@
     'protest-zone-marker': 1.7, 'protest-zone-fill': 2.7,
     'county-fill': 3, 'utility-fill': 4, 'election-fill': 4.3,
     'property-tax-fill': 4.6, 'ba-fill': 5,
-    'od-uptick-fill': 6, 'homicide-uptick-fill': 6.1,
-    'temperature-yoy-fill': 6.2, 'temperature-county-fill': 4.4,
+    'od-uptick-fill': 6, 'homicide-uptick-fill': 6.1, 'outage-uptick-fill': 6.2,
+    'temperature-yoy-fill': 6.3, 'temperature-county-fill': 4.4,
   };
 
   function tipForFeature(f) {
@@ -1497,6 +1667,21 @@
              `z=${sign}${(+p.z).toFixed(2)} vs 2019-2023 baseline ` +
              `(mean ${(+p.baseline_mean).toFixed(1)}, sd ${(+p.baseline_stdev).toFixed(2)})`;
     }
+    if (f.layer.id.startsWith('outage-uptick')) {
+      if (p.z == null) return `<b>${p.name}</b><br>no outage data`;
+      const label = {
+        normal: 'normal', elevated: 'elevated',
+        significant: 'significant uptick', severe: 'severe spike'
+      }[p.level] || p.level;
+      const sign = (+p.z) >= 0 ? '+' : '';
+      const ttm = p.latest_period || 'TTM';
+      return `<b>${p.name}</b> &middot; ${label}<br>` +
+             `outage-driving storm events (trailing 12mo): ` +
+             `<b>${(+p.latest_value).toLocaleString()}</b> (${ttm})<br>` +
+             `z=${sign}${(+p.z).toFixed(2)}, prior month z=${(+p.z_prev).toFixed(2)} (persisted)<br>` +
+             `baseline mean ${(+p.baseline_mean).toFixed(0)}, sd ${(+p.baseline_stdev).toFixed(1)}<br>` +
+             `<i>NOAA Storm Events proxy &mdash; not measured customer-out counts.</i>`;
+    }
     if (SITE_LAYER_IDS.includes(f.layer.id)) {
       const mw = p.announced_mw != null ? `${Math.round(p.announced_mw).toLocaleString()} MW` : 'n/a';
       const yr = p.online_year != null ? p.online_year : '?';
@@ -1546,6 +1731,132 @@
         .addTo(map);
     });
   });
+
+  // ---- Panel minimize / maximize (legend + layer panels) ----
+  (function initPanelMinimize() {
+    const STORE_KEY = 'ptracker:panelMinimized:v1';
+    function loadState() {
+      try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+      catch (_) { return {}; }
+    }
+    function saveState(s) {
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); }
+      catch (_) {}
+    }
+    const pairs = [
+      { panel: 'layer-panel',  btn: 'layer-minimize-btn'  },
+      { panel: 'legend-panel', btn: 'legend-minimize-btn' },
+    ];
+    const state = loadState();
+    pairs.forEach(({ panel, btn }) => {
+      const p = document.getElementById(panel);
+      const b = document.getElementById(btn);
+      if (!p || !b) return;
+      function apply(min) {
+        p.classList.toggle('minimized', min);
+        b.innerHTML = min ? '&plus;' : '&minus;';
+        b.setAttribute('aria-expanded', min ? 'false' : 'true');
+        b.title = min ? 'Maximize' : 'Minimize';
+      }
+      apply(!!state[panel]);
+      b.addEventListener('click', e => {
+        e.stopPropagation();
+        const next = !p.classList.contains('minimized');
+        apply(next);
+        const cur = loadState();
+        if (next) cur[panel] = true; else delete cur[panel];
+        saveState(cur);
+      });
+      // Click anywhere on a minimized panel to expand.
+      p.addEventListener('click', e => {
+        if (!p.classList.contains('minimized')) return;
+        if (e.target.closest('.panel-min-btn')) return;
+        apply(false);
+        const cur = loadState();
+        delete cur[panel];
+        saveState(cur);
+      });
+    });
+  })();
+
+  // ---- Collapsible legend ----
+  // Per-section collapse on h3 click + master "Hide all / Show all"
+  // button. State persists across reloads via localStorage so users
+  // who shrink the legend keep it shrunk.
+  (function initCollapsibleLegend() {
+    const panel = document.getElementById('legend-panel');
+    if (!panel) return;
+    const STORE_KEY = 'ptracker:legendCollapsed:v1';
+
+    function loadState() {
+      try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+      catch (_) { return {}; }
+    }
+    function saveState(state) {
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+      catch (_) { /* private mode / quota */ }
+    }
+
+    const state = loadState();
+    const sections = Array.from(panel.querySelectorAll('.legend-section'));
+
+    function sectionKey(sec) {
+      const h = sec.querySelector('h3');
+      return (h ? h.textContent : '').trim();
+    }
+
+    function applySection(sec, collapsed) {
+      sec.classList.toggle('collapsed', collapsed);
+      const h = sec.querySelector('h3');
+      if (h) h.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+    }
+
+    sections.forEach(sec => {
+      const h = sec.querySelector('h3');
+      if (!h) return;
+      const key = sectionKey(sec);
+      h.setAttribute('role', 'button');
+      h.setAttribute('tabindex', '0');
+      h.setAttribute('aria-controls', sec.id || '');
+      applySection(sec, !!state[key]);
+      const toggle = () => {
+        const next = !sec.classList.contains('collapsed');
+        applySection(sec, next);
+        const cur = loadState();
+        if (next) cur[key] = true; else delete cur[key];
+        saveState(cur);
+        refreshMasterLabel();
+      };
+      h.addEventListener('click', toggle);
+      h.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    });
+
+    const masterBtn = document.getElementById('legend-toggle-all');
+    function refreshMasterLabel() {
+      const allCollapsed = sections.length > 0 &&
+        sections.every(s => s.classList.contains('collapsed'));
+      if (!masterBtn) return;
+      masterBtn.textContent = allCollapsed ? 'Show all' : 'Hide all';
+      masterBtn.setAttribute('aria-expanded', allCollapsed ? 'false' : 'true');
+    }
+    if (masterBtn) {
+      masterBtn.addEventListener('click', () => {
+        const allCollapsed = sections.every(s => s.classList.contains('collapsed'));
+        const target = !allCollapsed;  // if any expanded, collapse all
+        const cur = loadState();
+        sections.forEach(sec => {
+          applySection(sec, target);
+          const key = sectionKey(sec);
+          if (target) cur[key] = true; else delete cur[key];
+        });
+        saveState(cur);
+        refreshMasterLabel();
+      });
+    }
+    refreshMasterLabel();
+  })();
 </script>
 </body>
 </html>

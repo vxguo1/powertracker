@@ -6,6 +6,7 @@
 data/raw/
 data/maps/
 data/tiles_tmp/
+data/cache/noaa_storm_events/
 *.duckdb
 *.duckdb.wal
 

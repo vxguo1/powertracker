@@ -20,14 +20,15 @@ When you add a refresh job, link it from the **Refresh job** column.
 | 8 | Deportation Data Project via Big Local News | monthly snapshot, FOIA-lagged | monthly (alt source, currently unused) | `python scripts/fetch_ice_hotzones.py` | `app/ice_hotzones.geojson` | n/a (alt source) |
 | 9 | CDC VSRR Provisional Drug Overdose Deaths (`xkb8-kh2a`) — multi-indicator OD uptick | monthly (first few days of month) | monthly | `python scripts/fetch_od_uptick.py` | `app/od_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 | 10 | CDC Mapping Injury, Overdose, and Violence — State (`fpsi-y8tj`, `All_Homicide`) | quarterly-ish refresh, annual + TTM | monthly | `python scripts/fetch_homicide_uptick.py` | `app/homicide_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
-| 10b | NOAA NCEI Climate at a Glance — statewide trailing-12 `tavg` | monthly (T+~10d lag) | monthly | `python scripts/fetch_temperature_yoy.py` | `app/temperature_yoy.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
-| 11 | Curated data-center site list | as we discover sites | manual | edit `data/sites/data_centers.csv` directly | `data/sites/data_centers.csv` → `app/sites.geojson` | n/a (manual) |
-| 12 | Data-center hot zones (derived) | follows #11 | re-run when #11 changes | `python scripts/build_hot_zones.py` | `app/hot_zones.geojson` | n/a (derived) |
-| 13 | US county polygons | basically static | as-needed | committed | `data/geo/us_counties.geojson` | n/a (static) |
-| 14 | US state polygons | basically static | as-needed | committed | `data/geo/us_states.geojson` | n/a (static) |
-| 15 | Balancing-authority territory polygons | basically static | as-needed | committed | `data/geo/ba_territories.geojson` | n/a (static) |
-| 16 | Utility territory polygons | annually-ish (HIFLD) | annual | committed; re-download from HIFLD when refreshing | `data/geo/utility_territories.geojson` | n/a (static) |
-| 17 | US cities geocoding reference (`kelvins/US-Cities-Database`) | basically static | as-needed | `curl https://raw.githubusercontent.com/kelvins/US-Cities-Database/main/csv/us_cities.csv` | `data/cache/us_cities.csv` | n/a (static) |
+| 11 | NOAA NCEI Climate at a Glance — statewide trailing-12 `tavg` | monthly (T+~10d lag) | monthly | `python scripts/fetch_temperature_yoy.py` | `app/temperature_yoy.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
+| 12 | NOAA Storm Events Database (outage-driving event counts, state monthly) | monthly | monthly | `python scripts/fetch_outage_uptick.py` | `app/outage_uptick.geojson` | TODO (fold into refresh-cdc.yml) |
+| 13 | Curated data-center site list | as we discover sites | manual | edit `data/sites/data_centers.csv` directly | `data/sites/data_centers.csv` → `app/sites.geojson` | n/a (manual) |
+| 14 | Data-center hot zones (derived) | follows #13 | re-run when #13 changes | `python scripts/build_hot_zones.py` | `app/hot_zones.geojson` | n/a (derived) |
+| 15 | US county polygons | basically static | as-needed | committed | `data/geo/us_counties.geojson` | n/a (static) |
+| 16 | US state polygons | basically static | as-needed | committed | `data/geo/us_states.geojson` | n/a (static) |
+| 17 | Balancing-authority territory polygons | basically static | as-needed | committed | `data/geo/ba_territories.geojson` | n/a (static) |
+| 18 | Utility territory polygons | annually-ish (HIFLD) | annual | committed; re-download from HIFLD when refreshing | `data/geo/utility_territories.geojson` | n/a (static) |
+| 19 | US cities geocoding reference (`kelvins/US-Cities-Database`) | basically static | as-needed | `curl https://raw.githubusercontent.com/kelvins/US-Cities-Database/main/csv/us_cities.csv` | `data/cache/us_cities.csv` | n/a (static) |
 
 After any **cached CSV** change (rows 1–7), tiles need rebuilding:
 ```
@@ -125,7 +126,7 @@ need `build_tiles.py`. Just deploy.
 - **Refresh**: monthly via [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) (re-runs cheap; data only changes when CDC posts a new TTM).
 - **Caveats**: 5-year baseline is small — stdev estimates are noisy and small-state Z-scores (Wyoming, the Dakotas) move on a handful of incidents. The spec was weekly; CDC publishes annually. Suppressed cells return as `-999` and are dropped.
 
-### 10b. NOAA Climate at a Glance — state temperature YoY
+### 11. NOAA Climate at a Glance — state temperature YoY
 
 - **Upstream**: `www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series/{STATE_ID}/tavg/12/{ENDING_MONTH}/{Y0-Y1}.csv` (unauthenticated, one CSV per state).
 - **Script**: [scripts/fetch_temperature_yoy.py](../scripts/fetch_temperature_yoy.py)
@@ -134,24 +135,33 @@ need `build_tiles.py`. Just deploy.
 - **Refresh**: monthly via [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml).
 - **Coverage**: NOAA's CONUS divisional series uses state IDs 1-48 (alphabetical) + 50 (Alaska). **Hawaii is not in this series** and renders as no-data.
 
-### 11. Data-center site list (manual / curated)
+### 12. NOAA Storm Events - power outage uptick proxy
+
+- **Upstream**: `ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/` - per-year `StormEvents_details-ftp_v1.0_dYYYY_cYYYYMMDD.csv.gz`.
+- **Script**: [scripts/fetch_outage_uptick.py](../scripts/fetch_outage_uptick.py)
+- **Algorithm**: For each state, count outage-driving events (Thunderstorm Wind, Tornado, Ice Storm, Hurricane, High Wind, Winter Storm, Wildfire, Lightning, Flash Flood, ...) per month, then form a trailing-12-month sum. `Z = (current - mean) / stdev` against months `[t-72, t-12]`. Persistence: prior month must also exceed the same threshold band.
+- **Cadence**: NOAA NCEI re-publishes monthly with roughly 1-2 months of data-entry lag.
+- **Refresh**: monthly. Cached gzip files keyed on the NOAA `c-date` so a republished year refetches automatically. To wire to CI, fold into [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) (same cadence as temperature).
+- **Caveats**: this is a **weather-event proxy, not measured customer-out counts**. The original spec called for DOE OE-417 customer-out data, but `oe.netl.doe.gov` no longer resolves and the OE-417 dataset has no equivalent free public endpoint. Oak Ridge EAGLE-I requires registration. A state can score high if storm activity was unusual even if grids held up. The map legend names this substitution.
+
+### 13. Data-center site list (manual / curated)
 
 - **File**: [data/sites/data_centers.csv](../data/sites/data_centers.csv)
 - **Cadence**: ad-hoc. Update when you learn about a new hyperscaler announcement.
 - **Refresh**: manual edits. After editing, run `python scripts/build_tiles.py` to regenerate `app/sites.geojson`.
 
-### 12. Data-center hot zones (derived)
+### 14. Data-center hot zones (derived)
 
 - **Script**: [scripts/build_hot_zones.py](../scripts/build_hot_zones.py)
-- **Cadence**: re-run whenever #11 changes.
+- **Cadence**: re-run whenever #13 changes.
 - **Output**: [app/hot_zones.geojson](../app/hot_zones.geojson)
 
-### 13–16. Geo polygons (static)
+### 15-18. Geo polygons (static)
 
 - [data/geo/us_counties.geojson](../data/geo/us_counties.geojson), [data/geo/us_states.geojson](../data/geo/us_states.geojson), [ba_territories.geojson](../data/geo/ba_territories.geojson), [utility_territories.geojson](../data/geo/utility_territories.geojson).
 - US Census TIGER (counties), `PublicaMundi/MappingAPI` (states), HIFLD (BA / utility). Re-download from source on the rare occasion boundaries shift (mostly utility territories on multi-year cadence).
 
-### 17. US cities geocoding (`kelvins/US-Cities-Database`)
+### 19. US cities geocoding (`kelvins/US-Cities-Database`)
 
 - **Upstream**: [GitHub raw CSV](https://raw.githubusercontent.com/kelvins/US-Cities-Database/main/csv/us_cities.csv)
 - **File**: [data/cache/us_cities.csv](../data/cache/us_cities.csv)
@@ -204,9 +214,10 @@ Every refresh workflow follows the same skeleton:
 | 2 | BEA county GDP | Needs a `scripts/fetch_bea_gdp.py` that downloads the CAGDP1 + CAINC1 ZIPs from `apps.bea.gov/regional/zip/`. Once that exists, wire it into a `refresh-bea.yml` or fold it into `refresh-property-tax.yml`. |
 | 3 | EIA-861 utility prices | Needs a `scripts/fetch_eia861.py` that downloads `eia861<year>.zip` from `eia.gov/electricity/data/eia861/zip/` and extracts the `Sales_Ult_Cust_<year>.xlsx` sheet. |
 | 5 | Election results | One-shot per cycle; no need to schedule. |
-| 11 | Data-center site list | Manual edits to a CSV — no automation possible. |
-| 12 | Hot zones (derived) | Re-run after #11 changes; trivial to add a workflow that watches the CSV path, deferred until #11 churns. |
-| 13–17 | Geo / cities | Effectively static. |
+| 12 | NOAA outage uptick | Fetcher exists. Fold it into `refresh-cdc.yml` (same monthly cadence as the temperature fetcher already in that workflow). |
+| 13 | Data-center site list | Manual edits to a CSV — no automation possible. |
+| 14 | Hot zones (derived) | Re-run after #13 changes; trivial to add a workflow that watches the CSV path, deferred until #13 churns. |
+| 15-19 | Geo / cities | Effectively static. |
 
 Drop a `scripts/fetch_*.py` for the missing fetchers and a
 `refresh-*.yml` workflow follows the same skeleton as the existing
