@@ -81,7 +81,7 @@
       box-shadow: var(--shadow-md);
       color: var(--c-ink);
     }
-    #title-panel  { top: var(--s-3); left: var(--s-3);    max-width: 296px; padding: var(--s-3) var(--s-4); }
+    #title-panel  { top: var(--s-3); left: calc(var(--s-3) + 20px); max-width: 296px; padding: var(--s-3) var(--s-4); }
     #layer-panel  { top: var(--s-3); right: var(--s-3);   width: 260px;     padding: var(--s-3); max-height: calc(100vh - 24px); overflow-y: auto; }
     #legend-panel { bottom: var(--s-3); left: var(--s-3); width: 240px;     padding: var(--s-3); max-height: 72vh; overflow-y: auto; }
 
@@ -270,16 +270,34 @@
     .legend-section.collapsed h3::after { transform: rotate(-90deg); }
     .legend-section.collapsed > *:not(h3) { display: none !important; }
 
-    /* Legend panel header with minimize-all button. */
-    .legend-header {
+    /* Panel header bar - shared between #layer-panel and #legend-panel. */
+    .panel-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 6px;
       margin-bottom: var(--s-2);
       padding-bottom: var(--s-2);
       border-bottom: 1px solid var(--c-border);
     }
-    .legend-header .panel-heading { margin: 0; }
+    .panel-bar .panel-heading { margin: 0; flex: 1 1 auto; }
+    .panel-bar-actions { display: flex; gap: 4px; align-items: center; }
+    .panel-min-btn {
+      background: transparent;
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-sm, 3px);
+      color: var(--c-ink-soft);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1;
+      padding: 1px 6px 2px;
+      min-width: 22px;
+    }
+    .panel-min-btn:hover {
+      background: var(--c-border);
+      color: var(--c-ink);
+    }
     .legend-toggle-all {
       background: transparent;
       border: 1px solid var(--c-border);
@@ -296,6 +314,20 @@
       background: var(--c-border);
       color: var(--c-ink);
     }
+    /* Minimized panel: shrink to just the bar. */
+    .panel.minimized {
+      width: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      padding: var(--s-2) var(--s-3) !important;
+    }
+    .panel.minimized .panel-bar {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .panel.minimized > *:not(.panel-bar) { display: none !important; }
+    .panel.minimized .legend-toggle-all { display: none !important; }
 
     .ramp {
       display: grid;
@@ -492,7 +524,17 @@
 </aside>
 
 <aside id="layer-panel" class="panel" aria-label="Layer controls">
-  <div class="panel-heading">Layers</div>
+  <div class="panel-bar">
+    <div class="panel-heading">Layers</div>
+    <div class="panel-bar-actions">
+      <button type="button"
+              id="layer-minimize-btn"
+              class="panel-min-btn"
+              aria-controls="layer-panel"
+              aria-expanded="true"
+              title="Minimize / maximize the layer panel">&minus;</button>
+    </div>
+  </div>
 
   <div class="layer-group">
     <div class="group-label">Year-over-year % change</div>
@@ -624,16 +666,24 @@
 </aside>
 
 <aside id="legend-panel" class="panel" aria-label="Legend">
-  <div class="legend-header">
+  <div class="panel-bar">
     <div class="panel-heading">Legend</div>
-    <button type="button"
-            id="legend-toggle-all"
-            class="legend-toggle-all"
-            aria-controls="legend-panel"
-            aria-expanded="true"
-            title="Collapse / expand all legend sections">
-      Hide all
-    </button>
+    <div class="panel-bar-actions">
+      <button type="button"
+              id="legend-toggle-all"
+              class="legend-toggle-all"
+              aria-controls="legend-panel"
+              aria-expanded="true"
+              title="Collapse / expand all legend sections">
+        Hide all
+      </button>
+      <button type="button"
+              id="legend-minimize-btn"
+              class="panel-min-btn"
+              aria-controls="legend-panel"
+              aria-expanded="true"
+              title="Minimize / maximize the legend panel">&minus;</button>
+    </div>
   </div>
   <div class="legend-section">
     <h3>YoY % change</h3>
@@ -1681,6 +1731,53 @@
         .addTo(map);
     });
   });
+
+  // ---- Panel minimize / maximize (legend + layer panels) ----
+  (function initPanelMinimize() {
+    const STORE_KEY = 'ptracker:panelMinimized:v1';
+    function loadState() {
+      try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+      catch (_) { return {}; }
+    }
+    function saveState(s) {
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); }
+      catch (_) {}
+    }
+    const pairs = [
+      { panel: 'layer-panel',  btn: 'layer-minimize-btn'  },
+      { panel: 'legend-panel', btn: 'legend-minimize-btn' },
+    ];
+    const state = loadState();
+    pairs.forEach(({ panel, btn }) => {
+      const p = document.getElementById(panel);
+      const b = document.getElementById(btn);
+      if (!p || !b) return;
+      function apply(min) {
+        p.classList.toggle('minimized', min);
+        b.innerHTML = min ? '&plus;' : '&minus;';
+        b.setAttribute('aria-expanded', min ? 'false' : 'true');
+        b.title = min ? 'Maximize' : 'Minimize';
+      }
+      apply(!!state[panel]);
+      b.addEventListener('click', e => {
+        e.stopPropagation();
+        const next = !p.classList.contains('minimized');
+        apply(next);
+        const cur = loadState();
+        if (next) cur[panel] = true; else delete cur[panel];
+        saveState(cur);
+      });
+      // Click anywhere on a minimized panel to expand.
+      p.addEventListener('click', e => {
+        if (!p.classList.contains('minimized')) return;
+        if (e.target.closest('.panel-min-btn')) return;
+        apply(false);
+        const cur = loadState();
+        delete cur[panel];
+        saveState(cur);
+      });
+    });
+  })();
 
   // ---- Collapsible legend ----
   // Per-section collapse on h3 click + master "Hide all / Show all"
