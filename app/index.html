@@ -200,6 +200,13 @@
       background: transparent;
       border: 1.5px solid var(--c-accent);
     }
+    .row-swatch[data-style="ice-ring"] {
+      width: 14px; height: 14px;
+      margin-left: 7px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1.5px dashed #7a0019;
+    }
 
     .layer-hint {
       margin-top: var(--s-2);
@@ -502,6 +509,13 @@
       <span class="row-swatch" data-style="ring" aria-hidden="true"></span>
       <span class="row-label">Hot zone tiers</span>
     </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-ice-zones">
+      <span class="row-swatch" data-style="ice-ring" aria-hidden="true"></span>
+      <span class="row-label">ICE at-large arrests</span>
+      <span class="row-meta">Sep-Oct 2025</span>
+    </label>
   </div>
 </aside>
 
@@ -573,6 +587,22 @@
       <span class="tier-chip" style="background:#f46036">B</span><span>&ge; 1 000</span>
       <span class="tier-chip" style="background:#f5a623">C</span><span>&ge; 500</span>
       <span class="tier-chip" style="background:#9e9e9e">D</span><span>&lt; 500 or unknown</span>
+    </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>ICE at-large tier (30-day arrests)</h3>
+    <div class="tier-grid">
+      <span class="tier-chip" style="background:#7a0019">S</span><span>&ge; 200</span>
+      <span class="tier-chip" style="background:#d7263d">A</span><span>&ge; 75</span>
+      <span class="tier-chip" style="background:#f46036">B</span><span>&ge; 30</span>
+      <span class="tier-chip" style="background:#f5a623">C</span><span>&ge; 10</span>
+      <span class="tier-chip" style="background:#9e9e9e">D</span><span>1-9</span>
+    </div>
+    <div class="legend-caption">
+      Source: Deportation Data Project (FOIA), via Big Local News.
+      Window: Sep 16 - Oct 16, 2025 (latest snapshot available).
+      Filter: <code>apprehension_method = at-large</code>.
     </div>
   </div>
 </aside>
@@ -663,7 +693,8 @@
         'election': { type: 'vector', url: 'pmtiles://./tiles/election.pmtiles' },
         'property-tax': { type: 'vector', url: 'pmtiles://./tiles/property_tax.pmtiles' },
         'sites': { type: 'geojson', data: './sites.geojson' },
-        'hot-zones': { type: 'geojson', data: './hot_zones.geojson' }
+        'hot-zones': { type: 'geojson', data: './hot_zones.geojson' },
+        'ice-zones': { type: 'geojson', data: './ice_hotzones.geojson' }
       },
       layers: [
         { id: 'basemap', type: 'raster', source: 'base' },
@@ -817,6 +848,50 @@
             'text-letter-spacing': 0.05
           },
           paint: { 'text-color': '#ffffff' }
+        },
+
+        // --- ICE at-large arrest hot zones (off by default; Sep-Oct 2025 window). ---
+        {
+          id: 'ice-zone-fill', type: 'fill', source: 'ice-zones',
+          filter: ['==', ['get', 'kind'], 'ring'],
+          paint: { 'fill-color': ['get', 'tier_color'], 'fill-opacity': 0.10 },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'ice-zone-outline', type: 'line', source: 'ice-zones',
+          filter: ['==', ['get', 'kind'], 'ring'],
+          paint: {
+            'line-color': ['get', 'tier_color'],
+            'line-width': 1.5, 'line-opacity': 0.85,
+            'line-dasharray': [2, 2]
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'ice-zone-marker', type: 'circle', source: 'ice-zones',
+          filter: ['==', ['get', 'kind'], 'marker'],
+          paint: {
+            'circle-radius': 11,
+            'circle-color': ['get', 'tier_color'],
+            'circle-stroke-color': '#ffffff',
+            'circle-stroke-width': 1.5,
+            'circle-opacity': 1
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'ice-zone-text', type: 'symbol', source: 'ice-zones',
+          filter: ['==', ['get', 'kind'], 'marker'],
+          layout: {
+            'text-field': ['get', 'tier'],
+            'text-font': ['Noto Sans Regular'],
+            'text-size': 11,
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
+            'text-letter-spacing': 0.05,
+            visibility: 'none'
+          },
+          paint: { 'text-color': '#ffffff' }
         }
       ]
     },
@@ -857,6 +932,8 @@
   bindToggle('t-heatmap',  v => setLayers(['sites-heatmap'], v));
   bindToggle('t-hotzones', v => setLayers(
     ['hot-zone-fill', 'hot-zone-outline', 'hot-zone-marker', 'hot-zone-text'], v));
+  bindToggle('t-ice-zones', v => setLayers(
+    ['ice-zone-fill', 'ice-zone-outline', 'ice-zone-marker', 'ice-zone-text'], v));
 
   map.on('style.load', () => {
     document.querySelectorAll('#layer-panel input[type=checkbox]')
@@ -890,12 +967,14 @@
   const PROBE_LAYERS = [
     ...SITE_LAYER_IDS,
     'hot-zone-marker', 'hot-zone-fill',
+    'ice-zone-marker', 'ice-zone-fill',
     'county-fill', 'utility-fill', 'election-fill', 'property-tax-fill', 'ba-fill',
   ];
   // Lower = higher priority when sorting overlapping hits.
   const PROBE_PRIORITY = {
     'sites-primary': 0, 'sites-mixed': 0, 'sites-minimal': 0,
     'hot-zone-marker': 1, 'hot-zone-fill': 2,
+    'ice-zone-marker': 1.5, 'ice-zone-fill': 2.5,
     'county-fill': 3, 'utility-fill': 4, 'election-fill': 4.3,
     'property-tax-fill': 4.6, 'ba-fill': 5,
   };
@@ -964,6 +1043,11 @@
       return `<b>Tier ${p.tier} - ${p.label}</b><br>` +
              `${p.n_sites} sites &middot; ${(+p.total_mw).toLocaleString()} MW stated<br>` +
              `(combined announced capacity within ~80 mi)`;
+    }
+    if (f.layer.id.startsWith('ice-zone')) {
+      return `<b>${p.county}, ${p.state}</b> &middot; Tier ${p.tier}<br>` +
+             `${(+p.n_arrests).toLocaleString()} at-large ICE arrest${p.n_arrests==1?'':'s'}<br>` +
+             `<i>30-day window ending 2025-10-16</i>`;
     }
     if (SITE_LAYER_IDS.includes(f.layer.id)) {
       const mw = p.announced_mw != null ? `${Math.round(p.announced_mw).toLocaleString()} MW` : 'n/a';
