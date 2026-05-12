@@ -176,6 +176,11 @@
         #5b8db8 0%, #a8c5dd 14.28%, #eeeeee 28.57%, #fff5b8 42.86%,
         #fbb04e 57.14%, #f4733c 71.43%, #d7263d 85.71%);
     }
+    .row-swatch[data-style="election"] {
+      background: linear-gradient(to right,
+        #0a3b75 0%, #4a85c4 14.28%, #a4c5e5 28.57%, #efefe0 42.86%,
+        #f3aeae 57.14%, #d04848 71.43%, #870019 85.71%);
+    }
     .row-swatch[data-style="heat"] {
       background: linear-gradient(to right,
         rgba(168,197,221,0.6) 0%, #fff5b8 30%, #fbb04e 55%, #f4733c 80%, #d7263d 100%);
@@ -194,6 +199,29 @@
       border-radius: 50%;
       background: transparent;
       border: 1.5px solid var(--c-accent);
+    }
+    .row-swatch[data-style="ice-ring"] {
+      width: 14px; height: 14px;
+      margin-left: 7px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1.5px dashed #7a0019;
+    }
+    .row-swatch[data-style="protest-ring"] {
+      width: 14px; height: 14px;
+      margin-left: 7px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1.5px dashed #1f4e8a;
+    }
+    .row-swatch[data-style="od-uptick"],
+    .row-swatch[data-style="homicide-uptick"] {
+      background: linear-gradient(to right,
+        #cfd1d4 0%, #cfd1d4 25%, #f46036 50%, #d7263d 75%, #7a0019 100%);
+    }
+    @keyframes od-pulse {
+      0%, 100% { fill-opacity: 0.55; }
+      50%      { fill-opacity: 0.10; }
     }
 
     .layer-hint {
@@ -234,6 +262,14 @@
     .ramp > span:nth-child(5) { background: #fbb04e; }
     .ramp > span:nth-child(6) { background: #f4733c; }
     .ramp > span:nth-child(7) { background: #d7263d; }
+
+    .ramp.election > span:nth-child(1) { background: #0a3b75; }
+    .ramp.election > span:nth-child(2) { background: #4a85c4; }
+    .ramp.election > span:nth-child(3) { background: #a4c5e5; }
+    .ramp.election > span:nth-child(4) { background: #efefe0; }
+    .ramp.election > span:nth-child(5) { background: #f3aeae; }
+    .ramp.election > span:nth-child(6) { background: #d04848; }
+    .ramp.election > span:nth-child(7) { background: #870019; }
 
     .ramp-axis {
       position: relative;
@@ -429,7 +465,25 @@
       <span class="row-meta">2024</span>
     </label>
 
+    <label class="layer-row">
+      <input type="checkbox" id="t-property-tax">
+      <span class="row-swatch" data-style="grad" aria-hidden="true"></span>
+      <span class="row-label">Property tax (median)</span>
+      <span class="row-meta">2023-24</span>
+    </label>
+
     <p class="layer-hint">Zoom in to see county and utility boundaries; fills show at any zoom.</p>
+  </div>
+
+  <div class="layer-group">
+    <div class="group-label">2024 presidential election</div>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-election">
+      <span class="row-swatch" data-style="election" aria-hidden="true"></span>
+      <span class="row-label">Trump &ndash; Harris margin</span>
+      <span class="row-meta">county</span>
+    </label>
   </div>
 
   <div class="layer-group">
@@ -471,6 +525,34 @@
       <span class="row-swatch" data-style="ring" aria-hidden="true"></span>
       <span class="row-label">Hot zone tiers</span>
     </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-ice-zones">
+      <span class="row-swatch" data-style="ice-ring" aria-hidden="true"></span>
+      <span class="row-label">ICE raid reports</span>
+      <span class="row-meta">past 30d</span>
+    </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-protest-zones">
+      <span class="row-swatch" data-style="protest-ring" aria-hidden="true"></span>
+      <span class="row-label">Protest reports</span>
+      <span class="row-meta">past 30d</span>
+    </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-od-uptick">
+      <span class="row-swatch" data-style="od-uptick" aria-hidden="true"></span>
+      <span class="row-label">OD uptick (state Z)</span>
+      <span class="row-meta">monthly</span>
+    </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-homicide-uptick">
+      <span class="row-swatch" data-style="homicide-uptick" aria-hidden="true"></span>
+      <span class="row-label">Homicide uptick (state Z)</span>
+      <span class="row-meta">annual</span>
+    </label>
   </div>
 </aside>
 
@@ -491,6 +573,19 @@
     <div class="no-data-row">
       <span class="no-data-swatch"></span> no data
     </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>2024 presidential margin</h3>
+    <div class="ramp election" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="ramp-endcaps">
+      <span>D +25</span>
+      <span>even</span>
+      <span>R +25</span>
+    </div>
+    <div class="legend-caption">County-level Trump &ndash; Harris margin (pp).</div>
   </div>
 
   <div class="legend-section">
@@ -531,6 +626,79 @@
       <span class="tier-chip" style="background:#9e9e9e">D</span><span>&lt; 500 or unknown</span>
     </div>
   </div>
+
+  <div class="legend-section">
+    <h3>OD uptick (state, Z-score)</h3>
+    <div class="tier-grid">
+      <span class="tier-chip" style="background:#cfd1d4">·</span><span>normal (z &lt; 1.5)</span>
+      <span class="tier-chip" style="background:#f46036">·</span><span>elevated (1.5 &le; z &lt; 2)</span>
+      <span class="tier-chip" style="background:#d7263d">·</span><span>significant (2 &le; z &lt; 3)</span>
+      <span class="tier-chip" style="background:#7a0019">·</span><span>severe (z &ge; 3, pulsing)</span>
+    </div>
+    <div class="legend-caption">
+      Source: CDC VSRR Provisional Drug Overdose Deaths (state, monthly,
+      trailing 12-month). Z computed per drug class (all-cause, fentanyl,
+      heroin, methadone, semi-synthetic opioids, cocaine, psychostimulants)
+      against baseline <code>[t-72, t-12]</code> months; state level = the
+      most severe class that *also* persisted the prior month. Adapted
+      from the spec's weekly cadence — NEMSIS week-resolution data is not
+      public.
+    </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>Homicide uptick (state, Z-score)</h3>
+    <div class="tier-grid">
+      <span class="tier-chip" style="background:#cfd1d4">·</span><span>normal (z &lt; 1.5)</span>
+      <span class="tier-chip" style="background:#f46036">·</span><span>elevated (1.5 &le; z &lt; 2)</span>
+      <span class="tier-chip" style="background:#d7263d">·</span><span>significant (2 &le; z &lt; 3)</span>
+      <span class="tier-chip" style="background:#7a0019">·</span><span>severe (z &ge; 3, pulsing)</span>
+    </div>
+    <div class="legend-caption">
+      Source: CDC Mapping Injury, Overdose, and Violence — State
+      (<code>fpsi-y8tj</code>, intent <code>All_Homicide</code>).
+      Z = (TTM rate &minus; mean(2019-2023)) / stdev(2019-2023). State-level
+      annual cadence (TTM = trailing 12 months). With only five baseline
+      years the stdev estimate is noisy — read Z as directional.
+    </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>Protest reports level (30-day Reddit mentions)</h3>
+    <div class="tier-grid">
+      <span class="tier-chip" style="background:#1f4e8a">1</span><span>&ge; 10</span>
+      <span class="tier-chip" style="background:#1f4e8a">2</span><span>&ge; 5</span>
+      <span class="tier-chip" style="background:#1f4e8a">3</span><span>&ge; 3</span>
+      <span class="tier-chip" style="background:#1f4e8a">4</span><span>2</span>
+      <span class="tier-chip" style="background:#1f4e8a">5</span><span>1</span>
+    </div>
+    <div class="legend-caption">
+      Source: Reddit search across <code>"protest in"</code>,
+      <code>"rally in"</code>, <code>"march on"</code>, etc.
+      Rolling 30-day window: <b><span id="protest-window-label">past 30 days</span></b>.
+      Same crowd-sourced caveats as the ICE feed — noisy, biased toward
+      active subs.
+    </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>ICE raid reports level (30-day Reddit mentions)</h3>
+    <div class="tier-grid">
+      <span class="tier-chip" style="background:#7a0019">1</span><span>&ge; 10</span>
+      <span class="tier-chip" style="background:#d7263d">2</span><span>&ge; 5</span>
+      <span class="tier-chip" style="background:#f46036">3</span><span>&ge; 3</span>
+      <span class="tier-chip" style="background:#f5a623">4</span><span>2</span>
+      <span class="tier-chip" style="background:#9e9e9e">5</span><span>1</span>
+    </div>
+    <div class="legend-caption">
+      Source: crowd-sourced from Reddit search across
+      <code>"ICE raid"</code>, <code>"ICE arrest"</code>, etc.
+      Rolling 30-day window:
+      <b><span id="ice-window-label">past 30 days</span></b>.
+      Posts geocoded by subreddit or "City, ST" in title.
+      Noisy, biased toward active local subs; not an enforcement record.
+    </div>
+  </div>
 </aside>
 
 <div id="tooltip" class="panel" role="tooltip"></div>
@@ -550,6 +718,19 @@
     4, '#fbb04e',
     5, '#f4733c',
     6, '#d7263d',
+    '#dddddd'
+  ];
+  // Diverging GOP-margin palette for the 2024 election layer (matches
+  // ELECTION_BINS in scripts/build_tiles.py).
+  const ELECTION_BIN_COLOR = [
+    'match', ['get', 'bin'],
+    0, '#0a3b75',
+    1, '#4a85c4',
+    2, '#a4c5e5',
+    3, '#efefe0',
+    4, '#f3aeae',
+    5, '#d04848',
+    6, '#870019',
     '#dddddd'
   ];
   const NO_DATA_OPACITY = ['case', ['==', ['get', 'bin'], -1], 0.18, 0.6];
@@ -603,11 +784,80 @@
         'ba': { type: 'vector', url: 'pmtiles://./tiles/ba.pmtiles' },
         'county': { type: 'vector', url: 'pmtiles://./tiles/county.pmtiles' },
         'utility': { type: 'vector', url: 'pmtiles://./tiles/utility.pmtiles' },
+        'election': { type: 'vector', url: 'pmtiles://./tiles/election.pmtiles' },
+        'property-tax': { type: 'vector', url: 'pmtiles://./tiles/property_tax.pmtiles' },
         'sites': { type: 'geojson', data: './sites.geojson' },
-        'hot-zones': { type: 'geojson', data: './hot_zones.geojson' }
+        'hot-zones': { type: 'geojson', data: './hot_zones.geojson' },
+        'ice-zones': { type: 'geojson', data: './ice_hotzones.geojson' },
+        'protest-zones': { type: 'geojson', data: './protest_hotzones.geojson' },
+        'od-uptick': { type: 'geojson', data: './od_uptick.geojson' },
+        'homicide-uptick': { type: 'geojson', data: './homicide_uptick.geojson' }
       },
       layers: [
         { id: 'basemap', type: 'raster', source: 'base' },
+
+        // --- OD-uptick (state-level Z-score classification, off by default).
+        // Sits just above the basemap so any county/utility choropleth the
+        // user enables paints on top of it.
+        {
+          id: 'od-uptick-fill', type: 'fill', source: 'od-uptick',
+          paint: {
+            'fill-color': ['coalesce', ['get', 'fill_color'], '#cfd1d4'],
+            'fill-opacity': ['case',
+              ['==', ['get', 'level'], 'no_data'], 0.12,
+              ['==', ['get', 'level'], 'normal'],  0.18,
+              0.55
+            ]
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'od-uptick-outline', type: 'line', source: 'od-uptick',
+          paint: { 'line-color': '#555', 'line-width': 0.5, 'line-opacity': 0.6 },
+          layout: { visibility: 'none' }
+        },
+        // Pulse overlay: only severe-level states. JS toggles fill-opacity
+        // on a setInterval so the layer breathes red.
+        {
+          id: 'od-uptick-pulse', type: 'fill', source: 'od-uptick',
+          filter: ['==', ['get', 'level'], 'severe'],
+          paint: {
+            'fill-color': '#7a0019',
+            'fill-opacity': 0.55,
+            'fill-outline-color': '#3d000d'
+          },
+          layout: { visibility: 'none' }
+        },
+
+        // --- Homicide uptick (state Z-score, off by default). Same shape
+        //     as OD uptick: state fill + outline + pulse layer for severe.
+        {
+          id: 'homicide-uptick-fill', type: 'fill', source: 'homicide-uptick',
+          paint: {
+            'fill-color': ['coalesce', ['get', 'fill_color'], '#cfd1d4'],
+            'fill-opacity': ['case',
+              ['==', ['get', 'level'], 'no_data'], 0.12,
+              ['==', ['get', 'level'], 'normal'],  0.18,
+              0.55
+            ]
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'homicide-uptick-outline', type: 'line', source: 'homicide-uptick',
+          paint: { 'line-color': '#555', 'line-width': 0.5, 'line-opacity': 0.6 },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'homicide-uptick-pulse', type: 'fill', source: 'homicide-uptick',
+          filter: ['==', ['get', 'level'], 'severe'],
+          paint: {
+            'fill-color': '#7a0019',
+            'fill-opacity': 0.55,
+            'fill-outline-color': '#3d000d'
+          },
+          layout: { visibility: 'none' }
+        },
 
         // --- BAs ---
         {
@@ -652,6 +902,34 @@
         { id: 'utility-outline', type: 'line', source: 'utility', 'source-layer': 'utility',
           minzoom: 5,
           paint: { 'line-color': '#666', 'line-width': 0.3 },
+          layout: { visibility: 'none' } },
+
+        // --- Median property tax YoY (off by default) ---
+        {
+          id: 'property-tax-fill', type: 'fill', source: 'property-tax', 'source-layer': 'property_tax',
+          paint: {
+            'fill-color': BIN_COLOR,
+            'fill-opacity': ['case', ['==', ['get', 'bin'], -1], 0.20, 0.55]
+          },
+          layout: { visibility: 'none' }
+        },
+        { id: 'property-tax-outline', type: 'line', source: 'property-tax', 'source-layer': 'property_tax',
+          minzoom: 5,
+          paint: { 'line-color': '#888', 'line-width': 0.3 },
+          layout: { visibility: 'none' } },
+
+        // --- 2024 presidential election (county margin, off by default) ---
+        {
+          id: 'election-fill', type: 'fill', source: 'election', 'source-layer': 'election',
+          paint: {
+            'fill-color': ELECTION_BIN_COLOR,
+            'fill-opacity': ['case', ['==', ['get', 'bin'], -1], 0.15, 0.75]
+          },
+          layout: { visibility: 'none' }
+        },
+        { id: 'election-outline', type: 'line', source: 'election', 'source-layer': 'election',
+          minzoom: 5,
+          paint: { 'line-color': '#5a5a5a', 'line-width': 0.25 },
           layout: { visibility: 'none' } },
 
         // --- MW heatmap (off by default) ---
@@ -730,6 +1008,96 @@
             'text-letter-spacing': 0.05
           },
           paint: { 'text-color': '#ffffff' }
+        },
+
+        // --- ICE at-large arrest hot zones (off by default; Sep-Oct 2025 window). ---
+        {
+          id: 'ice-zone-fill', type: 'fill', source: 'ice-zones',
+          filter: ['==', ['get', 'kind'], 'ring'],
+          paint: { 'fill-color': ['get', 'tier_color'], 'fill-opacity': 0.10 },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'ice-zone-outline', type: 'line', source: 'ice-zones',
+          filter: ['==', ['get', 'kind'], 'ring'],
+          paint: {
+            'line-color': ['get', 'tier_color'],
+            'line-width': 1.5, 'line-opacity': 0.85,
+            'line-dasharray': [2, 2]
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'ice-zone-marker', type: 'circle', source: 'ice-zones',
+          filter: ['==', ['get', 'kind'], 'marker'],
+          paint: {
+            'circle-radius': 11,
+            'circle-color': ['get', 'tier_color'],
+            'circle-stroke-color': '#ffffff',
+            'circle-stroke-width': 1.5,
+            'circle-opacity': 1
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'ice-zone-text', type: 'symbol', source: 'ice-zones',
+          filter: ['==', ['get', 'kind'], 'marker'],
+          layout: {
+            'text-field': ['get', 'tier'],
+            'text-font': ['Noto Sans Regular'],
+            'text-size': 11,
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
+            'text-letter-spacing': 0.05,
+            visibility: 'none'
+          },
+          paint: { 'text-color': '#ffffff' }
+        },
+
+        // --- Protest reports (Reddit, past 30 days). Blue palette, dashed
+        //     rings so they're visually distinct from ICE (red dashed) and
+        //     data-center (red solid). Same numeric 1-5 tier scheme.
+        {
+          id: 'protest-zone-fill', type: 'fill', source: 'protest-zones',
+          filter: ['==', ['get', 'kind'], 'ring'],
+          paint: { 'fill-color': '#1f4e8a', 'fill-opacity': 0.10 },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'protest-zone-outline', type: 'line', source: 'protest-zones',
+          filter: ['==', ['get', 'kind'], 'ring'],
+          paint: {
+            'line-color': '#1f4e8a',
+            'line-width': 1.5, 'line-opacity': 0.85,
+            'line-dasharray': [2, 2]
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'protest-zone-marker', type: 'circle', source: 'protest-zones',
+          filter: ['==', ['get', 'kind'], 'marker'],
+          paint: {
+            'circle-radius': 11,
+            'circle-color': '#1f4e8a',
+            'circle-stroke-color': '#ffffff',
+            'circle-stroke-width': 1.5,
+            'circle-opacity': 1
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'protest-zone-text', type: 'symbol', source: 'protest-zones',
+          filter: ['==', ['get', 'kind'], 'marker'],
+          layout: {
+            'text-field': ['get', 'tier'],
+            'text-font': ['Noto Sans Regular'],
+            'text-size': 11,
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
+            'text-letter-spacing': 0.05,
+            visibility: 'none'
+          },
+          paint: { 'text-color': '#ffffff' }
         }
       ]
     },
@@ -754,17 +1122,94 @@
     document.getElementById(id).addEventListener('change', e => fn(e.target.checked));
   }
 
-  map.on('load', () => {
-    bindToggle('t-ba',      v => setLayers(['ba-fill', 'ba-outline'], v));
-    bindToggle('t-county',  v => setLayers(['county-fill', 'county-outline'], v));
-    bindToggle('t-utility', v => setLayers(['utility-fill', 'utility-outline'], v));
-    bindToggle('t-sites-primary', v => setLayers(['sites-primary'], v));
-    bindToggle('t-sites-mixed',   v => setLayers(['sites-mixed'], v));
-    bindToggle('t-sites-minimal', v => setLayers(['sites-minimal'], v));
-    bindToggle('t-heatmap',  v => setLayers(['sites-heatmap'], v));
-    bindToggle('t-hotzones', v => setLayers(
-      ['hot-zone-fill', 'hot-zone-outline', 'hot-zone-marker', 'hot-zone-text'], v));
+  // Bind toggles immediately. `map.on('load')` waits until every PMTiles
+  // source finishes loading (a few seconds), so binding inside it dropped
+  // any clicks made during the initial load — most visibly, the MW heatmap
+  // toggle appeared dead. setLayers safely no-ops while layers don't exist;
+  // we re-sync from checkbox state on style.load to apply pre-load clicks.
+  bindToggle('t-ba',      v => setLayers(['ba-fill', 'ba-outline'], v));
+  bindToggle('t-county',  v => setLayers(['county-fill', 'county-outline'], v));
+  bindToggle('t-utility', v => setLayers(['utility-fill', 'utility-outline'], v));
+  bindToggle('t-property-tax', v => setLayers(['property-tax-fill', 'property-tax-outline'], v));
+  bindToggle('t-election', v => setLayers(['election-fill', 'election-outline'], v));
+  bindToggle('t-sites-primary', v => setLayers(['sites-primary'], v));
+  bindToggle('t-sites-mixed',   v => setLayers(['sites-mixed'], v));
+  bindToggle('t-sites-minimal', v => setLayers(['sites-minimal'], v));
+  bindToggle('t-heatmap',  v => setLayers(['sites-heatmap'], v));
+  bindToggle('t-hotzones', v => setLayers(
+    ['hot-zone-fill', 'hot-zone-outline', 'hot-zone-marker', 'hot-zone-text'], v));
+  bindToggle('t-ice-zones', v => setLayers(
+    ['ice-zone-fill', 'ice-zone-outline', 'ice-zone-marker', 'ice-zone-text'], v));
+  bindToggle('t-protest-zones', v => setLayers(
+    ['protest-zone-fill', 'protest-zone-outline', 'protest-zone-marker', 'protest-zone-text'], v));
 
+  // Severity-style state layers (OD + homicide) use a small JS pulse on
+  // the "severe"-filtered overlay layer. Factored out so each toggle
+  // owns its own interval lifecycle.
+  function makePulseToggle(layerId, layerSet) {
+    let timer = null;
+    function start() {
+      if (timer) return;
+      let t = 0;
+      timer = setInterval(() => {
+        t += 1;
+        const phase = (Math.sin(t * 0.25) + 1) * 0.5;
+        if (map.getLayer(layerId)) {
+          map.setPaintProperty(layerId, 'fill-opacity', 0.10 + phase * 0.45);
+        }
+      }, 80);
+    }
+    function stop() {
+      if (timer) { clearInterval(timer); timer = null; }
+      if (map.getLayer(layerId)) {
+        map.setPaintProperty(layerId, 'fill-opacity', 0.55);
+      }
+    }
+    return v => {
+      setLayers(layerSet, v);
+      if (v) start(); else stop();
+    };
+  }
+
+  bindToggle('t-od-uptick', makePulseToggle(
+    'od-uptick-pulse',
+    ['od-uptick-fill', 'od-uptick-outline', 'od-uptick-pulse']));
+  bindToggle('t-homicide-uptick', makePulseToggle(
+    'homicide-uptick-pulse',
+    ['homicide-uptick-fill', 'homicide-uptick-outline', 'homicide-uptick-pulse']));
+
+  map.on('style.load', () => {
+    document.querySelectorAll('#layer-panel input[type=checkbox]')
+      .forEach(cb => cb.dispatchEvent(new Event('change')));
+  });
+
+  // Pull the actual 30-day window out of the ICE geojson metadata so the
+  // tooltip and legend show real dates instead of a hard-coded label.
+  fetch('./ice_hotzones.geojson')
+    .then(r => r.json())
+    .then(d => {
+      const m = d.metadata || {};
+      if (m.window_start && m.window_end) {
+        window.__iceWindow = `${m.window_start} → ${m.window_end}`;
+        const el = document.getElementById('ice-window-label');
+        if (el) el.textContent = `${m.window_start} → ${m.window_end}`;
+      }
+    })
+    .catch(() => {});
+
+  fetch('./protest_hotzones.geojson')
+    .then(r => r.json())
+    .then(d => {
+      const m = d.metadata || {};
+      if (m.window_start && m.window_end) {
+        window.__protestWindow = `${m.window_start} → ${m.window_end}`;
+        const el = document.getElementById('protest-window-label');
+        if (el) el.textContent = `${m.window_start} → ${m.window_end}`;
+      }
+    })
+    .catch(() => {});
+
+  map.on('load', () => {
     // Populate live focus counts from the geojson.
     fetch('./sites.geojson')
       .then(r => r.json())
@@ -791,13 +1236,20 @@
   const PROBE_LAYERS = [
     ...SITE_LAYER_IDS,
     'hot-zone-marker', 'hot-zone-fill',
-    'county-fill', 'utility-fill', 'ba-fill',
+    'ice-zone-marker', 'ice-zone-fill',
+    'protest-zone-marker', 'protest-zone-fill',
+    'county-fill', 'utility-fill', 'election-fill', 'property-tax-fill', 'ba-fill',
+    'od-uptick-fill', 'homicide-uptick-fill',
   ];
   // Lower = higher priority when sorting overlapping hits.
   const PROBE_PRIORITY = {
     'sites-primary': 0, 'sites-mixed': 0, 'sites-minimal': 0,
     'hot-zone-marker': 1, 'hot-zone-fill': 2,
-    'county-fill': 3, 'utility-fill': 4, 'ba-fill': 5,
+    'ice-zone-marker': 1.5, 'ice-zone-fill': 2.5,
+    'protest-zone-marker': 1.7, 'protest-zone-fill': 2.7,
+    'county-fill': 3, 'utility-fill': 4, 'election-fill': 4.3,
+    'property-tax-fill': 4.6, 'ba-fill': 5,
+    'od-uptick-fill': 6, 'homicide-uptick-fill': 6.1,
   };
 
   function tipForFeature(f) {
@@ -823,6 +1275,49 @@
              `2024: $${Math.round(+p.gdp_per_capita_2024).toLocaleString()}<br>` +
              `population: ${Math.round(+p.population).toLocaleString()}`;
     }
+    if (f.layer.id.startsWith('od-uptick')) {
+      if (p.z == null) return `<b>${p.name}</b><br>no overdose data`;
+      const label = {
+        normal: 'normal', elevated: 'elevated',
+        significant: 'significant uptick', severe: 'severe spike'
+      }[p.level] || p.level;
+      const sign = (+p.z) >= 0 ? '+' : '';
+      const driver = p.driver_indicator
+        ? `<br>driver: <b>${p.driver_indicator}</b>`
+        : '';
+      const headline = (p.headline_value != null)
+        ? `<br>all-cause OD (trailing 12mo): ${(+p.headline_value).toLocaleString()}` +
+          (p.headline_z != null ? ` (z=${(+p.headline_z).toFixed(2)})` : '')
+        : '';
+      return `<b>${p.name}</b> &middot; ${label}<br>` +
+             `z=${sign}${(+p.z).toFixed(2)}, prior month z=${(+p.z_prev).toFixed(2)} (persisted)` +
+             driver +
+             headline;
+    }
+    if (f.layer.id.startsWith('property-tax-')) {
+      if (p.bin === -1 || p.growth_pct === null || p.growth_pct === undefined) {
+        return `<b>${p.name} (FIPS ${p.fips})</b><br>no property-tax data`;
+      }
+      const sign = p.growth_pct >= 0 ? '+' : '';
+      return `<b>${p.geoname || p.name}</b><br>` +
+             `median real-estate tax YoY: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
+             `2023: $${Math.round(+p.tax_2023).toLocaleString()}<br>` +
+             `2024: $${Math.round(+p.tax_2024).toLocaleString()}`;
+    }
+    if (f.layer.id.startsWith('election-')) {
+      if (p.bin === -1 || p.margin_pct === null || p.margin_pct === undefined) {
+        return `<b>${p.name}</b><br>no 2024 result`;
+      }
+      const m = +p.margin_pct;
+      const winner = m >= 0 ? 'Trump' : 'Harris';
+      const margin = Math.abs(m).toFixed(1);
+      const gop = (100 * +p.per_gop).toFixed(1);
+      const dem = (100 * +p.per_dem).toFixed(1);
+      return `<b>${p.name}, ${p.state}</b><br>` +
+             `<b>${winner} +${margin}</b> (2024)<br>` +
+             `Trump ${gop}% &middot; Harris ${dem}%<br>` +
+             `${Math.round(+p.total_votes).toLocaleString()} votes`;
+    }
     if (f.layer.id.startsWith('utility-')) {
       const sign = p.change_pct >= 0 ? '+' : '';
       let body = `<b>${p.utility_name || '?'}</b> (${p.type || '?'}, ${p.state})<br>`;
@@ -840,6 +1335,45 @@
       return `<b>Tier ${p.tier} - ${p.label}</b><br>` +
              `${p.n_sites} sites &middot; ${(+p.total_mw).toLocaleString()} MW stated<br>` +
              `(combined announced capacity within ~80 mi)`;
+    }
+    if (f.layer.id.startsWith('ice-zone')) {
+      const n = +p.n_arrests;
+      let examples = '';
+      if (Array.isArray(p.examples) && p.examples.length) {
+        examples = '<br>' + p.examples.slice(0,3).map(e =>
+          `&middot; ${e.date ? e.date + ' ' : ''}<a href="${e.permalink}" target="_blank" rel="noopener">r/${e.subreddit}: ${e.title}</a>`
+        ).join('<br>');
+      }
+      const win = window.__iceWindow || 'past 30 days';
+      return `<b>${p.county}, ${p.state}</b> &middot; ICE level ${p.tier}<br>` +
+             `${n.toLocaleString()} Reddit mention${n==1?'':'s'} (${win})` +
+             examples;
+    }
+    if (f.layer.id.startsWith('protest-zone')) {
+      const n = +p.n_arrests;
+      let examples = '';
+      if (Array.isArray(p.examples) && p.examples.length) {
+        examples = '<br>' + p.examples.slice(0,3).map(e =>
+          `&middot; ${e.date ? e.date + ' ' : ''}<a href="${e.permalink}" target="_blank" rel="noopener">r/${e.subreddit}: ${e.title}</a>`
+        ).join('<br>');
+      }
+      const win = window.__protestWindow || 'past 30 days';
+      return `<b>${p.county}, ${p.state}</b> &middot; Protest level ${p.tier}<br>` +
+             `${n.toLocaleString()} Reddit mention${n==1?'':'s'} (${win})` +
+             examples;
+    }
+    if (f.layer.id.startsWith('homicide-uptick')) {
+      if (p.z == null) return `<b>${p.name}</b><br>no homicide data`;
+      const label = {
+        normal: 'normal', elevated: 'elevated',
+        significant: 'significant uptick', severe: 'severe spike'
+      }[p.level] || p.level;
+      const sign = (+p.z) >= 0 ? '+' : '';
+      const ttm = p.latest_period || 'TTM';
+      return `<b>${p.name}</b> &middot; ${label}<br>` +
+             `homicide rate: <b>${(+p.latest_value).toFixed(1)} / 100k</b> (${ttm})<br>` +
+             `z=${sign}${(+p.z).toFixed(2)} vs 2019-2023 baseline ` +
+             `(mean ${(+p.baseline_mean).toFixed(1)}, sd ${(+p.baseline_stdev).toFixed(2)})`;
     }
     if (SITE_LAYER_IDS.includes(f.layer.id)) {
       const mw = p.announced_mw != null ? `${Math.round(p.announced_mw).toLocaleString()} MW` : 'n/a';

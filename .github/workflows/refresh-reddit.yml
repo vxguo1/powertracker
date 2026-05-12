@@ -1,0 +1,53 @@
+name: refresh-reddit
+
+# Daily refresh of the Reddit-sourced hot-zone layers (ICE raid reports
+# and protest reports). Both regenerate app/{ice,protest}_hotzones.geojson
+# from a fresh search and then redeploy the Cloudflare Worker so the live
+# site picks up the new data.
+
+on:
+  schedule:
+    # 06:00 UTC daily — early morning US, after Reddit's overnight activity.
+    - cron: "0 6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-reddit
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch ICE Reddit feed
+        run: python scripts/fetch_ice_hotzones_reddit.py
+      - name: Fetch protest Reddit feed
+        run: python scripts/fetch_protest_hotzones.py
+      - name: Commit refreshed geojson if changed
+        run: |
+          git config user.email "ci-bot@users.noreply.github.com"
+          git config user.name "powertracker-ci"
+          git add app/ice_hotzones.geojson app/protest_hotzones.geojson
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "refresh: reddit hot zones ($(date -u +%Y-%m-%d))"
+            git push
+          fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Deploy worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy

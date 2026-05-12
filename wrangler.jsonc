@@ -9,6 +9,7 @@
   },
   "assets": {
     "directory": "app",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    "run_worker_first": ["/tiles/*"]
   }
 }
