@@ -29,6 +29,7 @@ When you add a refresh job, link it from the **Refresh job** column.
 | 17 | Balancing-authority territory polygons | basically static | as-needed | committed | `data/geo/ba_territories.geojson` | n/a (static) |
 | 18 | Utility territory polygons | annually-ish (HIFLD) | annual | committed; re-download from HIFLD when refreshing | `data/geo/utility_territories.geojson` | n/a (static) |
 | 19 | US cities geocoding reference (`kelvins/US-Cities-Database`) | basically static | as-needed | `curl https://raw.githubusercontent.com/kelvins/US-Cities-Database/main/csv/us_cities.csv` | `data/cache/us_cities.csv` | n/a (static) |
+| 20 | Redfin Data Center — county monthly median sale price (3mo rolling YoY) | monthly | monthly | `python scripts/fetch_realestate_yoy.py` | `data/cache/realestate_yoy.csv` → `app/tiles/realestate.pmtiles` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 
 After any **cached CSV** change (rows 1–7), tiles need rebuilding:
 ```
@@ -168,6 +169,16 @@ need `build_tiles.py`. Just deploy.
 - **Cadence**: basically static. ~30k US cities with lat/lon and county.
 - **Refresh**: as-needed (years).
 
+### 20. Redfin Data Center - county median closing price YoY
+
+- **Upstream**: `https://redfin-public-data.s3.us-west-2.amazonaws.com/redfin_market_tracker/county_market_tracker.tsv000.gz`. Gzipped TSV, ~225 MB. One row per (county, property_type, month) going back to ~2012. We filter to `PROPERTY_TYPE == "All Residential"`.
+- **Script**: [scripts/fetch_realestate_yoy.py](../scripts/fetch_realestate_yoy.py)
+- **Algorithm**: For each county, collapse the monthly `MEDIAN_SALE_PRICE` series to a trailing-3-month volume-weighted mean (weight = `HOMES_SOLD`). YoY = (latest 3mo mean) vs (3mo mean ending exactly 12 months earlier). Counties with < **30 sales** in either window are dropped to no-data — single-month medians in thin markets are dominated by which specific houses sold, not by price-level change.
+- **Cadence**: Redfin refreshes the bulk file approximately weekly, but our YoY signal only moves materially month over month.
+- **Refresh**: monthly via [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml). Fetcher writes the CSV; `scripts/build_tiles.py` rebuilds `app/tiles/realestate.pmtiles`.
+- **FIPS resolution**: Redfin uses its own region IDs and labels counties as `"Foo County, ST"` / `"Foo Parish, LA"` / `"Foo Census Area, AK"`. The fetcher expands the Census GeoJSON LSAD abbreviations (`CA` -> `Census Area`, `Muno` -> `Municipality`, `Cty&Bor` -> `City and Borough`, etc.) and normalizes `&` -> `and` plus diacritics to bridge "King & Queen County" / "King and Queen County" and "Dona Ana" / "Doña Ana".
+- **Caveats**: median sale price (not list price) so it reflects actual closings. The 3-month rolling absorbs most low-volume noise, but a handful of mid-population counties with a luxury-tail can still swing >+/- 30% on a quarter; treat extremes as suggestive, not definitive. **Not seasonally adjusted** — the YoY comparison is window-for-window, which neutralizes seasonality for the headline number but the underlying levels are not. Coverage: ~1,700 counties; the rest fall below the volume floor.
+
 ---
 
 ## Refresh workflows
@@ -177,7 +188,7 @@ Four scheduled GitHub Actions live under `.github/workflows/`:
 | Workflow | Cron | Covers | Behavior |
 |----------|------|--------|----------|
 | [refresh-reddit.yml](../.github/workflows/refresh-reddit.yml) | `0 6 * * *` (daily 06:00 UTC) | ICE raid reports + protest reports | Runs `fetch_ice_hotzones_reddit.py` and `fetch_protest_hotzones.py`, commits only if geojson changed, deploys |
-| [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) | `0 6 5 * *` (5th @ 06:00 UTC) | OD uptick + homicide uptick + temperature YoY | Runs `fetch_od_uptick.py`, `fetch_homicide_uptick.py`, `fetch_temperature_yoy.py`; commits if changed, deploys |
+| [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) | `0 6 5 * *` (5th @ 06:00 UTC) | OD uptick + homicide uptick + temperature YoY + Redfin closing price YoY | Runs `fetch_od_uptick.py`, `fetch_homicide_uptick.py`, `fetch_temperature_yoy.py`, `fetch_realestate_yoy.py`; commits if changed, deploys |
 | [refresh-eia-demand.yml](../.github/workflows/refresh-eia-demand.yml) | `0 7 * * 1` (Mon @ 07:00 UTC) | EIA hourly demand → BA YoY → `ba.pmtiles` | Pulls 24 months of hourly demand, recomputes YoY, rebuilds tiles via Docker, deploys |
 | [refresh-property-tax.yml](../.github/workflows/refresh-property-tax.yml) | `0 7 15 1 *` (Jan 15 @ 07:00 UTC) | ACS property tax → `property_tax.pmtiles` | Refetches Census API, rebuilds tiles via Docker, deploys |
 

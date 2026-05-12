@@ -567,6 +567,13 @@
       <span class="row-meta">2023-24</span>
     </label>
 
+    <label class="layer-row">
+      <input type="checkbox" id="t-realestate">
+      <span class="row-swatch" data-style="grad" aria-hidden="true"></span>
+      <span class="row-label">Closing price YoY</span>
+      <span class="row-meta">3mo, Redfin</span>
+    </label>
+
     <p class="layer-hint">Zoom in to see county and utility boundaries; fills show at any zoom.</p>
   </div>
 
@@ -968,6 +975,7 @@
         'utility': { type: 'vector', url: 'pmtiles://./tiles/utility.pmtiles' },
         'election': { type: 'vector', url: 'pmtiles://./tiles/election.pmtiles' },
         'property-tax': { type: 'vector', url: 'pmtiles://./tiles/property_tax.pmtiles' },
+        'realestate': { type: 'vector', url: 'pmtiles://./tiles/realestate.pmtiles' },
         'temperature-county': { type: 'vector', url: 'pmtiles://./tiles/temperature.pmtiles' },
         'sites': { type: 'geojson', data: './sites.geojson' },
         'hot-zones': { type: 'geojson', data: './hot_zones.geojson' },
@@ -1152,6 +1160,22 @@
           layout: { visibility: 'none' }
         },
         { id: 'property-tax-outline', type: 'line', source: 'property-tax', 'source-layer': 'property_tax',
+          minzoom: 5,
+          paint: { 'line-color': '#888', 'line-width': 0.3 },
+          layout: { visibility: 'none' } },
+
+        // --- Median closing price YoY (Redfin trailing-3mo, off by default).
+        //     Same bin palette as property-tax / county GDP so the legend
+        //     ramp reads the same.
+        {
+          id: 'realestate-fill', type: 'fill', source: 'realestate', 'source-layer': 'realestate',
+          paint: {
+            'fill-color': BIN_COLOR,
+            'fill-opacity': ['case', ['==', ['get', 'bin'], -1], 0.20, 0.55]
+          },
+          layout: { visibility: 'none' }
+        },
+        { id: 'realestate-outline', type: 'line', source: 'realestate', 'source-layer': 'realestate',
           minzoom: 5,
           paint: { 'line-color': '#888', 'line-width': 0.3 },
           layout: { visibility: 'none' } },
@@ -1390,6 +1414,7 @@
   bindToggle('t-county',  v => setLayers(['county-fill', 'county-outline'], v));
   bindToggle('t-utility', v => setLayers(['utility-fill', 'utility-outline'], v));
   bindToggle('t-property-tax', v => setLayers(['property-tax-fill', 'property-tax-outline'], v));
+  bindToggle('t-realestate', v => setLayers(['realestate-fill', 'realestate-outline'], v));
   bindToggle('t-election', v => setLayers(['election-fill', 'election-outline'], v));
   bindToggle('t-sites-primary', v => setLayers(['sites-primary'], v));
   bindToggle('t-sites-mixed',   v => setLayers(['sites-mixed'], v));
@@ -1503,7 +1528,7 @@
     'hot-zone-marker', 'hot-zone-fill',
     'ice-zone-marker', 'ice-zone-fill',
     'protest-zone-marker', 'protest-zone-fill',
-    'county-fill', 'utility-fill', 'election-fill', 'property-tax-fill', 'ba-fill',
+    'county-fill', 'utility-fill', 'election-fill', 'property-tax-fill', 'realestate-fill', 'ba-fill',
     'od-uptick-fill', 'homicide-uptick-fill', 'outage-uptick-fill',
     'temperature-yoy-fill', 'temperature-county-fill',
   ];
@@ -1514,7 +1539,7 @@
     'ice-zone-marker': 1.5, 'ice-zone-fill': 2.5,
     'protest-zone-marker': 1.7, 'protest-zone-fill': 2.7,
     'county-fill': 3, 'utility-fill': 4, 'election-fill': 4.3,
-    'property-tax-fill': 4.6, 'ba-fill': 5,
+    'property-tax-fill': 4.6, 'realestate-fill': 4.65, 'ba-fill': 5,
     'od-uptick-fill': 6, 'homicide-uptick-fill': 6.1, 'outage-uptick-fill': 6.2,
     'temperature-yoy-fill': 6.3, 'temperature-county-fill': 4.4,
   };
@@ -1570,6 +1595,22 @@
              `median real-estate tax YoY: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
              `2023: $${Math.round(+p.tax_2023).toLocaleString()}<br>` +
              `2024: $${Math.round(+p.tax_2024).toLocaleString()}`;
+    }
+    if (f.layer.id.startsWith('realestate-')) {
+      if (p.bin === -1 || p.growth_pct === null || p.growth_pct === undefined) {
+        return `<b>${p.name} (FIPS ${p.fips})</b><br>` +
+               `no Redfin data (or &lt; 30 sales / 3 months)`;
+      }
+      const sign = p.growth_pct >= 0 ? '+' : '';
+      const homes = (p.homes_sold_current_3mo != null)
+        ? `<br>homes sold (3mo): ${Math.round(+p.homes_sold_current_3mo).toLocaleString()}`
+        : '';
+      return `<b>${p.geoname || p.name}${p.state ? ', ' + p.state : ''}</b><br>` +
+             `median closing price YoY: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
+             `latest 3mo: $${Math.round(+p.price_current).toLocaleString()}<br>` +
+             `1 year prior: $${Math.round(+p.price_prior).toLocaleString()}` +
+             homes +
+             (p.period_current ? `<br><span class="tip-meta">as of ${p.period_current}</span>` : '');
     }
     if (f.layer.id.startsWith('election-')) {
       if (p.bin === -1 || p.margin_pct === null || p.margin_pct === undefined) {
