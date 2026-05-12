@@ -15,14 +15,18 @@ When you add a refresh job, link it from the **Refresh job** column.
 | 3 | EIA Form 861 utility retail prices | annual (Oct release) | annual | (computed in `src/powertracker/prices.py`) | `data/cache/utility_rate_yoy.csv` | TODO |
 | 4 | Census ACS 5-year B25103 (median property tax) | annual (Dec release) | annual | `python scripts/fetch_property_tax.py` | `data/cache/property_tax_yoy.csv` | TODO |
 | 5 | `tonmcg/US_County_Level_Election_Results_08-24` | one-shot per election | every 4y (after election certification) | manual `curl …/2024_US_County_Level_Presidential_Results.csv` | `data/cache/election_2024_county.csv` | n/a |
-| 6 | Reddit search — ICE raid reports | continuous | **weekly** (or daily once budgeted) | `python scripts/fetch_ice_hotzones_reddit.py` | `app/ice_hotzones.geojson` | TODO |
-| 7 | Deportation Data Project via Big Local News | monthly snapshot, FOIA-lagged | monthly (unused while #6 is active) | `python scripts/fetch_ice_hotzones.py` | `app/ice_hotzones.geojson` | n/a (alt source) |
-| 8 | Curated data-center site list | as we discover sites | manual | edit `data/sites/data_centers.csv` directly | `data/sites/data_centers.csv` → `app/sites.geojson` | n/a (manual) |
-| 9 | Data-center hot zones (derived) | follows #8 | re-run when #8 changes | `python scripts/build_hot_zones.py` | `app/hot_zones.geojson` | n/a (derived) |
-| 10 | US county polygons | basically static | as-needed | committed | `data/geo/us_counties.geojson` | n/a (static) |
-| 11 | Balancing-authority territory polygons | basically static | as-needed | committed | `data/geo/ba_territories.geojson` | n/a (static) |
-| 12 | Utility territory polygons | annually-ish (HIFLD) | annual | committed; re-download from HIFLD when refreshing | `data/geo/utility_territories.geojson` | n/a (static) |
-| 13 | US cities geocoding reference (`kelvins/US-Cities-Database`) | basically static | as-needed | `curl https://raw.githubusercontent.com/kelvins/US-Cities-Database/main/csv/us_cities.csv` | `data/cache/us_cities.csv` | n/a (static) |
+| 6 | Reddit search — ICE raid reports | continuous | daily | `python scripts/fetch_ice_hotzones_reddit.py` | `app/ice_hotzones.geojson` | [refresh-reddit.yml](../.github/workflows/refresh-reddit.yml) |
+| 7 | Reddit search — protest reports | continuous | daily | `python scripts/fetch_protest_hotzones.py` | `app/protest_hotzones.geojson` | [refresh-reddit.yml](../.github/workflows/refresh-reddit.yml) |
+| 8 | Deportation Data Project via Big Local News | monthly snapshot, FOIA-lagged | monthly (alt source, currently unused) | `python scripts/fetch_ice_hotzones.py` | `app/ice_hotzones.geojson` | n/a (alt source) |
+| 9 | CDC VSRR Provisional Drug Overdose Deaths (`xkb8-kh2a`) — multi-indicator OD uptick | monthly (first few days of month) | monthly | `python scripts/fetch_od_uptick.py` | `app/od_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
+| 10 | CDC Mapping Injury, Overdose, and Violence — State (`fpsi-y8tj`, `All_Homicide`) | quarterly-ish refresh, annual + TTM | monthly | `python scripts/fetch_homicide_uptick.py` | `app/homicide_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
+| 11 | Curated data-center site list | as we discover sites | manual | edit `data/sites/data_centers.csv` directly | `data/sites/data_centers.csv` → `app/sites.geojson` | n/a (manual) |
+| 12 | Data-center hot zones (derived) | follows #11 | re-run when #11 changes | `python scripts/build_hot_zones.py` | `app/hot_zones.geojson` | n/a (derived) |
+| 13 | US county polygons | basically static | as-needed | committed | `data/geo/us_counties.geojson` | n/a (static) |
+| 14 | US state polygons | basically static | as-needed | committed | `data/geo/us_states.geojson` | n/a (static) |
+| 15 | Balancing-authority territory polygons | basically static | as-needed | committed | `data/geo/ba_territories.geojson` | n/a (static) |
+| 16 | Utility territory polygons | annually-ish (HIFLD) | annual | committed; re-download from HIFLD when refreshing | `data/geo/utility_territories.geojson` | n/a (static) |
+| 17 | US cities geocoding reference (`kelvins/US-Cities-Database`) | basically static | as-needed | `curl https://raw.githubusercontent.com/kelvins/US-Cities-Database/main/csv/us_cities.csv` | `data/cache/us_cities.csv` | n/a (static) |
 
 After any **cached CSV** change (rows 1–7), tiles need rebuilding:
 ```
@@ -82,11 +86,19 @@ need `build_tiles.py`. Just deploy.
 - **Upstream**: `reddit.com/search.json` (unauthenticated), 8 queries (`"ICE raid"`, `"ICE arrest"`, etc.).
 - **Script**: [scripts/fetch_ice_hotzones_reddit.py](../scripts/fetch_ice_hotzones_reddit.py)
 - **Cadence**: continuous; we read a 30-day window of the firehose.
-- **Refresh**: **weekly minimum**, daily if we want fresher hot zones.
+- **Refresh**: daily via [refresh-reddit.yml](../.github/workflows/refresh-reddit.yml).
 - **Caveats**: Reddit caps search results at ~100 per query; we top out at ~500–800 unique posts/month regardless of true volume. Heavily biased toward areas with active local subs. Crowd-sourced — not an enforcement record.
-- **Geocoding deps**: requires `data/cache/us_cities.csv` (entry #13).
+- **Geocoding deps**: requires `data/cache/us_cities.csv` (entry #17).
 
-### 7. Deportation Data Project (via Big Local News)
+### 7. Reddit protest mentions (live)
+
+- **Upstream**: `reddit.com/search.json` (unauthenticated), 11 queries (`"protest in"`, `"rally in"`, `"march on"`, `"demonstration in"`, `"protest erupted"`, plus a few topic-specific phrases).
+- **Script**: [scripts/fetch_protest_hotzones.py](../scripts/fetch_protest_hotzones.py)
+- **Cadence**: continuous; rolling 30-day window.
+- **Refresh**: daily via [refresh-reddit.yml](../.github/workflows/refresh-reddit.yml).
+- **Caveats**: "protest" is far more common on Reddit than "ICE raid" — expect bigger denominators and lower geocoding match rates. Same crowd-sourcing biases as #6. Shares the geocoding stack (subreddit map + `City, ST` regex + major-city allowlist) with the ICE crawler.
+
+### 8. Deportation Data Project (via Big Local News)
 
 - **Upstream**: `data.biglocalnews.org/deportation-data/arrests/{ST}_ice_arrests.csv` — DDP's FOIA'd ICE arrests dataset, mirrored as per-state CSVs.
 - **Script**: [scripts/fetch_ice_hotzones.py](../scripts/fetch_ice_hotzones.py)
@@ -94,24 +106,42 @@ need `build_tiles.py`. Just deploy.
 - **Refresh**: monthly check — but only swap into production if it overtakes the Reddit source's freshness. Currently the Reddit feed (#6) is active.
 - **Caveats**: FOIA data lags by months; BLN's mirror often older than DDP's dashboard. More accurate than Reddit for what it covers, but stale.
 
-### 8. Data-center site list (manual / curated)
+### 9. CDC VSRR Provisional Drug Overdose Deaths — OD uptick (`xkb8-kh2a`)
+
+- **Upstream**: `data.cdc.gov/resource/xkb8-kh2a.json`, all indicators (all-cause, fentanyl, heroin, methadone, semi-synthetic opioids, cocaine, psychostimulants), state monthly trailing-12-month counts.
+- **Script**: [scripts/fetch_od_uptick.py](../scripts/fetch_od_uptick.py)
+- **Algorithm**: Z per state per drug-class against baseline `[t-72, t-12]` months; persistence over the prior month; final state level = the most severe class that persists.
+- **Cadence**: CDC updates this monthly (first week of the month for the prior month's data).
+- **Refresh**: monthly via [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) (5th of each month).
+- **Caveats**: rolling-12 data is auto-correlated, so the baseline must be far in the past to avoid overlap — that's why the window starts at `t-72`. Suppressed cells (low-quality footnotes) are filtered out.
+
+### 10. CDC Homicide rate — state TTM (`fpsi-y8tj`, `All_Homicide`)
+
+- **Upstream**: `data.cdc.gov/resource/fpsi-y8tj.json?intent=All_Homicide`, state annual rates per 100k for 2019–2024 plus a TTM (trailing-twelve-months) row.
+- **Script**: [scripts/fetch_homicide_uptick.py](../scripts/fetch_homicide_uptick.py)
+- **Algorithm**: `z = (TTM_rate - mean(2019..2023)) / stdev(2019..2023)`. No persistence check — TTM and 2024 share 11 months so they aren't independent.
+- **Cadence**: CDC refreshes this dataset roughly quarterly; the TTM window slides forward each release.
+- **Refresh**: monthly via [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) (re-runs cheap; data only changes when CDC posts a new TTM).
+- **Caveats**: 5-year baseline is small — stdev estimates are noisy and small-state Z-scores (Wyoming, the Dakotas) move on a handful of incidents. The spec was weekly; CDC publishes annually. Suppressed cells return as `-999` and are dropped.
+
+### 11. Data-center site list (manual / curated)
 
 - **File**: [data/sites/data_centers.csv](../data/sites/data_centers.csv)
 - **Cadence**: ad-hoc. Update when you learn about a new hyperscaler announcement.
 - **Refresh**: manual edits. After editing, run `python scripts/build_tiles.py` to regenerate `app/sites.geojson`.
 
-### 9. Data-center hot zones (derived)
+### 12. Data-center hot zones (derived)
 
 - **Script**: [scripts/build_hot_zones.py](../scripts/build_hot_zones.py)
-- **Cadence**: re-run whenever #8 changes.
+- **Cadence**: re-run whenever #11 changes.
 - **Output**: [app/hot_zones.geojson](../app/hot_zones.geojson)
 
-### 10–12. Geo polygons (static)
+### 13–16. Geo polygons (static)
 
-- [data/geo/us_counties.geojson](../data/geo/us_counties.geojson), [ba_territories.geojson](../data/geo/ba_territories.geojson), [utility_territories.geojson](../data/geo/utility_territories.geojson).
-- US Census TIGER (counties) and HIFLD (BA / utility). Re-download from source on the rare occasion boundaries shift (mostly utility territories on multi-year cadence).
+- [data/geo/us_counties.geojson](../data/geo/us_counties.geojson), [data/geo/us_states.geojson](../data/geo/us_states.geojson), [ba_territories.geojson](../data/geo/ba_territories.geojson), [utility_territories.geojson](../data/geo/utility_territories.geojson).
+- US Census TIGER (counties), `PublicaMundi/MappingAPI` (states), HIFLD (BA / utility). Re-download from source on the rare occasion boundaries shift (mostly utility territories on multi-year cadence).
 
-### 13. US cities geocoding (`kelvins/US-Cities-Database`)
+### 17. US cities geocoding (`kelvins/US-Cities-Database`)
 
 - **Upstream**: [GitHub raw CSV](https://raw.githubusercontent.com/kelvins/US-Cities-Database/main/csv/us_cities.csv)
 - **File**: [data/cache/us_cities.csv](../data/cache/us_cities.csv)
@@ -120,22 +150,34 @@ need `build_tiles.py`. Just deploy.
 
 ---
 
-## Building refresh jobs
+## Refresh workflows
 
-When wiring scheduled refreshes, the natural pattern is:
+Two scheduled GitHub Actions live under `.github/workflows/`:
 
-```
-.github/workflows/refresh-{source}.yml   # cron, runs fetch + tile build + wrangler deploy
-```
+| Workflow | Cron | Covers | Behavior |
+|----------|------|--------|----------|
+| [refresh-reddit.yml](../.github/workflows/refresh-reddit.yml) | `0 6 * * *` (daily 06:00 UTC) | ICE raid reports + protest reports | Runs `fetch_ice_hotzones_reddit.py` and `fetch_protest_hotzones.py`, commits only if geojson changed, deploys |
+| [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) | `0 6 5 * *` (06:00 UTC on the 5th) | OD uptick + homicide uptick | Runs `fetch_od_uptick.py` and `fetch_homicide_uptick.py`, commits if changed, deploys |
 
-Each workflow should:
-1. Check out the repo.
-2. Set up Python + (for tile builds) Docker.
-3. Run the fetch script.
-4. Run `build_tiles.py` if the source feeds into a PMTiles layer.
-5. Commit & push the regenerated artifacts.
-6. `npx wrangler deploy` with `CLOUDFLARE_API_TOKEN` from secrets.
+Both workflows require the following **GitHub Secrets** (Settings →
+Secrets and variables → Actions):
+- `CLOUDFLARE_API_TOKEN` — Workers Scripts: Edit, scoped to this account
+- `CLOUDFLARE_ACCOUNT_ID` — the `d8e85…` account id
 
-Sensitive: the Cloudflare token must come from GitHub Secrets, not the repo.
-Currently nothing is automated — every entry above is **manual** until we wire
-the workflows.
+They use the repo's built-in `GITHUB_TOKEN` for commits.
+
+### Workflow pattern
+
+Every refresh workflow follows:
+1. Check out the repo (`actions/checkout@v4`).
+2. Set up Python (`actions/setup-python@v5`).
+3. Run the fetch script(s) — they write directly into `app/`.
+4. `git diff --cached --quiet`-gate a commit so we don't push empty refreshes.
+5. Set up Node (`actions/setup-node@v4`) and run `npx wrangler deploy` with
+   the secrets above.
+
+Sources still **without** a workflow (annual or manual): #1 EIA demand,
+#2 BEA GDP, #3 EIA-861 prices, #4 ACS property tax, #5 election results,
+the manual data-center list (#11) and its derived hot zones (#12), and
+all the static polygon/geocoding files. Add them as new
+`refresh-{source}.yml` files when the cadence justifies automation.

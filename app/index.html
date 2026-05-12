@@ -207,7 +207,15 @@
       background: transparent;
       border: 1.5px dashed #7a0019;
     }
-    .row-swatch[data-style="od-uptick"] {
+    .row-swatch[data-style="protest-ring"] {
+      width: 14px; height: 14px;
+      margin-left: 7px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1.5px dashed #1f4e8a;
+    }
+    .row-swatch[data-style="od-uptick"],
+    .row-swatch[data-style="homicide-uptick"] {
       background: linear-gradient(to right,
         #cfd1d4 0%, #cfd1d4 25%, #f46036 50%, #d7263d 75%, #7a0019 100%);
     }
@@ -526,10 +534,24 @@
     </label>
 
     <label class="layer-row">
+      <input type="checkbox" id="t-protest-zones">
+      <span class="row-swatch" data-style="protest-ring" aria-hidden="true"></span>
+      <span class="row-label">Protest reports</span>
+      <span class="row-meta">past 30d</span>
+    </label>
+
+    <label class="layer-row">
       <input type="checkbox" id="t-od-uptick">
       <span class="row-swatch" data-style="od-uptick" aria-hidden="true"></span>
       <span class="row-label">OD uptick (state Z)</span>
       <span class="row-meta">monthly</span>
+    </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-homicide-uptick">
+      <span class="row-swatch" data-style="homicide-uptick" aria-hidden="true"></span>
+      <span class="row-label">Homicide uptick (state Z)</span>
+      <span class="row-meta">annual</span>
     </label>
   </div>
 </aside>
@@ -621,6 +643,41 @@
       most severe class that *also* persisted the prior month. Adapted
       from the spec's weekly cadence — NEMSIS week-resolution data is not
       public.
+    </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>Homicide uptick (state, Z-score)</h3>
+    <div class="tier-grid">
+      <span class="tier-chip" style="background:#cfd1d4">·</span><span>normal (z &lt; 1.5)</span>
+      <span class="tier-chip" style="background:#f46036">·</span><span>elevated (1.5 &le; z &lt; 2)</span>
+      <span class="tier-chip" style="background:#d7263d">·</span><span>significant (2 &le; z &lt; 3)</span>
+      <span class="tier-chip" style="background:#7a0019">·</span><span>severe (z &ge; 3, pulsing)</span>
+    </div>
+    <div class="legend-caption">
+      Source: CDC Mapping Injury, Overdose, and Violence — State
+      (<code>fpsi-y8tj</code>, intent <code>All_Homicide</code>).
+      Z = (TTM rate &minus; mean(2019-2023)) / stdev(2019-2023). State-level
+      annual cadence (TTM = trailing 12 months). With only five baseline
+      years the stdev estimate is noisy — read Z as directional.
+    </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>Protest reports level (30-day Reddit mentions)</h3>
+    <div class="tier-grid">
+      <span class="tier-chip" style="background:#1f4e8a">1</span><span>&ge; 10</span>
+      <span class="tier-chip" style="background:#1f4e8a">2</span><span>&ge; 5</span>
+      <span class="tier-chip" style="background:#1f4e8a">3</span><span>&ge; 3</span>
+      <span class="tier-chip" style="background:#1f4e8a">4</span><span>2</span>
+      <span class="tier-chip" style="background:#1f4e8a">5</span><span>1</span>
+    </div>
+    <div class="legend-caption">
+      Source: Reddit search across <code>"protest in"</code>,
+      <code>"rally in"</code>, <code>"march on"</code>, etc.
+      Rolling 30-day window: <b><span id="protest-window-label">past 30 days</span></b>.
+      Same crowd-sourced caveats as the ICE feed — noisy, biased toward
+      active subs.
     </div>
   </div>
 
@@ -732,7 +789,9 @@
         'sites': { type: 'geojson', data: './sites.geojson' },
         'hot-zones': { type: 'geojson', data: './hot_zones.geojson' },
         'ice-zones': { type: 'geojson', data: './ice_hotzones.geojson' },
-        'od-uptick': { type: 'geojson', data: './od_uptick.geojson' }
+        'protest-zones': { type: 'geojson', data: './protest_hotzones.geojson' },
+        'od-uptick': { type: 'geojson', data: './od_uptick.geojson' },
+        'homicide-uptick': { type: 'geojson', data: './homicide_uptick.geojson' }
       },
       layers: [
         { id: 'basemap', type: 'raster', source: 'base' },
@@ -761,6 +820,36 @@
         // on a setInterval so the layer breathes red.
         {
           id: 'od-uptick-pulse', type: 'fill', source: 'od-uptick',
+          filter: ['==', ['get', 'level'], 'severe'],
+          paint: {
+            'fill-color': '#7a0019',
+            'fill-opacity': 0.55,
+            'fill-outline-color': '#3d000d'
+          },
+          layout: { visibility: 'none' }
+        },
+
+        // --- Homicide uptick (state Z-score, off by default). Same shape
+        //     as OD uptick: state fill + outline + pulse layer for severe.
+        {
+          id: 'homicide-uptick-fill', type: 'fill', source: 'homicide-uptick',
+          paint: {
+            'fill-color': ['coalesce', ['get', 'fill_color'], '#cfd1d4'],
+            'fill-opacity': ['case',
+              ['==', ['get', 'level'], 'no_data'], 0.12,
+              ['==', ['get', 'level'], 'normal'],  0.18,
+              0.55
+            ]
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'homicide-uptick-outline', type: 'line', source: 'homicide-uptick',
+          paint: { 'line-color': '#555', 'line-width': 0.5, 'line-opacity': 0.6 },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'homicide-uptick-pulse', type: 'fill', source: 'homicide-uptick',
           filter: ['==', ['get', 'level'], 'severe'],
           paint: {
             'fill-color': '#7a0019',
@@ -963,6 +1052,52 @@
             visibility: 'none'
           },
           paint: { 'text-color': '#ffffff' }
+        },
+
+        // --- Protest reports (Reddit, past 30 days). Blue palette, dashed
+        //     rings so they're visually distinct from ICE (red dashed) and
+        //     data-center (red solid). Same numeric 1-5 tier scheme.
+        {
+          id: 'protest-zone-fill', type: 'fill', source: 'protest-zones',
+          filter: ['==', ['get', 'kind'], 'ring'],
+          paint: { 'fill-color': '#1f4e8a', 'fill-opacity': 0.10 },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'protest-zone-outline', type: 'line', source: 'protest-zones',
+          filter: ['==', ['get', 'kind'], 'ring'],
+          paint: {
+            'line-color': '#1f4e8a',
+            'line-width': 1.5, 'line-opacity': 0.85,
+            'line-dasharray': [2, 2]
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'protest-zone-marker', type: 'circle', source: 'protest-zones',
+          filter: ['==', ['get', 'kind'], 'marker'],
+          paint: {
+            'circle-radius': 11,
+            'circle-color': '#1f4e8a',
+            'circle-stroke-color': '#ffffff',
+            'circle-stroke-width': 1.5,
+            'circle-opacity': 1
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'protest-zone-text', type: 'symbol', source: 'protest-zones',
+          filter: ['==', ['get', 'kind'], 'marker'],
+          layout: {
+            'text-field': ['get', 'tier'],
+            'text-font': ['Noto Sans Regular'],
+            'text-size': 11,
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
+            'text-letter-spacing': 0.05,
+            visibility: 'none'
+          },
+          paint: { 'text-color': '#ffffff' }
         }
       ]
     },
@@ -1005,33 +1140,43 @@
     ['hot-zone-fill', 'hot-zone-outline', 'hot-zone-marker', 'hot-zone-text'], v));
   bindToggle('t-ice-zones', v => setLayers(
     ['ice-zone-fill', 'ice-zone-outline', 'ice-zone-marker', 'ice-zone-text'], v));
+  bindToggle('t-protest-zones', v => setLayers(
+    ['protest-zone-fill', 'protest-zone-outline', 'protest-zone-marker', 'protest-zone-text'], v));
 
-  // OD uptick: regular fill + outline get toggled normally. The pulse
-  // layer is driven by a setInterval that breathes its fill-opacity so
-  // severe-level states pulse red. The pulse layer only renders when
-  // the user has the OD toggle on AND at least one state is severe.
-  let __odPulseTimer = null;
-  function startOdPulse() {
-    if (__odPulseTimer) return;
-    let t = 0;
-    __odPulseTimer = setInterval(() => {
-      t += 1;
-      const phase = (Math.sin(t * 0.25) + 1) * 0.5; // 0..1
-      if (map.getLayer('od-uptick-pulse')) {
-        map.setPaintProperty('od-uptick-pulse', 'fill-opacity', 0.10 + phase * 0.45);
-      }
-    }, 80);
-  }
-  function stopOdPulse() {
-    if (__odPulseTimer) { clearInterval(__odPulseTimer); __odPulseTimer = null; }
-    if (map.getLayer('od-uptick-pulse')) {
-      map.setPaintProperty('od-uptick-pulse', 'fill-opacity', 0.55);
+  // Severity-style state layers (OD + homicide) use a small JS pulse on
+  // the "severe"-filtered overlay layer. Factored out so each toggle
+  // owns its own interval lifecycle.
+  function makePulseToggle(layerId, layerSet) {
+    let timer = null;
+    function start() {
+      if (timer) return;
+      let t = 0;
+      timer = setInterval(() => {
+        t += 1;
+        const phase = (Math.sin(t * 0.25) + 1) * 0.5;
+        if (map.getLayer(layerId)) {
+          map.setPaintProperty(layerId, 'fill-opacity', 0.10 + phase * 0.45);
+        }
+      }, 80);
     }
+    function stop() {
+      if (timer) { clearInterval(timer); timer = null; }
+      if (map.getLayer(layerId)) {
+        map.setPaintProperty(layerId, 'fill-opacity', 0.55);
+      }
+    }
+    return v => {
+      setLayers(layerSet, v);
+      if (v) start(); else stop();
+    };
   }
-  bindToggle('t-od-uptick', v => {
-    setLayers(['od-uptick-fill', 'od-uptick-outline', 'od-uptick-pulse'], v);
-    if (v) startOdPulse(); else stopOdPulse();
-  });
+
+  bindToggle('t-od-uptick', makePulseToggle(
+    'od-uptick-pulse',
+    ['od-uptick-fill', 'od-uptick-outline', 'od-uptick-pulse']));
+  bindToggle('t-homicide-uptick', makePulseToggle(
+    'homicide-uptick-pulse',
+    ['homicide-uptick-fill', 'homicide-uptick-outline', 'homicide-uptick-pulse']));
 
   map.on('style.load', () => {
     document.querySelectorAll('#layer-panel input[type=checkbox]')
@@ -1047,6 +1192,18 @@
       if (m.window_start && m.window_end) {
         window.__iceWindow = `${m.window_start} → ${m.window_end}`;
         const el = document.getElementById('ice-window-label');
+        if (el) el.textContent = `${m.window_start} → ${m.window_end}`;
+      }
+    })
+    .catch(() => {});
+
+  fetch('./protest_hotzones.geojson')
+    .then(r => r.json())
+    .then(d => {
+      const m = d.metadata || {};
+      if (m.window_start && m.window_end) {
+        window.__protestWindow = `${m.window_start} → ${m.window_end}`;
+        const el = document.getElementById('protest-window-label');
         if (el) el.textContent = `${m.window_start} → ${m.window_end}`;
       }
     })
@@ -1080,17 +1237,19 @@
     ...SITE_LAYER_IDS,
     'hot-zone-marker', 'hot-zone-fill',
     'ice-zone-marker', 'ice-zone-fill',
+    'protest-zone-marker', 'protest-zone-fill',
     'county-fill', 'utility-fill', 'election-fill', 'property-tax-fill', 'ba-fill',
-    'od-uptick-fill',
+    'od-uptick-fill', 'homicide-uptick-fill',
   ];
   // Lower = higher priority when sorting overlapping hits.
   const PROBE_PRIORITY = {
     'sites-primary': 0, 'sites-mixed': 0, 'sites-minimal': 0,
     'hot-zone-marker': 1, 'hot-zone-fill': 2,
     'ice-zone-marker': 1.5, 'ice-zone-fill': 2.5,
+    'protest-zone-marker': 1.7, 'protest-zone-fill': 2.7,
     'county-fill': 3, 'utility-fill': 4, 'election-fill': 4.3,
     'property-tax-fill': 4.6, 'ba-fill': 5,
-    'od-uptick-fill': 6,  // state-level: lowest priority, fills the country
+    'od-uptick-fill': 6, 'homicide-uptick-fill': 6.1,
   };
 
   function tipForFeature(f) {
@@ -1189,6 +1348,32 @@
       return `<b>${p.county}, ${p.state}</b> &middot; ICE level ${p.tier}<br>` +
              `${n.toLocaleString()} Reddit mention${n==1?'':'s'} (${win})` +
              examples;
+    }
+    if (f.layer.id.startsWith('protest-zone')) {
+      const n = +p.n_arrests;
+      let examples = '';
+      if (Array.isArray(p.examples) && p.examples.length) {
+        examples = '<br>' + p.examples.slice(0,3).map(e =>
+          `&middot; ${e.date ? e.date + ' ' : ''}<a href="${e.permalink}" target="_blank" rel="noopener">r/${e.subreddit}: ${e.title}</a>`
+        ).join('<br>');
+      }
+      const win = window.__protestWindow || 'past 30 days';
+      return `<b>${p.county}, ${p.state}</b> &middot; Protest level ${p.tier}<br>` +
+             `${n.toLocaleString()} Reddit mention${n==1?'':'s'} (${win})` +
+             examples;
+    }
+    if (f.layer.id.startsWith('homicide-uptick')) {
+      if (p.z == null) return `<b>${p.name}</b><br>no homicide data`;
+      const label = {
+        normal: 'normal', elevated: 'elevated',
+        significant: 'significant uptick', severe: 'severe spike'
+      }[p.level] || p.level;
+      const sign = (+p.z) >= 0 ? '+' : '';
+      const ttm = p.latest_period || 'TTM';
+      return `<b>${p.name}</b> &middot; ${label}<br>` +
+             `homicide rate: <b>${(+p.latest_value).toFixed(1)} / 100k</b> (${ttm})<br>` +
+             `z=${sign}${(+p.z).toFixed(2)} vs 2019-2023 baseline ` +
+             `(mean ${(+p.baseline_mean).toFixed(1)}, sd ${(+p.baseline_stdev).toFixed(2)})`;
     }
     if (SITE_LAYER_IDS.includes(f.layer.id)) {
       const mw = p.announced_mw != null ? `${Math.round(p.announced_mw).toLocaleString()} MW` : 'n/a';
