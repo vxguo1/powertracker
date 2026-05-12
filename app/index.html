@@ -219,6 +219,11 @@
       background: linear-gradient(to right,
         #cfd1d4 0%, #cfd1d4 25%, #f46036 50%, #d7263d 75%, #7a0019 100%);
     }
+    .row-swatch[data-style="temperature-yoy"] {
+      background: linear-gradient(to right,
+        #0a3b75 0%, #4a85c4 14.28%, #a4c5e5 28.57%, #e8e8e8 42.86%,
+        #f46036 57.14%, #d7263d 71.43%, #7a0019 85.71%);
+    }
     @keyframes od-pulse {
       0%, 100% { fill-opacity: 0.55; }
       50%      { fill-opacity: 0.10; }
@@ -553,6 +558,13 @@
       <span class="row-label">Homicide uptick (state Z)</span>
       <span class="row-meta">annual</span>
     </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-temperature-yoy">
+      <span class="row-swatch" data-style="temperature-yoy" aria-hidden="true"></span>
+      <span class="row-label">Temperature YoY (state &Delta;&deg;F)</span>
+      <span class="row-meta">monthly</span>
+    </label>
   </div>
 </aside>
 
@@ -643,6 +655,27 @@
       most severe class that *also* persisted the prior month. Adapted
       from the spec's weekly cadence — NEMSIS week-resolution data is not
       public.
+    </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>Temperature YoY (state, &Delta;&deg;F)</h3>
+    <div class="tier-grid">
+      <span class="tier-chip" style="background:#0a3b75">·</span><span>extreme cooling (&le; &minus;2&deg;F)</span>
+      <span class="tier-chip" style="background:#4a85c4">·</span><span>strong cooling (&minus;2 to &minus;1)</span>
+      <span class="tier-chip" style="background:#a4c5e5">·</span><span>cooling (&minus;1 to &minus;0.3)</span>
+      <span class="tier-chip" style="background:#e8e8e8">·</span><span>stable (&plusmn;0.3)</span>
+      <span class="tier-chip" style="background:#f46036">·</span><span>warming (+0.3 to +1)</span>
+      <span class="tier-chip" style="background:#d7263d">·</span><span>strong warming (+1 to +2)</span>
+      <span class="tier-chip" style="background:#7a0019">·</span><span>extreme warming (&ge; +2&deg;F)</span>
+    </div>
+    <div class="legend-caption">
+      Source: NOAA NCEI Climate at a Glance, statewide trailing-12-month
+      mean temperature (<code>tavg</code>). &Delta;&deg;F is the change in
+      trailing-12-month state mean vs one year ago. Fahrenheit zero is
+      arbitrary so the % YoY is informational only — read the &deg;F
+      delta as the headline. Hawaii is not in this CONUS divisional
+      series and renders as no-data.
     </div>
   </div>
 
@@ -791,7 +824,8 @@
         'ice-zones': { type: 'geojson', data: './ice_hotzones.geojson' },
         'protest-zones': { type: 'geojson', data: './protest_hotzones.geojson' },
         'od-uptick': { type: 'geojson', data: './od_uptick.geojson' },
-        'homicide-uptick': { type: 'geojson', data: './homicide_uptick.geojson' }
+        'homicide-uptick': { type: 'geojson', data: './homicide_uptick.geojson' },
+        'temperature-yoy': { type: 'geojson', data: './temperature_yoy.geojson' }
       },
       layers: [
         { id: 'basemap', type: 'raster', source: 'base' },
@@ -856,6 +890,27 @@
             'fill-opacity': 0.55,
             'fill-outline-color': '#3d000d'
           },
+          layout: { visibility: 'none' }
+        },
+
+        // --- Temperature YoY delta (state, off by default). Bidirectional
+        //     palette: blue = cooler than last year, gray = stable,
+        //     red = warmer. No pulse — direction matters, not severity.
+        {
+          id: 'temperature-yoy-fill', type: 'fill', source: 'temperature-yoy',
+          paint: {
+            'fill-color': ['coalesce', ['get', 'fill_color'], '#cfd1d4'],
+            'fill-opacity': ['case',
+              ['==', ['get', 'level'], 'no_data'], 0.12,
+              ['==', ['get', 'level'], 'stable'],  0.40,
+              0.60
+            ]
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'temperature-yoy-outline', type: 'line', source: 'temperature-yoy',
+          paint: { 'line-color': '#555', 'line-width': 0.5, 'line-opacity': 0.6 },
           layout: { visibility: 'none' }
         },
 
@@ -1178,6 +1233,9 @@
     'homicide-uptick-pulse',
     ['homicide-uptick-fill', 'homicide-uptick-outline', 'homicide-uptick-pulse']));
 
+  bindToggle('t-temperature-yoy', v => setLayers(
+    ['temperature-yoy-fill', 'temperature-yoy-outline'], v));
+
   map.on('style.load', () => {
     document.querySelectorAll('#layer-panel input[type=checkbox]')
       .forEach(cb => cb.dispatchEvent(new Event('change')));
@@ -1239,7 +1297,7 @@
     'ice-zone-marker', 'ice-zone-fill',
     'protest-zone-marker', 'protest-zone-fill',
     'county-fill', 'utility-fill', 'election-fill', 'property-tax-fill', 'ba-fill',
-    'od-uptick-fill', 'homicide-uptick-fill',
+    'od-uptick-fill', 'homicide-uptick-fill', 'temperature-yoy-fill',
   ];
   // Lower = higher priority when sorting overlapping hits.
   const PROBE_PRIORITY = {
@@ -1250,6 +1308,7 @@
     'county-fill': 3, 'utility-fill': 4, 'election-fill': 4.3,
     'property-tax-fill': 4.6, 'ba-fill': 5,
     'od-uptick-fill': 6, 'homicide-uptick-fill': 6.1,
+    'temperature-yoy-fill': 6.2,
   };
 
   function tipForFeature(f) {
@@ -1361,6 +1420,19 @@
       return `<b>${p.county}, ${p.state}</b> &middot; Protest level ${p.tier}<br>` +
              `${n.toLocaleString()} Reddit mention${n==1?'':'s'} (${win})` +
              examples;
+    }
+    if (f.layer.id.startsWith('temperature-yoy')) {
+      if (p.delta_f == null) return `<b>${p.name}</b><br>no temperature data`;
+      const d = +p.delta_f;
+      const sign = d >= 0 ? '+' : '';
+      const arrow = d >= 0.3 ? '↑' : (d <= -0.3 ? '↓' : '·');
+      const period = p.latest_period
+        ? `${(p.latest_period / 100) | 0}-${String(p.latest_period % 100).padStart(2,'0')}`
+        : 'TTM';
+      return `<b>${p.name}</b> &middot; ${p.level} ${arrow}<br>` +
+             `<b>${sign}${d.toFixed(2)} °F YoY</b> (${sign}${(+p.pct_yoy).toFixed(2)}%)<br>` +
+             `current trailing-12 mean: ${(+p.current_tavg).toFixed(1)} °F (ending ${period})<br>` +
+             `prior trailing-12 mean: ${(+p.prior_tavg).toFixed(1)} °F`;
     }
     if (f.layer.id.startsWith('homicide-uptick')) {
       if (p.z == null) return `<b>${p.name}</b><br>no homicide data`;

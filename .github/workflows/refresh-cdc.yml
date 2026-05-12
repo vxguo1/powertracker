@@ -1,8 +1,12 @@
 name: refresh-cdc
 
-# Monthly refresh of the CDC-sourced state-level uptick layers
-# (OD deaths via xkb8-kh2a, homicide rate via fpsi-y8tj). Both
-# regenerate their geojson and trigger a redeploy.
+# Monthly refresh of the state-level surveillance layers:
+#   - OD uptick (CDC xkb8-kh2a)
+#   - Homicide uptick (CDC fpsi-y8tj)
+#   - Temperature YoY ΔF (NOAA NCEI Climate at a Glance)
+# All three regenerate their geojson and trigger a redeploy.
+# Despite the name this isn't strictly "CDC" anymore; the file name
+# is kept for cron continuity.
 
 on:
   schedule:
@@ -32,15 +36,17 @@ jobs:
         run: python scripts/fetch_od_uptick.py
       - name: Fetch homicide uptick
         run: python scripts/fetch_homicide_uptick.py
+      - name: Fetch temperature YoY
+        run: python scripts/fetch_temperature_yoy.py
       - name: Commit refreshed geojson if changed
         run: |
           git config user.email "ci-bot@users.noreply.github.com"
           git config user.name "powertracker-ci"
-          git add app/od_uptick.geojson app/homicide_uptick.geojson
+          git add app/od_uptick.geojson app/homicide_uptick.geojson app/temperature_yoy.geojson
           if git diff --cached --quiet; then
             echo "no changes"
           else
-            git commit -m "refresh: cdc upticks ($(date -u +%Y-%m-%d))"
+            git commit -m "refresh: state-uptick layers ($(date -u +%Y-%m-%d))"
             git push
           fi
       - uses: actions/setup-node@v4

@@ -20,6 +20,7 @@ When you add a refresh job, link it from the **Refresh job** column.
 | 8 | Deportation Data Project via Big Local News | monthly snapshot, FOIA-lagged | monthly (alt source, currently unused) | `python scripts/fetch_ice_hotzones.py` | `app/ice_hotzones.geojson` | n/a (alt source) |
 | 9 | CDC VSRR Provisional Drug Overdose Deaths (`xkb8-kh2a`) — multi-indicator OD uptick | monthly (first few days of month) | monthly | `python scripts/fetch_od_uptick.py` | `app/od_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 | 10 | CDC Mapping Injury, Overdose, and Violence — State (`fpsi-y8tj`, `All_Homicide`) | quarterly-ish refresh, annual + TTM | monthly | `python scripts/fetch_homicide_uptick.py` | `app/homicide_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
+| 10b | NOAA NCEI Climate at a Glance — statewide trailing-12 `tavg` | monthly (T+~10d lag) | monthly | `python scripts/fetch_temperature_yoy.py` | `app/temperature_yoy.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 | 11 | Curated data-center site list | as we discover sites | manual | edit `data/sites/data_centers.csv` directly | `data/sites/data_centers.csv` → `app/sites.geojson` | n/a (manual) |
 | 12 | Data-center hot zones (derived) | follows #11 | re-run when #11 changes | `python scripts/build_hot_zones.py` | `app/hot_zones.geojson` | n/a (derived) |
 | 13 | US county polygons | basically static | as-needed | committed | `data/geo/us_counties.geojson` | n/a (static) |
@@ -124,6 +125,15 @@ need `build_tiles.py`. Just deploy.
 - **Refresh**: monthly via [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) (re-runs cheap; data only changes when CDC posts a new TTM).
 - **Caveats**: 5-year baseline is small — stdev estimates are noisy and small-state Z-scores (Wyoming, the Dakotas) move on a handful of incidents. The spec was weekly; CDC publishes annually. Suppressed cells return as `-999` and are dropped.
 
+### 10b. NOAA Climate at a Glance — state temperature YoY
+
+- **Upstream**: `www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series/{STATE_ID}/tavg/12/{ENDING_MONTH}/{Y0-Y1}.csv` (unauthenticated, one CSV per state).
+- **Script**: [scripts/fetch_temperature_yoy.py](../scripts/fetch_temperature_yoy.py)
+- **Algorithm**: Δ°F = (latest trailing-12 mean) − (one year prior trailing-12 mean). Also emits % YoY for the tooltip but the Fahrenheit zero is arbitrary so display the Δ°F as the headline.
+- **Cadence**: NOAA publishes the prior month within ~10 days; we re-pull monthly along with the CDC uptick layers.
+- **Refresh**: monthly via [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml).
+- **Coverage**: NOAA's CONUS divisional series uses state IDs 1-48 (alphabetical) + 50 (Alaska). **Hawaii is not in this series** and renders as no-data.
+
 ### 11. Data-center site list (manual / curated)
 
 - **File**: [data/sites/data_centers.csv](../data/sites/data_centers.csv)
@@ -157,7 +167,7 @@ Four scheduled GitHub Actions live under `.github/workflows/`:
 | Workflow | Cron | Covers | Behavior |
 |----------|------|--------|----------|
 | [refresh-reddit.yml](../.github/workflows/refresh-reddit.yml) | `0 6 * * *` (daily 06:00 UTC) | ICE raid reports + protest reports | Runs `fetch_ice_hotzones_reddit.py` and `fetch_protest_hotzones.py`, commits only if geojson changed, deploys |
-| [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) | `0 6 5 * *` (5th @ 06:00 UTC) | OD uptick + homicide uptick | Runs `fetch_od_uptick.py` and `fetch_homicide_uptick.py`, commits if changed, deploys |
+| [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) | `0 6 5 * *` (5th @ 06:00 UTC) | OD uptick + homicide uptick + temperature YoY | Runs `fetch_od_uptick.py`, `fetch_homicide_uptick.py`, `fetch_temperature_yoy.py`; commits if changed, deploys |
 | [refresh-eia-demand.yml](../.github/workflows/refresh-eia-demand.yml) | `0 7 * * 1` (Mon @ 07:00 UTC) | EIA hourly demand → BA YoY → `ba.pmtiles` | Pulls 24 months of hourly demand, recomputes YoY, rebuilds tiles via Docker, deploys |
 | [refresh-property-tax.yml](../.github/workflows/refresh-property-tax.yml) | `0 7 15 1 *` (Jan 15 @ 07:00 UTC) | ACS property tax → `property_tax.pmtiles` | Refetches Census API, rebuilds tiles via Docker, deploys |
 
