@@ -13,6 +13,10 @@ data/tiles_tmp/
 .claude/worktrees/
 .claude/settings.local.json
 
+# Cloudflare / Wrangler
+.wrangler/
+.dev.vars
+
 # Python
 __pycache__/
 *.py[cod]
