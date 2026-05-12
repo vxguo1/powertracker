@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 EIA_REGION_DATA_URL = "https://api.eia.gov/v2/electricity/rto/region-data/data/"
+EIA_RETAIL_SALES_URL = "https://api.eia.gov/v2/electricity/retail-sales/data/"
 PAGE_SIZE = 5000
 
 
@@ -88,3 +89,67 @@ def fetch_demand(
         .sort_values(["respondent", "type", "period"])
         .reset_index(drop=True)
     )
+
+
+def fetch_retail_rates(
+    start: str,
+    end: str,
+    sectorid: str = "RES",
+    frequency: str = "annual",
+    api_key: str | None = None,
+) -> pd.DataFrame:
+    """Fetch EIA-861 retail electricity rates per utility (entityid).
+
+    Args:
+        start, end: period bounds, formatted to match the frequency:
+            annual -> "YYYY", monthly -> "YYYY-MM".
+        sectorid: RES, COM, IND, TRA, OTH, or ALL.
+        frequency: annual or monthly.
+        api_key: defaults to EIA_API_KEY env var.
+
+    Returns:
+        DataFrame with columns:
+            period, stateid, stateDescription, sectorid, sectorName,
+            entityid, entityName, price (cents/kWh), revenue (thousand $),
+            sales (MWh), customers.
+        One row per (period, state, sector, utility).
+    """
+    key = api_key or _api_key()
+    rows: list[dict] = []
+    offset = 0
+
+    while True:
+        params: dict[str, object] = {
+            "api_key": key,
+            "frequency": frequency,
+            "data[0]": "price",
+            "data[1]": "revenue",
+            "data[2]": "sales",
+            "data[3]": "customers",
+            "facets[sectorid][]": sectorid,
+            "start": start,
+            "end": end,
+            "offset": offset,
+            "length": PAGE_SIZE,
+        }
+        resp = requests.get(EIA_RETAIL_SALES_URL, params=params, timeout=60)
+        resp.raise_for_status()
+        body = resp.json()
+        if "error" in body:
+            raise RuntimeError(f"EIA API error: {body['error']}")
+
+        batch = body["response"].get("data", [])
+        rows.extend(batch)
+        if len(batch) < PAGE_SIZE:
+            break
+        offset += PAGE_SIZE
+        time.sleep(0.2)
+
+    if not rows:
+        return pd.DataFrame()
+
+    df = pd.DataFrame(rows)
+    for col in ("price", "revenue", "sales", "customers"):
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+    return df.reset_index(drop=True)

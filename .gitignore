@@ -5,6 +5,7 @@
 # Data (raw pulls + rendered artifacts — regenerable from the scripts)
 data/raw/
 data/maps/
+data/tiles_tmp/
 *.duckdb
 *.duckdb.wal
 

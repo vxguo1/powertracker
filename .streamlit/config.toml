@@ -1,0 +1,13 @@
+[server]
+maxUploadSize = 50
+runOnSave = false
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+base = "light"
+primaryColor = "#d7263d"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f6f6f6"
+textColor = "#222222"
