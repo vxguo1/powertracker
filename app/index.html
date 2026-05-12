@@ -3,103 +3,544 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>powertracker - AI data centers + grid</title>
+  <title>powertracker - AI data centers + US grid</title>
   <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet">
   <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
   <script src="https://unpkg.com/pmtiles@3/dist/pmtiles.js"></script>
   <style>
-    html, body { margin: 0; padding: 0; height: 100%; font-family: system-ui, -apple-system, sans-serif; }
-    #map { position: absolute; top: 0; bottom: 0; left: 0; right: 0; }
+    /* --- Reset --- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* --- Design tokens --- */
+    :root {
+      --text-xs:   0.6875rem;
+      --text-sm:   0.75rem;
+      --text-base: 0.8125rem;
+      --text-lg:   0.9375rem;
+      --text-xl:   1.125rem;
+      --font-stack: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --leading-tight: 1.2;
+      --leading-normal: 1.45;
+
+      --c-surface:        rgba(255,255,255,0.96);
+      --c-surface-solid:  #ffffff;
+      --c-ink:            #1a1a23;
+      --c-ink-muted:      #5a5a6e;
+      --c-ink-soft:       #8b8b9a;
+      --c-border:         #e3e3e8;
+      --c-border-strong:  #c8c8d0;
+      --c-accent:         #d7263d;
+      --c-tint:           #fdf3f5;
+      --c-row-hover:      #f4f4f8;
+      --c-focus:          #2e86ab;
+      --c-no-data:        #dddddd;
+
+      --c-focus-primary:  #d7263d;
+      --c-focus-mixed:    #2e86ab;
+      --c-focus-minimal:  #9e9e9e;
+
+      --c-tier-s: #7a0019;
+      --c-tier-a: #d7263d;
+      --c-tier-b: #f46036;
+      --c-tier-c: #f5a623;
+      --c-tier-d: #9e9e9e;
+
+      --s-1: 4px;  --s-2: 8px;  --s-3: 12px;
+      --s-4: 16px; --s-5: 20px; --s-6: 24px;
+
+      --r-sm: 4px; --r-md: 8px;
+
+      --shadow-sm: 0 1px 2px rgba(20,20,40,0.06);
+      --shadow-md: 0 6px 18px -4px rgba(20,20,40,0.12),
+                   0 2px 6px rgba(20,20,40,0.06);
+
+      --dur-fast: 120ms;
+      --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font-stack);
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+      color: var(--c-ink);
+      background: #f5f5f7;
+      -webkit-font-smoothing: antialiased;
+    }
+    #map { position: absolute; inset: 0; }
+    a { color: var(--c-accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* --- Panels --- */
     .panel {
-      position: absolute; z-index: 1; background: rgba(255,255,255,0.96);
-      border: 1px solid #ccc; border-radius: 8px; padding: 10px 14px;
-      font-size: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      position: absolute; z-index: 1;
+      background: var(--c-surface);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      box-shadow: var(--shadow-md);
+      color: var(--c-ink);
     }
-    #title-panel { top: 12px; left: 12px; max-width: 320px; }
-    #layer-panel { top: 12px; right: 12px; min-width: 220px; }
-    #legend-panel { bottom: 12px; left: 12px; max-width: 240px; max-height: 78vh; overflow-y: auto; }
-    #tooltip {
-      pointer-events: none; max-width: 320px;
-      transition: opacity 0.15s; opacity: 0;
+    #title-panel  { top: var(--s-3); left: var(--s-3);    max-width: 296px; padding: var(--s-3) var(--s-4); }
+    #layer-panel  { top: var(--s-3); right: var(--s-3);   width: 260px;     padding: var(--s-3); max-height: calc(100vh - 24px); overflow-y: auto; }
+    #legend-panel { bottom: var(--s-3); left: var(--s-3); width: 240px;     padding: var(--s-3); max-height: 72vh; overflow-y: auto; }
+
+    /* --- Title panel --- */
+    .brand {
+      font-size: var(--text-xl);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      line-height: var(--leading-tight);
+    }
+    .tagline {
+      margin-top: 4px;
+      font-size: var(--text-xs);
+      color: var(--c-ink-muted);
+      line-height: 1.45;
     }
 
-    h1 { font-size: 14px; margin: 0 0 4px 0; }
-    .sub { color: #666; font-size: 11px; line-height: 1.4; }
-    .layer-toggle { display: flex; align-items: center; margin: 4px 0; cursor: pointer; }
-    .layer-toggle input { margin-right: 8px; }
-    .layer-toggle .swatch { display: inline-block; width: 12px; height: 12px; margin-right: 6px; border: 1px solid #999; }
-    .legend-section { margin-top: 10px; }
-    .legend-section h2 { font-size: 12px; margin: 0 0 4px 0; font-weight: 600; }
-    .legend-row { display: flex; align-items: center; margin: 2px 0; font-size: 11px; }
-    .legend-swatch { display: inline-block; width: 14px; height: 10px; margin-right: 6px; border: 1px solid #999; }
-    .legend-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; }
-    .zoom-hint { color: #888; font-size: 11px; margin-top: 4px; }
-    a { color: #d7263d; }
+    /* --- Panel structure --- */
+    .panel-heading {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-ink-soft);
+      margin-bottom: var(--s-2);
+    }
+    .group-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--c-ink-muted);
+      margin: 0 0 var(--s-1);
+      letter-spacing: 0.01em;
+    }
+    .layer-group + .layer-group {
+      margin-top: var(--s-3);
+      padding-top: var(--s-3);
+      border-top: 1px solid var(--c-border);
+    }
+
+    /* --- Layer rows --- */
+    .layer-row {
+      display: grid;
+      grid-template-columns: 14px 28px 1fr auto;
+      align-items: center;
+      gap: var(--s-2);
+      padding: 6px var(--s-2);
+      margin: 0 calc(-1 * var(--s-2));
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      font-size: var(--text-sm);
+      line-height: 1.3;
+      transition: background-color var(--dur-fast) var(--ease-out);
+    }
+    .layer-row:hover { background: var(--c-row-hover); }
+    .layer-row:has(input:checked) { background: var(--c-tint); }
+
+    .layer-row input {
+      width: 14px; height: 14px;
+      accent-color: var(--c-accent);
+      cursor: pointer;
+    }
+    .row-label {
+      color: var(--c-ink);
+      font-weight: 500;
+    }
+    .layer-row:has(input:not(:checked)) .row-label { color: var(--c-ink-soft); }
+
+    .row-meta {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--c-ink-muted);
+      background: #eeeef3;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-variant-numeric: tabular-nums;
+    }
+    .layer-row:has(input:checked) .row-meta {
+      background: #f6e0e4;
+      color: #8a1f30;
+    }
+
+    .row-swatch {
+      height: 14px;
+      width: 28px;
+      border-radius: 2px;
+      border: 1px solid var(--c-border-strong);
+    }
+    .row-swatch[data-style="grad"] {
+      background: linear-gradient(to right,
+        #5b8db8 0%, #a8c5dd 14.28%, #eeeeee 28.57%, #fff5b8 42.86%,
+        #fbb04e 57.14%, #f4733c 71.43%, #d7263d 85.71%);
+    }
+    .row-swatch[data-style="heat"] {
+      background: linear-gradient(to right,
+        rgba(168,197,221,0.6) 0%, #fff5b8 30%, #fbb04e 55%, #f4733c 80%, #d7263d 100%);
+    }
+    .row-swatch[data-style^="dot-"] {
+      width: 12px; height: 12px;
+      margin-left: 8px;
+      border-radius: 50%;
+    }
+    .row-swatch[data-style="dot-primary"] { background: var(--c-focus-primary); border-color: #9c1a2d; }
+    .row-swatch[data-style="dot-mixed"]   { background: var(--c-focus-mixed);   border-color: #1e5d7a; }
+    .row-swatch[data-style="dot-minimal"] { background: var(--c-focus-minimal); border-color: #7a7a7a; }
+    .row-swatch[data-style="ring"] {
+      width: 14px; height: 14px;
+      margin-left: 7px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1.5px solid var(--c-accent);
+    }
+
+    .layer-hint {
+      margin-top: var(--s-2);
+      padding-left: 26px;
+      font-size: var(--text-xs);
+      color: var(--c-ink-soft);
+      line-height: 1.4;
+    }
+
+    /* --- Legend --- */
+    .legend-section + .legend-section {
+      margin-top: var(--s-3);
+      padding-top: var(--s-3);
+      border-top: 1px solid var(--c-border);
+    }
+    .legend-section h3 {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--c-ink-soft);
+      margin: 0 0 var(--s-2);
+    }
+
+    .ramp {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      height: 14px;
+      border: 1px solid var(--c-border-strong);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .ramp > span:nth-child(1) { background: #5b8db8; }
+    .ramp > span:nth-child(2) { background: #a8c5dd; }
+    .ramp > span:nth-child(3) { background: #eeeeee; }
+    .ramp > span:nth-child(4) { background: #fff5b8; }
+    .ramp > span:nth-child(5) { background: #fbb04e; }
+    .ramp > span:nth-child(6) { background: #f4733c; }
+    .ramp > span:nth-child(7) { background: #d7263d; }
+
+    .ramp-axis {
+      position: relative;
+      height: 18px;
+      margin-top: 4px;
+    }
+    .ramp-axis span {
+      position: absolute;
+      transform: translateX(-50%);
+      font-size: 10px;
+      font-variant-numeric: tabular-nums;
+      color: var(--c-ink-muted);
+      white-space: nowrap;
+    }
+    .ramp-axis span::before {
+      content: '';
+      display: block;
+      width: 1px; height: 4px;
+      background: var(--c-border-strong);
+      margin: 0 auto 2px;
+    }
+    .ramp-axis span:nth-child(1) { left: 14.28%; }
+    .ramp-axis span:nth-child(2) { left: 28.57%; }
+    .ramp-axis span:nth-child(3) { left: 42.86%; }
+    .ramp-axis span:nth-child(4) { left: 57.14%; }
+    .ramp-axis span:nth-child(5) { left: 71.43%; }
+    .ramp-axis span:nth-child(6) { left: 85.71%; }
+    .ramp-endcaps {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-variant-numeric: tabular-nums;
+      color: var(--c-ink-soft);
+      margin-top: 2px;
+    }
+    .legend-caption {
+      font-size: var(--text-xs);
+      color: var(--c-ink-soft);
+      margin-top: var(--s-2);
+      line-height: 1.4;
+    }
+    .no-data-row {
+      display: flex; align-items: center;
+      gap: var(--s-2);
+      margin-top: var(--s-2);
+      font-size: var(--text-xs);
+      color: var(--c-ink-muted);
+    }
+    .no-data-swatch {
+      width: 14px; height: 10px;
+      background: var(--c-no-data);
+      border: 1px solid var(--c-border-strong);
+      border-radius: 2px;
+    }
+    .keyline {
+      display: flex; flex-wrap: wrap;
+      gap: var(--s-2) var(--s-3);
+      font-size: var(--text-xs);
+      color: var(--c-ink-muted);
+    }
+    .keyline span {
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .size-scale {
+      display: flex; align-items: flex-end; justify-content: space-around;
+      height: 26px;
+      padding: 0 6px;
+    }
+    .size-scale i {
+      display: block;
+      border-radius: 50%;
+      background: var(--c-accent);
+      opacity: 0.7;
+    }
+    .size-scale i.s { width: 8px; height: 8px; }
+    .size-scale i.m { width: 14px; height: 14px; }
+    .size-scale i.l { width: 22px; height: 22px; }
+    .size-axis {
+      display: flex; justify-content: space-around;
+      font-size: 10px; color: var(--c-ink-soft);
+      font-variant-numeric: tabular-nums;
+      margin-top: 2px;
+    }
+    .size-axis span { min-width: 22px; text-align: center; }
+
+    .tier-grid {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 4px var(--s-2);
+      align-items: center;
+      font-size: var(--text-xs);
+      font-variant-numeric: tabular-nums;
+      color: var(--c-ink-muted);
+    }
+    .tier-chip {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-stack);
+    }
+
+    /* --- Tooltip --- */
+    #tooltip {
+      pointer-events: none;
+      max-width: 280px;
+      padding: var(--s-3);
+      font-size: var(--text-xs);
+      line-height: 1.45;
+      transition: opacity var(--dur-fast) var(--ease-out);
+      opacity: 0;
+      z-index: 2;
+    }
+    #tooltip > b:first-child {
+      display: block;
+      font-size: var(--text-sm);
+      margin-bottom: 4px;
+      font-weight: 600;
+      color: var(--c-ink);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--c-focus);
+      outline-offset: 2px;
+    }
+    .maplibregl-ctrl-group {
+      box-shadow: var(--shadow-sm) !important;
+      border: 1px solid var(--c-border) !important;
+    }
+
+    @media (max-width: 640px) {
+      #layer-panel { width: calc(100vw - 24px); right: var(--s-3); top: auto; bottom: var(--s-3); }
+      #legend-panel { display: none; }
+      #title-panel { max-width: calc(100vw - 24px); }
+    }
+    @media (max-height: 600px) {
+      #legend-panel { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
 
 <div id="map"></div>
 
-<div id="title-panel" class="panel">
-  <h1>powertracker</h1>
-  <div class="sub">
-    US AI / hyperscaler data centers vs. balancing-authority demand,
-    utility residential rates, and county per-capita GDP. All choropleths
-    are year-over-year % change. Zoom in for finer geography.
+<aside id="title-panel" class="panel">
+  <h1 class="brand">powertracker</h1>
+  <p class="tagline">
+    US AI &amp; hyperscaler data centers overlaid on grid demand,
+    retail electricity rates, and per-capita GDP.
+    All overlays show year-over-year % change.
+  </p>
+</aside>
+
+<aside id="layer-panel" class="panel" aria-label="Layer controls">
+  <div class="panel-heading">Layers</div>
+
+  <div class="layer-group">
+    <div class="group-label">Year-over-year % change</div>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-ba" checked>
+      <span class="row-swatch" data-style="grad" aria-hidden="true"></span>
+      <span class="row-label">BA demand</span>
+      <span class="row-meta">12 mo</span>
+    </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-county">
+      <span class="row-swatch" data-style="grad" aria-hidden="true"></span>
+      <span class="row-label">County GDP / capita</span>
+      <span class="row-meta">2024</span>
+    </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-utility">
+      <span class="row-swatch" data-style="grad" aria-hidden="true"></span>
+      <span class="row-label">Utility resi rate</span>
+      <span class="row-meta">2024</span>
+    </label>
+
+    <p class="layer-hint">Zoom in to see county and utility boundaries; fills show at any zoom.</p>
   </div>
-</div>
 
-<div id="layer-panel" class="panel">
-  <label class="layer-toggle">
-    <input type="checkbox" id="t-ba" checked>
-    BA demand YoY (trailing 12mo)
-  </label>
-  <label class="layer-toggle">
-    <input type="checkbox" id="t-county">
-    County real GDP per capita YoY
-  </label>
-  <label class="layer-toggle">
-    <input type="checkbox" id="t-utility">
-    Utility residential rate YoY (2023->2024)
-  </label>
-  <label class="layer-toggle">
-    <input type="checkbox" id="t-sites" checked>
-    Data centers
-  </label>
-  <div class="zoom-hint">BAs visible at low zoom, counties & utilities reveal at z>=5.</div>
-</div>
+  <div class="layer-group">
+    <div class="group-label">Sites by AI focus</div>
 
-<div id="legend-panel" class="panel">
+    <label class="layer-row">
+      <input type="checkbox" id="t-sites-primary" checked>
+      <span class="row-swatch" data-style="dot-primary" aria-hidden="true"></span>
+      <span class="row-label">Primary</span>
+      <span class="row-meta" data-role="count-primary">-</span>
+    </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-sites-mixed" checked>
+      <span class="row-swatch" data-style="dot-mixed" aria-hidden="true"></span>
+      <span class="row-label">Mixed</span>
+      <span class="row-meta" data-role="count-mixed">-</span>
+    </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-sites-minimal" checked>
+      <span class="row-swatch" data-style="dot-minimal" aria-hidden="true"></span>
+      <span class="row-label">Minimal</span>
+      <span class="row-meta" data-role="count-minimal">-</span>
+    </label>
+  </div>
+
+  <div class="layer-group">
+    <div class="group-label">Density &amp; clusters</div>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-heatmap">
+      <span class="row-swatch" data-style="heat" aria-hidden="true"></span>
+      <span class="row-label">MW heatmap</span>
+    </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-hotzones" checked>
+      <span class="row-swatch" data-style="ring" aria-hidden="true"></span>
+      <span class="row-label">Hot zone tiers</span>
+    </label>
+  </div>
+</aside>
+
+<aside id="legend-panel" class="panel" aria-label="Legend">
   <div class="legend-section">
-    <h2>YoY % change (all choropleths)</h2>
-    <div class="legend-row"><span class="legend-swatch" style="background:#5b8db8"></span>&lt; -2%</div>
-    <div class="legend-row"><span class="legend-swatch" style="background:#a8c5dd"></span>-2 to 0%</div>
-    <div class="legend-row"><span class="legend-swatch" style="background:#eeeeee"></span>0 to 1%</div>
-    <div class="legend-row"><span class="legend-swatch" style="background:#fff5b8"></span>1 to 3% (baseline)</div>
-    <div class="legend-row"><span class="legend-swatch" style="background:#fbb04e"></span>3 to 5%</div>
-    <div class="legend-row"><span class="legend-swatch" style="background:#f4733c"></span>5 to 8%</div>
-    <div class="legend-row"><span class="legend-swatch" style="background:#d7263d"></span>&gt;= 8% (anomalous)</div>
-    <div class="legend-row"><span class="legend-swatch" style="background:#dddddd"></span>no data</div>
+    <h3>YoY % change</h3>
+    <div class="ramp" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="ramp-axis" aria-hidden="true">
+      <span>-2</span><span>0</span><span>1</span><span>3</span><span>5</span><span>8</span>
+    </div>
+    <div class="ramp-endcaps">
+      <span>&lt; -2 %</span>
+      <span>&ge; 8 %</span>
+    </div>
+    <div class="legend-caption">Baseline 1-3 %. Red &ge; 8 % flags anomalous growth.</div>
+    <div class="no-data-row">
+      <span class="no-data-swatch"></span> no data
+    </div>
   </div>
-  <div class="legend-section">
-    <h2>Data center AI focus</h2>
-    <div class="legend-row"><span class="legend-dot" style="background:#d7263d"></span>primary (AI-built)</div>
-    <div class="legend-row"><span class="legend-dot" style="background:#2e86ab"></span>mixed (hyperscaler)</div>
-    <div class="legend-row"><span class="legend-dot" style="background:#9e9e9e"></span>minimal</div>
-    <div class="zoom-hint">Marker area proportional to announced MW. Opacity: operational &gt; construction &gt; announced.</div>
-  </div>
-</div>
 
-<div id="tooltip" class="panel"></div>
+  <div class="legend-section">
+    <h3>Site - AI focus</h3>
+    <div class="keyline">
+      <span><span class="legend-dot" style="background:#d7263d"></span>primary</span>
+      <span><span class="legend-dot" style="background:#2e86ab"></span>mixed</span>
+      <span><span class="legend-dot" style="background:#9e9e9e"></span>minimal</span>
+    </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>Marker size (announced MW)</h3>
+    <div class="size-scale" aria-hidden="true">
+      <i class="s"></i><i class="m"></i><i class="l"></i>
+    </div>
+    <div class="size-axis">
+      <span>50</span><span>500</span><span>2 000+</span>
+    </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>Status (marker opacity)</h3>
+    <div class="keyline">
+      <span><span class="legend-dot" style="background:#1a1a23;opacity:0.85"></span>operational</span>
+      <span><span class="legend-dot" style="background:#1a1a23;opacity:0.65"></span>construction</span>
+      <span><span class="legend-dot" style="background:#1a1a23;opacity:0.45"></span>announced</span>
+    </div>
+  </div>
+
+  <div class="legend-section">
+    <h3>Hot zone tier (total MW)</h3>
+    <div class="tier-grid">
+      <span class="tier-chip" style="background:#7a0019">S</span><span>&ge; 5 000</span>
+      <span class="tier-chip" style="background:#d7263d">A</span><span>&ge; 2 000</span>
+      <span class="tier-chip" style="background:#f46036">B</span><span>&ge; 1 000</span>
+      <span class="tier-chip" style="background:#f5a623">C</span><span>&ge; 500</span>
+      <span class="tier-chip" style="background:#9e9e9e">D</span><span>&lt; 500 or unknown</span>
+    </div>
+  </div>
+</aside>
+
+<div id="tooltip" class="panel" role="tooltip"></div>
 
 <script>
   // ---- PMTiles protocol ----
   const protocol = new pmtiles.Protocol();
   maplibregl.addProtocol('pmtiles', protocol.tile);
 
-  // Shared color match expression: bin -> color (matches GROWTH_BINS in Python).
+  // Shared color match: bin -> color (matches GROWTH_BINS in Python).
   const BIN_COLOR = [
     'match', ['get', 'bin'],
     0, '#5b8db8',
@@ -113,14 +554,6 @@
   ];
   const NO_DATA_OPACITY = ['case', ['==', ['get', 'bin'], -1], 0.18, 0.6];
 
-  // AI focus marker color and base radius (sqrt scaled by announced_mw).
-  const FOCUS_COLOR = [
-    'match', ['get', 'ai_focus'],
-    'primary', '#d7263d',
-    'mixed', '#2e86ab',
-    'minimal', '#9e9e9e',
-    '#9e9e9e'
-  ];
   const MARKER_RADIUS = [
     'case',
     ['has', 'announced_mw'],
@@ -136,7 +569,23 @@
     0.7
   ];
 
-  // ---- Map ----
+  function siteLayer(id, focus, color) {
+    return {
+      id,
+      type: 'circle',
+      source: 'sites',
+      filter: ['==', ['get', 'ai_focus'], focus],
+      paint: {
+        'circle-radius': MARKER_RADIUS,
+        'circle-color': color,
+        'circle-stroke-color': color,
+        'circle-stroke-width': 1.2,
+        'circle-opacity': MARKER_OPACITY,
+        'circle-stroke-opacity': 0.9
+      }
+    };
+  }
+
   const map = new maplibregl.Map({
     container: 'map',
     style: {
@@ -154,12 +603,13 @@
         'ba': { type: 'vector', url: 'pmtiles://./tiles/ba.pmtiles' },
         'county': { type: 'vector', url: 'pmtiles://./tiles/county.pmtiles' },
         'utility': { type: 'vector', url: 'pmtiles://./tiles/utility.pmtiles' },
-        'sites': { type: 'geojson', data: './sites.geojson' }
+        'sites': { type: 'geojson', data: './sites.geojson' },
+        'hot-zones': { type: 'geojson', data: './hot_zones.geojson' }
       },
       layers: [
         { id: 'basemap', type: 'raster', source: 'base' },
 
-        // BAs (visible at all zooms, faded above z=7 so smaller layers can take focus)
+        // --- BAs ---
         {
           id: 'ba-fill', type: 'fill', source: 'ba', 'source-layer': 'ba',
           paint: {
@@ -173,66 +623,113 @@
             ]
           }
         },
-        {
-          id: 'ba-outline', type: 'line', source: 'ba', 'source-layer': 'ba',
-          paint: { 'line-color': '#666', 'line-width': 0.6 }
-        },
+        { id: 'ba-outline', type: 'line', source: 'ba', 'source-layer': 'ba',
+          paint: { 'line-color': '#666', 'line-width': 0.6 } },
 
-        // Counties (reveal at z>=5)
+        // --- Counties (visible at all zooms when toggled on) ---
         {
           id: 'county-fill', type: 'fill', source: 'county', 'source-layer': 'county',
-          minzoom: 5,
           paint: {
             'fill-color': BIN_COLOR,
-            'fill-opacity': [
-              'interpolate', ['linear'], ['zoom'],
-              4.5, 0,
-              6, 0.55,
-              10, 0.55
-            ]
+            'fill-opacity': ['case', ['==', ['get', 'bin'], -1], 0.20, 0.55]
           },
           layout: { visibility: 'none' }
         },
-        {
-          id: 'county-outline', type: 'line', source: 'county', 'source-layer': 'county',
+        { id: 'county-outline', type: 'line', source: 'county', 'source-layer': 'county',
           minzoom: 5,
           paint: { 'line-color': '#888', 'line-width': 0.3 },
-          layout: { visibility: 'none' }
-        },
+          layout: { visibility: 'none' } },
 
-        // Utility territories (reveal at z>=5)
+        // --- Utility territories (visible at all zooms when toggled on) ---
         {
           id: 'utility-fill', type: 'fill', source: 'utility', 'source-layer': 'utility',
-          minzoom: 5,
           paint: {
             'fill-color': BIN_COLOR,
-            'fill-opacity': [
-              'interpolate', ['linear'], ['zoom'],
-              4.5, 0,
-              6, 0.55,
-              10, 0.55
-            ]
+            'fill-opacity': ['case', ['==', ['get', 'bin'], -1], 0.20, 0.60]
           },
           layout: { visibility: 'none' }
         },
-        {
-          id: 'utility-outline', type: 'line', source: 'utility', 'source-layer': 'utility',
+        { id: 'utility-outline', type: 'line', source: 'utility', 'source-layer': 'utility',
           minzoom: 5,
           paint: { 'line-color': '#666', 'line-width': 0.3 },
-          layout: { visibility: 'none' }
+          layout: { visibility: 'none' } },
+
+        // --- MW heatmap (off by default) ---
+        {
+          id: 'sites-heatmap',
+          type: 'heatmap',
+          source: 'sites',
+          layout: { visibility: 'none' },
+          paint: {
+            'heatmap-weight': [
+              'case',
+              ['has', 'announced_mw'],
+              ['interpolate', ['linear'], ['coalesce', ['get', 'announced_mw'], 0],
+                0, 0.1, 500, 0.5, 2000, 1.0],
+              0.3
+            ],
+            'heatmap-intensity': [
+              'interpolate', ['linear'], ['zoom'],
+              3, 0.8, 6, 1.6, 9, 2.6
+            ],
+            'heatmap-radius': [
+              'interpolate', ['linear'], ['zoom'],
+              3, 20, 6, 38, 9, 60
+            ],
+            'heatmap-opacity': 0.65,
+            'heatmap-color': [
+              'interpolate', ['linear'], ['heatmap-density'],
+              0,   'rgba(168,197,221,0)',
+              0.2, 'rgba(168,197,221,0.6)',
+              0.4, 'rgba(255,245,184,0.7)',
+              0.6, 'rgba(251,176,78,0.80)',
+              0.8, 'rgba(244,115,60,0.85)',
+              1,   'rgba(215,38,61,0.90)'
+            ]
+          }
         },
 
-        // Sites (always visible)
+        // --- Hot zone rings (under sites so dots stay readable) ---
         {
-          id: 'sites', type: 'circle', source: 'sites',
+          id: 'hot-zone-fill', type: 'fill', source: 'hot-zones',
+          filter: ['==', ['get', 'kind'], 'ring'],
+          paint: { 'fill-color': ['get', 'tier_color'], 'fill-opacity': 0.10 }
+        },
+        {
+          id: 'hot-zone-outline', type: 'line', source: 'hot-zones',
+          filter: ['==', ['get', 'kind'], 'ring'],
+          paint: { 'line-color': ['get', 'tier_color'], 'line-width': 1.5, 'line-opacity': 0.8 }
+        },
+
+        // --- Sites split by AI focus (above heatmap + rings) ---
+        siteLayer('sites-minimal', 'minimal', '#9e9e9e'),
+        siteLayer('sites-mixed',   'mixed',   '#2e86ab'),
+        siteLayer('sites-primary', 'primary', '#d7263d'),
+
+        // --- Hot zone tier markers (on top so the letter is always visible) ---
+        {
+          id: 'hot-zone-marker', type: 'circle', source: 'hot-zones',
+          filter: ['==', ['get', 'kind'], 'marker'],
           paint: {
-            'circle-radius': MARKER_RADIUS,
-            'circle-color': FOCUS_COLOR,
-            'circle-stroke-color': FOCUS_COLOR,
-            'circle-stroke-width': 1.2,
-            'circle-opacity': MARKER_OPACITY,
-            'circle-stroke-opacity': 0.9
+            'circle-radius': 14,
+            'circle-color': ['get', 'tier_color'],
+            'circle-stroke-color': '#ffffff',
+            'circle-stroke-width': 2,
+            'circle-opacity': 1
           }
+        },
+        {
+          id: 'hot-zone-text', type: 'symbol', source: 'hot-zones',
+          filter: ['==', ['get', 'kind'], 'marker'],
+          layout: {
+            'text-field': ['get', 'tier'],
+            'text-font': ['Noto Sans Regular'],
+            'text-size': 13,
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
+            'text-letter-spacing': 0.05
+          },
+          paint: { 'text-color': '#ffffff' }
         }
       ]
     },
@@ -246,9 +743,8 @@
   map.addControl(new maplibregl.ScaleControl(), 'bottom-right');
 
   // ---- Layer toggles ----
-  function setLayerGroup(prefix, visible) {
-    ['fill', 'outline'].forEach(suffix => {
-      const id = prefix + '-' + suffix;
+  function setLayers(ids, visible) {
+    ids.forEach(id => {
       if (map.getLayer(id)) {
         map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none');
       }
@@ -257,19 +753,52 @@
   function bindToggle(id, fn) {
     document.getElementById(id).addEventListener('change', e => fn(e.target.checked));
   }
+
   map.on('load', () => {
-    bindToggle('t-ba', v => setLayerGroup('ba', v));
-    bindToggle('t-county', v => setLayerGroup('county', v));
-    bindToggle('t-utility', v => setLayerGroup('utility', v));
-    bindToggle('t-sites', v => {
-      if (map.getLayer('sites')) {
-        map.setLayoutProperty('sites', 'visibility', v ? 'visible' : 'none');
-      }
-    });
+    bindToggle('t-ba',      v => setLayers(['ba-fill', 'ba-outline'], v));
+    bindToggle('t-county',  v => setLayers(['county-fill', 'county-outline'], v));
+    bindToggle('t-utility', v => setLayers(['utility-fill', 'utility-outline'], v));
+    bindToggle('t-sites-primary', v => setLayers(['sites-primary'], v));
+    bindToggle('t-sites-mixed',   v => setLayers(['sites-mixed'], v));
+    bindToggle('t-sites-minimal', v => setLayers(['sites-minimal'], v));
+    bindToggle('t-heatmap',  v => setLayers(['sites-heatmap'], v));
+    bindToggle('t-hotzones', v => setLayers(
+      ['hot-zone-fill', 'hot-zone-outline', 'hot-zone-marker', 'hot-zone-text'], v));
+
+    // Populate live focus counts from the geojson.
+    fetch('./sites.geojson')
+      .then(r => r.json())
+      .then(d => {
+        const counts = { primary: 0, mixed: 0, minimal: 0 };
+        for (const f of (d.features || [])) {
+          const k = f.properties && f.properties.ai_focus;
+          if (k in counts) counts[k]++;
+        }
+        const set = (sel, v) => {
+          const el = document.querySelector(sel);
+          if (el) el.textContent = v;
+        };
+        set('[data-role="count-primary"]', counts.primary);
+        set('[data-role="count-mixed"]',   counts.mixed);
+        set('[data-role="count-minimal"]', counts.minimal);
+      })
+      .catch(() => { /* labels keep their static placeholder */ });
   });
 
   // ---- Tooltip ----
   const tooltip = document.getElementById('tooltip');
+  const SITE_LAYER_IDS = ['sites-primary', 'sites-mixed', 'sites-minimal'];
+  const PROBE_LAYERS = [
+    ...SITE_LAYER_IDS,
+    'hot-zone-marker', 'hot-zone-fill',
+    'county-fill', 'utility-fill', 'ba-fill',
+  ];
+  // Lower = higher priority when sorting overlapping hits.
+  const PROBE_PRIORITY = {
+    'sites-primary': 0, 'sites-mixed': 0, 'sites-minimal': 0,
+    'hot-zone-marker': 1, 'hot-zone-fill': 2,
+    'county-fill': 3, 'utility-fill': 4, 'ba-fill': 5,
+  };
 
   function tipForFeature(f) {
     const p = f.properties;
@@ -307,7 +836,12 @@
       }
       return body;
     }
-    if (f.layer.id === 'sites') {
+    if (f.layer.id.startsWith('hot-zone')) {
+      return `<b>Tier ${p.tier} - ${p.label}</b><br>` +
+             `${p.n_sites} sites &middot; ${(+p.total_mw).toLocaleString()} MW stated<br>` +
+             `(combined announced capacity within ~80 mi)`;
+    }
+    if (SITE_LAYER_IDS.includes(f.layer.id)) {
       const mw = p.announced_mw != null ? `${Math.round(p.announced_mw).toLocaleString()} MW` : 'n/a';
       const yr = p.online_year != null ? p.online_year : '?';
       const src = p.source ? `<br><a href="${p.source}" target="_blank">source</a>` : '';
@@ -321,31 +855,30 @@
   }
 
   function moveTooltip(e) {
-    const features = map.queryRenderedFeatures(e.point, {
-      layers: ['sites', 'ba-fill', 'county-fill', 'utility-fill']
-    });
+    const features = map.queryRenderedFeatures(e.point, { layers: PROBE_LAYERS });
     if (!features.length) {
       tooltip.style.opacity = 0;
       return;
     }
-    // Priority: sites > county > utility > BA.
-    const priority = { 'sites': 0, 'county-fill': 1, 'utility-fill': 2, 'ba-fill': 3 };
-    features.sort((a, b) => (priority[a.layer.id] ?? 9) - (priority[b.layer.id] ?? 9));
+    features.sort((a, b) => (PROBE_PRIORITY[a.layer.id] ?? 9) - (PROBE_PRIORITY[b.layer.id] ?? 9));
     tooltip.innerHTML = tipForFeature(features[0]);
     tooltip.style.left = (e.point.x + 12) + 'px';
-    tooltip.style.top = (e.point.y + 12) + 'px';
+    tooltip.style.top  = (e.point.y + 12) + 'px';
     tooltip.style.opacity = 1;
   }
   map.on('mousemove', moveTooltip);
   map.on('mouseout', () => { tooltip.style.opacity = 0; });
 
-  map.on('click', 'sites', e => {
-    if (!e.features.length) return;
-    const f = e.features[0];
-    new maplibregl.Popup({ closeButton: true, maxWidth: '340px' })
-      .setLngLat(f.geometry.coordinates)
-      .setHTML(tipForFeature(f))
-      .addTo(map);
+  // Click to pin a popup on a site.
+  SITE_LAYER_IDS.forEach(layerId => {
+    map.on('click', layerId, e => {
+      if (!e.features.length) return;
+      const f = e.features[0];
+      new maplibregl.Popup({ closeButton: true, maxWidth: '340px' })
+        .setLngLat(f.geometry.coordinates)
+        .setHTML(tipForFeature(f))
+        .addTo(map);
+    });
   });
 </script>
 </body>
