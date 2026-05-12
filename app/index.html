@@ -176,6 +176,11 @@
         #5b8db8 0%, #a8c5dd 14.28%, #eeeeee 28.57%, #fff5b8 42.86%,
         #fbb04e 57.14%, #f4733c 71.43%, #d7263d 85.71%);
     }
+    .row-swatch[data-style="election"] {
+      background: linear-gradient(to right,
+        #0a3b75 0%, #4a85c4 14.28%, #a4c5e5 28.57%, #efefe0 42.86%,
+        #f3aeae 57.14%, #d04848 71.43%, #870019 85.71%);
+    }
     .row-swatch[data-style="heat"] {
       background: linear-gradient(to right,
         rgba(168,197,221,0.6) 0%, #fff5b8 30%, #fbb04e 55%, #f4733c 80%, #d7263d 100%);
@@ -234,6 +239,14 @@
     .ramp > span:nth-child(5) { background: #fbb04e; }
     .ramp > span:nth-child(6) { background: #f4733c; }
     .ramp > span:nth-child(7) { background: #d7263d; }
+
+    .ramp.election > span:nth-child(1) { background: #0a3b75; }
+    .ramp.election > span:nth-child(2) { background: #4a85c4; }
+    .ramp.election > span:nth-child(3) { background: #a4c5e5; }
+    .ramp.election > span:nth-child(4) { background: #efefe0; }
+    .ramp.election > span:nth-child(5) { background: #f3aeae; }
+    .ramp.election > span:nth-child(6) { background: #d04848; }
+    .ramp.election > span:nth-child(7) { background: #870019; }
 
     .ramp-axis {
       position: relative;
@@ -433,6 +446,17 @@
   </div>
 
   <div class="layer-group">
+    <div class="group-label">2024 presidential election</div>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-election">
+      <span class="row-swatch" data-style="election" aria-hidden="true"></span>
+      <span class="row-label">Trump &ndash; Harris margin</span>
+      <span class="row-meta">county</span>
+    </label>
+  </div>
+
+  <div class="layer-group">
     <div class="group-label">Sites by AI focus</div>
 
     <label class="layer-row">
@@ -494,6 +518,19 @@
   </div>
 
   <div class="legend-section">
+    <h3>2024 presidential margin</h3>
+    <div class="ramp election" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="ramp-endcaps">
+      <span>D +25</span>
+      <span>even</span>
+      <span>R +25</span>
+    </div>
+    <div class="legend-caption">County-level Trump &ndash; Harris margin (pp).</div>
+  </div>
+
+  <div class="legend-section">
     <h3>Site - AI focus</h3>
     <div class="keyline">
       <span><span class="legend-dot" style="background:#d7263d"></span>primary</span>
@@ -552,6 +589,19 @@
     6, '#d7263d',
     '#dddddd'
   ];
+  // Diverging GOP-margin palette for the 2024 election layer (matches
+  // ELECTION_BINS in scripts/build_tiles.py).
+  const ELECTION_BIN_COLOR = [
+    'match', ['get', 'bin'],
+    0, '#0a3b75',
+    1, '#4a85c4',
+    2, '#a4c5e5',
+    3, '#efefe0',
+    4, '#f3aeae',
+    5, '#d04848',
+    6, '#870019',
+    '#dddddd'
+  ];
   const NO_DATA_OPACITY = ['case', ['==', ['get', 'bin'], -1], 0.18, 0.6];
 
   const MARKER_RADIUS = [
@@ -603,6 +653,7 @@
         'ba': { type: 'vector', url: 'pmtiles://./tiles/ba.pmtiles' },
         'county': { type: 'vector', url: 'pmtiles://./tiles/county.pmtiles' },
         'utility': { type: 'vector', url: 'pmtiles://./tiles/utility.pmtiles' },
+        'election': { type: 'vector', url: 'pmtiles://./tiles/election.pmtiles' },
         'sites': { type: 'geojson', data: './sites.geojson' },
         'hot-zones': { type: 'geojson', data: './hot_zones.geojson' }
       },
@@ -652,6 +703,20 @@
         { id: 'utility-outline', type: 'line', source: 'utility', 'source-layer': 'utility',
           minzoom: 5,
           paint: { 'line-color': '#666', 'line-width': 0.3 },
+          layout: { visibility: 'none' } },
+
+        // --- 2024 presidential election (county margin, off by default) ---
+        {
+          id: 'election-fill', type: 'fill', source: 'election', 'source-layer': 'election',
+          paint: {
+            'fill-color': ELECTION_BIN_COLOR,
+            'fill-opacity': ['case', ['==', ['get', 'bin'], -1], 0.15, 0.75]
+          },
+          layout: { visibility: 'none' }
+        },
+        { id: 'election-outline', type: 'line', source: 'election', 'source-layer': 'election',
+          minzoom: 5,
+          paint: { 'line-color': '#5a5a5a', 'line-width': 0.25 },
           layout: { visibility: 'none' } },
 
         // --- MW heatmap (off by default) ---
@@ -762,6 +827,7 @@
   bindToggle('t-ba',      v => setLayers(['ba-fill', 'ba-outline'], v));
   bindToggle('t-county',  v => setLayers(['county-fill', 'county-outline'], v));
   bindToggle('t-utility', v => setLayers(['utility-fill', 'utility-outline'], v));
+  bindToggle('t-election', v => setLayers(['election-fill', 'election-outline'], v));
   bindToggle('t-sites-primary', v => setLayers(['sites-primary'], v));
   bindToggle('t-sites-mixed',   v => setLayers(['sites-mixed'], v));
   bindToggle('t-sites-minimal', v => setLayers(['sites-minimal'], v));
@@ -801,13 +867,13 @@
   const PROBE_LAYERS = [
     ...SITE_LAYER_IDS,
     'hot-zone-marker', 'hot-zone-fill',
-    'county-fill', 'utility-fill', 'ba-fill',
+    'county-fill', 'utility-fill', 'election-fill', 'ba-fill',
   ];
   // Lower = higher priority when sorting overlapping hits.
   const PROBE_PRIORITY = {
     'sites-primary': 0, 'sites-mixed': 0, 'sites-minimal': 0,
     'hot-zone-marker': 1, 'hot-zone-fill': 2,
-    'county-fill': 3, 'utility-fill': 4, 'ba-fill': 5,
+    'county-fill': 3, 'utility-fill': 4, 'election-fill': 4.5, 'ba-fill': 5,
   };
 
   function tipForFeature(f) {
@@ -832,6 +898,20 @@
              `2023: $${Math.round(+p.gdp_per_capita_2023).toLocaleString()}<br>` +
              `2024: $${Math.round(+p.gdp_per_capita_2024).toLocaleString()}<br>` +
              `population: ${Math.round(+p.population).toLocaleString()}`;
+    }
+    if (f.layer.id.startsWith('election-')) {
+      if (p.bin === -1 || p.margin_pct === null || p.margin_pct === undefined) {
+        return `<b>${p.name}</b><br>no 2024 result`;
+      }
+      const m = +p.margin_pct;
+      const winner = m >= 0 ? 'Trump' : 'Harris';
+      const margin = Math.abs(m).toFixed(1);
+      const gop = (100 * +p.per_gop).toFixed(1);
+      const dem = (100 * +p.per_dem).toFixed(1);
+      return `<b>${p.name}, ${p.state}</b><br>` +
+             `<b>${winner} +${margin}</b> (2024)<br>` +
+             `Trump ${gop}% &middot; Harris ${dem}%<br>` +
+             `${Math.round(+p.total_votes).toLocaleString()} votes`;
     }
     if (f.layer.id.startsWith('utility-')) {
       const sign = p.change_pct >= 0 ? '+' : '';

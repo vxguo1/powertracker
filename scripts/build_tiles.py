@@ -37,8 +37,23 @@ from powertracker.mapbuild import _DIST_OWNERSHIP, GROWTH_BINS, load_data  # noq
 OUT_DIR = REPO_ROOT / "app" / "tiles"
 SITES_OUT = REPO_ROOT / "app" / "sites.geojson"
 TMP_DIR = REPO_ROOT / "data" / "tiles_tmp"
+ELECTION_CSV = REPO_ROOT / "data" / "cache" / "election_2024_county.csv"
 
 NO_DATA_BIN = -1
+
+# Diverging GOP-margin bins for the 2024 presidential map. Margin = per_gop -
+# per_dem (signed percentage points). Bin indices 0..6 map onto a blue->red
+# palette in the MapLibre style. Kept here (not in mapbuild.py) because they
+# only affect tile-time enrichment for the election layer.
+ELECTION_BINS: list[tuple[float, str]] = [
+    (-100.0, "Dem +25 or more"),
+    (-25.0,  "Dem +10 to +25"),
+    (-10.0,  "Dem +3 to +10"),
+    ( -3.0,  "tossup (within 3)"),
+    (  3.0,  "Rep +3 to +10"),
+    ( 10.0,  "Rep +10 to +25"),
+    ( 25.0,  "Rep +25 or more"),
+]
 
 
 def growth_bin(pct: float | None) -> int:
@@ -48,6 +63,19 @@ def growth_bin(pct: float | None) -> int:
     chosen = NO_DATA_BIN
     for i, (lower, _, _) in enumerate(GROWTH_BINS):
         if pct >= lower:
+            chosen = i
+        else:
+            break
+    return chosen
+
+
+def election_bin(margin_pct: float | None) -> int:
+    """Bin index into ELECTION_BINS (GOP margin in pp), or NO_DATA_BIN."""
+    if margin_pct is None or pd.isna(margin_pct):
+        return NO_DATA_BIN
+    chosen = NO_DATA_BIN
+    for i, (lower, _) in enumerate(ELECTION_BINS):
+        if margin_pct >= lower:
             chosen = i
         else:
             break
@@ -118,6 +146,40 @@ def _enrich_utility(geo: dict, util_yoy: pd.DataFrame) -> dict:
         kept.append(feat)
     geo["features"] = kept
     return geo
+
+
+def _enrich_election(geo: dict, election: pd.DataFrame) -> dict:
+    """Build a fresh GeoJSON of county polygons annotated with 2024
+    presidential results. We copy `geo` (not mutate) because the county
+    layer uses the same source for its GDP enrichment."""
+    election = election.copy()
+    election["county_fips"] = election["county_fips"].astype(str).str.zfill(5)
+    lookup = {r.county_fips: r for _, r in election.iterrows()}
+    out_features = []
+    for feat in geo["features"]:
+        fips = str(feat.get("id") or feat["properties"].get("GEO_ID", "")[-5:])
+        name = feat["properties"].get("NAME", "?")
+        r = lookup.get(fips)
+        props: dict = {"fips": fips, "name": name}
+        if r is None:
+            props["margin_pct"] = None
+            props["bin"] = NO_DATA_BIN
+        else:
+            margin_pct = float(r.per_point_diff) * 100.0
+            props["margin_pct"] = margin_pct
+            props["per_gop"] = float(r.per_gop)
+            props["per_dem"] = float(r.per_dem)
+            props["votes_gop"] = int(r.votes_gop)
+            props["votes_dem"] = int(r.votes_dem)
+            props["total_votes"] = int(r.total_votes)
+            props["state"] = r.state_name
+            props["bin"] = election_bin(margin_pct)
+        out_features.append({
+            "type": "Feature",
+            "geometry": feat["geometry"],
+            "properties": props,
+        })
+    return {"type": "FeatureCollection", "features": out_features}
 
 
 def _enrich_county(geo: dict, gdp_yoy: pd.DataFrame) -> dict:
@@ -232,6 +294,13 @@ def main() -> None:
 
     print("\nCounty layer ...")
     _build_one("county", _enrich_county(data.county_geo, data.gdp_yoy), "county", max_zoom=9)
+
+    if ELECTION_CSV.exists():
+        print("\nElection layer ...")
+        election = pd.read_csv(ELECTION_CSV, dtype={"county_fips": str})
+        _build_one("election", _enrich_election(data.county_geo, election), "election", max_zoom=9)
+    else:
+        print(f"\nSkipping election layer ({ELECTION_CSV} missing).")
 
     shutil.rmtree(TMP_DIR, ignore_errors=True)
 
