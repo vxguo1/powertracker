@@ -754,17 +754,27 @@
     document.getElementById(id).addEventListener('change', e => fn(e.target.checked));
   }
 
-  map.on('load', () => {
-    bindToggle('t-ba',      v => setLayers(['ba-fill', 'ba-outline'], v));
-    bindToggle('t-county',  v => setLayers(['county-fill', 'county-outline'], v));
-    bindToggle('t-utility', v => setLayers(['utility-fill', 'utility-outline'], v));
-    bindToggle('t-sites-primary', v => setLayers(['sites-primary'], v));
-    bindToggle('t-sites-mixed',   v => setLayers(['sites-mixed'], v));
-    bindToggle('t-sites-minimal', v => setLayers(['sites-minimal'], v));
-    bindToggle('t-heatmap',  v => setLayers(['sites-heatmap'], v));
-    bindToggle('t-hotzones', v => setLayers(
-      ['hot-zone-fill', 'hot-zone-outline', 'hot-zone-marker', 'hot-zone-text'], v));
+  // Bind toggles immediately. `map.on('load')` waits until every PMTiles
+  // source finishes loading (a few seconds), so binding inside it dropped
+  // any clicks made during the initial load — most visibly, the MW heatmap
+  // toggle appeared dead. setLayers safely no-ops while layers don't exist;
+  // we re-sync from checkbox state on style.load to apply pre-load clicks.
+  bindToggle('t-ba',      v => setLayers(['ba-fill', 'ba-outline'], v));
+  bindToggle('t-county',  v => setLayers(['county-fill', 'county-outline'], v));
+  bindToggle('t-utility', v => setLayers(['utility-fill', 'utility-outline'], v));
+  bindToggle('t-sites-primary', v => setLayers(['sites-primary'], v));
+  bindToggle('t-sites-mixed',   v => setLayers(['sites-mixed'], v));
+  bindToggle('t-sites-minimal', v => setLayers(['sites-minimal'], v));
+  bindToggle('t-heatmap',  v => setLayers(['sites-heatmap'], v));
+  bindToggle('t-hotzones', v => setLayers(
+    ['hot-zone-fill', 'hot-zone-outline', 'hot-zone-marker', 'hot-zone-text'], v));
 
+  map.on('style.load', () => {
+    document.querySelectorAll('#layer-panel input[type=checkbox]')
+      .forEach(cb => cb.dispatchEvent(new Event('change')));
+  });
+
+  map.on('load', () => {
     // Populate live focus counts from the geojson.
     fetch('./sites.geojson')
       .then(r => r.json())
