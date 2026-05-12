@@ -55,15 +55,18 @@ def yoy_growth(
     end: pd.Timestamp | str,
     window_days: int = 365,
     min_coverage: float = 0.8,
+    baseline_years: int = 3,
     raw_dir: Path | None = None,
 ) -> pd.DataFrame:
     """For every BA with cached demand, compute mean load over the trailing
-    `window_days` ending at `end` vs the prior matched window, and the
-    percent change.
+    `window_days` ending at `end` vs the mean of the `baseline_years` prior
+    trailing-`window_days` windows (analogous periods at t-1y, t-2y, t-3y),
+    and the percent change.
 
-    Returns DataFrame[ba, trailing_mw, prior_mw, growth_pct, trailing_hours,
-    prior_hours]. BAs without enough data in either window (<min_coverage of
-    expected hours) are excluded.
+    Returns DataFrame[ba, trailing_mw, baseline_mw, growth_pct,
+    trailing_hours, baseline_hours]. BAs lacking sufficient coverage
+    (<min_coverage of expected hours) in the current OR any of the
+    baseline windows are excluded.
     """
     end_ts = pd.Timestamp(end)
     if end_ts.tz is None:
@@ -71,9 +74,15 @@ def yoy_growth(
     else:
         end_ts = end_ts.tz_convert("UTC")
     trailing_start = end_ts - pd.Timedelta(days=window_days)
-    prior_end = trailing_start
-    prior_start = prior_end - pd.Timedelta(days=window_days)
     expected_hours = window_days * 24
+    # Baseline windows: each is `window_days` long, lagged by one extra
+    # `window_days` per year. Year-1 baseline ends where the current window
+    # starts; year-2 ends one window earlier; year-3 ends two earlier.
+    baseline_windows = []
+    for k in range(1, baseline_years + 1):
+        b_end = end_ts - pd.Timedelta(days=window_days * k)
+        b_start = b_end - pd.Timedelta(days=window_days)
+        baseline_windows.append((b_start, b_end))
 
     inventory = list_cached_pulls(raw_dir)
     bas = sorted(inventory[inventory["type"] == "D"]["ba"].unique()) if not inventory.empty else []
@@ -84,22 +93,31 @@ def yoy_growth(
         if df.empty:
             continue
         trailing = df[(df["period"] >= trailing_start) & (df["period"] < end_ts)]
-        prior = df[(df["period"] >= prior_start) & (df["period"] < prior_end)]
-        if (
-            len(trailing) < expected_hours * min_coverage
-            or len(prior) < expected_hours * min_coverage
-        ):
+        if len(trailing) < expected_hours * min_coverage:
+            continue
+        baseline_means: list[float] = []
+        baseline_hours = 0
+        skip = False
+        for b_start, b_end in baseline_windows:
+            seg = df[(df["period"] >= b_start) & (df["period"] < b_end)]
+            if len(seg) < expected_hours * min_coverage:
+                skip = True
+                break
+            baseline_means.append(float(seg["value"].mean()))
+            baseline_hours += len(seg)
+        if skip:
             continue
         t_mean = float(trailing["value"].mean())
-        p_mean = float(prior["value"].mean())
-        if p_mean <= 0:
+        b_mean = sum(baseline_means) / len(baseline_means)
+        if b_mean <= 0:
             continue
         rows.append({
             "ba": ba,
             "trailing_mw": t_mean,
-            "prior_mw": p_mean,
-            "growth_pct": (t_mean / p_mean - 1) * 100,
+            "baseline_mw": b_mean,
+            "growth_pct": (t_mean / b_mean - 1) * 100,
             "trailing_hours": len(trailing),
-            "prior_hours": len(prior),
+            "baseline_hours": baseline_hours,
+            "baseline_years": baseline_years,
         })
     return pd.DataFrame(rows).sort_values("growth_pct", ascending=False).reset_index(drop=True)

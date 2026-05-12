@@ -1,10 +1,11 @@
 """Pull county-level trailing-12-month mean temperature from NOAA's
 Climate at a Glance "all counties" bulk JSON for the current ending
-month AND one year prior, then compute YoY ΔF per county.
+month AND each of the 3 prior years' analogous months, then compute
+Δ°F vs the 3-year baseline mean per county.
 
 This replaces the per-state temperature_yoy layer with a finer
 choropleth. Same NOAA dataset; the bulk endpoint returns all 3107
-counties in a single request, so two HTTP calls cover the world.
+counties in a single request, so four HTTP calls cover the world.
 
 Source:
   https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/
@@ -17,8 +18,11 @@ Each entry carries:
   - mean:     1991-2020 normal
 
 Output: data/cache/temperature_county_yoy.csv with columns
-  fips, name, state, tavg_current, tavg_prior, delta_f, anomaly_current
-where `fips` is the 5-digit US Census county FIPS (state_id<<3 + cty3).
+  fips, name, state, tavg_current, tavg_baseline, delta_f,
+  anomaly_current, current_period, baseline_periods
+where `fips` is the 5-digit US Census county FIPS (state_id<<3 + cty3)
+and `baseline_periods` is a pipe-separated list of the three baseline
+YYYYMM strings.
 """
 
 from __future__ import annotations
@@ -33,6 +37,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 CACHE = REPO_ROOT / "data" / "cache" / "temperature_county_yoy.csv"
 ENDPOINT = ("https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/"
             "county/mapping/110-tavg-{period}-1.json")
+
+BASELINE_YEARS = 3
 
 # NOAA's bulk JSON keys counties by `{STATE_ABBR}-{COUNTY3}` where the
 # state abbreviation is the postal code and COUNTY3 is the last three
@@ -67,15 +73,20 @@ def main() -> None:
     year = today.year if today.month > 1 else today.year - 1
 
     cur_period = f"{year}{month:02d}"
-    prior_period = f"{year - 1}{month:02d}"
+    baseline_periods = [f"{year - k}{month:02d}"
+                        for k in range(BASELINE_YEARS, 0, -1)]
 
     print(f"Fetching NOAA county bulk for {cur_period} ...")
     cur = fetch_bulk(cur_period)
     print(f"  {len(cur)} counties")
-    print(f"Fetching NOAA county bulk for {prior_period} ...")
-    prior = fetch_bulk(prior_period)
-    print(f"  {len(prior)} counties")
+    baselines: list[dict] = []
+    for bp in baseline_periods:
+        print(f"Fetching NOAA county bulk for {bp} ...")
+        d = fetch_bulk(bp)
+        print(f"  {len(d)} counties")
+        baselines.append(d)
 
+    baseline_period_str = "|".join(baseline_periods)
     out_rows = []
     skipped = 0
     for key, cur_entry in cur.items():
@@ -89,33 +100,42 @@ def main() -> None:
             skipped += 1
             continue
         fips = f"{prefix}{cty3.zfill(3)}"
-        prior_entry = prior.get(key)
-        if not prior_entry:
-            skipped += 1
-            continue
         cur_v = cur_entry.get("value")
-        prior_v = prior_entry.get("value")
-        if cur_v is None or prior_v is None:
+        if cur_v is None:
             skipped += 1
             continue
+        # Require a value in every baseline year.
+        baseline_vals = []
+        missing = False
+        for d in baselines:
+            entry = d.get(key)
+            if not entry or entry.get("value") is None:
+                missing = True
+                break
+            baseline_vals.append(entry["value"])
+        if missing:
+            skipped += 1
+            continue
+        baseline_mean = sum(baseline_vals) / len(baseline_vals)
         out_rows.append({
             "fips": fips,
             "name": cur_entry.get("name", ""),
             "state": cur_entry.get("state", ""),
             "tavg_current": cur_v,
-            "tavg_prior": prior_v,
-            "delta_f": round(cur_v - prior_v, 2),
+            "tavg_baseline": round(baseline_mean, 2),
+            "delta_f": round(cur_v - baseline_mean, 2),
             "anomaly_current": cur_entry.get("anomaly"),
             "current_period": cur_period,
-            "prior_period": prior_period,
+            "baseline_periods": baseline_period_str,
         })
 
     out_rows.sort(key=lambda r: r["fips"])
     CACHE.parent.mkdir(parents=True, exist_ok=True)
+    fieldnames = ["fips", "name", "state", "tavg_current", "tavg_baseline",
+                  "delta_f", "anomaly_current", "current_period",
+                  "baseline_periods"]
     with open(CACHE, "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=list(out_rows[0].keys()) if out_rows else
-                           ["fips","name","state","tavg_current","tavg_prior",
-                            "delta_f","anomaly_current","current_period","prior_period"])
+        w = csv.DictWriter(f, fieldnames=fieldnames)
         w.writeheader()
         w.writerows(out_rows)
     print(f"Wrote {len(out_rows)} county rows -> {CACHE}  ({skipped} skipped)")

@@ -1,6 +1,7 @@
 """Pull county-level median closing prices from Redfin's Data Center
-bulk TSV, build a 3-month rolling volume-weighted median for the most
-recent period and the one 12 months prior, then emit YoY % change.
+bulk TSV, build a 3-month rolling volume-weighted mean for the most
+recent period and for each of the 3 analogous 3-month windows from 12,
+24, and 36 months prior, then emit % change vs the 3-year baseline.
 
 Source:
   https://redfin-public-data.s3.us-west-2.amazonaws.com/
@@ -20,17 +21,23 @@ The file is one row per (county, property_type, month). Each row has:
 Single-month medians in low-volume counties (< ~10 sales) are mostly
 sampling noise — a county that closed 3 houses last March and 2 this
 March can swing 50% on a single high-end sale. We collapse the
-single-month series to a trailing 3-month volume-weighted median and
-require each comparison window to have >= MIN_HOMES_3MO closings; the
-rest fall back to no-data.
+single-month series to a trailing 3-month volume-weighted mean and
+require both the current 3mo window AND each baseline 3mo window to
+have >= MIN_HOMES_3MO closings; the rest fall back to no-data. The
+baseline price is the simple mean of the three baseline 3mo means
+(not re-weighted across years, so a single hot year doesn't dominate
+the baseline).
 
 Redfin uses its own region IDs, not FIPS. We resolve back to FIPS by
 matching the LSAD-suffixed name + state_code against the Census county
 GeoJSON we already ship in data/geo/us_counties.geojson.
 
 Output: data/cache/realestate_yoy.csv with columns
-  fips, name, state, price_current, price_prior, growth_pct,
-  period_current, period_prior, homes_sold_current_3mo
+  fips, name, state, price_current, price_baseline, growth_pct,
+  period_current, baseline_periods, homes_sold_current_3mo,
+  homes_sold_baseline_3mo
+where `baseline_periods` is a pipe-separated list of the three
+baseline period_end ISO dates.
 """
 
 from __future__ import annotations
@@ -52,10 +59,12 @@ URL = ("https://redfin-public-data.s3.us-west-2.amazonaws.com/"
        "redfin_market_tracker/county_market_tracker.tsv000.gz")
 
 PROPERTY_TYPE = "All Residential"
-# Minimum trailing-3-month homes sold for both current and prior windows.
-# Below this we treat the county as no-data — the YoY swings are dominated
-# by which exact houses sold, not by price-level changes.
+# Minimum trailing-3-month homes sold for the current window AND each of
+# the 3 baseline windows. Below this we treat the county as no-data —
+# % swings are dominated by which exact houses sold, not by price-level
+# changes.
 MIN_HOMES_3MO = 30
+BASELINE_YEARS = 3
 
 # Map Census LSAD abbreviations (as seen in our committed county GeoJSON)
 # to the spelled-out forms Redfin uses in its REGION column.
@@ -238,60 +247,64 @@ def main() -> None:
         return (weighted, total_homes)
 
     out_rows = []
-    skipped_no_prior = 0
+    skipped_no_baseline = 0
     skipped_thin = 0
     for fips, by_end in per_county.items():
-        if len(by_end) < 2:
-            skipped_no_prior += 1
+        if len(by_end) < 1 + BASELINE_YEARS:
+            skipped_no_baseline += 1
             continue
         anchor = max(by_end.keys())
         cur = rolling_3mo(by_end, anchor)
         if cur is None:
-            skipped_no_prior += 1
+            skipped_no_baseline += 1
             continue
-        # Match a 3-month window centered exactly 12 months earlier.
-        prior_anchor_y = anchor.year - 1
-        prior_anchor = date(prior_anchor_y, anchor.month,
-                            min(anchor.day, 28))
-        prior = rolling_3mo(by_end, prior_anchor)
-        if prior is None:
-            skipped_no_prior += 1
+        # Build baseline 3mo windows at t-12, t-24, t-36 months.
+        baseline_anchors = []
+        for k in range(1, BASELINE_YEARS + 1):
+            a = date(anchor.year - k, anchor.month, min(anchor.day, 28))
+            baseline_anchors.append(a)
+        baseline = [rolling_3mo(by_end, a) for a in baseline_anchors]
+        if any(b is None for b in baseline):
+            skipped_no_baseline += 1
             continue
         cur_price, cur_homes = cur
-        prior_price, prior_homes = prior
-        if cur_homes < MIN_HOMES_3MO or prior_homes < MIN_HOMES_3MO:
+        baseline_prices = [p for p, _ in baseline]
+        baseline_homes = [h for _, h in baseline]
+        if cur_homes < MIN_HOMES_3MO or any(h < MIN_HOMES_3MO for h in baseline_homes):
             skipped_thin += 1
             continue
-        if prior_price <= 0:
+        baseline_price = sum(baseline_prices) / len(baseline_prices)
+        if baseline_price <= 0:
             skipped_thin += 1
             continue
-        growth_pct = (cur_price - prior_price) / prior_price * 100.0
+        growth_pct = (cur_price - baseline_price) / baseline_price * 100.0
         bare, state_code = name_state[fips]
         out_rows.append({
             "fips": fips,
             "name": bare,
             "state": state_code,
             "price_current": int(round(cur_price)),
-            "price_prior": int(round(prior_price)),
+            "price_baseline": int(round(baseline_price)),
             "growth_pct": round(growth_pct, 2),
             "period_current": anchor.isoformat(),
-            "period_prior": prior_anchor.isoformat(),
+            "baseline_periods": "|".join(a.isoformat() for a in baseline_anchors),
             "homes_sold_current_3mo": cur_homes,
+            "homes_sold_baseline_3mo": sum(baseline_homes),
         })
 
     out_rows.sort(key=lambda r: r["fips"])
     CACHE.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = ["fips", "name", "state",
-                  "price_current", "price_prior", "growth_pct",
-                  "period_current", "period_prior",
-                  "homes_sold_current_3mo"]
+                  "price_current", "price_baseline", "growth_pct",
+                  "period_current", "baseline_periods",
+                  "homes_sold_current_3mo", "homes_sold_baseline_3mo"]
     with open(CACHE, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=fieldnames)
         w.writeheader()
         w.writerows(out_rows)
     print(f"Wrote {len(out_rows):,} county rows -> {CACHE}")
-    print(f"  skipped (no prior-year window):   {skipped_no_prior:,}")
-    print(f"  skipped (< {MIN_HOMES_3MO} sales in 3mo window): {skipped_thin:,}")
+    print(f"  skipped (missing baseline window): {skipped_no_baseline:,}")
+    print(f"  skipped (< {MIN_HOMES_3MO} sales in any 3mo window): {skipped_thin:,}")
     if out_rows:
         latest = max(r["period_current"] for r in out_rows)
         print(f"  latest period_end: {latest}")

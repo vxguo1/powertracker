@@ -20,7 +20,7 @@ When you add a refresh job, link it from the **Refresh job** column.
 | 8 | Deportation Data Project via Big Local News | monthly snapshot, FOIA-lagged | monthly (alt source, currently unused) | `python scripts/fetch_ice_hotzones.py` | `app/ice_hotzones.geojson` | n/a (alt source) |
 | 9 | CDC VSRR Provisional Drug Overdose Deaths (`xkb8-kh2a`) — multi-indicator OD uptick | monthly (first few days of month) | monthly | `python scripts/fetch_od_uptick.py` | `app/od_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 | 10 | CDC Mapping Injury, Overdose, and Violence — State (`fpsi-y8tj`, `All_Homicide`) | quarterly-ish refresh, annual + TTM | monthly | `python scripts/fetch_homicide_uptick.py` | `app/homicide_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
-| 11 | NOAA NCEI Climate at a Glance — statewide trailing-12 `tavg` | monthly (T+~10d lag) | monthly | `python scripts/fetch_temperature_yoy.py` | `app/temperature_yoy.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
+| 11 | NOAA NCEI Climate at a Glance — statewide trailing-12 `tavg` (vs 3-yr baseline) | monthly (T+~10d lag) | monthly | `python scripts/fetch_temperature_yoy.py` | `app/temperature_yoy.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 | 12 | NOAA Storm Events Database (outage-driving event counts, state monthly) | monthly | monthly | `python scripts/fetch_outage_uptick.py` | `app/outage_uptick.geojson` | TODO (fold into refresh-cdc.yml) |
 | 13 | Curated data-center site list | as we discover sites | manual | edit `data/sites/data_centers.csv` directly | `data/sites/data_centers.csv` → `app/sites.geojson` | n/a (manual) |
 | 14 | Data-center hot zones (derived) | follows #13 | re-run when #13 changes | `python scripts/build_hot_zones.py` | `app/hot_zones.geojson` | n/a (derived) |
@@ -29,7 +29,7 @@ When you add a refresh job, link it from the **Refresh job** column.
 | 17 | Balancing-authority territory polygons | basically static | as-needed | committed | `data/geo/ba_territories.geojson` | n/a (static) |
 | 18 | Utility territory polygons | annually-ish (HIFLD) | annual | committed; re-download from HIFLD when refreshing | `data/geo/utility_territories.geojson` | n/a (static) |
 | 19 | US cities geocoding reference (`kelvins/US-Cities-Database`) | basically static | as-needed | `curl https://raw.githubusercontent.com/kelvins/US-Cities-Database/main/csv/us_cities.csv` | `data/cache/us_cities.csv` | n/a (static) |
-| 20 | Redfin Data Center — county monthly median sale price (3mo rolling YoY) | monthly | monthly | `python scripts/fetch_realestate_yoy.py` | `data/cache/realestate_yoy.csv` → `app/tiles/realestate.pmtiles` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
+| 20 | Redfin Data Center — county monthly median sale price (3mo rolling vs 3-yr baseline) | monthly | monthly | `python scripts/fetch_realestate_yoy.py` | `data/cache/realestate_yoy.csv` → `app/tiles/realestate.pmtiles` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 
 After any **cached CSV** change (rows 1–7), tiles need rebuilding:
 ```
@@ -50,32 +50,33 @@ need `build_tiles.py`. Just deploy.
 - **Upstream**: EIA Open Data API, demand series by balancing authority.
 - **Module**: [src/powertracker/demand.py](../src/powertracker/demand.py), [src/powertracker/eia.py](../src/powertracker/eia.py)
 - **Auth**: requires `EIA_API_KEY` env var (`.env`).
-- **Cadence**: EIA updates hourly with ~1-day lag. We compute trailing-12-month vs prior-12-month YoY.
-- **Refresh**: weekly is plenty for a YoY metric.
-- **What changes**: rolling 12-month aggregates shift as new days come in.
+- **Cadence**: EIA updates hourly with ~1-day lag. We compute trailing-12-month vs the mean of the 3 prior trailing-12-month windows (anchored at t-12, t-24, t-36 months back).
+- **Refresh**: weekly is plenty for a baselined metric.
+- **What changes**: the trailing-12 and each of the 3 baseline windows shift as new days come in; each BA needs ≥80% hour coverage in all 4 windows or it falls back to no-data.
 
 ### 2. BEA county per-capita GDP
 
 - **Upstream**: Bureau of Economic Analysis CAGDP1/CAGDP2 tables.
 - **Module**: [src/powertracker/gdp.py](../src/powertracker/gdp.py)
 - **Cadence**: BEA releases county-level real GDP annually, typically December covering through year-1.
-- **Refresh**: annual after each release. Currently joins 2023→2024.
-- **Future**: bump the year arguments in `yoy_per_capita_gdp(2024, 2025)` once 2025 lands.
+- **Refresh**: annual after each release. Currently compares 2024 against the mean of 2021, 2022, 2023.
+- **Future**: bump `yoy_per_capita_gdp(2025)` once 2025 lands; the baseline auto-shifts to 2022-2024.
 
 ### 3. EIA Form 861 utility retail rates
 
 - **Upstream**: EIA-861 annual utility filings.
 - **Module**: [src/powertracker/prices.py](../src/powertracker/prices.py)
 - **Cadence**: EIA-861 final release in October each year for the prior year.
-- **Refresh**: annual. Currently joins 2023→2024.
+- **Refresh**: annual. Currently compares 2024 against the mean of 2021, 2022, 2023.
 
 ### 4. Census ACS 5-year median property tax (B25103)
 
 - **Upstream**: `api.census.gov/data/{year}/acs/acs5` (unauthenticated). Variable `B25103_001E`.
 - **Script**: [scripts/fetch_property_tax.py](../scripts/fetch_property_tax.py)
 - **Cadence**: ACS 5-year releases every December, covering the trailing 5 years.
-- **Refresh**: annual (December). Bump the years in the script when ACS 2025 5-year drops.
-- **Caveats**: 5-year windows overlap by 4 years, so "YoY" is really a 1-year window shift. MOE is large in small counties.
+- **Refresh**: annual (December). Bump `CURRENT_YEAR` in the script when ACS 2025 5-year drops.
+- **Algorithm**: compares ACS 2024 against the mean of ACS 2021, 2022, 2023.
+- **Caveats**: 5-year windows overlap by 4 years, so the 3 baseline samples are nearly the same population. The "% vs 3yr baseline" reading is attenuated relative to the other layers and should be treated as suggestive only. MOE is large in small counties.
 
 ### 5. 2024 county-level presidential election results
 
@@ -127,11 +128,11 @@ need `build_tiles.py`. Just deploy.
 - **Refresh**: monthly via [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) (re-runs cheap; data only changes when CDC posts a new TTM).
 - **Caveats**: 5-year baseline is small — stdev estimates are noisy and small-state Z-scores (Wyoming, the Dakotas) move on a handful of incidents. The spec was weekly; CDC publishes annually. Suppressed cells return as `-999` and are dropped.
 
-### 11. NOAA Climate at a Glance — state temperature YoY
+### 11. NOAA Climate at a Glance — state temperature vs 3-yr baseline
 
 - **Upstream**: `www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series/{STATE_ID}/tavg/12/{ENDING_MONTH}/{Y0-Y1}.csv` (unauthenticated, one CSV per state).
 - **Script**: [scripts/fetch_temperature_yoy.py](../scripts/fetch_temperature_yoy.py)
-- **Algorithm**: Δ°F = (latest trailing-12 mean) − (one year prior trailing-12 mean). Also emits % YoY for the tooltip but the Fahrenheit zero is arbitrary so display the Δ°F as the headline.
+- **Algorithm**: Δ°F = (latest trailing-12 mean) − mean(prior 3 trailing-12 means at the same ending-month, t-12 / t-24 / t-36 months back). Also emits % vs baseline for the tooltip but the Fahrenheit zero is arbitrary so display Δ°F as the headline. Fetcher pulls 6 years of monthly anchors so 4 valid endpoints are virtually guaranteed.
 - **Cadence**: NOAA publishes the prior month within ~10 days; we re-pull monthly along with the CDC uptick layers.
 - **Refresh**: monthly via [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml).
 - **Coverage**: NOAA's CONUS divisional series uses state IDs 1-48 (alphabetical) + 50 (Alaska). **Hawaii is not in this series** and renders as no-data.
@@ -169,15 +170,15 @@ need `build_tiles.py`. Just deploy.
 - **Cadence**: basically static. ~30k US cities with lat/lon and county.
 - **Refresh**: as-needed (years).
 
-### 20. Redfin Data Center - county median closing price YoY
+### 20. Redfin Data Center - county median closing price vs 3-yr baseline
 
 - **Upstream**: `https://redfin-public-data.s3.us-west-2.amazonaws.com/redfin_market_tracker/county_market_tracker.tsv000.gz`. Gzipped TSV, ~225 MB. One row per (county, property_type, month) going back to ~2012. We filter to `PROPERTY_TYPE == "All Residential"`.
 - **Script**: [scripts/fetch_realestate_yoy.py](../scripts/fetch_realestate_yoy.py)
-- **Algorithm**: For each county, collapse the monthly `MEDIAN_SALE_PRICE` series to a trailing-3-month volume-weighted mean (weight = `HOMES_SOLD`). YoY = (latest 3mo mean) vs (3mo mean ending exactly 12 months earlier). Counties with < **30 sales** in either window are dropped to no-data — single-month medians in thin markets are dominated by which specific houses sold, not by price-level change.
-- **Cadence**: Redfin refreshes the bulk file approximately weekly, but our YoY signal only moves materially month over month.
+- **Algorithm**: For each county, collapse the monthly `MEDIAN_SALE_PRICE` series to a trailing-3-month volume-weighted mean (weight = `HOMES_SOLD`). The baseline is the simple mean of three such 3-month means anchored at t-12, t-24, and t-36 months back from the latest anchor. % change = (current 3mo mean − baseline) / baseline × 100. Counties with < **30 sales** in the current 3mo window OR in any of the 3 baseline 3mo windows are dropped to no-data — single-month medians in thin markets are dominated by which specific houses sold, not by price-level change.
+- **Cadence**: Redfin refreshes the bulk file approximately weekly, but our baselined signal only moves materially month over month.
 - **Refresh**: monthly via [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml). Fetcher writes the CSV; `scripts/build_tiles.py` rebuilds `app/tiles/realestate.pmtiles`.
 - **FIPS resolution**: Redfin uses its own region IDs and labels counties as `"Foo County, ST"` / `"Foo Parish, LA"` / `"Foo Census Area, AK"`. The fetcher expands the Census GeoJSON LSAD abbreviations (`CA` -> `Census Area`, `Muno` -> `Municipality`, `Cty&Bor` -> `City and Borough`, etc.) and normalizes `&` -> `and` plus diacritics to bridge "King & Queen County" / "King and Queen County" and "Dona Ana" / "Doña Ana".
-- **Caveats**: median sale price (not list price) so it reflects actual closings. The 3-month rolling absorbs most low-volume noise, but a handful of mid-population counties with a luxury-tail can still swing >+/- 30% on a quarter; treat extremes as suggestive, not definitive. **Not seasonally adjusted** — the YoY comparison is window-for-window, which neutralizes seasonality for the headline number but the underlying levels are not. Coverage: ~1,700 counties; the rest fall below the volume floor.
+- **Caveats**: median sale price (not list price) so it reflects actual closings. The 3-month rolling absorbs most low-volume noise, but a handful of mid-population counties with a luxury-tail can still swing >+/- 30% over a 3-year span; treat extremes as suggestive, not definitive. **Not seasonally adjusted** — each baseline window matches the current window's calendar months, which neutralizes seasonality for the headline number but the underlying levels are not. The 3-year baseline tightens around long-run county price level rather than a single year, so the headline % shrinks vs the old 1-year YoY for steadily-rising markets and grows for newly-accelerating ones. Coverage drops modestly vs the 1-year version because a county must clear the 30-sales floor in **four** 3mo windows (current + 3 baseline) instead of two.
 
 ---
 

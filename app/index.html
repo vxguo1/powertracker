@@ -537,7 +537,7 @@
   </div>
 
   <div class="layer-group">
-    <div class="group-label">Year-over-year % change</div>
+    <div class="group-label">% change vs 3-yr baseline</div>
 
     <label class="layer-row">
       <input type="checkbox" id="t-ba" checked>
@@ -550,28 +550,28 @@
       <input type="checkbox" id="t-county">
       <span class="row-swatch" data-style="grad" aria-hidden="true"></span>
       <span class="row-label">County GDP / capita</span>
-      <span class="row-meta">2024</span>
+      <span class="row-meta">vs 3yr</span>
     </label>
 
     <label class="layer-row">
       <input type="checkbox" id="t-utility">
       <span class="row-swatch" data-style="grad" aria-hidden="true"></span>
       <span class="row-label">Utility resi rate</span>
-      <span class="row-meta">2024</span>
+      <span class="row-meta">vs 3yr</span>
     </label>
 
     <label class="layer-row">
       <input type="checkbox" id="t-property-tax">
       <span class="row-swatch" data-style="grad" aria-hidden="true"></span>
       <span class="row-label">Property tax (median)</span>
-      <span class="row-meta">2023-24</span>
+      <span class="row-meta">vs 3yr</span>
     </label>
 
     <label class="layer-row">
       <input type="checkbox" id="t-realestate">
       <span class="row-swatch" data-style="grad" aria-hidden="true"></span>
-      <span class="row-label">Closing price YoY</span>
-      <span class="row-meta">3mo, Redfin</span>
+      <span class="row-label">Closing price</span>
+      <span class="row-meta">3mo vs 3yr</span>
     </label>
 
     <p class="layer-hint">Zoom in to see county and utility boundaries; fills show at any zoom.</p>
@@ -659,7 +659,7 @@
     <label class="layer-row">
       <input type="checkbox" id="t-temperature-county">
       <span class="row-swatch" data-style="temperature-yoy" aria-hidden="true"></span>
-      <span class="row-label">Temperature YoY (county &Delta;&deg;F)</span>
+      <span class="row-label">Temperature vs 3yr (county &Delta;&deg;F)</span>
       <span class="row-meta">monthly</span>
     </label>
 
@@ -693,7 +693,7 @@
     </div>
   </div>
   <div class="legend-section">
-    <h3>YoY % change</h3>
+    <h3>% vs 3-yr baseline</h3>
     <div class="ramp" aria-hidden="true">
       <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
     </div>
@@ -704,7 +704,12 @@
       <span>&lt; -2 %</span>
       <span>&ge; 8 %</span>
     </div>
-    <div class="legend-caption">Baseline 1-3 %. Red &ge; 8 % flags anomalous growth.</div>
+    <div class="legend-caption">
+      Current value vs the mean of the 3 prior analogous periods (annual
+      for GDP / utility rates / property tax; trailing-12-month at t-12,
+      t-24, t-36 for BA demand; trailing-3-month at t-12, t-24, t-36 for
+      Redfin closing prices). Red &ge; 8 % flags anomalous growth.
+    </div>
     <div class="no-data-row">
       <span class="no-data-swatch"></span> no data
     </div>
@@ -782,7 +787,7 @@
   </div>
 
   <div class="legend-section">
-    <h3>Temperature YoY (state, &Delta;&deg;F)</h3>
+    <h3>Temperature vs 3-yr baseline (county, &Delta;&deg;F)</h3>
     <div class="tier-grid">
       <span class="tier-chip" style="background:#0a3b75">·</span><span>extreme cooling (&le; &minus;2&deg;F)</span>
       <span class="tier-chip" style="background:#4a85c4">·</span><span>strong cooling (&minus;2 to &minus;1)</span>
@@ -795,9 +800,10 @@
     <div class="legend-caption">
       Source: NOAA NCEI Climate at a Glance, <b>county-level</b>
       trailing-12-month mean temperature (<code>tavg</code>).
-      &Delta;&deg;F is the change vs one year ago. Each data-center
-      marker reads its containing county's value into the site tooltip.
-      Anomaly figure is vs the 1991-2020 normal.
+      &Delta;&deg;F is the change vs the mean of the 3 prior trailing-12
+      windows (analogous ending-month at t-12, t-24, t-36 months back).
+      Each data-center marker reads its containing county's value into
+      the site tooltip. Anomaly figure is vs the 1991-2020 normal.
     </div>
   </div>
 
@@ -1552,19 +1558,21 @@
       }
       const sign = p.growth_pct >= 0 ? '+' : '';
       return `<b>BA: ${p.ba_code}</b><br>` +
-             `YoY: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
+             `vs 3yr baseline: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
              `trailing 12mo: ${Math.round(+p.trailing_mw).toLocaleString()} MW<br>` +
-             `prior 12mo: ${Math.round(+p.prior_mw).toLocaleString()} MW`;
+             `baseline (mean of 3 prior 12mo): ${Math.round(+p.baseline_mw).toLocaleString()} MW`;
     }
     if (f.layer.id.startsWith('county-')) {
       if (p.bin === -1 || p.growth_pct === null) {
         return `<b>${p.name} (FIPS ${p.fips})</b><br>no GDP data`;
       }
       const sign = p.growth_pct >= 0 ? '+' : '';
+      const baseRange = (p.baseline_start_year && p.baseline_end_year)
+        ? `${p.baseline_start_year}-${p.baseline_end_year}` : '3yr';
       return `<b>${p.geoname || p.name}</b><br>` +
-             `per-capita real GDP YoY: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
-             `2023: $${Math.round(+p.gdp_per_capita_2023).toLocaleString()}<br>` +
-             `2024: $${Math.round(+p.gdp_per_capita_2024).toLocaleString()}<br>` +
+             `per-capita real GDP vs 3yr baseline: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
+             `baseline (mean ${baseRange}): $${Math.round(+p.gdp_per_capita_baseline).toLocaleString()}<br>` +
+             `current: $${Math.round(+p.gdp_per_capita_current).toLocaleString()}<br>` +
              `population: ${Math.round(+p.population).toLocaleString()}`;
     }
     if (f.layer.id.startsWith('od-uptick')) {
@@ -1591,25 +1599,33 @@
         return `<b>${p.name} (FIPS ${p.fips})</b><br>no property-tax data`;
       }
       const sign = p.growth_pct >= 0 ? '+' : '';
+      const baseRange = (p.baseline_start_year && p.baseline_end_year)
+        ? `${p.baseline_start_year}-${p.baseline_end_year}` : '3yr';
       return `<b>${p.geoname || p.name}</b><br>` +
-             `median real-estate tax YoY: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
-             `2023: $${Math.round(+p.tax_2023).toLocaleString()}<br>` +
-             `2024: $${Math.round(+p.tax_2024).toLocaleString()}`;
+             `median real-estate tax vs 3yr baseline: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
+             `baseline (mean ACS ${baseRange}): $${Math.round(+p.tax_baseline).toLocaleString()}<br>` +
+             `current${p.current_year ? ' (ACS ' + p.current_year + ')' : ''}: ` +
+             `$${Math.round(+p.tax_current).toLocaleString()}<br>` +
+             `<span class="tip-meta">ACS 5-yr windows overlap by 4 yrs &mdash; treat magnitude as suggestive.</span>`;
     }
     if (f.layer.id.startsWith('realestate-')) {
       if (p.bin === -1 || p.growth_pct === null || p.growth_pct === undefined) {
         return `<b>${p.name} (FIPS ${p.fips})</b><br>` +
-               `no Redfin data (or &lt; 30 sales / 3 months)`;
+               `no Redfin data (or &lt; 30 sales in any 3mo window)`;
       }
       const sign = p.growth_pct >= 0 ? '+' : '';
       const homes = (p.homes_sold_current_3mo != null)
-        ? `<br>homes sold (3mo): ${Math.round(+p.homes_sold_current_3mo).toLocaleString()}`
+        ? `<br>homes sold (current 3mo): ${Math.round(+p.homes_sold_current_3mo).toLocaleString()}`
+        : '';
+      const baselineHomes = (p.homes_sold_baseline_3mo != null)
+        ? `<br>homes sold (baseline 3 windows): ${Math.round(+p.homes_sold_baseline_3mo).toLocaleString()}`
         : '';
       return `<b>${p.geoname || p.name}${p.state ? ', ' + p.state : ''}</b><br>` +
-             `median closing price YoY: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
+             `median closing price vs 3yr baseline: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
              `latest 3mo: $${Math.round(+p.price_current).toLocaleString()}<br>` +
-             `1 year prior: $${Math.round(+p.price_prior).toLocaleString()}` +
-             homes +
+             `baseline (mean of 3mo windows at t-12, t-24, t-36): ` +
+             `$${Math.round(+p.price_baseline).toLocaleString()}` +
+             homes + baselineHomes +
              (p.period_current ? `<br><span class="tip-meta">as of ${p.period_current}</span>` : '');
     }
     if (f.layer.id.startsWith('election-')) {
@@ -1630,12 +1646,15 @@
       const sign = p.change_pct >= 0 ? '+' : '';
       let body = `<b>${p.utility_name || '?'}</b> (${p.type || '?'}, ${p.state})<br>`;
       if (p.source === 'state') {
-        body += `2023: ${(+p.price_2023).toFixed(2)} c/kWh<br>` +
-                `2024: ${(+p.price_2024).toFixed(2)} c/kWh<br>` +
-                `change: <b>${sign}${(+p.change_pct).toFixed(1)}%</b><br>` +
+        const baseRange = (p.baseline_start_year && p.baseline_end_year)
+          ? `${p.baseline_start_year}-${p.baseline_end_year}` : '3yr';
+        body += `baseline (mean ${baseRange}): ${(+p.price_baseline).toFixed(2)} c/kWh<br>` +
+                `current: ${(+p.price_current).toFixed(2)} c/kWh<br>` +
+                `change vs 3yr baseline: <b>${sign}${(+p.change_pct).toFixed(1)}%</b><br>` +
                 `customers: ${Math.round(+p.customers).toLocaleString()}`;
       } else {
-        body += `national sales-weighted change: <b>${sign}${(+p.change_pct).toFixed(1)}%</b><br>(no state row)`;
+        body += `national sales-weighted change vs 3yr baseline: ` +
+                `<b>${sign}${(+p.change_pct).toFixed(1)}%</b><br>(no state row)`;
       }
       return body;
     }
@@ -1678,8 +1697,9 @@
       const anom = (p.anomaly_current != null)
         ? `<br>vs 1991-2020 normal: <b>${(+p.anomaly_current) >= 0 ? '+' : ''}${(+p.anomaly_current).toFixed(2)} °F</b>` : '';
       return `<b>${p.name}, ${p.state}</b> &middot; ${p.band || ''} ${arrow}<br>` +
-             `<b>${sign}${d.toFixed(2)} °F YoY</b><br>` +
-             `trailing-12 mean: ${(+p.tavg_current).toFixed(1)} °F (prior ${(+p.tavg_prior).toFixed(1)})` +
+             `<b>${sign}${d.toFixed(2)} °F vs 3yr baseline</b><br>` +
+             `trailing-12 mean: ${(+p.tavg_current).toFixed(1)} °F ` +
+             `(3yr baseline ${(+p.tavg_baseline).toFixed(1)})` +
              anom;
     }
     if (f.layer.id.startsWith('temperature-yoy')) {
@@ -1690,10 +1710,13 @@
       const period = p.latest_period
         ? `${(p.latest_period / 100) | 0}-${String(p.latest_period % 100).padStart(2,'0')}`
         : 'TTM';
+      const baseYears = Array.isArray(p.baseline_years) && p.baseline_years.length
+        ? `${p.baseline_years[0]}-${p.baseline_years[p.baseline_years.length-1]}` : '3yr';
       return `<b>${p.name}</b> &middot; ${p.level} ${arrow}<br>` +
-             `<b>${sign}${d.toFixed(2)} °F YoY</b> (${sign}${(+p.pct_yoy).toFixed(2)}%)<br>` +
+             `<b>${sign}${d.toFixed(2)} °F vs 3yr baseline</b> ` +
+             `(${sign}${(+p.pct_yoy).toFixed(2)}%)<br>` +
              `current trailing-12 mean: ${(+p.current_tavg).toFixed(1)} °F (ending ${period})<br>` +
-             `prior trailing-12 mean: ${(+p.prior_tavg).toFixed(1)} °F`;
+             `baseline (mean ${baseYears}): ${(+p.baseline_tavg).toFixed(1)} °F`;
     }
     if (f.layer.id.startsWith('homicide-uptick')) {
       if (p.z == null) return `<b>${p.name}</b><br>no homicide data`;
@@ -1735,7 +1758,7 @@
         const anom = (p.temp_anomaly_f != null)
           ? ` (anomaly ${(+p.temp_anomaly_f) >= 0 ? '+' : ''}${(+p.temp_anomaly_f).toFixed(1)})` : '';
         const cn = p.county_name ? ` &middot; ${p.county_name}` : '';
-        temp = `<br>YoY temp${cn}: <b>${sign}${d.toFixed(2)} °F</b> ${arrow}${anom}`;
+        temp = `<br>temp vs 3yr baseline${cn}: <b>${sign}${d.toFixed(2)} °F</b> ${arrow}${anom}`;
       }
       return `<b>${p.name}</b><br>` +
              `${p.operator}<br>${p.city}, ${p.state}<br>` +
