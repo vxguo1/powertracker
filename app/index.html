@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>powertracker - AI data centers + grid</title>
+  <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet">
+  <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/pmtiles@3/dist/pmtiles.js"></script>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; font-family: system-ui, -apple-system, sans-serif; }
+    #map { position: absolute; top: 0; bottom: 0; left: 0; right: 0; }
+
+    .panel {
+      position: absolute; z-index: 1; background: rgba(255,255,255,0.96);
+      border: 1px solid #ccc; border-radius: 8px; padding: 10px 14px;
+      font-size: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    #title-panel { top: 12px; left: 12px; max-width: 320px; }
+    #layer-panel { top: 12px; right: 12px; min-width: 220px; }
+    #legend-panel { bottom: 12px; left: 12px; max-width: 240px; max-height: 78vh; overflow-y: auto; }
+    #tooltip {
+      pointer-events: none; max-width: 320px;
+      transition: opacity 0.15s; opacity: 0;
+    }
+
+    h1 { font-size: 14px; margin: 0 0 4px 0; }
+    .sub { color: #666; font-size: 11px; line-height: 1.4; }
+    .layer-toggle { display: flex; align-items: center; margin: 4px 0; cursor: pointer; }
+    .layer-toggle input { margin-right: 8px; }
+    .layer-toggle .swatch { display: inline-block; width: 12px; height: 12px; margin-right: 6px; border: 1px solid #999; }
+    .legend-section { margin-top: 10px; }
+    .legend-section h2 { font-size: 12px; margin: 0 0 4px 0; font-weight: 600; }
+    .legend-row { display: flex; align-items: center; margin: 2px 0; font-size: 11px; }
+    .legend-swatch { display: inline-block; width: 14px; height: 10px; margin-right: 6px; border: 1px solid #999; }
+    .legend-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; }
+    .zoom-hint { color: #888; font-size: 11px; margin-top: 4px; }
+    a { color: #d7263d; }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div id="title-panel" class="panel">
+  <h1>powertracker</h1>
+  <div class="sub">
+    US AI / hyperscaler data centers vs. balancing-authority demand,
+    utility residential rates, and county per-capita GDP. All choropleths
+    are year-over-year % change. Zoom in for finer geography.
+  </div>
+</div>
+
+<div id="layer-panel" class="panel">
+  <label class="layer-toggle">
+    <input type="checkbox" id="t-ba" checked>
+    BA demand YoY (trailing 12mo)
+  </label>
+  <label class="layer-toggle">
+    <input type="checkbox" id="t-county">
+    County real GDP per capita YoY
+  </label>
+  <label class="layer-toggle">
+    <input type="checkbox" id="t-utility">
+    Utility residential rate YoY (2023->2024)
+  </label>
+  <label class="layer-toggle">
+    <input type="checkbox" id="t-sites" checked>
+    Data centers
+  </label>
+  <div class="zoom-hint">BAs visible at low zoom, counties & utilities reveal at z>=5.</div>
+</div>
+
+<div id="legend-panel" class="panel">
+  <div class="legend-section">
+    <h2>YoY % change (all choropleths)</h2>
+    <div class="legend-row"><span class="legend-swatch" style="background:#5b8db8"></span>&lt; -2%</div>
+    <div class="legend-row"><span class="legend-swatch" style="background:#a8c5dd"></span>-2 to 0%</div>
+    <div class="legend-row"><span class="legend-swatch" style="background:#eeeeee"></span>0 to 1%</div>
+    <div class="legend-row"><span class="legend-swatch" style="background:#fff5b8"></span>1 to 3% (baseline)</div>
+    <div class="legend-row"><span class="legend-swatch" style="background:#fbb04e"></span>3 to 5%</div>
+    <div class="legend-row"><span class="legend-swatch" style="background:#f4733c"></span>5 to 8%</div>
+    <div class="legend-row"><span class="legend-swatch" style="background:#d7263d"></span>&gt;= 8% (anomalous)</div>
+    <div class="legend-row"><span class="legend-swatch" style="background:#dddddd"></span>no data</div>
+  </div>
+  <div class="legend-section">
+    <h2>Data center AI focus</h2>
+    <div class="legend-row"><span class="legend-dot" style="background:#d7263d"></span>primary (AI-built)</div>
+    <div class="legend-row"><span class="legend-dot" style="background:#2e86ab"></span>mixed (hyperscaler)</div>
+    <div class="legend-row"><span class="legend-dot" style="background:#9e9e9e"></span>minimal</div>
+    <div class="zoom-hint">Marker area proportional to announced MW. Opacity: operational &gt; construction &gt; announced.</div>
+  </div>
+</div>
+
+<div id="tooltip" class="panel"></div>
+
+<script>
+  // ---- PMTiles protocol ----
+  const protocol = new pmtiles.Protocol();
+  maplibregl.addProtocol('pmtiles', protocol.tile);
+
+  // Shared color match expression: bin -> color (matches GROWTH_BINS in Python).
+  const BIN_COLOR = [
+    'match', ['get', 'bin'],
+    0, '#5b8db8',
+    1, '#a8c5dd',
+    2, '#eeeeee',
+    3, '#fff5b8',
+    4, '#fbb04e',
+    5, '#f4733c',
+    6, '#d7263d',
+    '#dddddd'
+  ];
+  const NO_DATA_OPACITY = ['case', ['==', ['get', 'bin'], -1], 0.18, 0.6];
+
+  // AI focus marker color and base radius (sqrt scaled by announced_mw).
+  const FOCUS_COLOR = [
+    'match', ['get', 'ai_focus'],
+    'primary', '#d7263d',
+    'mixed', '#2e86ab',
+    'minimal', '#9e9e9e',
+    '#9e9e9e'
+  ];
+  const MARKER_RADIUS = [
+    'case',
+    ['has', 'announced_mw'],
+    ['max', 4, ['min', 26, ['*', 0.6, ['sqrt', ['coalesce', ['get', 'announced_mw'], 0]]]]],
+    5
+  ];
+  const MARKER_OPACITY = [
+    'match', ['get', 'status'],
+    'operational', 0.85,
+    'under_construction', 0.65,
+    'announced', 0.45,
+    'planned', 0.35,
+    0.7
+  ];
+
+  // ---- Map ----
+  const map = new maplibregl.Map({
+    container: 'map',
+    style: {
+      version: 8,
+      glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
+      sources: {
+        'base': {
+          type: 'raster',
+          tiles: ['https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'],
+          tileSize: 256,
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
+            '&copy; <a href="https://carto.com/attributions">CARTO</a>'
+        },
+        'ba': { type: 'vector', url: 'pmtiles://./tiles/ba.pmtiles' },
+        'county': { type: 'vector', url: 'pmtiles://./tiles/county.pmtiles' },
+        'utility': { type: 'vector', url: 'pmtiles://./tiles/utility.pmtiles' },
+        'sites': { type: 'geojson', data: './sites.geojson' }
+      },
+      layers: [
+        { id: 'basemap', type: 'raster', source: 'base' },
+
+        // BAs (visible at all zooms, faded above z=7 so smaller layers can take focus)
+        {
+          id: 'ba-fill', type: 'fill', source: 'ba', 'source-layer': 'ba',
+          paint: {
+            'fill-color': BIN_COLOR,
+            'fill-opacity': [
+              'interpolate', ['linear'], ['zoom'],
+              3, NO_DATA_OPACITY,
+              6, NO_DATA_OPACITY,
+              7, ['case', ['==', ['get', 'bin'], -1], 0.08, 0.30],
+              10, ['case', ['==', ['get', 'bin'], -1], 0.05, 0.15]
+            ]
+          }
+        },
+        {
+          id: 'ba-outline', type: 'line', source: 'ba', 'source-layer': 'ba',
+          paint: { 'line-color': '#666', 'line-width': 0.6 }
+        },
+
+        // Counties (reveal at z>=5)
+        {
+          id: 'county-fill', type: 'fill', source: 'county', 'source-layer': 'county',
+          minzoom: 5,
+          paint: {
+            'fill-color': BIN_COLOR,
+            'fill-opacity': [
+              'interpolate', ['linear'], ['zoom'],
+              4.5, 0,
+              6, 0.55,
+              10, 0.55
+            ]
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'county-outline', type: 'line', source: 'county', 'source-layer': 'county',
+          minzoom: 5,
+          paint: { 'line-color': '#888', 'line-width': 0.3 },
+          layout: { visibility: 'none' }
+        },
+
+        // Utility territories (reveal at z>=5)
+        {
+          id: 'utility-fill', type: 'fill', source: 'utility', 'source-layer': 'utility',
+          minzoom: 5,
+          paint: {
+            'fill-color': BIN_COLOR,
+            'fill-opacity': [
+              'interpolate', ['linear'], ['zoom'],
+              4.5, 0,
+              6, 0.55,
+              10, 0.55
+            ]
+          },
+          layout: { visibility: 'none' }
+        },
+        {
+          id: 'utility-outline', type: 'line', source: 'utility', 'source-layer': 'utility',
+          minzoom: 5,
+          paint: { 'line-color': '#666', 'line-width': 0.3 },
+          layout: { visibility: 'none' }
+        },
+
+        // Sites (always visible)
+        {
+          id: 'sites', type: 'circle', source: 'sites',
+          paint: {
+            'circle-radius': MARKER_RADIUS,
+            'circle-color': FOCUS_COLOR,
+            'circle-stroke-color': FOCUS_COLOR,
+            'circle-stroke-width': 1.2,
+            'circle-opacity': MARKER_OPACITY,
+            'circle-stroke-opacity': 0.9
+          }
+        }
+      ]
+    },
+    center: [-97, 39.5],
+    zoom: 4,
+    minZoom: 3,
+    maxZoom: 14
+  });
+
+  map.addControl(new maplibregl.NavigationControl(), 'top-left');
+  map.addControl(new maplibregl.ScaleControl(), 'bottom-right');
+
+  // ---- Layer toggles ----
+  function setLayerGroup(prefix, visible) {
+    ['fill', 'outline'].forEach(suffix => {
+      const id = prefix + '-' + suffix;
+      if (map.getLayer(id)) {
+        map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none');
+      }
+    });
+  }
+  function bindToggle(id, fn) {
+    document.getElementById(id).addEventListener('change', e => fn(e.target.checked));
+  }
+  map.on('load', () => {
+    bindToggle('t-ba', v => setLayerGroup('ba', v));
+    bindToggle('t-county', v => setLayerGroup('county', v));
+    bindToggle('t-utility', v => setLayerGroup('utility', v));
+    bindToggle('t-sites', v => {
+      if (map.getLayer('sites')) {
+        map.setLayoutProperty('sites', 'visibility', v ? 'visible' : 'none');
+      }
+    });
+  });
+
+  // ---- Tooltip ----
+  const tooltip = document.getElementById('tooltip');
+
+  function tipForFeature(f) {
+    const p = f.properties;
+    if (f.layer.id.startsWith('ba-')) {
+      if (p.bin === -1 || p.growth_pct === null || p.growth_pct === undefined) {
+        return `<b>${p.ba_code}</b><br>no demand data`;
+      }
+      const sign = p.growth_pct >= 0 ? '+' : '';
+      return `<b>BA: ${p.ba_code}</b><br>` +
+             `YoY: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
+             `trailing 12mo: ${Math.round(+p.trailing_mw).toLocaleString()} MW<br>` +
+             `prior 12mo: ${Math.round(+p.prior_mw).toLocaleString()} MW`;
+    }
+    if (f.layer.id.startsWith('county-')) {
+      if (p.bin === -1 || p.growth_pct === null) {
+        return `<b>${p.name} (FIPS ${p.fips})</b><br>no GDP data`;
+      }
+      const sign = p.growth_pct >= 0 ? '+' : '';
+      return `<b>${p.geoname || p.name}</b><br>` +
+             `per-capita real GDP YoY: <b>${sign}${(+p.growth_pct).toFixed(2)}%</b><br>` +
+             `2023: $${Math.round(+p.gdp_per_capita_2023).toLocaleString()}<br>` +
+             `2024: $${Math.round(+p.gdp_per_capita_2024).toLocaleString()}<br>` +
+             `population: ${Math.round(+p.population).toLocaleString()}`;
+    }
+    if (f.layer.id.startsWith('utility-')) {
+      const sign = p.change_pct >= 0 ? '+' : '';
+      let body = `<b>${p.utility_name || '?'}</b> (${p.type || '?'}, ${p.state})<br>`;
+      if (p.source === 'state') {
+        body += `2023: ${(+p.price_2023).toFixed(2)} c/kWh<br>` +
+                `2024: ${(+p.price_2024).toFixed(2)} c/kWh<br>` +
+                `change: <b>${sign}${(+p.change_pct).toFixed(1)}%</b><br>` +
+                `customers: ${Math.round(+p.customers).toLocaleString()}`;
+      } else {
+        body += `national sales-weighted change: <b>${sign}${(+p.change_pct).toFixed(1)}%</b><br>(no state row)`;
+      }
+      return body;
+    }
+    if (f.layer.id === 'sites') {
+      const mw = p.announced_mw != null ? `${Math.round(p.announced_mw).toLocaleString()} MW` : 'n/a';
+      const yr = p.online_year != null ? p.online_year : '?';
+      const src = p.source ? `<br><a href="${p.source}" target="_blank">source</a>` : '';
+      return `<b>${p.name}</b><br>` +
+             `${p.operator}<br>${p.city}, ${p.state}<br>` +
+             `BA: ${p.ba_code} (${p.utility})<br>` +
+             `${mw} - ${p.status} (${yr})<br>` +
+             `AI focus: <b>${p.ai_focus}</b>` + src;
+    }
+    return '';
+  }
+
+  function moveTooltip(e) {
+    const features = map.queryRenderedFeatures(e.point, {
+      layers: ['sites', 'ba-fill', 'county-fill', 'utility-fill']
+    });
+    if (!features.length) {
+      tooltip.style.opacity = 0;
+      return;
+    }
+    // Priority: sites > county > utility > BA.
+    const priority = { 'sites': 0, 'county-fill': 1, 'utility-fill': 2, 'ba-fill': 3 };
+    features.sort((a, b) => (priority[a.layer.id] ?? 9) - (priority[b.layer.id] ?? 9));
+    tooltip.innerHTML = tipForFeature(features[0]);
+    tooltip.style.left = (e.point.x + 12) + 'px';
+    tooltip.style.top = (e.point.y + 12) + 'px';
+    tooltip.style.opacity = 1;
+  }
+  map.on('mousemove', moveTooltip);
+  map.on('mouseout', () => { tooltip.style.opacity = 0; });
+
+  map.on('click', 'sites', e => {
+    if (!e.features.length) return;
+    const f = e.features[0];
+    new maplibregl.Popup({ closeButton: true, maxWidth: '340px' })
+      .setLngLat(f.geometry.coordinates)
+      .setHTML(tipForFeature(f))
+      .addTo(map);
+  });
+</script>
+</body>
+</html>

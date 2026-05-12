@@ -40,11 +40,11 @@ def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     for ba in bas:
-        print(f"[{ba}] fetching {args.type} {start} → {end}...", flush=True)
+        print(f"[{ba}] fetching {args.type} {start} -> {end}...", flush=True)
         df = fetch_demand(ba, start, end, types=(args.type,))
         out = OUT_DIR / f"{ba}_{args.type}_{args.start}_{args.end}.csv"
         df.to_csv(out, index=False)
-        print(f"[{ba}] {len(df)} rows → {out}", flush=True)
+        print(f"[{ba}] {len(df)} rows -> {out}", flush=True)
 
 
 if __name__ == "__main__":

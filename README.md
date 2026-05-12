@@ -39,6 +39,62 @@ Get an [EIA API key](https://www.eia.gov/opendata/register.php) (free, instant) 
 EIA_API_KEY=your_key_here
 ```
 
+## Run the map
+
+Three options, smallest to largest:
+
+**1. Static HTML (one file, no server):**
+```powershell
+python scripts\build_map.py --cache
+# writes data\maps\data_centers.html; open it directly
+```
+
+**2. MapLibre + PMTiles app (zoom-aware vector tiles, what gets deployed):**
+```powershell
+# regenerate tiles after data refresh (needs Docker)
+python scripts\build_tiles.py
+# serve locally
+cd app && python -m http.server 8000
+# open http://localhost:8000
+```
+
+**3. Streamlit app (interactive filters + leaderboards):**
+```powershell
+streamlit run app.py
+# open http://localhost:8501
+```
+
+## Deploy
+
+The MapLibre app under `app/` is fully static (HTML + PMTiles + GeoJSON).
+
+**Cloudflare Pages (recommended)**
+1. Push the repo to GitHub.
+2. https://dash.cloudflare.com -> Pages -> "Connect to Git" -> pick this repo.
+3. Set **build output directory** to `app`. Leave the build command blank.
+4. Deploy. You get a `*.pages.dev` URL on Cloudflare's CDN.
+
+**GitHub Pages**
+1. Rename `app/` to `docs/` (or set up a GitHub Actions workflow that
+   publishes `app/` to the `gh-pages` branch).
+2. Repo Settings -> Pages -> source = `main`, folder = `/docs`.
+3. URL is `<user>.github.io/<repo>/`.
+
+**Streamlit Cloud** (for the Streamlit variant)
+1. Push to GitHub.
+2. https://share.streamlit.io -> point at the repo with `app.py` as entrypoint.
+3. Reads pre-computed `data/cache/*.csv` + `data/geo/*.geojson`. No API key needed.
+
+To refresh data after a new EIA release:
+
+```powershell
+# (Re-)fetch raw data — needs EIA_API_KEY in .env
+python scripts\fetch_demand.py --from-sites --start 2023-01-01 --end <today>
+# EIA-861 + BEA zips download themselves on first call to prices.py / gdp.py
+python scripts\build_aggregates.py
+# Commit the updated data\cache\*.csv and push.
+```
+
 ## Status
 
 Early scaffolding.

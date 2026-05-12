@@ -3,3 +3,7 @@ requests
 duckdb
 jupyter
 python-dotenv
+folium
+openpyxl
+streamlit
+streamlit-folium
