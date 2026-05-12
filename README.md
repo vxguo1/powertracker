@@ -30,6 +30,7 @@ The smallest geography with public real-time load data is the **Balancing Author
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
+pip install -e .
 ```
 
 Get an [EIA API key](https://www.eia.gov/opendata/register.php) (free, instant) and put it in `.env`:

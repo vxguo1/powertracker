@@ -1,0 +1,21 @@
+name,operator,city,state,lat,lon,ba_code,utility,announced_mw,status,online_year,ai_focus,notes,source
+Colossus,xAI,Memphis,TN,35.06,-90.04,TVA,MLGW,,operational,2024,primary,Phase 1 ~100k H100s; expanding to 200k+,https://x.ai/colossus
+Stargate Abilene,OpenAI/Microsoft/Oracle/Crusoe,Abilene,TX,32.45,-99.74,ERCO,AEP Texas,1200,under_construction,2026,primary,Phase 1 of Stargate joint venture,https://openai.com/index/announcing-the-stargate-project/
+Hyperion,Meta,Rayville,LA,32.48,-91.76,MISO,Entergy Louisiana,2000,under_construction,2027,primary,2 GW Meta AI campus,https://about.fb.com/news/2024/12/our-next-generation-meta-data-center/
+Quincy Campus,Microsoft,Quincy,WA,47.23,-119.85,GCPD,Grant County PUD,,operational,2007,mixed,Hyperscaler campus with multiple expansions,https://datacenters.microsoft.com/
+Council Bluffs,Google,Council Bluffs,IA,41.20,-95.85,MISO,MidAmerican Energy,,operational,2009,mixed,Google's largest US campus,https://www.google.com/about/datacenters/locations/council-bluffs/
+Susquehanna Campus,AWS,Salem Township,PA,41.09,-76.14,PJM,PPL,960,under_construction,2026,mixed,Behind-the-meter colocation with Susquehanna nuclear,https://www.talenenergy.com/
+Mount Pleasant,Microsoft,Mount Pleasant,WI,42.72,-87.86,MISO,We Energies,,under_construction,2026,primary,Multi-billion campus with OpenAI workloads,https://blogs.microsoft.com/blog/2024/05/08/
+Eagle Mountain,Meta,Eagle Mountain,UT,40.32,-111.94,PACE,Rocky Mountain Power,,operational,2018,mixed,,https://datacenters.atmeta.com/
+Maiden,Apple,Maiden,NC,35.56,-81.20,DUK,Duke Energy Carolinas,,operational,2011,mixed,iCloud primary,https://www.apple.com/environment/
+Lenoir,Google,Lenoir,NC,35.91,-81.54,DUK,Duke Energy Carolinas,,operational,2008,mixed,,https://www.google.com/about/datacenters/locations/lenoir/
+Prineville (Meta),Meta,Prineville,OR,44.30,-120.83,PACW,Pacific Power,,operational,2011,mixed,Multi-building campus,https://datacenters.atmeta.com/
+Prineville (Apple),Apple,Prineville,OR,44.31,-120.85,PACW,Pacific Power,,operational,2014,mixed,,https://www.apple.com/environment/
+The Dalles,Google,The Dalles,OR,45.62,-121.21,BPAT,Northern Wasco PUD,,operational,2006,mixed,BPA wholesale to NWPUD,https://www.google.com/about/datacenters/locations/the-dalles/
+Sarpy County,Meta,Papillion,NE,41.16,-96.04,SWPP,OPPD,,operational,2017,mixed,,https://datacenters.atmeta.com/
+San Antonio,Microsoft,San Antonio,TX,29.42,-98.49,ERCO,CPS Energy,,operational,2008,mixed,,https://datacenters.microsoft.com/
+Mesa,Meta,Mesa,AZ,33.42,-111.83,SRP,Salt River Project,,operational,2020,mixed,,https://datacenters.atmeta.com/
+Plano,CoreWeave,Plano,TX,33.02,-96.70,ERCO,Oncor,,operational,2024,primary,GPU-as-a-service provider,https://coreweave.com/
+Loudoun County,AWS,Ashburn,VA,39.04,-77.49,PJM,Dominion Energy Virginia,,operational,2006,mixed,Core of US-EAST-1; Data Center Alley,https://aws.amazon.com/about-aws/global-infrastructure/
+Henrico,Meta,Sandston,VA,37.51,-77.31,PJM,Dominion Energy Virginia,,operational,2019,mixed,,https://datacenters.atmeta.com/
+West Des Moines,Microsoft,West Des Moines,IA,41.58,-93.78,MISO,MidAmerican Energy,,operational,2014,mixed,Hosts large OpenAI training clusters,https://datacenters.microsoft.com/
