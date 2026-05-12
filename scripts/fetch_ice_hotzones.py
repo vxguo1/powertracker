@@ -53,15 +53,14 @@ STATE_NAME_BY_POSTAL = {
     "wv":"WEST VIRGINIA","wi":"WISCONSIN","wy":"WYOMING","dc":"DISTRICT OF COLUMBIA",
 }
 
-# Match the data-center hot-zone tier breakpoints in structure, but scale
-# for arrest-count magnitudes (a county with 200+ at-large arrests in 30
-# days is comparable to a Tier-S data-center cluster).
+# Numeric tier labels (1-5) so the markers don't visually collide with
+# the data-center hot-zone tiers (S/A/B/C/D) that share the same shape.
 TIERS = [
-    ("S", 200, "#7a0019"),
-    ("A",  75, "#d7263d"),
-    ("B",  30, "#f46036"),
-    ("C",  10, "#f5a623"),
-    ("D",   1, "#9e9e9e"),
+    ("1", 200, "#7a0019"),
+    ("2",  75, "#d7263d"),
+    ("3",  30, "#f46036"),
+    ("4",  10, "#f5a623"),
+    ("5",   1, "#9e9e9e"),
 ]
 
 

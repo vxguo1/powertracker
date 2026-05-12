@@ -285,12 +285,14 @@ def main() -> None:
           f"{len(grouped)} city buckets; {unmatched} unmatched.")
 
     # Reddit volumes are far smaller than FOIA, so use friendlier tiers.
+    # Numeric labels (not S/A/B/C/D) so they don't visually collide with
+    # the data-center hot-zone tiers that share the same marker style.
     tiers = [
-        ("S", 10, "#7a0019"),
-        ("A",  5, "#d7263d"),
-        ("B",  3, "#f46036"),
-        ("C",  2, "#f5a623"),
-        ("D",  1, "#9e9e9e"),
+        ("1", 10, "#7a0019"),
+        ("2",  5, "#d7263d"),
+        ("3",  3, "#f46036"),
+        ("4",  2, "#f5a623"),
+        ("5",  1, "#9e9e9e"),
     ]
 
     features = []

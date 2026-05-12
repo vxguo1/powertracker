@@ -591,13 +591,13 @@
   </div>
 
   <div class="legend-section">
-    <h3>ICE raid reports tier (30-day Reddit mentions)</h3>
+    <h3>ICE raid reports level (30-day Reddit mentions)</h3>
     <div class="tier-grid">
-      <span class="tier-chip" style="background:#7a0019">S</span><span>&ge; 10</span>
-      <span class="tier-chip" style="background:#d7263d">A</span><span>&ge; 5</span>
-      <span class="tier-chip" style="background:#f46036">B</span><span>&ge; 3</span>
-      <span class="tier-chip" style="background:#f5a623">C</span><span>2</span>
-      <span class="tier-chip" style="background:#9e9e9e">D</span><span>1</span>
+      <span class="tier-chip" style="background:#7a0019">1</span><span>&ge; 10</span>
+      <span class="tier-chip" style="background:#d7263d">2</span><span>&ge; 5</span>
+      <span class="tier-chip" style="background:#f46036">3</span><span>&ge; 3</span>
+      <span class="tier-chip" style="background:#f5a623">4</span><span>2</span>
+      <span class="tier-chip" style="background:#9e9e9e">5</span><span>1</span>
     </div>
     <div class="legend-caption">
       Source: crowd-sourced from Reddit search (past 30 days) across
@@ -1053,7 +1053,7 @@
           `&middot; <a href="${e.permalink}" target="_blank" rel="noopener">r/${e.subreddit}: ${e.title}</a>`
         ).join('<br>');
       }
-      return `<b>${p.county}, ${p.state}</b> &middot; Tier ${p.tier}<br>` +
+      return `<b>${p.county}, ${p.state}</b> &middot; ICE level ${p.tier}<br>` +
              `${n.toLocaleString()} Reddit mention${n==1?'':'s'} (past 30 days)` +
              examples;
     }
