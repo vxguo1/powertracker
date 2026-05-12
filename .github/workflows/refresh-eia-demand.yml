@@ -1,0 +1,67 @@
+name: refresh-eia-demand
+
+# Weekly refresh of the EIA balancing-authority hourly demand series.
+# Pulls the last 24 months of hourly data for every BA referenced in
+# data/sites/data_centers.csv, recomputes the trailing-12-vs-prior-12
+# YoY aggregate, rebuilds ba.pmtiles, and redeploys.
+
+on:
+  schedule:
+    # 07:00 UTC every Monday — EIA hourly data lags ~1 day, so by
+    # Monday morning we have the full prior week.
+    - cron: "0 7 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-eia-demand
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python deps
+        run: pip install pandas requests python-dotenv folium openpyxl
+      - name: Fetch last 24 months of hourly demand
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+        run: |
+          END=$(date -u +%Y-%m-%d)
+          START=$(date -u -d '24 months ago' +%Y-%m-%d)
+          echo "Fetching $START → $END"
+          python scripts/fetch_demand.py --from-sites --start "$START" --end "$END"
+      - name: Recompute YoY aggregate
+        run: python scripts/build_aggregates.py
+      - name: Rebuild ba.pmtiles
+        # build_tiles.py invokes tippecanoe + go-pmtiles via Docker; the
+        # ubuntu-latest runner has Docker pre-installed and pulls the
+        # public images on first use.
+        run: python scripts/build_tiles.py
+      - name: Commit refreshed artifacts if changed
+        run: |
+          git config user.email "ci-bot@users.noreply.github.com"
+          git config user.name "powertracker-ci"
+          git add data/cache/ba_demand_yoy.csv app/tiles/ba.pmtiles
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "refresh: EIA demand ($(date -u +%Y-%m-%d))"
+            git push
+          fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Deploy worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy
