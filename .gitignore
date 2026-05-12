@@ -2,10 +2,15 @@
 .env
 .env.local
 
-# Data (raw pulls — re-fetchable from EIA, don't bloat the repo)
+# Data (raw pulls + rendered artifacts — regenerable from the scripts)
 data/raw/
+data/maps/
 *.duckdb
 *.duckdb.wal
+
+# Claude (runtime state and per-user settings)
+.claude/worktrees/
+.claude/settings.local.json
 
 # Python
 __pycache__/

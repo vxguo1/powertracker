@@ -3,3 +3,4 @@ requests
 duckdb
 jupyter
 python-dotenv
+folium
