@@ -600,8 +600,10 @@
       <span class="tier-chip" style="background:#9e9e9e">5</span><span>1</span>
     </div>
     <div class="legend-caption">
-      Source: crowd-sourced from Reddit search (past 30 days) across
+      Source: crowd-sourced from Reddit search across
       <code>"ICE raid"</code>, <code>"ICE arrest"</code>, etc.
+      Rolling 30-day window:
+      <b><span id="ice-window-label">past 30 days</span></b>.
       Posts geocoded by subreddit or "City, ST" in title.
       Noisy, biased toward active local subs; not an enforcement record.
     </div>
@@ -941,6 +943,20 @@
       .forEach(cb => cb.dispatchEvent(new Event('change')));
   });
 
+  // Pull the actual 30-day window out of the ICE geojson metadata so the
+  // tooltip and legend show real dates instead of a hard-coded label.
+  fetch('./ice_hotzones.geojson')
+    .then(r => r.json())
+    .then(d => {
+      const m = d.metadata || {};
+      if (m.window_start && m.window_end) {
+        window.__iceWindow = `${m.window_start} → ${m.window_end}`;
+        const el = document.getElementById('ice-window-label');
+        if (el) el.textContent = `${m.window_start} → ${m.window_end}`;
+      }
+    })
+    .catch(() => {});
+
   map.on('load', () => {
     // Populate live focus counts from the geojson.
     fetch('./sites.geojson')
@@ -1050,11 +1066,12 @@
       let examples = '';
       if (Array.isArray(p.examples) && p.examples.length) {
         examples = '<br>' + p.examples.slice(0,3).map(e =>
-          `&middot; <a href="${e.permalink}" target="_blank" rel="noopener">r/${e.subreddit}: ${e.title}</a>`
+          `&middot; ${e.date ? e.date + ' ' : ''}<a href="${e.permalink}" target="_blank" rel="noopener">r/${e.subreddit}: ${e.title}</a>`
         ).join('<br>');
       }
+      const win = window.__iceWindow || 'past 30 days';
       return `<b>${p.county}, ${p.state}</b> &middot; ICE level ${p.tier}<br>` +
-             `${n.toLocaleString()} Reddit mention${n==1?'':'s'} (past 30 days)` +
+             `${n.toLocaleString()} Reddit mention${n==1?'':'s'} (${win})` +
              examples;
     }
     if (SITE_LAYER_IDS.includes(f.layer.id)) {

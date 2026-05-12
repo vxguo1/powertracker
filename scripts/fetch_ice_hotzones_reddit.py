@@ -320,12 +320,15 @@ def main() -> None:
             ])
 
         examples = []
-        for p in ps[:3]:
+        for p in sorted(ps, key=lambda x: -(x.get("created_utc") or 0))[:3]:
+            ts = p.get("created_utc")
             examples.append({
                 "title": (p.get("title") or "")[:160],
                 "subreddit": p.get("subreddit"),
                 "permalink": "https://reddit.com" + (p.get("permalink") or ""),
                 "score": int(p.get("score") or 0),
+                "date": (datetime.fromtimestamp(ts, tz=timezone.utc).date().isoformat()
+                         if ts else None),
             })
 
         common = {
