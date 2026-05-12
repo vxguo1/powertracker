@@ -40,11 +40,13 @@ jobs:
         run: python scripts/fetch_temperature_yoy.py
       - name: Fetch temperature YoY (county bulk)
         run: python scripts/fetch_county_temperature_yoy.py
+      - name: Fetch real-estate YoY (Redfin county)
+        run: python scripts/fetch_realestate_yoy.py
       - name: Install Python deps for tile build
         run: pip install pandas folium python-dotenv openpyxl
-      - name: Rebuild temperature + sites (county temperature feeds both)
-        # build_tiles.py rebuilds all PMTiles; only temperature.pmtiles
-        # and sites.geojson actually change unless other caches moved.
+      - name: Rebuild PMTiles (temperature + realestate + sites)
+        # build_tiles.py rebuilds all PMTiles; only the ones whose
+        # underlying caches changed will actually move.
         run: python scripts/build_tiles.py
       - name: Commit refreshed artifacts if changed
         run: |
@@ -52,11 +54,13 @@ jobs:
           git config user.name "powertracker-ci"
           git add app/od_uptick.geojson app/homicide_uptick.geojson \
                   app/temperature_yoy.geojson app/tiles/temperature.pmtiles \
-                  app/sites.geojson data/cache/temperature_county_yoy.csv
+                  app/tiles/realestate.pmtiles \
+                  app/sites.geojson data/cache/temperature_county_yoy.csv \
+                  data/cache/realestate_yoy.csv
           if git diff --cached --quiet; then
             echo "no changes"
           else
-            git commit -m "refresh: state-uptick + county temperature ($(date -u +%Y-%m-%d))"
+            git commit -m "refresh: state-uptick + county temperature + realestate ($(date -u +%Y-%m-%d))"
             git push
           fi
       - uses: actions/setup-node@v4

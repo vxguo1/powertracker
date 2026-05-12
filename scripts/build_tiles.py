@@ -40,6 +40,7 @@ TMP_DIR = REPO_ROOT / "data" / "tiles_tmp"
 ELECTION_CSV = REPO_ROOT / "data" / "cache" / "election_2024_county.csv"
 PROPERTY_TAX_CSV = REPO_ROOT / "data" / "cache" / "property_tax_yoy.csv"
 TEMPERATURE_CSV = REPO_ROOT / "data" / "cache" / "temperature_county_yoy.csv"
+REALESTATE_CSV = REPO_ROOT / "data" / "cache" / "realestate_yoy.csv"
 
 NO_DATA_BIN = -1
 
@@ -269,6 +270,42 @@ def _enrich_temperature(geo: dict, temp: pd.DataFrame) -> dict:
     return {"type": "FeatureCollection", "features": out_features}
 
 
+def _enrich_realestate(geo: dict, re_df: pd.DataFrame) -> dict:
+    """Build a fresh GeoJSON of county polygons annotated with Redfin
+    trailing-3-month median sale price YoY change. Same shape as
+    _enrich_property_tax."""
+    re_df = re_df.copy()
+    re_df["fips"] = re_df["fips"].astype(str).str.zfill(5)
+    lookup = {r.fips: r for _, r in re_df.iterrows()}
+    out_features = []
+    for feat in geo["features"]:
+        fips = str(feat.get("id") or feat["properties"].get("GEO_ID", "")[-5:])
+        name = feat["properties"].get("NAME", "?")
+        r = lookup.get(fips)
+        props: dict = {"fips": fips, "name": name}
+        if r is None:
+            props["growth_pct"] = None
+            props["bin"] = NO_DATA_BIN
+        else:
+            props["geoname"] = r["name"]
+            props["state"] = r.state
+            props["growth_pct"] = float(r.growth_pct)
+            props["price_current"] = int(r.price_current)
+            props["price_prior"] = int(r.price_prior)
+            props["period_current"] = r.period_current
+            props["homes_sold_current_3mo"] = (
+                int(r.homes_sold_current_3mo)
+                if not pd.isna(r.homes_sold_current_3mo) else None
+            )
+            props["bin"] = growth_bin(float(r.growth_pct))
+        out_features.append({
+            "type": "Feature",
+            "geometry": feat["geometry"],
+            "properties": props,
+        })
+    return {"type": "FeatureCollection", "features": out_features}
+
+
 def _enrich_property_tax(geo: dict, tax: pd.DataFrame) -> dict:
     """Build a fresh GeoJSON of county polygons annotated with ACS 5-year
     median-real-estate-tax YoY change. Mirrors _enrich_election structure
@@ -459,6 +496,13 @@ def main() -> None:
         _build_one("property_tax", _enrich_property_tax(data.county_geo, tax), "property_tax", max_zoom=9)
     else:
         print(f"\nSkipping property-tax layer ({PROPERTY_TAX_CSV} missing).")
+
+    if REALESTATE_CSV.exists():
+        print("\nReal-estate YoY layer ...")
+        re_df = pd.read_csv(REALESTATE_CSV, dtype={"fips": str})
+        _build_one("realestate", _enrich_realestate(data.county_geo, re_df), "realestate", max_zoom=9)
+    else:
+        print(f"\nSkipping real-estate layer ({REALESTATE_CSV} missing).")
 
     if TEMPERATURE_CSV.exists():
         print("\nCounty temperature YoY layer ...")
