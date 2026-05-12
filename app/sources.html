@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>powertracker - data sources</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --text-xs:   0.6875rem;
+      --text-sm:   0.75rem;
+      --text-base: 0.8125rem;
+      --text-lg:   0.9375rem;
+      --text-xl:   1.125rem;
+      --font-stack: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --c-page:    #f5f5f7;
+      --c-surface: #ffffff;
+      --c-ink:     #1a1a23;
+      --c-ink-muted: #5a5a6e;
+      --c-ink-soft:  #8b8b9a;
+      --c-border:    #e3e3e8;
+      --c-accent:    #d7263d;
+      --c-tag:       #eeeef3;
+      --c-tag-ink:   #5a5a6e;
+      --c-stale:     #f4733c;
+      --c-fresh:     #2a9d4a;
+      --shadow-sm: 0 1px 2px rgba(20,20,40,0.06);
+      --shadow-md: 0 6px 18px -4px rgba(20,20,40,0.12), 0 2px 6px rgba(20,20,40,0.06);
+    }
+    html, body {
+      font-family: var(--font-stack);
+      font-size: var(--text-base);
+      line-height: 1.5;
+      color: var(--c-ink);
+      background: var(--c-page);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--c-accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.92em;
+      background: var(--c-tag);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--c-tag-ink);
+    }
+
+    .page {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+    header {
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    header .brand { font-size: var(--text-xl); font-weight: 700; letter-spacing: -0.015em; }
+    header .tagline { font-size: var(--text-sm); color: var(--c-ink-muted); margin-top: 4px; }
+    header nav a { font-size: var(--text-sm); }
+
+    .summary {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: 8px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 28px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .summary .stat .label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--c-ink-soft);
+    }
+    .summary .stat .value {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      margin-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .group-heading {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-ink-soft);
+      margin: 28px 0 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--c-border);
+    }
+    .group-heading:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+
+    .card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: 8px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 14px;
+      transition: box-shadow 0.15s ease;
+    }
+    .card:hover { box-shadow: var(--shadow-md); }
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .card-title {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      letter-spacing: -0.005em;
+    }
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--c-tag-ink);
+      background: var(--c-tag);
+      padding: 2px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .tag.cadence { background: #f6e0e4; color: #8a1f30; }
+    .tag.stale   { background: #fde2cf; color: #7a3a10; }
+    .tag.fresh   { background: #d5ecdb; color: #1b5a30; }
+
+    .desc {
+      margin-top: 8px;
+      font-size: var(--text-sm);
+      color: var(--c-ink-muted);
+      line-height: 1.55;
+    }
+    .meta {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 4px 14px;
+      font-size: var(--text-sm);
+    }
+    .meta .k {
+      color: var(--c-ink-soft);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .meta .v {
+      color: var(--c-ink);
+      font-variant-numeric: tabular-nums;
+      word-break: break-word;
+    }
+
+    footer {
+      margin-top: 48px;
+      padding-top: 18px;
+      border-top: 1px solid var(--c-border);
+      font-size: var(--text-xs);
+      color: var(--c-ink-soft);
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+  <header>
+    <div>
+      <div class="brand">powertracker — data sources</div>
+      <div class="tagline">Every external feed the map consumes, where it comes from, how often it refreshes, and when it was last touched.</div>
+    </div>
+    <nav>
+      <a href="/">← back to map</a>
+    </nav>
+  </header>
+
+  <div class="summary">
+    <div class="stat"><div class="label">total sources</div><div class="value" id="sum-total">–</div></div>
+    <div class="stat"><div class="label">automated</div><div class="value" id="sum-auto">–</div></div>
+    <div class="stat"><div class="label">most recent refresh</div><div class="value" id="sum-recent">–</div></div>
+    <div class="stat"><div class="label">oldest refresh</div><div class="value" id="sum-oldest">–</div></div>
+  </div>
+
+  <div id="cards"></div>
+
+  <footer>
+    Live data fetched from each layer's metadata block when available, and
+    from the asset's HTTP <code>Last-Modified</code> header otherwise. The
+    engineering registry is in
+    <a href="https://github.com/vxguo1/powertracker/blob/main/docs/DATA_SOURCES.md"
+       target="_blank" rel="noopener">docs/DATA_SOURCES.md</a>.
+  </footer>
+</div>
+
+<script>
+// Layer-level metadata. Keep this in sync with docs/DATA_SOURCES.md.
+// Each entry: which file to fetch ('asset'), whether it carries a
+// metadata block ('hasMetadata'), and the friendly description.
+const LAYERS = [
+  // Energy & economy
+  { group: 'Energy & economy', name: 'BA demand YoY', cadence: 'weekly', refresh: 'refresh-eia-demand.yml',
+    sourceName: 'EIA Open Data API (hourly balancing-authority demand)',
+    sourceUrl: 'https://www.eia.gov/opendata/browser/electricity/rto/region-data',
+    asset: '/tiles/ba.pmtiles', hasMetadata: false,
+    desc: 'Trailing-12-month vs prior-12-month YoY % change per balancing authority. Built from raw hourly demand pulls, recomputed weekly so the rolling window stays current.',
+  },
+  { group: 'Energy & economy', name: 'County per-capita GDP YoY', cadence: 'annual', refresh: 'manual',
+    sourceName: 'BEA Regional Economic Accounts (CAGDP1 + CAINC1)',
+    sourceUrl: 'https://apps.bea.gov/regional/',
+    asset: '/tiles/county.pmtiles', hasMetadata: false,
+    desc: 'Real per-capita GDP growth, 2023 → 2024 from BEA county-level tables. No automated fetcher yet — manual refresh.',
+  },
+  { group: 'Energy & economy', name: 'Utility residential rate YoY', cadence: 'annual', refresh: 'manual',
+    sourceName: 'EIA Form 861 utility filings (Sales_Ult_Cust)',
+    sourceUrl: 'https://www.eia.gov/electricity/data/eia861/',
+    asset: '/tiles/utility.pmtiles', hasMetadata: false,
+    desc: 'Per-utility residential price 2023 → 2024 from EIA-861 raw filings. No automated fetcher yet — manual refresh.',
+  },
+  { group: 'Energy & economy', name: 'Property tax YoY (county median)', cadence: 'annual', refresh: 'refresh-property-tax.yml',
+    sourceName: 'Census ACS 5-year, table B25103 (median real-estate taxes paid)',
+    sourceUrl: 'https://www.census.gov/data/developers/data-sets/acs-5year.html',
+    asset: '/tiles/property_tax.pmtiles', hasMetadata: false,
+    desc: 'County-level median real-estate tax YoY (2023 → 2024 ACS 5-year endpoints). Re-runs every Jan 15 to catch the Dec ACS release.',
+  },
+
+  // Politics
+  { group: 'Politics', name: '2024 presidential election (county margin)', cadence: 'every 4 years', refresh: 'one-shot',
+    sourceName: 'tonmcg/US_County_Level_Election_Results_08-24',
+    sourceUrl: 'https://github.com/tonmcg/US_County_Level_Election_Results_08-24',
+    asset: '/tiles/election.pmtiles', hasMetadata: false,
+    desc: 'Trump–Harris margin per county. Snapshot dataset; refreshes every four years (with maybe one extra pull post-certification for late corrections).',
+  },
+
+  // Social / policy
+  { group: 'Social / policy', name: 'ICE raid reports (Reddit)', cadence: 'daily', refresh: 'refresh-reddit.yml',
+    sourceName: 'Reddit search across "ICE raid", "ICE arrest", etc.',
+    sourceUrl: 'https://www.reddit.com/search',
+    asset: '/ice_hotzones.geojson', hasMetadata: true,
+    desc: 'City-level hot zones from crowd-sourced Reddit mentions in a rolling 30-day window. Noisy, biased toward active local subs — not an enforcement record.',
+  },
+  { group: 'Social / policy', name: 'Protest reports (Reddit)', cadence: 'daily', refresh: 'refresh-reddit.yml',
+    sourceName: 'Reddit search across "protest in", "rally in", "march on", etc.',
+    sourceUrl: 'https://www.reddit.com/search',
+    asset: '/protest_hotzones.geojson', hasMetadata: true,
+    desc: 'Same crowd-sourcing pipeline as the ICE feed, applied to protest-style queries.',
+  },
+
+  // Public health
+  { group: 'Public health', name: 'OD uptick (state, multi-class Z)', cadence: 'monthly', refresh: 'refresh-cdc.yml',
+    sourceName: 'CDC VSRR Provisional Drug Overdose Death Counts (xkb8-kh2a)',
+    sourceUrl: 'https://data.cdc.gov/NCHS/VSRR-Provisional-Drug-Overdose-Death-Counts/xkb8-kh2a',
+    asset: '/od_uptick.geojson', hasMetadata: true,
+    desc: 'Z-score per drug class against baseline [t-72, t-12] months; state level = the most severe class that also persisted the prior month. Detects cocaine and methadone spikes even as overall opioid deaths fall.',
+  },
+  { group: 'Public health', name: 'Homicide uptick (state, Z)', cadence: 'monthly check', refresh: 'refresh-cdc.yml',
+    sourceName: 'CDC Mapping Injury, Overdose, and Violence — State (fpsi-y8tj, All_Homicide)',
+    sourceUrl: 'https://data.cdc.gov/Injury-Violence/Mapping-Injury-Overdose-and-Violence-State/fpsi-y8tj',
+    asset: '/homicide_uptick.geojson', hasMetadata: true,
+    desc: 'Z = (TTM rate − mean(2019-2023)) / stdev(2019-2023). Annual cadence at the source; 5-year baseline → noisy stdev, read directionally.',
+  },
+
+  // Climate
+  { group: 'Climate', name: 'Temperature YoY (county ΔF)', cadence: 'monthly', refresh: 'refresh-cdc.yml',
+    sourceName: 'NOAA NCEI Climate at a Glance — county bulk JSON',
+    sourceUrl: 'https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/county',
+    asset: '/tiles/temperature.pmtiles', hasMetadata: false, metadataAsset: '/temperature_yoy.geojson',
+    desc: 'County trailing-12-month tavg vs one year ago. Data-center markers also read their containing county\'s ΔF into the site tooltip via point-in-polygon. Hawaii not in this CONUS divisional series.',
+  },
+
+  // Sites + derived
+  { group: 'Data centers', name: 'Data-center sites', cadence: 'manual / curated', refresh: 'manual',
+    sourceName: 'Curated CSV (data/sites/data_centers.csv)',
+    sourceUrl: 'https://github.com/vxguo1/powertracker/blob/main/data/sites/data_centers.csv',
+    asset: '/sites.geojson', hasMetadata: false,
+    desc: 'Hand-curated list of US AI/hyperscaler data-center sites. Edited as we learn of new announcements; sites.geojson regenerates whenever build_tiles.py runs.',
+  },
+  { group: 'Data centers', name: 'Hot zones (data-center clusters)', cadence: 'follows sites', refresh: 'derived',
+    sourceName: 'Derived from sites + clustering algorithm',
+    sourceUrl: 'https://github.com/vxguo1/powertracker/blob/main/scripts/build_hot_zones.py',
+    asset: '/hot_zones.geojson', hasMetadata: false,
+    desc: 'S/A/B/C/D tier rings + tier markers. Tier breakpoints in total announced MW within ~80mi clusters.',
+  },
+];
+
+function fmtBytes(n) {
+  if (n == null) return '–';
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 ** 2) return `${(n / 1024).toFixed(1)} KB`;
+  return `${(n / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function fmtRelative(iso) {
+  if (!iso) return '–';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  const now = Date.now();
+  const diff = now - d.getTime();
+  const min = 60_000, hr = 60 * min, day = 24 * hr;
+  const abs = Math.abs(diff);
+  if (abs < min) return 'just now';
+  if (abs < hr)   return `${Math.round(abs / min)} min ago`;
+  if (abs < day)  return `${Math.round(abs / hr)} h ago`;
+  if (abs < 30 * day) return `${Math.round(abs / day)} d ago`;
+  return d.toISOString().slice(0, 10);
+}
+
+function freshnessTag(iso) {
+  if (!iso) return '';
+  const days = (Date.now() - new Date(iso).getTime()) / 86400e3;
+  if (Number.isNaN(days)) return '';
+  if (days < 8) return '<span class="tag fresh">fresh</span>';
+  if (days > 60) return '<span class="tag stale">stale</span>';
+  return '';
+}
+
+async function fetchLastModified(path) {
+  try {
+    const r = await fetch(path, { method: 'HEAD' });
+    return {
+      lastModified: r.headers.get('last-modified'),
+      contentLength: r.headers.get('content-length'),
+      etag: r.headers.get('etag'),
+      ok: r.ok,
+    };
+  } catch (e) { return { ok: false, error: String(e) }; }
+}
+
+async function fetchMetadata(path) {
+  try {
+    const r = await fetch(path);
+    if (!r.ok) return null;
+    const j = await r.json();
+    return j.metadata || null;
+  } catch (e) { return null; }
+}
+
+function metadataAsRow(m) {
+  if (!m) return '';
+  const rows = [];
+  if (m.window_start && m.window_end) {
+    rows.push(['data window', `${m.window_start} → ${m.window_end}`]);
+  }
+  if (m.latest_period) {
+    rows.push(['latest period', m.latest_period]);
+  }
+  if (m.n_total_in_window != null) {
+    rows.push(['rows in window', m.n_total_in_window.toLocaleString()]);
+  }
+  if (m.counts_by_level) {
+    const txt = Object.entries(m.counts_by_level)
+      .map(([k, v]) => `${k}: ${v}`).join(' · ');
+    rows.push(['classification', txt]);
+  }
+  if (m.indicator) rows.push(['indicator', m.indicator]);
+  return rows.map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
+}
+
+(async function render() {
+  const root = document.getElementById('cards');
+  const allTimestamps = [];
+  let auto = 0;
+
+  // Group cards by `.group` and render.
+  const groups = new Map();
+  for (const l of LAYERS) {
+    if (!groups.has(l.group)) groups.set(l.group, []);
+    groups.get(l.group).push(l);
+    if (!['manual','one-shot','derived'].includes(l.refresh)) auto++;
+  }
+
+  for (const [groupName, layers] of groups) {
+    const h = document.createElement('h2');
+    h.className = 'group-heading';
+    h.textContent = groupName;
+    root.appendChild(h);
+
+    for (const l of layers) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-head">
+          <div class="card-title">${l.name}</div>
+          <div class="card-tags">
+            <span class="tag cadence">${l.cadence}</span>
+            <span class="placeholder-fresh"></span>
+          </div>
+        </div>
+        <div class="desc">${l.desc}</div>
+        <div class="meta">
+          <div class="k">source</div>
+          <div class="v"><a href="${l.sourceUrl}" target="_blank" rel="noopener">${l.sourceName}</a></div>
+          <div class="k">asset</div>
+          <div class="v"><a href="${l.asset}" target="_blank" rel="noopener"><code>${l.asset}</code></a> <span class="size-here">–</span></div>
+          <div class="k">refresh job</div>
+          <div class="v">${l.refresh === 'manual' || l.refresh === 'one-shot' || l.refresh === 'derived'
+              ? `<em>${l.refresh}</em>`
+              : `<code>.github/workflows/${l.refresh}</code>`}</div>
+          <div class="k">last refreshed</div>
+          <div class="v last-refreshed">loading…</div>
+          <div class="metadata-rows"></div>
+        </div>
+      `;
+      root.appendChild(card);
+
+      // Live-fetch HEAD + optional metadata.
+      const head = await fetchLastModified(l.asset);
+      const lastRefreshedEl = card.querySelector('.last-refreshed');
+      if (head.lastModified) {
+        const iso = new Date(head.lastModified).toISOString();
+        lastRefreshedEl.textContent = `${fmtRelative(iso)} · ${iso.replace('T',' ').slice(0,19)} UTC`;
+        allTimestamps.push(iso);
+        const freshSlot = card.querySelector('.placeholder-fresh');
+        freshSlot.outerHTML = freshnessTag(iso);
+      } else {
+        lastRefreshedEl.textContent = '–';
+      }
+      const sizeEl = card.querySelector('.size-here');
+      if (head.contentLength) sizeEl.textContent = `(${fmtBytes(+head.contentLength)})`;
+
+      const metaSource = l.hasMetadata ? l.asset : l.metadataAsset;
+      if (metaSource) {
+        const m = await fetchMetadata(metaSource);
+        if (m) {
+          const slot = card.querySelector('.metadata-rows');
+          slot.outerHTML = metadataAsRow(m);
+        }
+      }
+    }
+  }
+
+  // Summary stats
+  document.getElementById('sum-total').textContent = LAYERS.length;
+  document.getElementById('sum-auto').textContent = `${auto} / ${LAYERS.length}`;
+  if (allTimestamps.length) {
+    allTimestamps.sort();
+    document.getElementById('sum-recent').textContent = fmtRelative(allTimestamps[allTimestamps.length - 1]);
+    document.getElementById('sum-oldest').textContent = fmtRelative(allTimestamps[0]);
+  }
+})();
+</script>
+</body>
+</html>
