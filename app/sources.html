@@ -212,29 +212,29 @@
 // metadata block ('hasMetadata'), and the friendly description.
 const LAYERS = [
   // Energy & economy
-  { group: 'Energy & economy', name: 'BA demand YoY', cadence: 'weekly', refresh: 'refresh-eia-demand.yml',
+  { group: 'Energy & economy', name: 'BA demand vs 3-yr baseline', cadence: 'weekly', refresh: 'refresh-eia-demand.yml',
     sourceName: 'EIA Open Data API (hourly balancing-authority demand)',
     sourceUrl: 'https://www.eia.gov/opendata/browser/electricity/rto/region-data',
     asset: '/tiles/ba.pmtiles', hasMetadata: false,
-    desc: 'Trailing-12-month vs prior-12-month YoY % change per balancing authority. Built from raw hourly demand pulls, recomputed weekly so the rolling window stays current.',
+    desc: 'Trailing-12-month mean load vs the mean of the 3 prior trailing-12-month windows (anchored at t-12, t-24, t-36 months back). Built from raw hourly demand pulls, recomputed weekly so the rolling windows stay current.',
   },
-  { group: 'Energy & economy', name: 'County per-capita GDP YoY', cadence: 'annual', refresh: 'manual',
+  { group: 'Energy & economy', name: 'County per-capita GDP vs 3-yr baseline', cadence: 'annual', refresh: 'manual',
     sourceName: 'BEA Regional Economic Accounts (CAGDP1 + CAINC1)',
     sourceUrl: 'https://apps.bea.gov/regional/',
     asset: '/tiles/county.pmtiles', hasMetadata: false,
-    desc: 'Real per-capita GDP growth, 2023 → 2024 from BEA county-level tables. No automated fetcher yet — manual refresh.',
+    desc: 'Real per-capita GDP for the latest BEA year vs the mean of the prior 3 years (currently 2024 vs mean(2021-2023)). No automated fetcher yet — manual refresh.',
   },
-  { group: 'Energy & economy', name: 'Utility residential rate YoY', cadence: 'annual', refresh: 'manual',
+  { group: 'Energy & economy', name: 'Utility residential rate vs 3-yr baseline', cadence: 'annual', refresh: 'manual',
     sourceName: 'EIA Form 861 utility filings (Sales_Ult_Cust)',
     sourceUrl: 'https://www.eia.gov/electricity/data/eia861/',
     asset: '/tiles/utility.pmtiles', hasMetadata: false,
-    desc: 'Per-utility residential price 2023 → 2024 from EIA-861 raw filings. No automated fetcher yet — manual refresh.',
+    desc: 'Per-utility residential price for the latest EIA-861 year vs the mean of the prior 3 years (currently 2024 vs mean(2021-2023)). No automated fetcher yet — manual refresh.',
   },
-  { group: 'Energy & economy', name: 'Property tax YoY (county median)', cadence: 'annual', refresh: 'refresh-property-tax.yml',
+  { group: 'Energy & economy', name: 'Property tax vs 3-yr baseline (county median)', cadence: 'annual', refresh: 'refresh-property-tax.yml',
     sourceName: 'Census ACS 5-year, table B25103 (median real-estate taxes paid)',
     sourceUrl: 'https://www.census.gov/data/developers/data-sets/acs-5year.html',
     asset: '/tiles/property_tax.pmtiles', hasMetadata: false,
-    desc: 'County-level median real-estate tax YoY (2023 → 2024 ACS 5-year endpoints). Re-runs every Jan 15 to catch the Dec ACS release.',
+    desc: 'County-level median real-estate tax for the latest ACS 5-year endpoint vs the mean of the prior 3 endpoints (currently 2024 vs mean(2021-2023)). ACS 5-yr windows overlap by 4 yrs so the baseline is nearly the same population — treat magnitude as suggestive. Re-runs every Jan 15 to catch the Dec ACS release.',
   },
 
   // Politics
@@ -274,11 +274,11 @@ const LAYERS = [
   },
 
   // Climate
-  { group: 'Climate', name: 'Temperature YoY (county ΔF)', cadence: 'monthly', refresh: 'refresh-cdc.yml',
+  { group: 'Climate', name: 'Temperature vs 3-yr baseline (county ΔF)', cadence: 'monthly', refresh: 'refresh-cdc.yml',
     sourceName: 'NOAA NCEI Climate at a Glance — county bulk JSON',
     sourceUrl: 'https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/county',
     asset: '/tiles/temperature.pmtiles', hasMetadata: false, metadataAsset: '/temperature_yoy.geojson',
-    desc: 'County trailing-12-month tavg vs one year ago. Data-center markers also read their containing county\'s ΔF into the site tooltip via point-in-polygon. Hawaii not in this CONUS divisional series.',
+    desc: 'County trailing-12-month tavg vs the mean of the 3 prior trailing-12-month means (analogous ending-month at t-12, t-24, t-36). Data-center markers also read their containing county\'s ΔF into the site tooltip via point-in-polygon. Hawaii not in this CONUS divisional series.',
   },
 
   // Sites + derived

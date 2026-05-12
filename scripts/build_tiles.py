@@ -128,7 +128,7 @@ def _enrich_ba(geo: dict, ba_yoy: pd.DataFrame) -> dict:
         else:
             props["growth_pct"] = float(r.growth_pct)
             props["trailing_mw"] = float(r.trailing_mw)
-            props["prior_mw"] = float(r.prior_mw)
+            props["baseline_mw"] = float(r.baseline_mw)
             props["bin"] = growth_bin(float(r.growth_pct))
     return geo
 
@@ -153,9 +153,11 @@ def _enrich_utility(geo: dict, util_yoy: pd.DataFrame) -> dict:
         r = yoy_us.get((int(eid), state))
         nat = nat_agg.get(int(eid))
         if r is not None:
-            props["price_2023"] = float(r.price_2023)
-            props["price_2024"] = float(r.price_2024)
+            props["price_baseline"] = float(r.price_baseline)
+            props["price_current"] = float(r.price_current)
             props["change_pct"] = float(r.price_change_pct)
+            props["baseline_start_year"] = int(r.baseline_start_year)
+            props["baseline_end_year"] = int(r.baseline_end_year)
             props["customers"] = int(r.customers) if not pd.isna(r.customers) else None
             props["source"] = "state"
             props["bin"] = growth_bin(float(r.price_change_pct))
@@ -168,7 +170,8 @@ def _enrich_utility(geo: dict, util_yoy: pd.DataFrame) -> dict:
         # Strip fields we don't ship to keep tile size down.
         for k in list(props.keys()):
             if k not in {"eia_id", "utility_name", "type", "state",
-                          "price_2023", "price_2024", "change_pct",
+                          "price_baseline", "price_current", "change_pct",
+                          "baseline_start_year", "baseline_end_year",
                           "customers", "source", "bin"}:
                 props.pop(k, None)
         kept.append(feat)
@@ -256,10 +259,14 @@ def _enrich_temperature(geo: dict, temp: pd.DataFrame) -> dict:
             bin_i, band_label, _ = temperature_band(float(r.delta_f))
             props["delta_f"] = float(r.delta_f)
             props["tavg_current"] = float(r.tavg_current)
-            props["tavg_prior"] = float(r.tavg_prior)
+            props["tavg_baseline"] = float(r.tavg_baseline)
             props["anomaly_current"] = (float(r.anomaly_current)
                                          if not pd.isna(r.anomaly_current) else None)
             props["state"] = r.state
+            props["current_period"] = (str(r.current_period)
+                                       if "current_period" in r.index else None)
+            props["baseline_periods"] = (str(r.baseline_periods)
+                                         if "baseline_periods" in r.index else None)
             props["bin"] = bin_i
             props["band"] = band_label
         out_features.append({
@@ -291,11 +298,18 @@ def _enrich_realestate(geo: dict, re_df: pd.DataFrame) -> dict:
             props["state"] = r.state
             props["growth_pct"] = float(r.growth_pct)
             props["price_current"] = int(r.price_current)
-            props["price_prior"] = int(r.price_prior)
+            props["price_baseline"] = int(r.price_baseline)
             props["period_current"] = r.period_current
+            props["baseline_periods"] = (str(r.baseline_periods)
+                                          if "baseline_periods" in r.index else None)
             props["homes_sold_current_3mo"] = (
                 int(r.homes_sold_current_3mo)
                 if not pd.isna(r.homes_sold_current_3mo) else None
+            )
+            props["homes_sold_baseline_3mo"] = (
+                int(r.homes_sold_baseline_3mo)
+                if "homes_sold_baseline_3mo" in r.index
+                   and not pd.isna(r.homes_sold_baseline_3mo) else None
             )
             props["bin"] = growth_bin(float(r.growth_pct))
         out_features.append({
@@ -325,8 +339,11 @@ def _enrich_property_tax(geo: dict, tax: pd.DataFrame) -> dict:
         else:
             props["geoname"] = r["name"]
             props["growth_pct"] = float(r.growth_pct)
-            props["tax_2023"] = int(r.tax_2023)
-            props["tax_2024"] = int(r.tax_2024)
+            props["tax_baseline"] = float(r.tax_baseline)
+            props["tax_current"] = int(r.tax_current)
+            props["baseline_start_year"] = int(r.baseline_start_year)
+            props["baseline_end_year"] = int(r.baseline_end_year)
+            props["current_year"] = int(r.current_year)
             props["bin"] = growth_bin(float(r.growth_pct))
         out_features.append({
             "type": "Feature",
@@ -390,9 +407,11 @@ def _enrich_county(geo: dict, gdp_yoy: pd.DataFrame) -> dict:
         else:
             props["geoname"] = r.geoname
             props["growth_pct"] = float(r.growth_pct)
-            props["gdp_per_capita_2023"] = float(r.gdp_per_capita_2023)
-            props["gdp_per_capita_2024"] = float(r.gdp_per_capita_2024)
-            props["population"] = float(r.population_2024)
+            props["gdp_per_capita_baseline"] = float(r.gdp_per_capita_baseline)
+            props["gdp_per_capita_current"] = float(r.gdp_per_capita_current)
+            props["baseline_start_year"] = int(r.baseline_start_year)
+            props["baseline_end_year"] = int(r.baseline_end_year)
+            props["population"] = float(r.population)
             props["bin"] = growth_bin(float(r.growth_pct))
     return geo
 
@@ -524,7 +543,7 @@ def main() -> None:
             temp_by_fips[r.fips.zfill(5)] = {
                 "delta_f": None if pd.isna(r.delta_f) else float(r.delta_f),
                 "tavg_current": None if pd.isna(r.tavg_current) else float(r.tavg_current),
-                "tavg_prior": None if pd.isna(r.tavg_prior) else float(r.tavg_prior),
+                "tavg_baseline": None if pd.isna(r.tavg_baseline) else float(r.tavg_baseline),
                 "anomaly": None if pd.isna(r.anomaly_current) else float(r.anomaly_current),
                 "county_name": r["name"],
             }
@@ -551,7 +570,7 @@ def main() -> None:
         if t:
             out["temp_delta_f"] = t["delta_f"]
             out["temp_current_f"] = t["tavg_current"]
-            out["temp_prior_f"] = t["tavg_prior"]
+            out["temp_baseline_f"] = t["tavg_baseline"]
             out["temp_anomaly_f"] = t["anomaly"]
             out["county_name"] = t["county_name"]
         return out

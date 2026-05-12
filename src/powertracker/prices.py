@@ -89,38 +89,50 @@ def residential_rates_by_utility(year: int) -> pd.DataFrame:
     return grouped.reset_index(drop=True)
 
 
-def yoy_residential(prior_year: int = 2023, recent_year: int = 2024) -> pd.DataFrame:
-    """For every (utility_id, state) present in both years, return the YoY
-    percent change in residential cents/kWh.
+def yoy_residential(recent_year: int = 2024,
+                    baseline_years: int = 3) -> pd.DataFrame:
+    """For every (utility_id, state) present in `recent_year` AND every one
+    of the prior `baseline_years` years, return the % change in residential
+    cents/kWh vs the mean of those baseline years.
     """
-    p = residential_rates_by_utility(prior_year)
-    r = residential_rates_by_utility(recent_year)
-    merged = p.merge(
-        r,
-        on=["utility_id", "state"],
-        suffixes=(f"_{prior_year}", f"_{recent_year}"),
-        how="inner",
-    )
-    merged["price_change_pct"] = (
-        merged[f"price_cents_per_kwh_{recent_year}"]
-        / merged[f"price_cents_per_kwh_{prior_year}"]
-        - 1
-    ) * 100
-    return merged[[
-        "utility_id",
-        f"utility_name_{recent_year}",
-        "state",
-        f"ownership_{recent_year}",
-        f"price_cents_per_kwh_{prior_year}",
-        f"price_cents_per_kwh_{recent_year}",
-        "price_change_pct",
-        f"customers_{recent_year}",
-        f"sales_mwh_{recent_year}",
-    ]].rename(columns={
-        f"utility_name_{recent_year}": "utility_name",
-        f"ownership_{recent_year}": "ownership",
-        f"price_cents_per_kwh_{prior_year}": f"price_{prior_year}",
-        f"price_cents_per_kwh_{recent_year}": f"price_{recent_year}",
-        f"customers_{recent_year}": "customers",
-        f"sales_mwh_{recent_year}": "sales_mwh",
+    if baseline_years < 1:
+        raise ValueError("baseline_years must be >= 1")
+    cur = residential_rates_by_utility(recent_year)
+    cur = cur.rename(columns={
+        "utility_name": "utility_name",
+        "ownership": "ownership",
+        "price_cents_per_kwh": "price_current",
     })
+    # Average prior years on (utility_id, state).
+    baseline_frames = []
+    for k in range(1, baseline_years + 1):
+        yr = recent_year - k
+        b = residential_rates_by_utility(yr)[
+            ["utility_id", "state", "price_cents_per_kwh"]
+        ].rename(columns={"price_cents_per_kwh": f"price_{yr}"})
+        baseline_frames.append(b)
+
+    out = cur
+    for b in baseline_frames:
+        out = out.merge(b, on=["utility_id", "state"], how="inner")
+    baseline_cols = [c for c in out.columns
+                     if c.startswith("price_") and c not in ("price_current",)]
+    out["price_baseline"] = out[baseline_cols].mean(axis=1)
+    out["price_change_pct"] = (
+        out["price_current"] / out["price_baseline"] - 1
+    ) * 100
+    out["baseline_start_year"] = recent_year - baseline_years
+    out["baseline_end_year"] = recent_year - 1
+    return out[[
+        "utility_id",
+        "utility_name",
+        "state",
+        "ownership",
+        "price_baseline",
+        "price_current",
+        "price_change_pct",
+        "baseline_start_year",
+        "baseline_end_year",
+        "customers",
+        "sales_mwh",
+    ]]

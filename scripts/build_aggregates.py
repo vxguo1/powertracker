@@ -26,20 +26,20 @@ OUT_DIR = REPO_ROOT / "data" / "cache"
 def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # BA hourly demand: trailing 12mo vs prior 12mo as of today.
+    # BA hourly demand: trailing 12mo vs mean of 3 prior trailing-12 windows.
     ba = yoy_growth(pd.Timestamp("today").normalize())
     ba_path = OUT_DIR / "ba_demand_yoy.csv"
     ba.to_csv(ba_path, index=False)
     print(f"ba_demand_yoy: {len(ba)} rows -> {ba_path}")
 
-    # Utility residential rates: 2023 vs 2024 from EIA-861.
-    rates = yoy_residential(2023, 2024)
+    # Utility residential rates: 2024 vs mean(2021, 2022, 2023) from EIA-861.
+    rates = yoy_residential(2024)
     rates_path = OUT_DIR / "utility_rate_yoy.csv"
     rates.to_csv(rates_path, index=False)
     print(f"utility_rate_yoy: {len(rates)} rows -> {rates_path}")
 
-    # County per-capita real GDP: 2023 vs 2024 from BEA.
-    gdp = yoy_per_capita_gdp(2023, 2024)
+    # County per-capita real GDP: 2024 vs mean(2021, 2022, 2023) from BEA.
+    gdp = yoy_per_capita_gdp(2024)
     gdp_path = OUT_DIR / "county_gdp_yoy.csv"
     gdp.to_csv(gdp_path, index=False)
     print(f"county_gdp_yoy: {len(gdp)} rows -> {gdp_path}")

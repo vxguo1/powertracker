@@ -113,13 +113,13 @@ def load_data(use_cache: bool = True) -> MapData:
         util_yoy = pd.read_csv(util_path)
     else:
         from powertracker.prices import yoy_residential
-        util_yoy = yoy_residential(2023, 2024)
+        util_yoy = yoy_residential(2024)
 
     if use_cache and gdp_path.exists():
         gdp_yoy = pd.read_csv(gdp_path, dtype={"fips": str})
     else:
         from powertracker.gdp import yoy_per_capita_gdp
-        gdp_yoy = yoy_per_capita_gdp(2023, 2024)
+        gdp_yoy = yoy_per_capita_gdp(2024)
 
     # fips needs to be a 5-character zero-padded string for the join.
     if "fips" in gdp_yoy.columns:
@@ -269,11 +269,11 @@ def _build_legend() -> folium.Element:
                 border: 1px solid #ccc; border-radius: 6px;
                 font-family: system-ui; font-size: 12px; line-height: 1.4;
                 max-width: 240px; max-height: 92vh; overflow-y: auto;">
-      <div style="font-weight:600;margin-bottom:4px">All YoY % layers</div>
+      <div style="font-weight:600;margin-bottom:4px">% vs 3-yr baseline</div>
       {growth_rows}
       <div style="color:#444;font-size:11px;margin-top:4px">
-        applies to BA demand (trailing 12mo), utility residential rate
-        (2023->2024), and per-capita real GDP (2023->2024)
+        applies to BA demand (trailing 12mo vs mean of 3 prior),
+        utility residential rate, and per-capita real GDP
       </div>
       <div style="font-weight:600;margin-top:8px;margin-bottom:4px">AI focus</div>
       {focus_rows}
@@ -309,12 +309,13 @@ def _add_gdp_layer(m: folium.Map, data: MapData, filters: MapFilters) -> int:
             feat["properties"]["_op"] = 0.65
             feat["properties"]["_tip"] = (
                 f"<b>{row.geoname}</b><br>"
-                f"per-capita real GDP YoY: <b>{sign}{pct:.2f}%</b><br>"
-                f"2023: ${row.gdp_per_capita_2023:,.0f}<br>"
-                f"2024: ${row.gdp_per_capita_2024:,.0f}<br>"
-                f"population: {row.population_2024:,.0f}"
+                f"per-capita real GDP vs 3yr baseline: <b>{sign}{pct:.2f}%</b><br>"
+                f"baseline (mean {int(row.baseline_start_year)}-{int(row.baseline_end_year)}): "
+                f"${row.gdp_per_capita_baseline:,.0f}<br>"
+                f"current: ${row.gdp_per_capita_current:,.0f}<br>"
+                f"population: {row.population:,.0f}"
             )
-    layer = folium.FeatureGroup(name=f"per-capita real GDP YoY 2023->2024 (n={len(data.gdp_yoy)})", show=False)
+    layer = folium.FeatureGroup(name=f"per-capita real GDP vs 3yr baseline (n={len(data.gdp_yoy)})", show=False)
     folium.GeoJson(
         data.county_geo,
         style_function=lambda f: {
@@ -360,8 +361,9 @@ def _add_utility_layer(m: folium.Map, data: MapData, filters: MapFilters) -> int
             sign = "+" if pct >= 0 else ""
             props["_tip"] = (
                 f"<b>{uname}</b> ({utype}, {state})<br>"
-                f"2023: {r.price_2023:.2f} c/kWh<br>"
-                f"2024: {r.price_2024:.2f} c/kWh<br>"
+                f"baseline (mean {int(r.baseline_start_year)}-{int(r.baseline_end_year)}): "
+                f"{r.price_baseline:.2f} c/kWh<br>"
+                f"current: {r.price_current:.2f} c/kWh<br>"
                 f"change: <b>{sign}{pct:.1f}%</b><br>"
                 f"residential customers: {r.customers:,.0f}"
             )
@@ -378,7 +380,7 @@ def _add_utility_layer(m: folium.Map, data: MapData, filters: MapFilters) -> int
         props["_fill"] = color_for_growth(pct)
         kept.append(feat)
 
-    layer = folium.FeatureGroup(name=f"utility resi rate YoY 2023->2024 (n={len(kept)})", show=False)
+    layer = folium.FeatureGroup(name=f"utility resi rate vs 3yr baseline (n={len(kept)})", show=False)
     folium.GeoJson(
         {"type": "FeatureCollection", "features": kept},
         style_function=lambda f: {
@@ -410,11 +412,11 @@ def _add_ba_demand_layer(m: folium.Map, data: MapData, filters: MapFilters) -> i
             feat["properties"]["_op"] = 0.55
             feat["properties"]["_tip"] = (
                 f"<b>{ba}</b><br>"
-                f"YoY: <b>{sign}{entry.growth_pct:.2f}%</b><br>"
+                f"vs 3yr baseline: <b>{sign}{entry.growth_pct:.2f}%</b><br>"
                 f"trailing 12mo mean: {entry.trailing_mw:,.0f} MW<br>"
-                f"prior 12mo mean: {entry.prior_mw:,.0f} MW"
+                f"baseline (mean of 3 prior trailing-12 windows): {entry.baseline_mw:,.0f} MW"
             )
-    layer = folium.FeatureGroup(name=f"BA demand: YoY growth (n={len(data.ba_yoy)})", show=True)
+    layer = folium.FeatureGroup(name=f"BA demand vs 3yr baseline (n={len(data.ba_yoy)})", show=True)
     folium.GeoJson(
         data.ba_geo,
         style_function=lambda f: {

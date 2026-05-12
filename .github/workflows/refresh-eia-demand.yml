@@ -1,9 +1,9 @@
 name: refresh-eia-demand
 
 # Weekly refresh of the EIA balancing-authority hourly demand series.
-# Pulls the last 24 months of hourly data for every BA referenced in
-# data/sites/data_centers.csv, recomputes the trailing-12-vs-prior-12
-# YoY aggregate, rebuilds ba.pmtiles, and redeploys.
+# Pulls the last 48 months of hourly data for every BA referenced in
+# data/sites/data_centers.csv, recomputes the trailing-12 vs mean of 3
+# prior trailing-12 windows, rebuilds ba.pmtiles, and redeploys.
 
 on:
   schedule:
@@ -31,12 +31,14 @@ jobs:
           python-version: "3.12"
       - name: Install Python deps
         run: pip install pandas requests python-dotenv folium openpyxl
-      - name: Fetch last 24 months of hourly demand
+      - name: Fetch last 48 months of hourly demand
+        # Need current trailing-12 + 3 baseline trailing-12 windows = 48
+        # months total. Each window must clear 80% hour coverage.
         env:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
         run: |
           END=$(date -u +%Y-%m-%d)
-          START=$(date -u -d '24 months ago' +%Y-%m-%d)
+          START=$(date -u -d '48 months ago' +%Y-%m-%d)
           echo "Fetching $START → $END"
           python scripts/fetch_demand.py --from-sites --start "$START" --end "$END"
       - name: Recompute YoY aggregate

@@ -77,32 +77,53 @@ def per_capita_gdp(year: int = 2024, dollars: str = "current") -> pd.DataFrame:
     return out.dropna(subset=["gdp_per_capita"]).reset_index(drop=True)
 
 
-def yoy_per_capita_gdp(prior_year: int = 2023, recent_year: int = 2024) -> pd.DataFrame:
-    """YoY % change in per-capita real GDP (chained 2017 dollars).
+def yoy_per_capita_gdp(recent_year: int = 2024,
+                       baseline_years: int = 3) -> pd.DataFrame:
+    """% change in per-capita real GDP (chained 2017 dollars) vs the mean
+    of the prior `baseline_years` years.
 
     Inflation-stripped so the % is comparable to the demand and rate YoY
     layers. Population denominator is per-year (uses each year's BEA
-    population estimate).
+    population estimate). Counties missing data in any baseline year are
+    dropped.
 
     Returns:
-        DataFrame[fips, geoname, gdp_per_capita_<prior>, gdp_per_capita_<recent>,
-                  growth_pct, population_<recent>]
+        DataFrame[fips, geoname, gdp_per_capita_current,
+                  gdp_per_capita_baseline, growth_pct,
+                  baseline_start_year, baseline_end_year, population]
     """
-    p = per_capita_gdp(prior_year, dollars="real")
-    r = per_capita_gdp(recent_year, dollars="real")
-    merged = p.merge(
-        r[["fips", "gdp_per_capita", "population"]],
-        on="fips",
-        suffixes=(f"_{prior_year}", f"_{recent_year}"),
-    )
-    merged["growth_pct"] = (
-        merged[f"gdp_per_capita_{recent_year}"] / merged[f"gdp_per_capita_{prior_year}"] - 1
+    if baseline_years < 1:
+        raise ValueError("baseline_years must be >= 1")
+    cur = per_capita_gdp(recent_year, dollars="real").rename(
+        columns={"gdp_per_capita": "gdp_per_capita_current",
+                 "population": "population"}
+    )[["fips", "geoname", "gdp_per_capita_current", "population"]]
+
+    baseline_frames = []
+    for k in range(1, baseline_years + 1):
+        yr = recent_year - k
+        b = per_capita_gdp(yr, dollars="real")[["fips", "gdp_per_capita"]]
+        b = b.rename(columns={"gdp_per_capita": f"gdp_per_capita_{yr}"})
+        baseline_frames.append(b)
+
+    out = cur
+    for b in baseline_frames:
+        out = out.merge(b, on="fips", how="inner")
+    baseline_cols = [c for c in out.columns if c.startswith("gdp_per_capita_")
+                     and c != "gdp_per_capita_current"]
+    out["gdp_per_capita_baseline"] = out[baseline_cols].mean(axis=1)
+    out["growth_pct"] = (
+        out["gdp_per_capita_current"] / out["gdp_per_capita_baseline"] - 1
     ) * 100
-    return merged[[
+    out["baseline_start_year"] = recent_year - baseline_years
+    out["baseline_end_year"] = recent_year - 1
+    return out[[
         "fips",
         "geoname",
-        f"gdp_per_capita_{prior_year}",
-        f"gdp_per_capita_{recent_year}",
+        "gdp_per_capita_current",
+        "gdp_per_capita_baseline",
         "growth_pct",
-        f"population_{recent_year}",
+        "baseline_start_year",
+        "baseline_end_year",
+        "population",
     ]].dropna(subset=["growth_pct"]).reset_index(drop=True)

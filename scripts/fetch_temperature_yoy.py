@@ -1,5 +1,7 @@
-"""Pull state-level YoY change in trailing-12-month mean temperature
-from NOAA's Climate at a Glance and emit a GeoJSON for the frontend.
+"""Pull state-level change in trailing-12-month mean temperature from
+NOAA's Climate at a Glance vs the mean of the 3 prior trailing-12
+windows (analogous month ending each year), and emit a GeoJSON for
+the frontend.
 
 Source: NCEI Climate at a Glance, statewide time series endpoint.
   https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/
@@ -7,13 +9,17 @@ Source: NCEI Climate at a Glance, statewide time series endpoint.
 
 Each request returns one row per year for the named trailing-12-month
 window ending in that month. We grab a few years of history, take the
-two most-recent rows, and compute:
+most-recent row as current and the 3 immediately prior rows as the
+baseline, and compute:
 
-  deltaF = current_tavg - prior_tavg
-  pct    = 100 * deltaF / prior_tavg   (Fahrenheit; arbitrary zero so
-                                        this is informative but unit-
-                                        dependent — display ΔF as the
-                                        headline)
+  baseline_tavg = mean(prior 3 trailing-12 values)
+  deltaF        = current_tavg - baseline_tavg
+  pct           = 100 * deltaF / baseline_tavg   (Fahrenheit; arbitrary
+                                                  zero so this is
+                                                  informative but
+                                                  unit-dependent —
+                                                  display ΔF as the
+                                                  headline)
 
 State coverage: NOAA's CONUS divisional dataset uses state IDs 1-48
 (alphabetical, no AK/HI) plus 50 for Alaska. Hawaii's climate
@@ -125,7 +131,9 @@ def main() -> None:
     # NOAA usually has the prior month available within ~10 days.
     ending_month = today.month - 1 or 12
     end_year = today.year if today.month > 1 else today.year - 1
-    start_year = end_year - 4  # 5 years of history is plenty
+    # Need current + 3 baseline = 4 trailing-12 anchors. Pull 6 for slack
+    # in case NOAA hasn't posted the very latest month yet.
+    start_year = end_year - 5
     year_range = f"{start_year}-{end_year}"
     print(f"Window: trailing-12 ending each {ending_month:02d}/yyyy across "
           f"{year_range}")
@@ -153,22 +161,32 @@ def main() -> None:
             "fips": fips, "postal": postal, "name": name,
             "level": "no_data", "fill_color": "#cfd1d4",
             "delta_f": None, "pct_yoy": None,
-            "current_tavg": None, "prior_tavg": None,
+            "current_tavg": None, "baseline_tavg": None,
+            "baseline_years": None,
             "latest_period": None,
         }
         series = by_state.get(postal or "", [])
-        if len(series) >= 2:
-            (prev_period, prev_v), (cur_period, cur_v) = series[-2], series[-1]
-            if cur_period - prev_period >= 100:  # ~1 year apart
-                delta = cur_v - prev_v
-                pct = (delta / prev_v) * 100.0 if prev_v else None
+        # Need current + 3 prior trailing-12 anchors, each separated
+        # by ~1 year (so series gaps don't fake a window).
+        if len(series) >= 4:
+            tail = series[-4:]
+            periods = [p for p, _ in tail]
+            spacings = [periods[i + 1] - periods[i] for i in range(3)]
+            if all(s >= 100 for s in spacings):  # each step ~1 year+
+                cur_period, cur_v = tail[-1]
+                baseline_vals = [v for _, v in tail[:-1]]
+                baseline_mean = sum(baseline_vals) / len(baseline_vals)
+                delta = cur_v - baseline_mean
+                pct = (delta / baseline_mean) * 100.0 if baseline_mean else None
                 label, color = classify(delta)
+                baseline_periods = [p for p, _ in tail[:-1]]
                 props.update({
                     "level": label, "fill_color": color,
                     "delta_f": round(delta, 2),
                     "pct_yoy": round(pct, 2) if pct is not None else None,
                     "current_tavg": round(cur_v, 2),
-                    "prior_tavg": round(prev_v, 2),
+                    "baseline_tavg": round(baseline_mean, 2),
+                    "baseline_years": [bp // 100 for bp in baseline_periods],
                     "latest_period": cur_period,
                 })
                 latest_period = max(latest_period, cur_period)
@@ -185,8 +203,9 @@ def main() -> None:
             "source": "NOAA NCEI Climate at a Glance, statewide time series",
             "indicator": "Trailing-12-month mean temperature (°F), tavg",
             "algorithm": (
-                "Δ°F = current trailing-12 - prior trailing-12. "
-                "% YoY computed against the prior-year °F value but is "
+                "Δ°F = current trailing-12 - mean(3 prior trailing-12 "
+                "windows, analogous ending-month at t-12, t-24, t-36 "
+                "months). % computed against the baseline mean but is "
                 "unit-dependent (arbitrary Fahrenheit zero) — display "
                 "the Δ°F as the headline."
             ),
