@@ -513,8 +513,8 @@
     <label class="layer-row">
       <input type="checkbox" id="t-ice-zones">
       <span class="row-swatch" data-style="ice-ring" aria-hidden="true"></span>
-      <span class="row-label">ICE at-large arrests</span>
-      <span class="row-meta">Sep-Oct 2025</span>
+      <span class="row-label">ICE raid reports</span>
+      <span class="row-meta">past 30d</span>
     </label>
   </div>
 </aside>
@@ -591,18 +591,19 @@
   </div>
 
   <div class="legend-section">
-    <h3>ICE at-large tier (30-day arrests)</h3>
+    <h3>ICE raid reports tier (30-day Reddit mentions)</h3>
     <div class="tier-grid">
-      <span class="tier-chip" style="background:#7a0019">S</span><span>&ge; 200</span>
-      <span class="tier-chip" style="background:#d7263d">A</span><span>&ge; 75</span>
-      <span class="tier-chip" style="background:#f46036">B</span><span>&ge; 30</span>
-      <span class="tier-chip" style="background:#f5a623">C</span><span>&ge; 10</span>
-      <span class="tier-chip" style="background:#9e9e9e">D</span><span>1-9</span>
+      <span class="tier-chip" style="background:#7a0019">S</span><span>&ge; 10</span>
+      <span class="tier-chip" style="background:#d7263d">A</span><span>&ge; 5</span>
+      <span class="tier-chip" style="background:#f46036">B</span><span>&ge; 3</span>
+      <span class="tier-chip" style="background:#f5a623">C</span><span>2</span>
+      <span class="tier-chip" style="background:#9e9e9e">D</span><span>1</span>
     </div>
     <div class="legend-caption">
-      Source: Deportation Data Project (FOIA), via Big Local News.
-      Window: Sep 16 - Oct 16, 2025 (latest snapshot available).
-      Filter: <code>apprehension_method = at-large</code>.
+      Source: crowd-sourced from Reddit search (past 30 days) across
+      <code>"ICE raid"</code>, <code>"ICE arrest"</code>, etc.
+      Posts geocoded by subreddit or "City, ST" in title.
+      Noisy, biased toward active local subs; not an enforcement record.
     </div>
   </div>
 </aside>
@@ -1045,9 +1046,16 @@
              `(combined announced capacity within ~80 mi)`;
     }
     if (f.layer.id.startsWith('ice-zone')) {
+      const n = +p.n_arrests;
+      let examples = '';
+      if (Array.isArray(p.examples) && p.examples.length) {
+        examples = '<br>' + p.examples.slice(0,3).map(e =>
+          `&middot; <a href="${e.permalink}" target="_blank" rel="noopener">r/${e.subreddit}: ${e.title}</a>`
+        ).join('<br>');
+      }
       return `<b>${p.county}, ${p.state}</b> &middot; Tier ${p.tier}<br>` +
-             `${(+p.n_arrests).toLocaleString()} at-large ICE arrest${p.n_arrests==1?'':'s'}<br>` +
-             `<i>30-day window ending 2025-10-16</i>`;
+             `${n.toLocaleString()} Reddit mention${n==1?'':'s'} (past 30 days)` +
+             examples;
     }
     if (SITE_LAYER_IDS.includes(f.layer.id)) {
       const mw = p.announced_mw != null ? `${Math.round(p.announced_mw).toLocaleString()} MW` : 'n/a';
