@@ -225,6 +225,33 @@
         #0a3b75 0%, #4a85c4 14.28%, #a4c5e5 28.57%, #e8e8e8 42.86%,
         #f46036 57.14%, #d7263d 71.43%, #7a0019 85.71%);
     }
+    /* Voltage-class ramp for transmission lines / substations: low (yellow)
+       -> medium (orange) -> high (red) -> EHV (dark red/purple). */
+    .row-swatch[data-style="voltage-ramp"] {
+      background: linear-gradient(to right,
+        #f5a623 0%, #f46036 33%, #d7263d 66%, #5a0030 100%);
+    }
+    .row-swatch[data-style="fuel-ramp"] {
+      background: linear-gradient(to right,
+        #7a0019 0%, #7a0019 14.28%,    /* nuclear */
+        #444 28.57%,                    /* coal */
+        #888 42.86%,                    /* gas */
+        #2e86ab 57.14%,                 /* hydro */
+        #f5a623 71.43%,                 /* solar */
+        #52a675 100%);                  /* wind */
+    }
+    .row-swatch[data-style="transmission-line"] {
+      background: transparent;
+      border: none;
+      position: relative;
+    }
+    .row-swatch[data-style="transmission-line"]::before {
+      content: '';
+      position: absolute;
+      inset: 5px 0;
+      background: #5a0030;
+      border-radius: 1px;
+    }
     @keyframes od-pulse {
       0%, 100% { fill-opacity: 0.55; }
       50%      { fill-opacity: 0.10; }
@@ -670,6 +697,31 @@
       <span class="row-meta">monthly</span>
     </label>
   </div>
+
+  <div class="layer-group">
+    <div class="group-label">Power infrastructure (HIFLD / EIA)</div>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-transmission">
+      <span class="row-swatch" data-style="transmission-line" aria-hidden="true"></span>
+      <span class="row-label">Transmission lines</span>
+      <span class="row-meta">by kV</span>
+    </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-substations">
+      <span class="row-swatch" data-style="voltage-ramp" aria-hidden="true"></span>
+      <span class="row-label">Substations (&ge; 69 kV)</span>
+      <span class="row-meta">point</span>
+    </label>
+
+    <label class="layer-row">
+      <input type="checkbox" id="t-power-plants">
+      <span class="row-swatch" data-style="fuel-ramp" aria-hidden="true"></span>
+      <span class="row-label">Power plants (&ge; 100 MW)</span>
+      <span class="row-meta">by fuel</span>
+    </label>
+  </div>
 </aside>
 
 <aside id="legend-panel" class="panel" aria-label="Legend">
@@ -864,6 +916,52 @@
   </div>
 
   <div class="legend-section">
+    <h3>Power infrastructure</h3>
+    <div class="tier-grid" style="grid-template-columns: 22px 1fr;">
+      <span class="tier-chip" style="background:#5a0030">·</span><span>EHV transmission &amp; substations (&ge; 345 kV)</span>
+      <span class="tier-chip" style="background:#d7263d">·</span><span>HV (138-345 kV)</span>
+      <span class="tier-chip" style="background:#f46036">·</span><span>69-138 kV</span>
+      <span class="tier-chip" style="background:#cfd1d4">·</span><span>voltage unknown</span>
+    </div>
+    <div class="legend-caption" style="margin-top:8px;">
+      <b>Plants colored by primary fuel:</b>
+    </div>
+    <div class="keyline">
+      <span><span class="legend-dot" style="background:#7a0019"></span>nuclear</span>
+      <span><span class="legend-dot" style="background:#444444"></span>coal</span>
+      <span><span class="legend-dot" style="background:#888aa0"></span>gas</span>
+      <span><span class="legend-dot" style="background:#2e86ab"></span>hydro</span>
+      <span><span class="legend-dot" style="background:#f5a623"></span>solar</span>
+      <span><span class="legend-dot" style="background:#52a675"></span>wind</span>
+      <span><span class="legend-dot" style="background:#8b6914"></span>biomass</span>
+      <span><span class="legend-dot" style="background:#cc5500"></span>geothermal</span>
+      <span><span class="legend-dot" style="background:#9b59b6"></span>battery</span>
+    </div>
+    <div class="legend-caption">
+      Source: <b>EIA</b> (power plants, transmission) +
+      <b>OpenStreetMap</b> (substations, voltage-tagged
+      <code>power=substation</code> features). Plants &ge; 100 MW
+      installed capacity; substations &ge; 69 kV. Marker size on plants
+      scales with total MW; line width on transmission scales with
+      voltage and zoom.
+    </div>
+    <div class="legend-caption" style="margin-top:8px;">
+      <b>Plant stroke = grid-stress join:</b> a plant in a state with
+      severe outage-uptick or extreme warming gets a red stroke (severe
+      plants also pulse). The stress score takes the max of the
+      <b>outage uptick</b> Z-band and the <b>temperature YoY</b> band
+      for the plant's state. Enable the underlying state layers
+      (outage / temperature) to see the source data.
+    </div>
+    <div class="tier-grid" style="grid-template-columns: 22px 1fr; margin-top:6px;">
+      <span class="tier-chip" style="background:#7a0019">·</span><span>plant in severe-stress state (pulses)</span>
+      <span class="tier-chip" style="background:#d7263d">·</span><span>significant</span>
+      <span class="tier-chip" style="background:#f46036">·</span><span>elevated</span>
+      <span class="tier-chip" style="background:#1a1a23">·</span><span>normal / no stress data</span>
+    </div>
+  </div>
+
+  <div class="legend-section">
     <h3>ICE raid reports level (30-day Reddit mentions)</h3>
     <div class="tier-grid">
       <span class="tier-chip" style="background:#7a0019">1</span><span>&ge; 10</span>
@@ -928,6 +1026,80 @@
     6, '#7a0019',  // extreme warming (>= 2)
     '#cfd1d4'
   ];
+  // Voltage-class color for transmission lines + substations. Step on
+  // the numeric kV field. EHV (>= 345 kV) is dark/purple to read as
+  // "critical interstate corridor"; HV (138-345) is red; sub-138 yellow.
+  const VOLTAGE_COLOR = [
+    'step', ['coalesce', ['to-number', ['get', 'voltage_kv']], 0],
+    '#cfd1d4',           // unknown / 0 (HIFLD -999999 sentinel zeroed in fetcher)
+    1,   '#f5a623',      // 1-68 kV (sub-transmission, rare here)
+    69,  '#f46036',      // 69-137 kV
+    138, '#d7263d',      // 138-344 kV
+    345, '#5a0030'       // EHV: 345 / 500 / 765 kV
+  ];
+  const SUB_VOLTAGE_COLOR = [
+    'step', ['coalesce', ['to-number', ['get', 'max_volt']], 0],
+    '#cfd1d4',
+    1,   '#f5a623',
+    69,  '#f46036',
+    138, '#d7263d',
+    345, '#5a0030'
+  ];
+  // Power-plant fuel color. EIA's PrimSource values are lowercase strings
+  // ("coal", "natural gas", "nuclear", "hydroelectric", "solar", "wind",
+  // "biomass", "geothermal", "petroleum", "other"). Nuclear gets the
+  // darkest red because it reads as the most critical baseload.
+  const FUEL_COLOR = [
+    'match', ['get', 'primary_fuel'],
+    'nuclear',          '#7a0019',
+    'coal',             '#444444',
+    'natural gas',      '#888aa0',
+    'petroleum',        '#5c3a21',
+    'hydroelectric',    '#2e86ab',
+    'pumped storage',   '#2e86ab',
+    'solar',            '#f5a623',
+    'wind',             '#52a675',
+    'biomass',          '#8b6914',
+    'geothermal',       '#cc5500',
+    'batteries',        '#9b59b6',
+    /* other / unknown */ '#9e9e9e'
+  ];
+  const PLANT_RADIUS = [
+    'interpolate', ['linear'], ['zoom'],
+    3,  ['max', 2.5, ['min', 14, ['*', 0.30, ['sqrt', ['coalesce', ['to-number', ['get', 'total_mw']], 0]]]]],
+    8,  ['max', 4,   ['min', 22, ['*', 0.55, ['sqrt', ['coalesce', ['to-number', ['get', 'total_mw']], 0]]]]],
+    12, ['max', 6,   ['min', 32, ['*', 0.90, ['sqrt', ['coalesce', ['to-number', ['get', 'total_mw']], 0]]]]]
+  ];
+  // Pulse layer needs its own zoom interpolate (~1.9x of PLANT_RADIUS at each
+  // stop). MapLibre disallows wrapping a zoom-based interpolate inside another
+  // expression like `*`, so we bake the 1.9 multiplier into each stop instead.
+  // `_makePulseRadius(scale)` returns a stop array scaled by `scale`; the
+  // runtime pulse animation rebuilds this expression with a varying scale.
+  function _makePulseRadius(scale) {
+    return [
+      'interpolate', ['linear'], ['zoom'],
+      3,  ['max', 2.5 * scale, ['min', 14 * scale, ['*', 0.30 * scale, ['sqrt', ['coalesce', ['to-number', ['get', 'total_mw']], 0]]]]],
+      8,  ['max', 4   * scale, ['min', 22 * scale, ['*', 0.55 * scale, ['sqrt', ['coalesce', ['to-number', ['get', 'total_mw']], 0]]]]],
+      12, ['max', 6   * scale, ['min', 32 * scale, ['*', 0.90 * scale, ['sqrt', ['coalesce', ['to-number', ['get', 'total_mw']], 0]]]]]
+    ];
+  }
+  const PLANT_PULSE_RADIUS = _makePulseRadius(1.9);
+  // Transmission line width scales with both zoom and voltage.
+  const TRANSMISSION_WIDTH = [
+    'interpolate', ['linear'], ['zoom'],
+    3,  ['case',
+          ['>=', ['coalesce', ['to-number', ['get', 'voltage_kv']], 0], 345], 0.7,
+          ['>=', ['coalesce', ['to-number', ['get', 'voltage_kv']], 0], 138], 0.4,
+          0.2],
+    8,  ['case',
+          ['>=', ['coalesce', ['to-number', ['get', 'voltage_kv']], 0], 345], 2.0,
+          ['>=', ['coalesce', ['to-number', ['get', 'voltage_kv']], 0], 138], 1.2,
+          0.6],
+    12, ['case',
+          ['>=', ['coalesce', ['to-number', ['get', 'voltage_kv']], 0], 345], 3.2,
+          ['>=', ['coalesce', ['to-number', ['get', 'voltage_kv']], 0], 138], 2.0,
+          1.0]
+  ];
   const NO_DATA_OPACITY = ['case', ['==', ['get', 'bin'], -1], 0.18, 0.6];
 
   const MARKER_RADIUS = [
@@ -990,7 +1162,10 @@
         'od-uptick': { type: 'geojson', data: './od_uptick.geojson' },
         'homicide-uptick': { type: 'geojson', data: './homicide_uptick.geojson' },
         'temperature-yoy': { type: 'geojson', data: './temperature_yoy.geojson' },
-        'outage-uptick': { type: 'geojson', data: './outage_uptick.geojson' }
+        'outage-uptick': { type: 'geojson', data: './outage_uptick.geojson' },
+        'power-plants': { type: 'geojson', data: './power_plants.geojson' },
+        'substations': { type: 'vector', url: 'pmtiles://./tiles/substations.pmtiles' },
+        'transmission': { type: 'vector', url: 'pmtiles://./tiles/transmission_lines.pmtiles' }
       },
       layers: [
         { id: 'basemap', type: 'raster', source: 'base' },
@@ -1256,6 +1431,93 @@
           }
         },
 
+        // --- Transmission lines (vector tiles; off by default).
+        //     Sits below sites/rings but above choropleths so the lines
+        //     remain visible over a county/BA fill. Width and color both
+        //     scale with the VOLTAGE field (HIFLD numeric kV).
+        {
+          id: 'transmission-line', type: 'line',
+          source: 'transmission', 'source-layer': 'transmission_lines',
+          paint: {
+            'line-color': VOLTAGE_COLOR,
+            'line-width': TRANSMISSION_WIDTH,
+            'line-opacity': 0.75
+          },
+          layout: {
+            visibility: 'none',
+            'line-cap': 'round', 'line-join': 'round'
+          }
+        },
+
+        // --- Substations (vector tiles; off by default). Drawn above
+        //     transmission lines so their dots sit on top of the line
+        //     endpoints (which is how the data is laid out: lines
+        //     terminate in substations).
+        {
+          id: 'substations-point', type: 'circle',
+          source: 'substations', 'source-layer': 'substations',
+          paint: {
+            'circle-radius': [
+              'interpolate', ['linear'], ['zoom'],
+              3,  2,
+              7,  3.5,
+              10, 5,
+              12, 7
+            ],
+            'circle-color': SUB_VOLTAGE_COLOR,
+            'circle-stroke-color': '#ffffff',
+            'circle-stroke-width': 0.6,
+            'circle-opacity': 0.9
+          },
+          layout: { visibility: 'none' }
+        },
+
+        // --- Power plants (geojson points; off by default). Larger
+        //     than substations and colored by primary fuel so the user
+        //     can identify nuclear / coal / gas baseload at a glance.
+        //     Stroke color also encodes grid stress: when the plant's
+        //     state shows a severe/significant outage Z or extreme
+        //     warming on the temperature layer, the stroke turns red
+        //     - so the same toggle surfaces both "what's there" (fuel)
+        //     and "is it under stress" (stroke). See annotatePlantsWithStress.
+        {
+          id: 'power-plants-point', type: 'circle', source: 'power-plants',
+          paint: {
+            'circle-radius': PLANT_RADIUS,
+            'circle-color': FUEL_COLOR,
+            'circle-stroke-color': [
+              'match', ['get', 'stress'],
+              'severe',      '#7a0019',
+              'significant', '#d7263d',
+              'elevated',    '#f46036',
+              /* normal/unknown/no-stress */ '#1a1a23'
+            ],
+            'circle-stroke-width': [
+              'match', ['get', 'stress'],
+              'severe',      2.4,
+              'significant', 1.8,
+              'elevated',    1.4,
+              /* default */  0.8
+            ],
+            'circle-opacity': 0.85
+          },
+          layout: { visibility: 'none' }
+        },
+        // Pulse ring for plants in severely-stressed states (separate
+        // layer so a setInterval can animate just its opacity).
+        {
+          id: 'power-plants-stress-pulse', type: 'circle', source: 'power-plants',
+          filter: ['==', ['get', 'stress'], 'severe'],
+          paint: {
+            'circle-radius': PLANT_PULSE_RADIUS,
+            'circle-color': 'rgba(0,0,0,0)',
+            'circle-stroke-color': '#7a0019',
+            'circle-stroke-width': 1.8,
+            'circle-stroke-opacity': 0.55
+          },
+          layout: { visibility: 'none' }
+        },
+
         // --- Hot zone rings (under sites so dots stay readable) ---
         {
           id: 'hot-zone-fill', type: 'fill', source: 'hot-zones',
@@ -1474,6 +1736,90 @@
   bindToggle('t-temperature-county', v => setLayers(
     ['temperature-county-fill', 'temperature-county-outline'], v));
 
+  bindToggle('t-transmission',  v => setLayers(['transmission-line'], v));
+  bindToggle('t-substations',   v => setLayers(['substations-point'], v));
+  // The plants toggle also drives the stress-pulse layer, which is
+  // filtered to plants whose state is in a severe outage or extreme
+  // warming band. annotatePlantsWithStress() (below) writes the
+  // `stress` property each plant uses for stroke color + pulse filter.
+  bindToggle('t-power-plants', makePlantsToggle());
+
+  function makePlantsToggle() {
+    let pulseTimer = null;
+    function startPulse() {
+      if (pulseTimer) return;
+      let t = 0;
+      pulseTimer = setInterval(() => {
+        t += 1;
+        const phase = (Math.sin(t * 0.2) + 1) * 0.5;
+        if (map.getLayer('power-plants-stress-pulse')) {
+          map.setPaintProperty('power-plants-stress-pulse',
+            'circle-stroke-opacity', 0.15 + phase * 0.55);
+          map.setPaintProperty('power-plants-stress-pulse',
+            'circle-radius', _makePulseRadius(1.6 + phase * 0.6));
+        }
+      }, 90);
+    }
+    function stopPulse() {
+      if (pulseTimer) { clearInterval(pulseTimer); pulseTimer = null; }
+    }
+    return v => {
+      setLayers(['power-plants-point', 'power-plants-stress-pulse'], v);
+      if (v) startPulse(); else stopPulse();
+    };
+  }
+
+  // --- Derived stress indicator --------------------------------------
+  // Joins each plant to its state's current outage-uptick + temperature
+  // bands and writes a `stress` property the paint expressions consume.
+  // Refreshes when outage_uptick / temperature_yoy reload (which only
+  // happens on full page reload today, but the function is idempotent).
+  const STRESS_RANK = {
+    severe: 4, significant: 3, elevated: 2, normal: 1, no_data: 0,
+    'extreme warming': 4, 'strong warming': 3, warming: 2,
+    stable: 1, cooling: 1, 'strong cooling': 1, 'extreme cooling': 1,
+  };
+  const STRESS_LABEL = ['normal', 'normal', 'elevated', 'significant', 'severe'];
+
+  function annotatePlantsWithStress() {
+    const src = map.getSource('power-plants');
+    if (!src) return;
+    Promise.all([
+      fetch('./power_plants.geojson').then(r => r.json()).catch(() => null),
+      fetch('./outage_uptick.geojson').then(r => r.json()).catch(() => null),
+      fetch('./temperature_yoy.geojson').then(r => r.json()).catch(() => null),
+    ]).then(([plants, outages, temps]) => {
+      if (!plants) return;
+      const byState = {};   // state name -> { outage, temp, score }
+      const ingest = (geo, field, key) => {
+        if (!geo || !geo.features) return;
+        for (const f of geo.features) {
+          const p = f.properties || {};
+          const name = p.name;
+          if (!name) continue;
+          (byState[name] = byState[name] || {})[key] = p[field];
+        }
+      };
+      ingest(outages, 'level', 'outage');
+      ingest(temps,  'level', 'temp');
+      for (const name in byState) {
+        const s = byState[name];
+        const score = Math.max(STRESS_RANK[s.outage] || 0, STRESS_RANK[s.temp] || 0);
+        s.score = score;
+        s.label = STRESS_LABEL[score] || 'normal';
+      }
+      for (const f of plants.features) {
+        const st = byState[f.properties.state];
+        f.properties.stress = st ? st.label : 'unknown';
+        f.properties.stress_outage = st ? (st.outage || null) : null;
+        f.properties.stress_temp   = st ? (st.temp   || null) : null;
+      }
+      src.setData(plants);
+    });
+  }
+  // Kick off once the style is loaded so the source exists.
+  map.on('style.load', annotatePlantsWithStress);
+
   map.on('style.load', () => {
     document.querySelectorAll('#layer-panel input[type=checkbox]')
       .forEach(cb => cb.dispatchEvent(new Event('change')));
@@ -1531,6 +1877,7 @@
   const SITE_LAYER_IDS = ['sites-primary', 'sites-mixed', 'sites-minimal'];
   const PROBE_LAYERS = [
     ...SITE_LAYER_IDS,
+    'power-plants-point', 'substations-point', 'transmission-line',
     'hot-zone-marker', 'hot-zone-fill',
     'ice-zone-marker', 'ice-zone-fill',
     'protest-zone-marker', 'protest-zone-fill',
@@ -1538,12 +1885,18 @@
     'od-uptick-fill', 'homicide-uptick-fill', 'outage-uptick-fill',
     'temperature-yoy-fill', 'temperature-county-fill',
   ];
-  // Lower = higher priority when sorting overlapping hits.
+  // Lower = higher priority when sorting overlapping hits. Power-infra
+  // points get top priority alongside sites since the user's intent
+  // when hovering a plant or substation is to see *that* asset's info,
+  // not the underlying choropleth.
   const PROBE_PRIORITY = {
     'sites-primary': 0, 'sites-mixed': 0, 'sites-minimal': 0,
+    'power-plants-point': 0.3,
+    'substations-point': 0.5,
     'hot-zone-marker': 1, 'hot-zone-fill': 2,
     'ice-zone-marker': 1.5, 'ice-zone-fill': 2.5,
     'protest-zone-marker': 1.7, 'protest-zone-fill': 2.7,
+    'transmission-line': 2.8,
     'county-fill': 3, 'utility-fill': 4, 'election-fill': 4.3,
     'property-tax-fill': 4.6, 'realestate-fill': 4.65, 'ba-fill': 5,
     'od-uptick-fill': 6, 'homicide-uptick-fill': 6.1, 'outage-uptick-fill': 6.2,
@@ -1745,6 +2098,52 @@
              `z=${sign}${(+p.z).toFixed(2)}, prior month z=${(+p.z_prev).toFixed(2)} (persisted)<br>` +
              `baseline mean ${(+p.baseline_mean).toFixed(0)}, sd ${(+p.baseline_stdev).toFixed(1)}<br>` +
              `<i>NOAA Storm Events proxy &mdash; not measured customer-out counts.</i>`;
+    }
+    if (f.layer.id === 'power-plants-point' || f.layer.id === 'power-plants-stress-pulse') {
+      const mw = (p.total_mw != null && !Number.isNaN(+p.total_mw))
+        ? `${(+p.total_mw).toLocaleString(undefined, {maximumFractionDigits: 0})} MW`
+        : 'n/a';
+      const installed = (p.install_mw != null && +p.install_mw !== +p.total_mw)
+        ? ` (installed: ${(+p.install_mw).toLocaleString(undefined, {maximumFractionDigits: 0})} MW)`
+        : '';
+      const fuel = p.primary_fuel || '?';
+      const tech = p.tech_desc ? `<br>${p.tech_desc}` : '';
+      const op = p.operator ? `${p.operator}<br>` : '';
+      const period = p.period ? `<br><span class="tip-meta">as of ${p.period}</span>` : '';
+      let stress = '';
+      if (p.stress && p.stress !== 'normal' && p.stress !== 'unknown') {
+        const drivers = [];
+        if (p.stress_outage && p.stress_outage !== 'normal') drivers.push(`outage ${p.stress_outage}`);
+        if (p.stress_temp && !/cooling|stable/.test(p.stress_temp)) drivers.push(`temp ${p.stress_temp}`);
+        stress = `<br><span style="color:#7a0019"><b>grid stress: ${p.stress}</b>${drivers.length ? ' &middot; ' + drivers.join(', ') : ''}</span>`;
+      }
+      return `<b>${p.name || 'Power plant'}</b><br>` +
+             `${op}${p.city ? p.city + ', ' : ''}${p.state || ''}<br>` +
+             `<b>${mw}</b>${installed} &middot; <b>${fuel}</b>${tech}${stress}${period}`;
+    }
+    if (f.layer.id === 'substations-point') {
+      const v = (p.max_volt != null && +p.max_volt > 0)
+        ? `${(+p.max_volt).toLocaleString()} kV max`
+        : 'voltage unknown';
+      const vmin = (p.min_volt != null && +p.min_volt > 0 && +p.min_volt !== +p.max_volt)
+        ? ` (min ${(+p.min_volt).toLocaleString()} kV)` : '';
+      const lines = (p.lines != null) ? `<br>${p.lines} line${+p.lines === 1 ? '' : 's'}` : '';
+      const status = p.status ? ` &middot; ${p.status}` : '';
+      const type = p.type ? `<br>type: ${p.type}` : '';
+      return `<b>${p.name || 'Substation'}</b>${status}<br>` +
+             `${p.city ? p.city + ', ' : ''}${p.state || ''}${p.county ? ' &middot; ' + p.county + ' Co.' : ''}<br>` +
+             `<b>${v}</b>${vmin}${lines}${type}`;
+    }
+    if (f.layer.id === 'transmission-line') {
+      const v = (p.voltage_kv != null && +p.voltage_kv > 0)
+        ? `${(+p.voltage_kv).toLocaleString()} kV`
+        : (p.volt_class || 'voltage unknown');
+      const owner = p.owner ? `<br>owner: ${p.owner}` : '';
+      const status = p.status ? ` &middot; ${p.status}` : '';
+      const conn = (p.sub_1 || p.sub_2)
+        ? `<br>${p.sub_1 || '?'} &harr; ${p.sub_2 || '?'}` : '';
+      return `<b>Transmission line</b>${status}<br>` +
+             `<b>${v}</b>${p.type ? ' &middot; ' + p.type : ''}${owner}${conn}`;
     }
     if (SITE_LAYER_IDS.includes(f.layer.id)) {
       const mw = p.announced_mw != null ? `${Math.round(p.announced_mw).toLocaleString()} MW` : 'n/a';

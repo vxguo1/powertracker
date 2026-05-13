@@ -41,6 +41,8 @@ ELECTION_CSV = REPO_ROOT / "data" / "cache" / "election_2024_county.csv"
 PROPERTY_TAX_CSV = REPO_ROOT / "data" / "cache" / "property_tax_yoy.csv"
 TEMPERATURE_CSV = REPO_ROOT / "data" / "cache" / "temperature_county_yoy.csv"
 REALESTATE_CSV = REPO_ROOT / "data" / "cache" / "realestate_yoy.csv"
+TRANSMISSION_GEOJSON = REPO_ROOT / "data" / "cache" / "transmission_lines.geojson"
+SUBSTATIONS_GEOJSON = REPO_ROOT / "data" / "cache" / "substations.geojson"
 
 NO_DATA_BIN = -1
 
@@ -486,6 +488,23 @@ def _build_one(name: str, geojson: dict, layer_name: str, max_zoom: int) -> Path
     return pm
 
 
+def _build_from_path(name: str, src_path: Path, layer_name: str, max_zoom: int) -> Path:
+    """Build PMTiles directly from an on-disk GeoJSON (no in-memory copy
+    through TMP_DIR). Used for large source files like the ~500 MB
+    transmission-lines geojson."""
+    mbt = TMP_DIR / f"{name}.mbtiles"
+    if mbt.exists():
+        mbt.unlink()
+    _run_tippecanoe(src_path, mbt, layer_name, max_zoom)
+    pm = OUT_DIR / f"{name}.pmtiles"
+    if pm.exists():
+        pm.unlink()
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    _run_pmtiles_convert(mbt, pm)
+    print(f"  {name}.pmtiles {pm.stat().st_size/1024:.1f} KB")
+    return pm
+
+
 def main() -> None:
     data = load_data(use_cache=True)
     if data.ba_geo is None or data.util_geo is None or data.county_geo is None:
@@ -529,6 +548,27 @@ def main() -> None:
         _build_one("temperature", _enrich_temperature(data.county_geo, temp), "temperature", max_zoom=9)
     else:
         print(f"\nSkipping temperature layer ({TEMPERATURE_CSV} missing).")
+
+    if TRANSMISSION_GEOJSON.exists():
+        print("\nTransmission lines layer ...")
+        # 94k LineStrings; tippecanoe drops the densest features per tile
+        # to stay within reasonable tile sizes. min_zoom of 3 (set inside
+        # _run_tippecanoe) means cross-country corridors show at the
+        # national zoom level.
+        _build_from_path("transmission_lines", TRANSMISSION_GEOJSON,
+                         "transmission_lines", max_zoom=11)
+    else:
+        print(f"\nSkipping transmission-lines layer ({TRANSMISSION_GEOJSON} missing).")
+
+    if SUBSTATIONS_GEOJSON.exists():
+        print("\nSubstations layer ...")
+        # 47k points; PMTiles + tippecanoe handles the density via
+        # drop-densest-as-needed so the national zoom doesn't paint a
+        # solid wall of dots.
+        _build_from_path("substations", SUBSTATIONS_GEOJSON,
+                         "substations", max_zoom=11)
+    else:
+        print(f"\nSkipping substations layer ({SUBSTATIONS_GEOJSON} missing).")
 
     shutil.rmtree(TMP_DIR, ignore_errors=True)
 
