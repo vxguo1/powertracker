@@ -1,0 +1,71 @@
+name: refresh-power
+
+# Annual refresh of US power infrastructure layers:
+#   - Power plants (EIA Power_Plants_in_the_US, >= 100 MW)
+#   - High-voltage substations (HIFLD via Rutgers mirror, >= 69 kV)
+#   - Transmission lines (EIA US_Electric_Power_Transmission_Lines)
+#
+# EIA-860 (the upstream of the EIA power plants service) releases final
+# annual data in early September each year covering the prior year. The
+# HIFLD transmission/substations data refreshes irregularly. Running on
+# October 1 leaves a few weeks of buffer past the EIA-860 release.
+
+on:
+  schedule:
+    - cron: "0 7 1 10 *"  # Oct 1, 07:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-power
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python deps for tile build
+        run: pip install pandas folium python-dotenv openpyxl
+      - name: Fetch power infrastructure (plants + substations + transmission)
+        # Writes app/power_plants.geojson, app/substations.geojson, and
+        # data/cache/transmission_lines.geojson (the source for the
+        # transmission PMTiles). Each ArcGIS REST endpoint is paginated;
+        # the transmission pull alone is ~95k features / ~130 MB.
+        run: python scripts/fetch_power_infra.py
+      - name: Rebuild PMTiles
+        # build_tiles.py rebuilds every PMTiles target whose source CSV
+        # or geojson exists. Transmission_lines.pmtiles is the one this
+        # workflow is responsible for; rebuilding the rest is harmless
+        # (their inputs haven't moved).
+        run: python scripts/build_tiles.py
+      - name: Commit refreshed artifacts if changed
+        run: |
+          git config user.email "ci-bot@users.noreply.github.com"
+          git config user.name "powertracker-ci"
+          git add app/power_plants.geojson \
+                  app/tiles/transmission_lines.pmtiles \
+                  app/tiles/substations.pmtiles \
+                  data/cache/transmission_lines.geojson \
+                  data/cache/substations.geojson
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "refresh: power infrastructure ($(date -u +%Y-%m-%d))"
+            git push
+          fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Deploy worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy

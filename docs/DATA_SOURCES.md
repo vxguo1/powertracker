@@ -30,6 +30,9 @@ When you add a refresh job, link it from the **Refresh job** column.
 | 18 | Utility territory polygons | annually-ish (HIFLD) | annual | committed; re-download from HIFLD when refreshing | `data/geo/utility_territories.geojson` | n/a (static) |
 | 19 | US cities geocoding reference (`kelvins/US-Cities-Database`) | basically static | as-needed | `curl https://raw.githubusercontent.com/kelvins/US-Cities-Database/main/csv/us_cities.csv` | `data/cache/us_cities.csv` | n/a (static) |
 | 20 | Redfin Data Center — county monthly median sale price (3mo rolling vs 3-yr baseline) | monthly | monthly | `python scripts/fetch_realestate_yoy.py` | `data/cache/realestate_yoy.csv` → `app/tiles/realestate.pmtiles` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
+| 21 | EIA power plants (≥ 100 MW, ArcGIS REST) | annual (EIA-860 Sept) | annual | `python scripts/fetch_power_infra.py` | `app/power_plants.geojson` | [refresh-power.yml](../.github/workflows/refresh-power.yml) |
+| 22 | OpenStreetMap power substations (≥ 69 kV, via Overpass API) | continuous (OSM edits) | annual | `python scripts/fetch_power_infra.py` | `data/cache/substations.geojson` → `app/tiles/substations.pmtiles` | [refresh-power.yml](../.github/workflows/refresh-power.yml) |
+| 23 | EIA electric power transmission lines (ArcGIS REST) | irregular (HIFLD updates) | annual | `python scripts/fetch_power_infra.py` | `data/cache/transmission_lines.geojson` → `app/tiles/transmission_lines.pmtiles` | [refresh-power.yml](../.github/workflows/refresh-power.yml) |
 
 After any **cached CSV** change (rows 1–7), tiles need rebuilding:
 ```
@@ -180,11 +183,43 @@ need `build_tiles.py`. Just deploy.
 - **FIPS resolution**: Redfin uses its own region IDs and labels counties as `"Foo County, ST"` / `"Foo Parish, LA"` / `"Foo Census Area, AK"`. The fetcher expands the Census GeoJSON LSAD abbreviations (`CA` -> `Census Area`, `Muno` -> `Municipality`, `Cty&Bor` -> `City and Borough`, etc.) and normalizes `&` -> `and` plus diacritics to bridge "King & Queen County" / "King and Queen County" and "Dona Ana" / "Doña Ana".
 - **Caveats**: median sale price (not list price) so it reflects actual closings. The 3-month rolling absorbs most low-volume noise, but a handful of mid-population counties with a luxury-tail can still swing >+/- 30% over a 3-year span; treat extremes as suggestive, not definitive. **Not seasonally adjusted** — each baseline window matches the current window's calendar months, which neutralizes seasonality for the headline number but the underlying levels are not. The 3-year baseline tightens around long-run county price level rather than a single year, so the headline % shrinks vs the old 1-year YoY for steadily-rising markets and grows for newly-accelerating ones. Coverage drops modestly vs the 1-year version because a county must clear the 30-sales floor in **four** 3mo windows (current + 3 baseline) instead of two.
 
+### 21. EIA power plants (≥ 100 MW)
+
+- **Upstream**: EIA-hosted ArcGIS Online feature service `Power_Plants_in_the_US/FeatureServer/0` (org `FiaPA4ga0iQKduv3`). This is the public-map mirror of EIA Form 860 generator data.
+- **Script**: [scripts/fetch_power_infra.py](../scripts/fetch_power_infra.py)
+- **Filter**: `Total_MW >= 100` (~2,500 of ~12,000 total plants). Below 100 MW the map gets unreadable and the load impact relative to a hyperscaler campus is rounding error.
+- **Fields kept**: plant code, name, operator, sector, city/county/state, primary fuel, tech description, installed MW, total MW.
+- **Cadence**: EIA-860 final annual data drops in early September each year for the prior year.
+- **Refresh**: annual on October 1 via [refresh-power.yml](../.github/workflows/refresh-power.yml).
+- **Caveats**: marker color is `PrimSource`; some plants are mixed-fuel and the secondary fuel columns (`Bat_MW`, `Bio_MW`, `Coal_MW`, etc.) are dropped to keep the tooltip terse. Plants with only "planned" status are filtered out by the upstream service.
+
+### 22. OpenStreetMap power substations (≥ 69 kV)
+
+- **Upstream**: OpenStreetMap via the public Overpass API (`overpass-api.de/api/interpreter`). Query targets `power=substation` features with a numeric `voltage` tag, chunked into 4 CONUS quadrants to stay within Overpass server limits.
+- **Script**: [scripts/fetch_power_infra.py](../scripts/fetch_power_infra.py)
+- **Filter**: `max(voltage) >= 69 kV` (~47k substations US-wide). The OSM `voltage` tag is stored in volts and can be semicolon-separated (`"345000;138000"`); the fetcher splits, normalizes to kV, and takes the max.
+- **Fields kept**: name, operator, city, state, OSM substation type (transmission/distribution/etc.), status, min/max voltage, OSM ID.
+- **Cadence**: OSM is continuously edited by volunteers and utilities; substations are mapped fairly comprehensively in the US (especially the HV/EHV ones — local mappers tend to add them).
+- **Refresh**: annual via [refresh-power.yml](../.github/workflows/refresh-power.yml). Re-running pulls the current state of OSM.
+- **Output**: ~14 MB raw geojson → `data/cache/substations.geojson` → `build_tiles.py` packs into `app/tiles/substations.pmtiles` (a few MB compressed).
+- **Why not HIFLD**: HIFLD was the canonical source until 2022 when DHS restricted public access. The Rutgers academic mirror that still exists only covers the Northeast US (~5k substations in 13 states). OSM is the most reliable free option with US-wide coverage, at the cost of accepting volunteer-mapped data quality.
+- **Caveats**: voltage tags may be missing or malformed for newer/poorly-mapped substations — those get filtered out. Substation names from OSM are often a `ref` (numeric ID) rather than a friendly name. Coverage of <138 kV substations is somewhat sparse in rural areas vs the (now-gone) HIFLD authoritative count. Be polite to Overpass: the fetcher sleeps 2s between quadrant queries and runs only once a year.
+
+### 23. Electric power transmission lines
+
+- **Upstream**: EIA-hosted ArcGIS Online feature service `US_Electric_Power_Transmission_Lines/FeatureServer/0` (same org as #21). Sourced originally from HIFLD; EIA republishes.
+- **Script**: [scripts/fetch_power_infra.py](../scripts/fetch_power_infra.py)
+- **Filter**: none — the full ~94,600 line segments. Tippecanoe drops the densest features per tile when needed (`--drop-densest-as-needed`) so we don't pre-filter by voltage. Voltage class shows in the tile via the `voltage_kv` attribute, and the MapLibre style scales line width by voltage so EHV (≥345 kV) corridors visually dominate.
+- **Fields kept**: type, status, owner, numeric voltage (kV), voltage class, the two end substations (SUB_1, SUB_2).
+- **Cadence**: HIFLD-irregular (see #22).
+- **Refresh**: annual via [refresh-power.yml](../.github/workflows/refresh-power.yml). After `fetch_power_infra.py` writes the cache, `scripts/build_tiles.py` packs it into `app/tiles/transmission_lines.pmtiles` (raw geojson is ~130 MB; PMTiles is ~10-30 MB).
+- **Caveats**: HIFLD uses `-999999` to mean "voltage unknown" — the fetcher coalesces that to null so the tooltip and color scale render cleanly. INFERRED == "Y" means the line's exact path was reconstructed from endpoints (true of many distribution-tier lines); status is a separate column.
+
 ---
 
 ## Refresh workflows
 
-Four scheduled GitHub Actions live under `.github/workflows/`:
+Five scheduled GitHub Actions live under `.github/workflows/`:
 
 | Workflow | Cron | Covers | Behavior |
 |----------|------|--------|----------|
@@ -192,14 +227,15 @@ Four scheduled GitHub Actions live under `.github/workflows/`:
 | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) | `0 6 5 * *` (5th @ 06:00 UTC) | OD uptick + homicide uptick + temperature YoY + Redfin closing price YoY | Runs `fetch_od_uptick.py`, `fetch_homicide_uptick.py`, `fetch_temperature_yoy.py`, `fetch_realestate_yoy.py`; commits if changed, deploys |
 | [refresh-eia-demand.yml](../.github/workflows/refresh-eia-demand.yml) | `0 7 * * 1` (Mon @ 07:00 UTC) | EIA hourly demand → BA YoY → `ba.pmtiles` | Pulls 24 months of hourly demand, recomputes YoY, rebuilds tiles via Docker, deploys |
 | [refresh-property-tax.yml](../.github/workflows/refresh-property-tax.yml) | `0 7 15 1 *` (Jan 15 @ 07:00 UTC) | ACS property tax → `property_tax.pmtiles` | Refetches Census API, rebuilds tiles via Docker, deploys |
+| [refresh-power.yml](../.github/workflows/refresh-power.yml) | `0 7 1 10 *` (Oct 1 @ 07:00 UTC) | Power plants + substations + transmission lines (#21-23) | Paginates the three ArcGIS REST endpoints, writes geojson, rebuilds `transmission_lines.pmtiles`, deploys |
 
 All workflows require the following **GitHub Secrets** (Settings →
 Secrets and variables → Actions):
 
 | Secret | Used by | What it is |
 |--------|---------|------------|
-| `CLOUDFLARE_API_TOKEN` | all four | Workers Scripts: Edit, scoped to the powertracker account |
-| `CLOUDFLARE_ACCOUNT_ID` | all four | The `d8e8518b7870983e964bdd183fc718b6` account id |
+| `CLOUDFLARE_API_TOKEN` | all five | Workers Scripts: Edit, scoped to the powertracker account |
+| `CLOUDFLARE_ACCOUNT_ID` | all five | The `d8e8518b7870983e964bdd183fc718b6` account id |
 | `EIA_API_KEY` | refresh-eia-demand | Free key from [eia.gov/opendata/register](https://www.eia.gov/opendata/register.php) |
 
 All commits use the repo's built-in `GITHUB_TOKEN`. Concurrency groups

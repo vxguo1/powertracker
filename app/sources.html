@@ -237,6 +237,26 @@ const LAYERS = [
     desc: 'County-level median real-estate tax for the latest ACS 5-year endpoint vs the mean of the prior 3 endpoints (currently 2024 vs mean(2021-2023)). ACS 5-yr windows overlap by 4 yrs so the baseline is nearly the same population — treat magnitude as suggestive. Re-runs every Jan 15 to catch the Dec ACS release.',
   },
 
+  // Power infrastructure
+  { group: 'Power infrastructure', name: 'Power plants (≥ 100 MW)', cadence: 'annual', refresh: 'refresh-power.yml',
+    sourceName: 'EIA Power_Plants_in_the_US (ArcGIS REST, sources EIA-860)',
+    sourceUrl: 'https://www.eia.gov/electricity/data/eia860/',
+    asset: '/power_plants.geojson', hasMetadata: false,
+    desc: '~2.5k US plants ≥ 100 MW installed capacity, colored by primary fuel and sized by total MW. Paginated annually from the EIA-hosted ArcGIS feature service; below 100 MW the map gets unreadable.',
+  },
+  { group: 'Power infrastructure', name: 'High-voltage substations (≥ 69 kV)', cadence: 'annual', refresh: 'refresh-power.yml',
+    sourceName: 'OpenStreetMap power=substation via Overpass API',
+    sourceUrl: 'https://overpass-api.de/',
+    asset: '/tiles/substations.pmtiles', hasMetadata: false,
+    desc: '~47k transmission-level substations US-wide, colored by max voltage. HIFLD restricted direct public access in 2022; OSM is the most reliable free source with US-wide coverage at the cost of accepting volunteer-mapped data quality.',
+  },
+  { group: 'Power infrastructure', name: 'Transmission lines (all voltages)', cadence: 'annual', refresh: 'refresh-power.yml',
+    sourceName: 'EIA US_Electric_Power_Transmission_Lines (sources HIFLD)',
+    sourceUrl: 'https://www.eia.gov/maps/',
+    asset: '/tiles/transmission_lines.pmtiles', hasMetadata: false,
+    desc: '~94.6k line segments, color + width scale with voltage so EHV (≥345 kV) corridors visually dominate. Packed into PMTiles because raw geojson is ~130 MB.',
+  },
+
   // Politics
   { group: 'Politics', name: '2024 presidential election (county margin)', cadence: 'every 4 years', refresh: 'one-shot',
     sourceName: 'tonmcg/US_County_Level_Election_Results_08-24',
