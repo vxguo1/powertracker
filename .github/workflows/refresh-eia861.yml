@@ -1,0 +1,57 @@
+name: refresh-eia861
+
+# Annual refresh of EIA Form 861 utility residential retail rates.
+# EIA-861 final annual data drops in October each year for the prior year.
+# We run on October 20 to leave a buffer past the release.
+#
+# Will need its hard-coded year argument bumped in
+# scripts/fetch_eia861.py once EIA-861 publishes new data.
+
+on:
+  schedule:
+    - cron: "0 7 20 10 *"  # Oct 20, 07:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-eia861
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python deps
+        run: pip install pandas folium python-dotenv openpyxl
+      - name: Refresh EIA-861 residential-rate CSV
+        # Public EIA zip downloads. Writes data/cache/utility_rate_yoy.csv.
+        run: python scripts/fetch_eia861.py
+      - name: Rebuild utility.pmtiles
+        run: python scripts/build_tiles.py
+      - name: Commit refreshed artifacts if changed
+        run: |
+          git config user.email "ci-bot@users.noreply.github.com"
+          git config user.name "powertracker-ci"
+          git add data/cache/utility_rate_yoy.csv app/tiles/utility.pmtiles
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "refresh: eia-861 utility rates ($(date -u +%Y-%m-%d))"
+            git push
+          fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Deploy worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy

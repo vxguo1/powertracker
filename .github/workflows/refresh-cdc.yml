@@ -4,7 +4,8 @@ name: refresh-cdc
 #   - OD uptick (CDC xkb8-kh2a)
 #   - Homicide uptick (CDC fpsi-y8tj)
 #   - Temperature YoY ΔF (NOAA NCEI Climate at a Glance)
-# All three regenerate their geojson and trigger a redeploy.
+#   - Outage uptick proxy (NOAA Storm Events)
+# All four regenerate their geojson and trigger a redeploy.
 # Despite the name this isn't strictly "CDC" anymore; the file name
 # is kept for cron continuity.
 
@@ -42,6 +43,8 @@ jobs:
         run: python scripts/fetch_county_temperature_yoy.py
       - name: Fetch real-estate YoY (Redfin county)
         run: python scripts/fetch_realestate_yoy.py
+      - name: Fetch outage uptick (NOAA Storm Events proxy)
+        run: python scripts/fetch_outage_uptick.py
       - name: Install Python deps for tile build
         run: pip install pandas folium python-dotenv openpyxl
       - name: Rebuild PMTiles (temperature + realestate + sites)
@@ -55,6 +58,7 @@ jobs:
           git add app/od_uptick.geojson app/homicide_uptick.geojson \
                   app/temperature_yoy.geojson app/tiles/temperature.pmtiles \
                   app/tiles/realestate.pmtiles \
+                  app/outage_uptick.geojson \
                   app/sites.geojson data/cache/temperature_county_yoy.csv \
                   data/cache/realestate_yoy.csv
           if git diff --cached --quiet; then
