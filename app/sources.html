@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>powertracker - data sources</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -166,6 +167,26 @@
       word-break: break-word;
     }
 
+    .contribute {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-left: 3px solid var(--c-accent);
+      border-radius: 8px;
+      padding: 14px 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 28px;
+      font-size: var(--text-sm);
+      color: var(--c-ink-muted);
+      line-height: 1.55;
+    }
+    .contribute strong {
+      color: var(--c-ink);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 2px;
+      font-size: var(--text-base);
+    }
+
     footer {
       margin-top: 48px;
       padding-top: 18px;
@@ -193,6 +214,11 @@
     <div class="stat"><div class="label">automated</div><div class="value" id="sum-auto">–</div></div>
     <div class="stat"><div class="label">most recent refresh</div><div class="value" id="sum-recent">–</div></div>
     <div class="stat"><div class="label">oldest refresh</div><div class="value" id="sum-oldest">–</div></div>
+  </div>
+
+  <div class="contribute">
+    <strong>Help build this.</strong>
+    Know a data source we should be pulling, a site we've missed, or a layer worth adding? The project is open source. File an issue or send a PR at <a href="https://github.com/vxguo1/powertracker" target="_blank" rel="noopener">github.com/vxguo1/powertracker</a>.
   </div>
 
   <div id="cards"></div>

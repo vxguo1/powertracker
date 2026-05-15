@@ -11,8 +11,8 @@ When you add a refresh job, link it from the **Refresh job** column.
 | # | Source | Upstream cadence | Suggested refresh | Fetch command | Output | Refresh job |
 |---|--------|------------------|-------------------|---------------|--------|-------------|
 | 1 | EIA balancing-authority hourly demand | hourly (T+~1d lag) | weekly | `python scripts/fetch_demand.py --from-sites --start … --end …` + `scripts/build_aggregates.py` | `data/cache/ba_demand_yoy.csv` | [refresh-eia-demand.yml](../.github/workflows/refresh-eia-demand.yml) |
-| 2 | BEA county per-capita GDP | annual (Nov–Dec) | annual | drop raw ZIPs in `data/raw/bea/`, then `scripts/build_aggregates.py` | `data/cache/county_gdp_yoy.csv` | TODO (needs fetcher) |
-| 3 | EIA Form 861 utility retail prices | annual (Oct release) | annual | drop raw Excel in `data/raw/eia-861/`, then `scripts/build_aggregates.py` | `data/cache/utility_rate_yoy.csv` | TODO (needs fetcher) |
+| 2 | BEA county per-capita GDP | annual (Nov–Dec) | annual | `python scripts/fetch_bea_gdp.py` | `data/cache/county_gdp_yoy.csv` | [refresh-property-tax.yml](../.github/workflows/refresh-property-tax.yml) |
+| 3 | EIA Form 861 utility retail prices | annual (Oct release) | annual | `python scripts/fetch_eia861.py` | `data/cache/utility_rate_yoy.csv` | [refresh-eia861.yml](../.github/workflows/refresh-eia861.yml) |
 | 4 | Census ACS 5-year B25103 (median property tax) | annual (Dec release) | annual | `python scripts/fetch_property_tax.py` | `data/cache/property_tax_yoy.csv` | [refresh-property-tax.yml](../.github/workflows/refresh-property-tax.yml) |
 | 5 | `tonmcg/US_County_Level_Election_Results_08-24` | one-shot per election | every 4y (after election certification) | manual `curl …/2024_US_County_Level_Presidential_Results.csv` | `data/cache/election_2024_county.csv` | n/a |
 | 6 | Reddit search — ICE raid reports | continuous | daily | `python scripts/fetch_ice_hotzones_reddit.py` | `app/ice_hotzones.geojson` | [refresh-reddit.yml](../.github/workflows/refresh-reddit.yml) |
@@ -21,7 +21,7 @@ When you add a refresh job, link it from the **Refresh job** column.
 | 9 | CDC VSRR Provisional Drug Overdose Deaths (`xkb8-kh2a`) — multi-indicator OD uptick | monthly (first few days of month) | monthly | `python scripts/fetch_od_uptick.py` | `app/od_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 | 10 | CDC Mapping Injury, Overdose, and Violence — State (`fpsi-y8tj`, `All_Homicide`) | quarterly-ish refresh, annual + TTM | monthly | `python scripts/fetch_homicide_uptick.py` | `app/homicide_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 | 11 | NOAA NCEI Climate at a Glance — statewide trailing-12 `tavg` (vs 3-yr baseline) | monthly (T+~10d lag) | monthly | `python scripts/fetch_temperature_yoy.py` | `app/temperature_yoy.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
-| 12 | NOAA Storm Events Database (outage-driving event counts, state monthly) | monthly | monthly | `python scripts/fetch_outage_uptick.py` | `app/outage_uptick.geojson` | TODO (fold into refresh-cdc.yml) |
+| 12 | NOAA Storm Events Database (outage-driving event counts, state monthly) | monthly | monthly | `python scripts/fetch_outage_uptick.py` | `app/outage_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 | 13 | Curated data-center site list | as we discover sites | manual | edit `data/sites/data_centers.csv` directly | `data/sites/data_centers.csv` → `app/sites.geojson` | n/a (manual) |
 | 14 | Data-center hot zones (derived) | follows #13 | re-run when #13 changes | `python scripts/build_hot_zones.py` | `app/hot_zones.geojson` | n/a (derived) |
 | 15 | US county polygons | basically static | as-needed | committed | `data/geo/us_counties.geojson` | n/a (static) |
@@ -59,18 +59,21 @@ need `build_tiles.py`. Just deploy.
 
 ### 2. BEA county per-capita GDP
 
-- **Upstream**: Bureau of Economic Analysis CAGDP1/CAGDP2 tables.
+- **Upstream**: Bureau of Economic Analysis CAGDP1 (county GDP) + CAINC1 (population) zips at `apps.bea.gov/regional/zip/`.
+- **Script**: [scripts/fetch_bea_gdp.py](../scripts/fetch_bea_gdp.py) downloads both zips to `data/raw/bea/` and calls `yoy_per_capita_gdp`.
 - **Module**: [src/powertracker/gdp.py](../src/powertracker/gdp.py)
 - **Cadence**: BEA releases county-level real GDP annually, typically December covering through year-1.
-- **Refresh**: annual after each release. Currently compares 2024 against the mean of 2021, 2022, 2023.
-- **Future**: bump `yoy_per_capita_gdp(2025)` once 2025 lands; the baseline auto-shifts to 2022-2024.
+- **Refresh**: annual via [refresh-property-tax.yml](../.github/workflows/refresh-property-tax.yml) on Jan 15 (same workflow as the Census ACS release; both upstream sources publish in December).
+- **Future**: bump `CURRENT_YEAR` in `scripts/fetch_bea_gdp.py` once BEA 2025 county GDP lands. The CSV filenames inside the BEA zips embed the year range (`CAGDP1__ALL_AREAS_2001_2024.csv`), so the matching constants in `src/powertracker/gdp.py` also need updating in lockstep.
 
 ### 3. EIA Form 861 utility retail rates
 
-- **Upstream**: EIA-861 annual utility filings.
+- **Upstream**: EIA Form 861 annual utility filings, one zip per year (`f861<year>.zip`) at `eia.gov/electricity/data/eia861/zip/`. Each zip contains a `Sales_Ult_Cust_<year>.xlsx` we parse for the residential sector.
+- **Script**: [scripts/fetch_eia861.py](../scripts/fetch_eia861.py) downloads the current + 3 baseline years' zips to `data/raw/eia861/` (skipping any already cached) and calls `yoy_residential`.
 - **Module**: [src/powertracker/prices.py](../src/powertracker/prices.py)
 - **Cadence**: EIA-861 final release in October each year for the prior year.
-- **Refresh**: annual. Currently compares 2024 against the mean of 2021, 2022, 2023.
+- **Refresh**: annual via [refresh-eia861.yml](../.github/workflows/refresh-eia861.yml) on Oct 20.
+- **Future**: bump `CURRENT_YEAR` in `scripts/fetch_eia861.py` after the October release.
 
 ### 4. Census ACS 5-year median property tax (B25103)
 
@@ -219,14 +222,15 @@ need `build_tiles.py`. Just deploy.
 
 ## Refresh workflows
 
-Five scheduled GitHub Actions live under `.github/workflows/`:
+Six scheduled GitHub Actions live under `.github/workflows/`:
 
 | Workflow | Cron | Covers | Behavior |
 |----------|------|--------|----------|
 | [refresh-reddit.yml](../.github/workflows/refresh-reddit.yml) | `0 6 * * *` (daily 06:00 UTC) | ICE raid reports + protest reports | Runs `fetch_ice_hotzones_reddit.py` and `fetch_protest_hotzones.py`, commits only if geojson changed, deploys |
-| [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) | `0 6 5 * *` (5th @ 06:00 UTC) | OD uptick + homicide uptick + temperature YoY + Redfin closing price YoY | Runs `fetch_od_uptick.py`, `fetch_homicide_uptick.py`, `fetch_temperature_yoy.py`, `fetch_realestate_yoy.py`; commits if changed, deploys |
+| [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) | `0 6 5 * *` (5th @ 06:00 UTC) | OD uptick + homicide uptick + temperature YoY + Redfin closing price YoY + NOAA outage uptick | Runs `fetch_od_uptick.py`, `fetch_homicide_uptick.py`, `fetch_temperature_yoy.py`, `fetch_realestate_yoy.py`, `fetch_outage_uptick.py`; commits if changed, deploys |
 | [refresh-eia-demand.yml](../.github/workflows/refresh-eia-demand.yml) | `0 7 * * 1` (Mon @ 07:00 UTC) | EIA hourly demand → BA YoY → `ba.pmtiles` | Pulls 24 months of hourly demand, recomputes YoY, rebuilds tiles via Docker, deploys |
-| [refresh-property-tax.yml](../.github/workflows/refresh-property-tax.yml) | `0 7 15 1 *` (Jan 15 @ 07:00 UTC) | ACS property tax → `property_tax.pmtiles` | Refetches Census API, rebuilds tiles via Docker, deploys |
+| [refresh-property-tax.yml](../.github/workflows/refresh-property-tax.yml) (display name: `refresh-annual-economic`) | `0 7 15 1 *` (Jan 15 @ 07:00 UTC) | ACS property tax + BEA county per-capita GDP | Runs `fetch_property_tax.py` (Census API) and `fetch_bea_gdp.py` (BEA zips), rebuilds `property_tax.pmtiles` + `county.pmtiles`, deploys |
+| [refresh-eia861.yml](../.github/workflows/refresh-eia861.yml) | `0 7 20 10 *` (Oct 20 @ 07:00 UTC) | EIA-861 utility residential rates → `utility.pmtiles` | Downloads `f861<year>.zip` for the current + 3 baseline years, runs `fetch_eia861.py`, rebuilds tiles, deploys |
 | [refresh-power.yml](../.github/workflows/refresh-power.yml) | `0 7 1 10 *` (Oct 1 @ 07:00 UTC) | Power plants + substations + transmission lines (#21-23) | Paginates the three ArcGIS REST endpoints, writes geojson, rebuilds `transmission_lines.pmtiles`, deploys |
 
 All workflows require the following **GitHub Secrets** (Settings →
@@ -259,10 +263,7 @@ Every refresh workflow follows the same skeleton:
 
 | # | Source | What's missing |
 |---|--------|----------------|
-| 2 | BEA county GDP | Needs a `scripts/fetch_bea_gdp.py` that downloads the CAGDP1 + CAINC1 ZIPs from `apps.bea.gov/regional/zip/`. Once that exists, wire it into a `refresh-bea.yml` or fold it into `refresh-property-tax.yml`. |
-| 3 | EIA-861 utility prices | Needs a `scripts/fetch_eia861.py` that downloads `eia861<year>.zip` from `eia.gov/electricity/data/eia861/zip/` and extracts the `Sales_Ult_Cust_<year>.xlsx` sheet. |
 | 5 | Election results | One-shot per cycle; no need to schedule. |
-| 12 | NOAA outage uptick | Fetcher exists. Fold it into `refresh-cdc.yml` (same monthly cadence as the temperature fetcher already in that workflow). |
 | 13 | Data-center site list | Manual edits to a CSV — no automation possible. |
 | 14 | Hot zones (derived) | Re-run after #13 changes; trivial to add a workflow that watches the CSV path, deferred until #13 churns. |
 | 15-19 | Geo / cities | Effectively static. |

@@ -1,12 +1,14 @@
-name: refresh-property-tax
+name: refresh-annual-economic
 
-# Annual refresh of Census ACS 5-year median real-estate tax per
-# county (table B25103). ACS 5-year releases drop in mid-December
-# covering the prior 5-year window — we run on January 15 to catch
-# the new release plus any minor revisions.
+# Annual refresh of the two December-release county economic layers:
+#   - Census ACS 5-year median real-estate tax (table B25103)
+#   - BEA county per-capita real GDP (CAGDP1 + CAINC1)
+# Both upstream releases drop in mid-to-late December covering the prior
+# year; we run on January 15 to pick up both plus any minor revisions.
 #
-# Will need its hard-coded year arguments (currently 2023, 2024) bumped
-# in scripts/fetch_property_tax.py once ACS publishes 2025 5-year data.
+# Will need its hard-coded year arguments bumped in
+# scripts/fetch_property_tax.py and scripts/fetch_bea_gdp.py
+# once ACS 2025 5-year and BEA 2025 county GDP land.
 
 on:
   schedule:
@@ -17,7 +19,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: refresh-property-tax
+  group: refresh-annual-economic
   cancel-in-progress: false
 
 jobs:
@@ -35,17 +37,21 @@ jobs:
       - name: Refresh property-tax CSV
         # Unauthenticated Census API. Writes data/cache/property_tax_yoy.csv.
         run: python scripts/fetch_property_tax.py
-      - name: Rebuild property_tax.pmtiles
+      - name: Refresh BEA county per-capita GDP CSV
+        # Public BEA zip downloads. Writes data/cache/county_gdp_yoy.csv.
+        run: python scripts/fetch_bea_gdp.py
+      - name: Rebuild PMTiles (property_tax + county)
         run: python scripts/build_tiles.py
       - name: Commit refreshed artifacts if changed
         run: |
           git config user.email "ci-bot@users.noreply.github.com"
           git config user.name "powertracker-ci"
-          git add data/cache/property_tax_yoy.csv app/tiles/property_tax.pmtiles
+          git add data/cache/property_tax_yoy.csv app/tiles/property_tax.pmtiles \
+                  data/cache/county_gdp_yoy.csv app/tiles/county.pmtiles
           if git diff --cached --quiet; then
             echo "no changes"
           else
-            git commit -m "refresh: property-tax ($(date -u +%Y-%m-%d))"
+            git commit -m "refresh: annual economic (property-tax + BEA GDP) ($(date -u +%Y-%m-%d))"
             git push
           fi
       - uses: actions/setup-node@v4
