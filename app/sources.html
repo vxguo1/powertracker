@@ -385,6 +385,33 @@ async function fetchLastModified(path) {
   } catch (e) { return { ok: false, error: String(e) }; }
 }
 
+// Cloudflare's static-asset layer doesn't return Last-Modified (only
+// ETag), so HEAD can't tell us when a file was actually refreshed. Fall
+// back to the GitHub commits API: the date of the most recent commit
+// touching this file is the authoritative "when was this last refreshed"
+// signal. Per-tab sessionStorage cache keeps us well under the 60/hour
+// unauthenticated rate limit.
+const GITHUB_REPO = "vxguo1/powertracker";
+
+async function fetchGitCommitDate(assetPath) {
+  // Asset URL paths are served from app/, so the in-repo path is "app" + asset.
+  const repoPath = "app" + assetPath;
+  const cacheKey = `gh-commit-date:${repoPath}`;
+  const cached = sessionStorage.getItem(cacheKey);
+  if (cached) return cached;
+  const url = `https://api.github.com/repos/${GITHUB_REPO}/commits?path=${encodeURIComponent(repoPath)}&per_page=1`;
+  try {
+    const r = await fetch(url);
+    if (!r.ok) return null;
+    const arr = await r.json();
+    const iso = arr?.[0]?.commit?.committer?.date || null;
+    if (iso) sessionStorage.setItem(cacheKey, iso);
+    return iso;
+  } catch (e) {
+    return null;
+  }
+}
+
 async function fetchMetadata(path) {
   try {
     const r = await fetch(path);
@@ -462,11 +489,16 @@ function metadataAsRow(m) {
       `;
       root.appendChild(card);
 
-      // Live-fetch HEAD + optional metadata.
+      // Live-fetch HEAD + optional metadata. HEAD only carries
+      // Last-Modified on origins that pass it through; Cloudflare's
+      // static-asset path drops it. Fall back to GitHub when missing.
       const head = await fetchLastModified(l.asset);
       const lastRefreshedEl = card.querySelector('.last-refreshed');
-      if (head.lastModified) {
-        const iso = new Date(head.lastModified).toISOString();
+      let iso = head.lastModified ? new Date(head.lastModified).toISOString() : null;
+      if (!iso) {
+        iso = await fetchGitCommitDate(l.asset);
+      }
+      if (iso) {
         lastRefreshedEl.textContent = `${fmtRelative(iso)} · ${iso.replace('T',' ').slice(0,19)} UTC`;
         allTimestamps.push(iso);
         const freshSlot = card.querySelector('.placeholder-fresh');
