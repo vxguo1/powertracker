@@ -613,14 +613,18 @@ def main() -> None:
     sites = data.sites
     temp_by_fips: dict[str, dict] = {}
     if TEMPERATURE_CSV.exists():
-        for _, r in pd.read_csv(TEMPERATURE_CSV, dtype={"fips": str}).iterrows():
-            temp_by_fips[r.fips.zfill(5)] = {
-                "delta_f": None if pd.isna(r.delta_f) else float(r.delta_f),
-                "tavg_current": None if pd.isna(r.tavg_current) else float(r.tavg_current),
-                "tavg_baseline": None if pd.isna(r.tavg_baseline) else float(r.tavg_baseline),
-                "anomaly": None if pd.isna(r.anomaly_current) else float(r.anomaly_current),
-                "county_name": r["name"],
-            }
+        temp_df = pd.read_csv(TEMPERATURE_CSV, dtype={"fips": str})
+        if "tavg_baseline" not in temp_df.columns:
+            print(f"  skipping per-site temperature enrichment: stale temperature_county_yoy.csv schema")
+        else:
+            for _, r in temp_df.iterrows():
+                temp_by_fips[r.fips.zfill(5)] = {
+                    "delta_f": None if pd.isna(r.delta_f) else float(r.delta_f),
+                    "tavg_current": None if pd.isna(r.tavg_current) else float(r.tavg_current),
+                    "tavg_baseline": None if pd.isna(r.tavg_baseline) else float(r.tavg_baseline),
+                    "anomaly": None if pd.isna(r.anomaly_current) else float(r.anomaly_current),
+                    "county_name": r["name"],
+                }
     site_county = _site_to_county_fips(sites, data.county_geo)
 
     def _site_props(idx: int, r) -> dict:
