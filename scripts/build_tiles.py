@@ -115,6 +115,11 @@ def election_bin(margin_pct: float | None) -> int:
 # ---------- per-layer feature enrichment ----------
 
 def _enrich_ba(geo: dict, ba_yoy: pd.DataFrame) -> dict:
+    required = {"ba", "trailing_mw", "baseline_mw", "growth_pct"}
+    missing = required - set(ba_yoy.columns)
+    if missing:
+        print(f"  _enrich_ba: stale schema (missing {sorted(missing)}); shipping geo without YoY enrichment")
+        return geo
     lookup = {r.ba: r for _, r in ba_yoy.iterrows()}
     for feat in geo["features"]:
         ba = feat["properties"].get("ba_code")
@@ -136,6 +141,12 @@ def _enrich_ba(geo: dict, ba_yoy: pd.DataFrame) -> dict:
 
 
 def _enrich_utility(geo: dict, util_yoy: pd.DataFrame) -> dict:
+    required = {"utility_id", "state", "ownership", "price_baseline", "price_current", "price_change_pct"}
+    missing = required - set(util_yoy.columns)
+    if missing:
+        print(f"  _enrich_utility: stale schema (missing {sorted(missing)}); shipping geo without YoY enrichment")
+        geo["features"] = []
+        return geo
     yoy = util_yoy[util_yoy["ownership"].isin(_DIST_OWNERSHIP)]
     yoy_us = {(int(r.utility_id), r.state): r for _, r in yoy.iterrows()}
     nat_agg = (
@@ -390,6 +401,11 @@ def _enrich_election(geo: dict, election: pd.DataFrame) -> dict:
 
 
 def _enrich_county(geo: dict, gdp_yoy: pd.DataFrame) -> dict:
+    required = {"fips", "geoname", "gdp_per_capita_baseline", "gdp_per_capita_current", "growth_pct"}
+    missing = required - set(gdp_yoy.columns)
+    if missing:
+        print(f"  _enrich_county: stale schema (missing {sorted(missing)}); shipping geo without YoY enrichment")
+        return geo
     if "fips" in gdp_yoy.columns:
         gdp_yoy = gdp_yoy.copy()
         gdp_yoy["fips"] = gdp_yoy["fips"].astype(str).str.zfill(5)
