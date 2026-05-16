@@ -52,9 +52,7 @@ jobs:
           git config user.name "powertracker-ci"
           git add app/power_plants.geojson \
                   app/tiles/transmission_lines.pmtiles \
-                  app/tiles/substations.pmtiles \
-                  data/cache/transmission_lines.geojson \
-                  data/cache/substations.geojson
+                  app/tiles/substations.pmtiles
           if git diff --cached --quiet; then
             echo "no changes"
           else
