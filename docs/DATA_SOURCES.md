@@ -212,7 +212,7 @@ need `build_tiles.py`. Just deploy.
 
 - **Upstream**: EIA-hosted ArcGIS Online feature service `US_Electric_Power_Transmission_Lines/FeatureServer/0` (same org as #21). Sourced originally from HIFLD; EIA republishes.
 - **Script**: [scripts/fetch_power_infra.py](../scripts/fetch_power_infra.py)
-- **Filter**: none — the full ~94,600 line segments. Tippecanoe drops the densest features per tile when needed (`--drop-densest-as-needed`) so we don't pre-filter by voltage. Voltage class shows in the tile via the `voltage_kv` attribute, and the MapLibre style scales line width by voltage so EHV (≥345 kV) corridors visually dominate.
+- **Filter**: `VOLTAGE >= 138` kV applied server-side via the ArcGIS `where` clause (~30k segments out of ~94k). The full corpus produced a >36 MiB pmtiles file which exceeds Cloudflare Workers' 25 MiB per-asset cap; keeping only HV+EHV corridors brings the file well under the limit and matches what users actually use the layer for (tracing bulk-power flow to/from data centers). Voltage class shows in the tile via the `voltage_kv` attribute, and the MapLibre style scales line width by voltage so EHV (≥345 kV) corridors visually dominate.
 - **Fields kept**: type, status, owner, numeric voltage (kV), voltage class, the two end substations (SUB_1, SUB_2).
 - **Cadence**: HIFLD-irregular (see #22).
 - **Refresh**: annual via [refresh-power.yml](../.github/workflows/refresh-power.yml). After `fetch_power_infra.py` writes the cache, `scripts/build_tiles.py` packs it into `app/tiles/transmission_lines.pmtiles` (raw geojson is ~130 MB; PMTiles is ~10-30 MB).
