@@ -458,9 +458,17 @@ def _docker_paths(local: Path) -> tuple[str, str]:
     return str(local.resolve()), local.resolve().as_posix()
 
 
-def _run_tippecanoe(geojson_path: Path, mbtiles_path: Path, layer_name: str, max_zoom: int) -> None:
+def _run_tippecanoe(geojson_path: Path, mbtiles_path: Path, layer_name: str,
+                    max_zoom: int, no_tile_size_limit: bool = True) -> None:
     """Run tippecanoe in Docker, mounting the repo so it can read input and
-    write output in place."""
+    write output in place.
+
+    `no_tile_size_limit=False` lets tippecanoe drop features aggressively to
+    stay within its default 500 KB per-tile budget. Use this for layers with
+    many features (e.g. transmission lines, ~95k LineStrings) where the
+    resulting .pmtiles otherwise exceeds Cloudflare Workers' 25 MiB per-file
+    asset limit.
+    """
     work_dir = REPO_ROOT.resolve()
     rel_in = geojson_path.resolve().relative_to(work_dir).as_posix()
     rel_out = mbtiles_path.resolve().relative_to(work_dir).as_posix()
@@ -476,9 +484,10 @@ def _run_tippecanoe(geojson_path: Path, mbtiles_path: Path, layer_name: str, max
         "-Z", "3",
         "-z", str(max_zoom),
         "--drop-densest-as-needed",
-        "--no-tile-size-limit",
-        f"/work/{rel_in}",
     ]
+    if no_tile_size_limit:
+        cmd.append("--no-tile-size-limit")
+    cmd.append(f"/work/{rel_in}")
     print(" ".join(cmd))
     subprocess.run(cmd, check=True)
 
@@ -522,14 +531,16 @@ def _build_one(name: str, geojson: dict, layer_name: str, max_zoom: int) -> Path
     return pm
 
 
-def _build_from_path(name: str, src_path: Path, layer_name: str, max_zoom: int) -> Path:
+def _build_from_path(name: str, src_path: Path, layer_name: str, max_zoom: int,
+                     no_tile_size_limit: bool = True) -> Path:
     """Build PMTiles directly from an on-disk GeoJSON (no in-memory copy
     through TMP_DIR). Used for large source files like the ~500 MB
     transmission-lines geojson."""
     mbt = TMP_DIR / f"{name}.mbtiles"
     if mbt.exists():
         mbt.unlink()
-    _run_tippecanoe(src_path, mbt, layer_name, max_zoom)
+    _run_tippecanoe(src_path, mbt, layer_name, max_zoom,
+                    no_tile_size_limit=no_tile_size_limit)
     pm = OUT_DIR / f"{name}.pmtiles"
     if pm.exists():
         pm.unlink()
@@ -590,7 +601,8 @@ def main() -> None:
         # _run_tippecanoe) means cross-country corridors show at the
         # national zoom level.
         _build_from_path("transmission_lines", TRANSMISSION_GEOJSON,
-                         "transmission_lines", max_zoom=11)
+                         "transmission_lines", max_zoom=11,
+                         no_tile_size_limit=False)
     else:
         print(f"\nSkipping transmission-lines layer ({TRANSMISSION_GEOJSON} missing).")
 
