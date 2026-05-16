@@ -256,6 +256,11 @@ def _enrich_temperature(geo: dict, temp: pd.DataFrame) -> dict:
     """Build a fresh GeoJSON of county polygons annotated with NOAA
     trailing-12-month tavg YoY delta. Bin via TEMP_DELTA_BANDS so the
     frontend can render via a MapLibre `match` on `bin`."""
+    required = {"fips", "tavg_current", "tavg_baseline", "delta_f"}
+    missing = required - set(temp.columns)
+    if missing:
+        print(f"  _enrich_temperature: stale schema (missing {sorted(missing)}); skipping layer")
+        return {"type": "FeatureCollection", "features": []}
     temp = temp.copy()
     temp["fips"] = temp["fips"].astype(str).str.zfill(5)
     lookup = {r.fips: r for _, r in temp.iterrows()}
@@ -294,6 +299,11 @@ def _enrich_realestate(geo: dict, re_df: pd.DataFrame) -> dict:
     """Build a fresh GeoJSON of county polygons annotated with Redfin
     trailing-3-month median sale price YoY change. Same shape as
     _enrich_property_tax."""
+    required = {"fips", "price_baseline", "price_current", "growth_pct"}
+    missing = required - set(re_df.columns)
+    if missing:
+        print(f"  _enrich_realestate: stale schema (missing {sorted(missing)}); skipping layer")
+        return {"type": "FeatureCollection", "features": []}
     re_df = re_df.copy()
     re_df["fips"] = re_df["fips"].astype(str).str.zfill(5)
     lookup = {r.fips: r for _, r in re_df.iterrows()}
@@ -337,6 +347,11 @@ def _enrich_property_tax(geo: dict, tax: pd.DataFrame) -> dict:
     """Build a fresh GeoJSON of county polygons annotated with ACS 5-year
     median-real-estate-tax YoY change. Mirrors _enrich_election structure
     so the county GDP tiles remain untouched."""
+    required = {"fips", "tax_baseline", "tax_current", "growth_pct"}
+    missing = required - set(tax.columns)
+    if missing:
+        print(f"  _enrich_property_tax: stale schema (missing {sorted(missing)}); skipping layer")
+        return {"type": "FeatureCollection", "features": []}
     tax = tax.copy()
     tax["fips"] = tax["fips"].astype(str).str.zfill(5)
     lookup = {r.fips: r for _, r in tax.iterrows()}
