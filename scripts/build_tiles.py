@@ -487,7 +487,10 @@ def _run_pmtiles_convert(mbtiles_path: Path, pmtiles_path: Path) -> None:
 
 # ---------- main pipeline ----------
 
-def _build_one(name: str, geojson: dict, layer_name: str, max_zoom: int) -> Path:
+def _build_one(name: str, geojson: dict, layer_name: str, max_zoom: int) -> Path | None:
+    if not geojson.get("features"):
+        print(f"  skipping {name}: no features to build (likely stale CSV schema)")
+        return None
     src = TMP_DIR / f"{name}.geojson"
     with open(src, "w", encoding="utf-8") as f:
         json.dump(geojson, f)
