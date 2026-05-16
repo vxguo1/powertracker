@@ -166,6 +166,39 @@
       color: #8a1f30;
     }
 
+    /* --- Per-layer filter chips (e.g. fuel type, voltage threshold) --- */
+    .layer-sub-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 0 var(--s-2) 6px 28px;
+      margin-top: -2px;
+    }
+    .layer-sub-filter .chip {
+      font-family: inherit;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--c-border);
+      background: transparent;
+      color: var(--c-ink-muted);
+      cursor: pointer;
+      transition: background-color var(--dur-fast) var(--ease-out),
+                  color var(--dur-fast) var(--ease-out),
+                  border-color var(--dur-fast) var(--ease-out);
+    }
+    .layer-sub-filter .chip:hover { background: var(--c-row-hover); }
+    .layer-sub-filter .chip[aria-pressed="true"] {
+      background: var(--c-ink);
+      color: #fff;
+      border-color: var(--c-ink);
+    }
+    /* Dim the filter row when its parent layer is off so it reads as
+       inactive context rather than a competing control. */
+    .layer-row:has(input:not(:checked)) + .layer-sub-filter { opacity: 0.4; }
+
     .row-swatch {
       height: 14px;
       width: 28px;
@@ -708,6 +741,9 @@
       <span class="row-label">Transmission lines</span>
       <span class="row-meta">by kV</span>
     </label>
+    <div class="layer-sub-filter" id="transmission-voltage-filter" role="group" aria-label="Transmission voltage threshold">
+      <button type="button" class="chip" data-volt-min="345" aria-pressed="false">EHV only (&ge;345 kV)</button>
+    </div>
 
     <label class="layer-row">
       <input type="checkbox" id="t-substations">
@@ -715,6 +751,9 @@
       <span class="row-label">Substations (&ge; 69 kV)</span>
       <span class="row-meta">point</span>
     </label>
+    <div class="layer-sub-filter" id="substations-voltage-filter" role="group" aria-label="Substation voltage threshold">
+      <button type="button" class="chip" data-volt-min="345" aria-pressed="false">EHV only (&ge;345 kV)</button>
+    </div>
 
     <label class="layer-row">
       <input type="checkbox" id="t-power-plants">
@@ -722,6 +761,15 @@
       <span class="row-label">Power plants (&ge; 100 MW)</span>
       <span class="row-meta">by fuel</span>
     </label>
+    <div class="layer-sub-filter" id="plant-fuel-filter" role="group" aria-label="Filter plants by fuel type">
+      <button type="button" class="chip" data-fuel="nuclear"     aria-pressed="true">Nuclear</button>
+      <button type="button" class="chip" data-fuel="coal"        aria-pressed="true">Coal</button>
+      <button type="button" class="chip" data-fuel="natural gas" aria-pressed="true">Gas</button>
+      <button type="button" class="chip" data-fuel="solar"       aria-pressed="true">Solar</button>
+      <button type="button" class="chip" data-fuel="wind"        aria-pressed="true">Wind</button>
+      <button type="button" class="chip" data-fuel="hydro"       aria-pressed="true">Hydro</button>
+      <button type="button" class="chip" data-fuel="other"       aria-pressed="true">Other</button>
+    </div>
   </div>
 </aside>
 
@@ -1769,6 +1817,86 @@
       if (v) startPulse(); else stopPulse();
     };
   }
+
+  // --- Per-layer filter chips ----------------------------------------
+  // Power plants fuel-type chips (multi-select; all on by default).
+  // Transmission + substation EHV-only toggles (single chip; off by
+  // default = show everything at the layer's upstream voltage floor).
+  //
+  // FUEL_GROUPS collapses the 12-value EIA PrimSource enum into the 7
+  // chips users actually want to think about, so "Other" sweeps up the
+  // small rare fuels (petroleum, biomass, geothermal, batteries, ...).
+  const FUEL_GROUPS = {
+    'nuclear':     ['nuclear'],
+    'coal':        ['coal'],
+    'natural gas': ['natural gas'],
+    'solar':       ['solar'],
+    'wind':        ['wind'],
+    'hydro':       ['hydroelectric', 'pumped storage'],
+    'other':       ['petroleum', 'biomass', 'geothermal', 'batteries', 'other'],
+  };
+  // MapLibre filter that always evaluates false (used when every chip is
+  // deselected so the layer renders empty rather than rendering all).
+  const NEVER_FILTER = ['==', ['literal', 0], 1];
+
+  function applyPlantFuelFilter() {
+    if (!map.getLayer('power-plants-point')) return;
+    const keys = Array.from(
+      document.querySelectorAll('#plant-fuel-filter .chip[aria-pressed="true"]')
+    ).map(c => c.dataset.fuel);
+    const values = keys.flatMap(k => FUEL_GROUPS[k] || []);
+    if (values.length === 0) {
+      map.setFilter('power-plants-point', NEVER_FILTER);
+      map.setFilter('power-plants-stress-pulse', NEVER_FILTER);
+      return;
+    }
+    const fuelExpr = ['in', ['get', 'primary_fuel'], ['literal', values]];
+    map.setFilter('power-plants-point', fuelExpr);
+    map.setFilter('power-plants-stress-pulse', ['all',
+      ['==', ['get', 'stress'], 'severe'],
+      fuelExpr,
+    ]);
+  }
+
+  function applyVoltageThresholdFilter(layerId, property, chipSelector) {
+    if (!map.getLayer(layerId)) return;
+    const chip = document.querySelector(`${chipSelector} .chip[aria-pressed="true"]`);
+    if (!chip) {
+      map.setFilter(layerId, null);
+      return;
+    }
+    const min = Number(chip.dataset.voltMin);
+    map.setFilter(layerId, ['>=',
+      ['coalesce', ['to-number', ['get', property]], 0],
+      min,
+    ]);
+  }
+
+  function applyTransmissionVoltageFilter() {
+    applyVoltageThresholdFilter('transmission-line', 'voltage_kv', '#transmission-voltage-filter');
+  }
+  function applySubstationsVoltageFilter() {
+    applyVoltageThresholdFilter('substations-point', 'max_volt', '#substations-voltage-filter');
+  }
+
+  function bindChipGroup(selector, onChange) {
+    document.querySelectorAll(`${selector} .chip`).forEach(chip => {
+      chip.addEventListener('click', () => {
+        const next = chip.getAttribute('aria-pressed') !== 'true';
+        chip.setAttribute('aria-pressed', next ? 'true' : 'false');
+        onChange();
+      });
+    });
+  }
+
+  bindChipGroup('#plant-fuel-filter',         applyPlantFuelFilter);
+  bindChipGroup('#transmission-voltage-filter', applyTransmissionVoltageFilter);
+  bindChipGroup('#substations-voltage-filter',  applySubstationsVoltageFilter);
+  // Apply once on init so the layer filters reflect the chips' starting
+  // state when each layer is first toggled on.
+  applyPlantFuelFilter();
+  applyTransmissionVoltageFilter();
+  applySubstationsVoltageFilter();
 
   // --- Derived stress indicator --------------------------------------
   // Joins each plant to its state's current outage-uptick + temperature
