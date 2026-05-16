@@ -28,27 +28,47 @@ from powertracker.prices import yoy_residential  # noqa: E402
 CURRENT_YEAR = 2024
 BASELINE_YEARS = 3
 
-_URL = "https://www.eia.gov/electricity/data/eia861/zip/f861{year}.zip"
+# EIA serves the current year's zip under /zip/ and prior years under
+# /archive/zip/. We try both paths and accept the first that returns a
+# real zip (the wrong path serves a ~65 KB HTML page with a 200 status,
+# so we also filter on content-type).
+_URLS = [
+    "https://www.eia.gov/electricity/data/eia861/archive/zip/f861{year}.zip",
+    "https://www.eia.gov/electricity/data/eia861/zip/f861{year}.zip",
+]
 _UA = "powertracker-eia861-fetcher/1.0 (+https://github.com/vxguo1/powertracker)"
 
 
 def download_year(year: int) -> Path:
     EIA861_RAW.mkdir(parents=True, exist_ok=True)
     out = EIA861_RAW / f"f861{year}.zip"
-    if out.exists() and out.stat().st_size > 0:
+    if out.exists() and out.stat().st_size > 100_000:
         print(f"  cached: {out} ({out.stat().st_size // 1024} KB)")
         return out
-    url = _URL.format(year=year)
-    print(f"Fetching {url} -> {out} ...")
-    req = urllib.request.Request(url, headers={"User-Agent": _UA})
-    with urllib.request.urlopen(req, timeout=180) as resp, open(out, "wb") as f:
-        while True:
-            chunk = resp.read(1 << 20)
-            if not chunk:
-                break
-            f.write(chunk)
-    print(f"  wrote {out.stat().st_size // 1024} KB")
-    return out
+
+    last_err = None
+    for url_tpl in _URLS:
+        url = url_tpl.format(year=year)
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": _UA})
+            with urllib.request.urlopen(req, timeout=180) as resp:
+                ctype = (resp.headers.get("content-type") or "").lower()
+                if "zip" not in ctype and "octet-stream" not in ctype:
+                    last_err = f"{url} -> content-type={ctype}"
+                    continue
+                print(f"Fetching {url} -> {out} ...")
+                with open(out, "wb") as f:
+                    while True:
+                        chunk = resp.read(1 << 20)
+                        if not chunk:
+                            break
+                        f.write(chunk)
+            print(f"  wrote {out.stat().st_size // 1024} KB")
+            return out
+        except Exception as e:
+            last_err = f"{url}: {e}"
+            continue
+    raise RuntimeError(f"No working EIA-861 URL for {year}. Last: {last_err}")
 
 
 def main() -> None:
