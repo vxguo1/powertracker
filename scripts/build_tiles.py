@@ -596,12 +596,13 @@ def main() -> None:
 
     if TRANSMISSION_GEOJSON.exists():
         print("\nTransmission lines layer ...")
-        # 94k LineStrings; tippecanoe drops the densest features per tile
-        # to stay within reasonable tile sizes. min_zoom of 3 (set inside
-        # _run_tippecanoe) means cross-country corridors show at the
-        # national zoom level.
+        # ~30k HV+EHV LineStrings after the >=138 kV upstream filter in
+        # fetch_power_infra.py. max_zoom=9 keeps the .pmtiles under
+        # Cloudflare's 25 MiB per-asset cap (zoom 11 was ~36 MiB with the
+        # same drop options). min_zoom=3 (set in _run_tippecanoe) means
+        # cross-country corridors still show at the national zoom level.
         _build_from_path("transmission_lines", TRANSMISSION_GEOJSON,
-                         "transmission_lines", max_zoom=11,
+                         "transmission_lines", max_zoom=9,
                          no_tile_size_limit=False)
     else:
         print(f"\nSkipping transmission-lines layer ({TRANSMISSION_GEOJSON} missing).")

@@ -271,14 +271,25 @@ def fetch_substations() -> dict:
     return {"type": "FeatureCollection", "features": cleaned}
 
 
+# HIFLD ships all transmission, including ~10k segments with the
+# -999999 "unknown voltage" sentinel and tens of thousands of
+# sub-transmission lines below 138 kV. The pmtiles built from the full
+# corpus exceeds Cloudflare Workers' 25 MiB per-asset cap. Filtering to
+# HV+EHV (>= 138 kV) keeps the bulk-power corridors users actually care
+# about when tracing data-center load while bringing the file well
+# under the limit. Filter server-side via the ArcGIS where clause so we
+# don't download geometries we'll drop.
+MIN_TRANSMISSION_KV = 138
+
+
 def fetch_transmission_lines() -> dict:
-    print("Transmission lines (all)...")
+    print(f"Transmission lines (VOLTAGE >= {MIN_TRANSMISSION_KV} kV)...")
     fields = ",".join([
         "TYPE", "STATUS", "OWNER", "VOLTAGE", "VOLT_CLASS",
         "SUB_1", "SUB_2",
     ])
     params = {
-        "where": "1=1",
+        "where": f"VOLTAGE >= {MIN_TRANSMISSION_KV}",
         "outFields": fields,
         "outSR": "4326",
         "f": "geojson",
@@ -291,11 +302,12 @@ def fetch_transmission_lines() -> dict:
         if not f.get("geometry"):
             continue
         voltage = p.get("VOLTAGE")
-        # The HIFLD raw export uses -999999 for "unknown voltage". Clamp
-        # to None so the tooltip renders cleanly and the bin function
-        # below treats it as the lowest visible class.
-        if isinstance(voltage, (int, float)) and voltage < 0:
-            voltage = None
+        # Belt-and-suspenders: server-side filter should have removed
+        # the -999999 sentinel, but if a row slips through (None/null
+        # voltages don't satisfy the >= comparison reliably across all
+        # ArcGIS service versions), drop it here too.
+        if not isinstance(voltage, (int, float)) or voltage < MIN_TRANSMISSION_KV:
+            continue
         props = {
             "type": p.get("TYPE"),
             "status": p.get("STATUS"),
@@ -306,6 +318,7 @@ def fetch_transmission_lines() -> dict:
             "sub_2": p.get("SUB_2"),
         }
         cleaned.append({"type": "Feature", "geometry": f["geometry"], "properties": props})
+    print(f"  kept {len(cleaned):,} transmission segments")
     return {"type": "FeatureCollection", "features": cleaned}
 
 
