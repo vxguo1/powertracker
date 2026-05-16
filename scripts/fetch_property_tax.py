@@ -22,21 +22,33 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import urllib.request
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CACHE = REPO_ROOT / "data" / "cache" / "property_tax_yoy.csv"
 
+# Census tightened policy: the data API now requires a key on every
+# request (used to be optional). Free registration:
+#   https://api.census.gov/data/key_signup.html
 API = "https://api.census.gov/data/{year}/acs/acs5?get=NAME,B25103_001E&for=county:*"
 
 CURRENT_YEAR = 2024
 BASELINE_YEARS = 3  # 2021, 2022, 2023
 
 
+def _api_url(year: int) -> str:
+    url = API.format(year=year)
+    key = os.environ.get("CENSUS_API_KEY")
+    if key:
+        url = f"{url}&key={key}"
+    return url
+
+
 def fetch_year(year: int) -> dict[str, tuple[str, int]]:
     """Returns fips -> (county_name, median_tax_dollars)."""
-    with urllib.request.urlopen(API.format(year=year), timeout=60) as resp:
+    with urllib.request.urlopen(_api_url(year), timeout=60) as resp:
         rows = json.load(resp)
     header, *data = rows
     name_i = header.index("NAME")

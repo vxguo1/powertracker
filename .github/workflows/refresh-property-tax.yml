@@ -35,7 +35,10 @@ jobs:
       - name: Install Python deps
         run: pip install pandas folium python-dotenv openpyxl
       - name: Refresh property-tax CSV
-        # Unauthenticated Census API. Writes data/cache/property_tax_yoy.csv.
+        # Census API now requires a key on every request. Writes
+        # data/cache/property_tax_yoy.csv.
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: python scripts/fetch_property_tax.py
       - name: Refresh BEA county per-capita GDP CSV
         # Public BEA zip downloads. Writes data/cache/county_gdp_yoy.csv.
