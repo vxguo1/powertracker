@@ -1,0 +1,139 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//powertracker//launch-2026-05-19//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:powertracker launch (2026-05-19)
+X-WR-CALDESC:Coordinated launch sequence for powertracker.io. All times in PT (canonical). Each event's description is the copy cue. Full copy lives in docs/launch/LAUNCH.md in the repo.
+X-WR-TIMEZONE:America/Los_Angeles
+BEGIN:VEVENT
+UID:powertracker-launch-prep@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260518T160000Z
+DTEND:20260518T180000Z
+SUMMARY:powertracker prep (Mon 09:00 PT)
+DESCRIPTION:Prep checklist before tomorrow's launch.\n\n1. Re-run scripts/build_rankings.py and spot-check the top 10.\n2. Fetch powertracker.io and /rankings logged-out. Confirm OG card renders on Twitter/LinkedIn previewers and /og-image.png loads.\n3. Pin /rankings on X and LinkedIn. Update bios to point at powertracker.io.\n4. Pre-fill native schedulers where supported: LinkedIn post (section 7) for Tue 09:00 PT. Gmail Send Later for Tier 1 journalist emails for Tue 08:30 PT.\n5. Personalize section 8 template with one recent piece title per Tier 1 reporter (section 9). Save personalized drafts ready to send.\n6. Open this calendar invite on phone so notifications fire.
+LOCATION:powertracker.io
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-hn@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260519T150000Z
+DTEND:20260519T151500Z
+SUMMARY:POST HN (Tue 08:00 PT)
+DESCRIPTION:Show HN goes live now.\n\nTitle: Show HN: powertracker.io, 29 GW of AI data centers mapped to county + grid\n\nFull title and 305-word first-author comment are in docs/launch/LAUNCH.md section 2. Paste the title, submit, then immediately reply to your own thread with the comment.\n\nDo NOT ask anyone to upvote. HN penalizes this.
+URL:https://news.ycombinator.com/submit
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-x@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260519T150500Z
+DTEND:20260519T151500Z
+SUMMARY:POST X thread (Tue 08:05 PT)
+DESCRIPTION:7-tweet thread. Full copy in docs/launch/LAUNCH.md section 6.\n\nPost as a single thread, not 7 separate tweets. Confirm OG card renders on tweet 1 preview.\n\nOpener tweet leads with Racine, WI (3.3 GW on We Energies, rates +11.4%).
+URL:https://x.com/compose/tweet
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-energy@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260519T151000Z
+DTEND:20260519T152000Z
+SUMMARY:POST r/energy (Tue 08:10 PT)
+DESCRIPTION:Full copy in docs/launch/LAUNCH.md section 4.\n\nDo NOT crosspost from here. Post natively. Let it sit organically for 60+ minutes before any other Reddit activity.\n\nSingle link in post: /rankings. The map URL goes in a comment if asked.
+URL:https://reddit.com/r/energy/submit
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-dib@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260519T151500Z
+DTEND:20260519T152500Z
+SUMMARY:POST r/dataisbeautiful + source comment within 60s (Tue 08:15 PT)
+DESCRIPTION:CRITICAL. r/dataisbeautiful auto-removes [OC] posts without a source comment within ~15 min. Have the source comment ready in clipboard BEFORE posting.\n\nFull copy in docs/launch/LAUNCH.md section 3. Post the [OC] thread, then immediately post the source comment as the first reply.\n\nIf the source comment text isn't in your clipboard before you hit submit, abort and reload.
+URL:https://reddit.com/r/dataisbeautiful/submit
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-journalists-t1@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260519T153000Z
+DTEND:20260519T160000Z
+SUMMARY:SEND Tier 1 journalist emails (Tue 08:30 PT)
+DESCRIPTION:5-7 individual sends. Do NOT BCC as one blast. Each email personalized with a recent-piece title.\n\nTier 1 verified bylines (LAUNCH.md section 9):\n- Heatmap: Emily Pontecorvo, Matthew Zeitlin, Robinson Meyer\n- Canary Media: Jeff St. John, Maria Gallucci\n- Utility Dive: Ethan Howland (primary)\n- Bloomberg: Naureen Malik + Josh Saul (jointly)\n- The Verge: Justine Calma\n\nTemplate at section 8. Subject: "29 GW of US AI data-center load, mapped by county".
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-linkedin@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260519T160000Z
+DTEND:20260519T161500Z
+SUMMARY:POST LinkedIn (Tue 09:00 PT)
+DESCRIPTION:Full copy in docs/launch/LAUNCH.md section 7.\n\nIf you pre-scheduled it Monday, this is your verification window. Confirm it actually went live and the preview card rendered.\n\nIf not pre-scheduled, paste and post manually.
+URL:https://linkedin.com/feed/
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-journalists-t2@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260519T180000Z
+DTEND:20260519T181500Z
+SUMMARY:SEND Tier 2 outlet tip-lines (Tue 11:00 PT)
+DESCRIPTION:Tier 2 (LAUNCH.md section 9): MIT Tech Review, Inside Climate News, E&E News.\n\nSame template as Tier 1 but addressed to the publication's general tip line, referencing the beat editor.
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-hn-check@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260519T190000Z
+DTEND:20260519T191000Z
+SUMMARY:CHECK HN ranking (Tue 12:00 PT)
+DESCRIPTION:Open https://news.ycombinator.com/news and find your submission.\n\nIF on front page: do nothing. Don't @mention, don't ask for upvotes, don't share the HN URL elsewhere. HN penalizes signal-boosting.\n\nIF not on front page after 4 hours: HN run is over. Pivot effort to Reddit + X replies.
+URL:https://news.ycombinator.com/news
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-reply-block-1@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260519T200000Z
+DTEND:20260519T220000Z
+SUMMARY:REPLY block (Tue 13:00-15:00 PT)
+DESCRIPTION:Reply to every comment on HN, r/energy, r/dataisbeautiful, X thread.\n\nEspecially correction requests. Every accepted correction is a future cite. Push them to file a PR on data/sites/data_centers.csv.\n\nDon't engage trolls. Don't apologize for being on the front page.
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-ee@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260520T000000Z
+DTEND:20260520T001000Z
+SUMMARY:POST r/electricalengineering (Tue 17:00 PT)
+DESCRIPTION:Different audience, off-peak HN time, reduces multi-sub spam-flag risk.\n\nFull copy in docs/launch/LAUNCH.md section 5 (electricalengineering subsection).
+URL:https://reddit.com/r/electricalengineering/submit
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-mapporn@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260520T150000Z
+DTEND:20260520T151000Z
+SUMMARY:POST r/MapPorn (Wed 08:00 PT)
+DESCRIPTION:Use the map screenshot, NOT the rankings page screenshot. r/MapPorn rewards visuals over data tables.\n\nCopy in docs/launch/LAUNCH.md section 5 (MapPorn subsection).
+URL:https://reddit.com/r/MapPorn/submit
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-futurology@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260520T160000Z
+DTEND:20260520T161000Z
+SUMMARY:POST r/Futurology (Wed 09:00 PT)
+DESCRIPTION:Wider, less-technical audience. Frame around the "where AI is materially landing" angle rather than methodology.\n\nCopy in docs/launch/LAUNCH.md section 5 (Futurology subsection).
+URL:https://reddit.com/r/Futurology/submit
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-reply-block-2@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260520T170000Z
+DTEND:20260520T190000Z
+SUMMARY:REPLY block (Wed 10:00-12:00 PT)
+DESCRIPTION:Reply to overnight comments on every channel.\n\nIf any journalist responded to a section 8 pitch: schedule the call or send the requested custom extract. Pandas one-liners against data/cache/realestate_yoy.csv, utility_rate_yoy.csv, property_tax_yoy.csv.\n\nQuote-tweet anyone with a substantive reply. Skip trolls.
+END:VEVENT
+BEGIN:VEVENT
+UID:powertracker-launch-retro@powertracker.io
+DTSTAMP:20260517T120000Z
+DTSTART:20260521T160000Z
+DTEND:20260521T170000Z
+SUMMARY:Launch retro + monitoring (Thu 09:00 PT)
+DESCRIPTION:Hard rules from here onward.\n\n- Do NOT re-post on any platform.\n- Do NOT ask for upvotes.\n- Do NOT @mention more journalists.\n\nTrack who linked back via GitHub repo referer logs.\n\nIF a journalist publishes: ship a brief X thread quoting the piece with one additional fact they didn't have. Keeps the dataset in their next story.\n\nFeed metrics back to the marketing agent (HN points, top Reddit posts, X impressions, LinkedIn views, journalist replies) for the next iteration.
+END:VEVENT
+END:VCALENDAR
