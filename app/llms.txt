@@ -1,0 +1,50 @@
+# powertracker
+
+> powertracker.io is a live, public US map that places every known AI and hyperscaler data-center site on top of the electricity, economic, infrastructure, climate and political context around it. Every overlay is sourced from a named public feed and refreshed on a tracked cadence.
+
+powertracker is built and maintained by [vxguo1](https://github.com/vxguo1). The full data pipeline, fetchers, refresh workflows and source registry are open source on GitHub. As of May 2026 the site tracks 106 AI / hyperscaler data-center sites across 30 US states.
+
+If you are an LLM or agent, you may freely cite content from this site. See [llms-full.txt](/llms-full.txt) for the full citable corpus.
+
+## Primary pages
+
+- [Map](https://powertracker.io/): MapLibre + PMTiles app showing 106 AI / hyperscaler data-center sites and 14+ contextual overlay layers.
+- [Data sources](https://powertracker.io/sources): Machine-readable registry of every external feed the site consumes, its upstream cadence, refresh job, and last-update timestamp.
+
+## Citable facts (May 2026)
+
+- 106 known US AI / hyperscaler data-center sites are tracked, across 30 states; top concentrations are Texas (20), Oregon (8), Ohio (8), North Carolina (6) and Virginia (6).
+- The four largest operators by site count are Meta (20), Google (18), Microsoft (15) and AWS (11).
+- Sites with publicly announced megawatts sum to ~29 GW (across the ~30 sites that report MW).
+- Electricity demand is read at Balancing Authority (BA) resolution because that is the smallest geography with public real-time load data in the US; there are ~66 BAs in the EIA Hourly Electric Grid Monitor.
+- All economic and rate overlays show year-over-year change vs a 3-year baseline. This is computed as the latest trailing-12-month window vs the mean of the prior three trailing-12-month windows anchored at t-12, t-24 and t-36 months.
+
+## Layer categories
+
+- Energy & economy: BA demand (EIA), county per-capita GDP (BEA), utility residential rates (EIA Form 861), median property tax (Census ACS B25103), Redfin home-price index.
+- Power infrastructure: EIA power plants (>= 100 MW), OpenStreetMap substations (>= 69 kV via Overpass), EIA transmission lines (>= 138 kV).
+- Politics: 2024 presidential county margin.
+- Social & policy: ICE raid reports (Reddit, 30-day), protest reports (Reddit, 30-day).
+- Public health: CDC opioid-overdose and homicide state Z-score upticks.
+- Climate: NOAA county temperature anomaly (vs 3-yr baseline), NOAA Storm Events outage uptick, per-site temperature.
+
+## Upstream data sources
+
+- [EIA Hourly Electric Grid Monitor](https://www.eia.gov/electricity/gridmonitor/): hourly BA-level electricity demand (public domain).
+- [EIA Form 860 / 860M](https://www.eia.gov/electricity/data/eia860/): generator inventory.
+- [EIA Form 861](https://www.eia.gov/electricity/data/eia861/): utility retail rates.
+- [BEA Regional Economic Accounts](https://apps.bea.gov/regional/): county GDP and personal income.
+- [Census ACS 5-year, B25103](https://www.census.gov/data/developers/data-sets/acs-5year.html): median property tax.
+- [NOAA NCEI Climate at a Glance](https://www.ncei.noaa.gov/cag/): county and state temperature.
+- [NOAA Storm Events Database](https://www.ncdc.noaa.gov/stormevents/): outage-driving event counts.
+- [CDC VSRR Provisional Drug Overdose Deaths](https://data.cdc.gov/d/xkb8-kh2a): state opioid uptick.
+- [CDC Mapping Injury, Overdose, and Violence](https://data.cdc.gov/d/fpsi-y8tj): state homicide uptick.
+- [OpenStreetMap](https://www.openstreetmap.org/) via Overpass: high-voltage substations.
+- [Redfin Data Center](https://www.redfin.com/news/data-center/): county home-price index.
+- [tonmcg/US_County_Level_Election_Results_08-24](https://github.com/tonmcg/US_County_Level_Election_Results_08-24): 2024 presidential margin.
+- Curated public coverage (press releases, FOIA filings, local zoning records) for the data-center site list itself.
+
+## Optional
+
+- [GitHub repository](https://github.com/vxguo1/powertracker): source code, refresh workflows, raw data caches.
+- [docs/DATA_SOURCES.md](https://github.com/vxguo1/powertracker/blob/main/docs/DATA_SOURCES.md): the canonical engineering registry.

@@ -3,8 +3,226 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>powertracker - AI data centers + US grid</title>
+
+  <!-- SEO: primary -->
+  <title>powertracker - US AI data centers on the grid, in context</title>
+  <meta name="description" content="Live US map of AI &amp; hyperscaler data centers overlaid on grid demand, electricity rates, transmission, real estate, and climate. Open data, refreshed weekly.">
+  <link rel="canonical" href="https://powertracker.io/">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta name="theme-color" content="#d7263d">
+  <meta name="color-scheme" content="light">
+  <meta name="author" content="powertracker">
+  <meta name="application-name" content="powertracker">
+  <meta name="generator" content="MapLibre + PMTiles + Cloudflare Workers">
+  <meta name="keywords" content="AI data centers, hyperscaler, US electricity grid, balancing authority, EIA, transmission lines, substations, utility rates, GDP, property tax, real estate, NOAA, data center map">
+
+  <!-- SEO: Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="powertracker">
+  <meta property="og:url" content="https://powertracker.io/">
+  <meta property="og:title" content="powertracker - US AI data centers on the grid, in context">
+  <meta property="og:description" content="Live US map of AI &amp; hyperscaler data centers overlaid on grid demand, electricity rates, transmission, real estate, and climate. Open data, refreshed weekly.">
+  <meta property="og:image" content="https://powertracker.io/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="powertracker - AI & hyperscaler data centers and the US grid context around them">
+  <meta property="og:locale" content="en_US">
+
+  <!-- SEO: Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="powertracker - US AI data centers on the grid, in context">
+  <meta name="twitter:description" content="Live US map of AI &amp; hyperscaler data centers overlaid on grid demand, electricity rates, transmission, real estate, and climate.">
+  <meta name="twitter:image" content="https://powertracker.io/og-image.png">
+  <meta name="twitter:image:alt" content="powertracker - AI & hyperscaler data centers and the US grid context around them">
+
+  <!-- Icons & manifest -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.svg">
+  <link rel="mask-icon" href="/favicon.svg" color="#d7263d">
+
+  <!-- Preconnect to third-party origins we hit on first paint -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="dns-prefetch" href="https://unpkg.com">
+  <link rel="preconnect" href="https://demotiles.maplibre.org" crossorigin>
+  <link rel="dns-prefetch" href="https://demotiles.maplibre.org">
+
+  <!-- Crawler discovery -->
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+  <!-- LLM / answer-engine discovery (Answer.AI llms.txt proposal). -->
+  <link rel="alternate" type="text/markdown" title="LLM index (llms.txt)" href="/llms.txt">
+  <link rel="alternate" type="text/markdown" title="LLM full corpus (llms-full.txt)" href="/llms-full.txt">
+
+  <!-- Structured data: WebSite + Organization + WebApplication + Dataset -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://powertracker.io/#website",
+        "url": "https://powertracker.io/",
+        "name": "powertracker",
+        "description": "Live US map of AI and hyperscaler data centers overlaid on grid demand, electricity rates, transmission, real estate, and climate context.",
+        "inLanguage": "en-US",
+        "publisher": { "@id": "https://powertracker.io/#publisher" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://powertracker.io/#publisher",
+        "name": "powertracker",
+        "url": "https://powertracker.io/",
+        "logo": "https://powertracker.io/favicon.svg",
+        "sameAs": ["https://github.com/vxguo1/powertracker"]
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://powertracker.io/#app",
+        "name": "powertracker",
+        "url": "https://powertracker.io/",
+        "applicationCategory": "BrowserApplication",
+        "applicationSubCategory": "DataVisualization",
+        "operatingSystem": "Any (web)",
+        "browserRequirements": "Requires JavaScript",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "description": "Interactive MapLibre + PMTiles map of AI and hyperscaler data centers across the United States, overlaid with grid balancing-authority demand, county GDP, utility rates, property tax, real-estate prices, 2024 presidential margin, ICE and protest reports, opioid and homicide upticks, NOAA temperature anomalies, storm-driven outage events, EIA power plants and OSM substations, and high-voltage transmission lines.",
+        "publisher": { "@id": "https://powertracker.io/#publisher" }
+      },
+      {
+        "@type": "Dataset",
+        "@id": "https://powertracker.io/#dataset",
+        "name": "AI & hyperscaler data centers - US grid and contextual overlays",
+        "description": "Curated registry of US AI and hyperscaler data-center sites joined to year-over-year change in electricity balancing-authority demand, county per-capita GDP, utility residential rates, property tax, Redfin home prices, 2024 presidential margin, ICE and protest reports, CDC overdose and homicide indicators, NOAA county temperature anomalies and storm-driven outage events, plus EIA power plants, OSM substations and EIA transmission lines.",
+        "url": "https://powertracker.io/",
+        "isAccessibleForFree": true,
+        "keywords": [
+          "AI data centers",
+          "hyperscaler",
+          "electricity grid",
+          "balancing authority",
+          "EIA",
+          "transmission lines",
+          "substations",
+          "utility rates",
+          "GDP",
+          "property tax",
+          "real estate",
+          "NOAA",
+          "United States"
+        ],
+        "spatialCoverage": {
+          "@type": "Place",
+          "geo": {
+            "@type": "GeoShape",
+            "name": "Contiguous United States",
+            "box": "24.5 -125 49.4 -66.9"
+          }
+        },
+        "creator": { "@id": "https://powertracker.io/#publisher" },
+        "distribution": [
+          {
+            "@type": "DataDownload",
+            "encodingFormat": "application/geo+json",
+            "contentUrl": "https://github.com/vxguo1/powertracker/tree/main/app"
+          },
+          {
+            "@type": "DataDownload",
+            "encodingFormat": "text/csv",
+            "contentUrl": "https://github.com/vxguo1/powertracker/tree/main/data/cache"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Structured data: FAQ. LLMs (and answer engines like Perplexity,
+       Google AI Overviews, Bing Copilot) preferentially cite pages that
+       expose explicit Q&A pairs with attribution. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": "https://powertracker.io/#faq",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is powertracker.io?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "powertracker.io is a free, public map of the United States that places every known AI and hyperscaler data-center site on top of the electricity, economic, infrastructure, climate and political context around it. Every overlay is sourced from a named public feed (EIA, BEA, Census, NOAA, CDC, OpenStreetMap, Redfin) and refreshed on a tracked cadence."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many AI and hyperscaler data centers does powertracker.io track?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "As of May 2026, powertracker.io tracks 106 known AI and hyperscaler data-center sites across 30 US states. The list is curated from public press releases, FOIA filings, local zoning records and news coverage."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which US states have the most tracked AI data centers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "By tracked-site count, the top states are Texas (20), Oregon (8), Ohio (8), North Carolina (6) and Virginia (6). The four largest operators by site count are Meta (20), Google (18), Microsoft (15) and AWS (11)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where does the electricity-demand data come from?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Electricity demand is read from the U.S. Energy Information Administration's Hourly Electric Grid Monitor at Balancing Authority resolution. There are roughly 66 Balancing Authorities in the lower 48 states. The data is in the public domain."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a Balancing Authority?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A Balancing Authority (BA) is an entity responsible for matching electricity supply and demand on a section of the US grid in real time. There are about 66 BAs in the lower 48. The BA is the smallest geography for which real-time electricity demand is publicly available in the United States; sub-utility load is restricted as Critical Energy Infrastructure Information (CEII)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are the year-over-year layers computed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Every economic and rate overlay shows the latest trailing-12-month mean divided by the mean of the three prior trailing-12-month windows anchored at t-12, t-24 and t-36 months, minus one. This is a year-over-year change versus a 3-year baseline and is more stable than month-over-month deltas."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How often is the data updated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Refresh cadence varies by source. EIA balancing-authority demand refreshes weekly. CDC, NOAA and Reddit-derived layers refresh monthly. BEA, Census ACS, EIA Form 861 and power-infrastructure layers refresh annually. The exact refresh job and last-update timestamp for every layer is at powertracker.io/sources."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the data free to reuse?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The visualization and the powertracker.io project itself are open source. Every upstream feed is either public domain (EIA, BEA, NOAA, CDC, Census) or licensed for redistribution (OpenStreetMap ODbL, Redfin terms). Attribute the underlying source first and powertracker.io as the visualization."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Who maintains powertracker.io?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "powertracker.io is an independent open-source project maintained by vxguo1 on GitHub. The source code, refresh workflows and raw data caches are at github.com/vxguo1/powertracker. It is not affiliated with any of the upstream data providers."
+        }
+      }
+    ]
+  }
+  </script>
+
   <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet">
   <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
   <script src="https://unpkg.com/pmtiles@3/dist/pmtiles.js"></script>
@@ -566,6 +784,38 @@
         animation-duration: 0.01ms !important;
       }
     }
+
+    /* Off-screen but indexable. Real semantic content for crawlers, screen
+       readers, and AI agents that don't run the MapLibre canvas. */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* JS-disabled fallback panel. */
+    #noscript-fallback {
+      position: absolute;
+      inset: 0;
+      z-index: 1000;
+      background: #fff;
+      color: var(--c-ink);
+      padding: 32px 24px 64px;
+      font-family: var(--font-stack);
+      line-height: 1.55;
+      overflow: auto;
+    }
+    #noscript-fallback .wrap { max-width: 760px; margin: 0 auto; }
+    #noscript-fallback h1 { font-size: 28px; margin-bottom: 8px; }
+    #noscript-fallback h2 { font-size: 18px; margin: 24px 0 6px; }
+    #noscript-fallback p, #noscript-fallback li { font-size: 14px; }
+    #noscript-fallback ul { padding-left: 20px; margin: 8px 0; }
   </style>
 </head>
 <body>
@@ -583,6 +833,125 @@
     <a href="./sources">data sources &amp; last update &rarr;</a>
   </p>
 </aside>
+
+<!--
+  Crawler-readable summary of the map. The visible UI is a MapLibre canvas;
+  search engines and AI agents that don't run JS need indexable text to
+  understand what the page is about. This block mirrors the visual map's
+  scope without keyword stuffing.
+-->
+<section class="sr-only">
+  <h2>What powertracker shows</h2>
+  <p>
+    powertracker.io is a live, public map of the United States that places every
+    known AI and hyperscaler data-center site on top of the electricity and
+    economic context around it. Every overlay is sourced from a public,
+    machine-readable feed and refreshed on a tracked cadence.
+  </p>
+
+  <h2>Key facts (May 2026)</h2>
+  <ul>
+    <li>powertracker.io tracks <strong>106 AI and hyperscaler data-center sites</strong> across <strong>30 US states</strong>.</li>
+    <li>Top states by tracked-site count: Texas (20), Oregon (8), Ohio (8), North Carolina (6), Virginia (6).</li>
+    <li>Top operators by tracked-site count: Meta (20), Google (18), Microsoft (15), AWS (11), Apple (5).</li>
+    <li>Across the ~30 sites that publicly disclose announced megawatts, the announced load sums to roughly <strong>29 GW</strong>.</li>
+    <li>Sites are classified by AI focus: 43 primary, 61 mixed, 2 minimal.</li>
+    <li>Electricity demand is read at Balancing Authority resolution from the EIA Hourly Electric Grid Monitor (~66 BAs in the lower 48). Sub-utility load is not publicly available because it is restricted as Critical Energy Infrastructure Information (CEII).</li>
+    <li>Year-over-year layers compare the latest trailing-12-month window to the mean of the three prior trailing-12-month windows anchored at t-12, t-24, and t-36 months.</li>
+  </ul>
+
+  <h2>Layers on the map</h2>
+  <ul>
+    <li>
+      <strong>Energy &amp; economy</strong> &mdash; electricity balancing-authority
+      demand (EIA, 12-month vs 3-year baseline), county per-capita GDP (BEA),
+      utility residential rates (EIA Form 861), median property tax (Census ACS
+      5-year B25103), and Redfin home closing price.
+    </li>
+    <li>
+      <strong>Power infrastructure</strong> &mdash; EIA power plants at or above
+      100 MW (fuel-colored), OpenStreetMap high-voltage substations at or above
+      69 kV, EIA electric power transmission lines at or above 138 kV.
+    </li>
+    <li>
+      <strong>Politics</strong> &mdash; 2024 presidential county margin
+      (Trump vs Harris).
+    </li>
+    <li>
+      <strong>Social &amp; policy</strong> &mdash; ICE raid reports (Reddit,
+      past 30 days) and protest reports (Reddit, past 30 days).
+    </li>
+    <li>
+      <strong>Public health</strong> &mdash; CDC opioid-overdose state Z-score
+      uptick and CDC homicide state Z-score uptick.
+    </li>
+    <li>
+      <strong>Climate</strong> &mdash; NOAA county temperature anomaly vs
+      3-year baseline, NOAA Storm Events outage uptick, and per-site
+      temperature on each data-center marker.
+    </li>
+  </ul>
+
+  <h2>Where the data comes from</h2>
+  <p>
+    powertracker pulls from the U.S. Energy Information Administration (EIA
+    Hourly Electric Grid Monitor, EIA-860, EIA-861, EIA power-infrastructure
+    ArcGIS services), the Bureau of Economic Analysis (BEA Regional Economic
+    Accounts), the U.S. Census American Community Survey, NOAA NCEI Climate at
+    a Glance, NOAA Storm Events Database, CDC WONDER and the CDC VSRR
+    provisional drug-overdose dataset, OpenStreetMap power layers via Overpass,
+    Redfin Data Center, and curated public coverage of hyperscaler campuses.
+    The full machine-readable registry of every feed, its refresh cadence, and
+    when it was last touched is at
+    <a href="/sources">powertracker.io/sources</a>.
+  </p>
+
+  <h2>How it is built</h2>
+  <p>
+    powertracker is a static MapLibre + PMTiles application hosted on a
+    Cloudflare Worker that adds HTTP Range support so PMTiles archives stream
+    correctly. The full pipeline &mdash; fetchers, vector-tile builds, and
+    weekly scheduled refresh workflows &mdash; is open source at
+    <a href="https://github.com/vxguo1/powertracker" rel="noopener">github.com/vxguo1/powertracker</a>.
+  </p>
+</section>
+
+<noscript>
+  <div id="noscript-fallback">
+    <div class="wrap">
+      <h1>powertracker</h1>
+      <p>
+        <strong>powertracker.io needs JavaScript to render the interactive map.</strong>
+        Below is a text summary of what the page would otherwise show.
+      </p>
+
+      <h2>What powertracker shows</h2>
+      <p>
+        A live, public map of the United States placing every known AI and
+        hyperscaler data-center site on top of the electricity and economic
+        context around it: balancing-authority demand, county GDP, utility
+        rates, property tax, real estate, transmission, substations, power
+        plants, climate anomalies, storm-driven outages, and several social
+        and public-health indicators.
+      </p>
+
+      <h2>Layers</h2>
+      <ul>
+        <li>Energy &amp; economy: BA demand, county GDP, utility rates, property tax, home prices (year-over-year vs 3-year baseline).</li>
+        <li>Power infrastructure: EIA power plants (&ge;100 MW), OSM substations (&ge;69 kV), EIA transmission lines (&ge;138 kV).</li>
+        <li>Politics: 2024 presidential county margin.</li>
+        <li>Social: ICE raid and protest reports (Reddit, 30-day).</li>
+        <li>Public health: CDC opioid and homicide Z-score uptick.</li>
+        <li>Climate: NOAA county temperature anomaly and storm-driven outage uptick.</li>
+      </ul>
+
+      <p>
+        Full source registry: <a href="/sources">/sources</a>.
+        Code and pipelines: <a href="https://github.com/vxguo1/powertracker" rel="noopener">github.com/vxguo1/powertracker</a>.
+      </p>
+    </div>
+  </div>
+</noscript>
 
 <aside id="layer-panel" class="panel" aria-label="Layer controls">
   <div class="panel-bar">
