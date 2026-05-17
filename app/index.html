@@ -1586,6 +1586,18 @@
   const __initLon = __qpNum('lon', -97);
   const __initLat = __qpNum('lat', 39.5);
   const __initZoom = __qpNum('z', 4);
+  // Optional ?layer= forces the named choropleth on and unchecks the
+  // others (they're mutually exclusive in practice). Friendly names map
+  // to the underlying toggle IDs.
+  const __qpLayer = (__qp.get('layer') || '').trim().toLowerCase();
+  const LAYER_PARAM_TO_TOGGLE = {
+    'utility-rate':  't-utility',
+    'home-price':    't-realestate',
+    'property-tax':  't-property-tax',
+    'gdp':           't-county',
+    'ba-demand':     't-ba',
+    'election':      't-election',
+  };
 
   const map = new maplibregl.Map({
     container: 'map',
@@ -2356,6 +2368,21 @@
   map.on('style.load', () => {
     document.querySelectorAll('#layer-panel input[type=checkbox]')
       .forEach(cb => cb.dispatchEvent(new Event('change')));
+    // Honor ?layer=. Force the requested choropleth on, uncheck the rest
+    // (they overpaint each other otherwise). Runs after the default
+    // dispatch so an explicit layer param wins.
+    const __target = LAYER_PARAM_TO_TOGGLE[__qpLayer];
+    if (__target) {
+      Object.values(LAYER_PARAM_TO_TOGGLE).forEach(id => {
+        const cb = document.getElementById(id);
+        if (!cb) return;
+        const shouldBeChecked = (id === __target);
+        if (cb.checked !== shouldBeChecked) {
+          cb.checked = shouldBeChecked;
+          cb.dispatchEvent(new Event('change'));
+        }
+      });
+    }
   });
 
   // Pull the actual 30-day window out of the ICE geojson metadata so the

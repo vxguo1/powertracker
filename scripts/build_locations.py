@@ -619,7 +619,7 @@ def render_county_page(out: Path, county: dict, today: str) -> None:
         f"Residential rate {fmt_pct(county['utility_rate_pct'])}, home price "
         f"{fmt_pct(county['home_price_pct'])} on a 3-year baseline."
     )
-    map_url = f"/?lat={county['lat']:.3f}&lon={county['lon']:.3f}&z=10"
+    map_url = f"/?lat={county['lat']:.3f}&lon={county['lon']:.3f}&z=10&layer=utility-rate"
 
     site_rows = []
     for s in sorted(county["sites"], key=lambda x: -x["announced_mw"]):
@@ -707,7 +707,7 @@ def render_site_page(out: Path, site: dict, county: dict | None, today: str) -> 
         f"{state_name}. Announced load: {mw_str}. Served by {site['utility']} on "
         f"the {site.get('ba_code', '')} balancing authority."
     )
-    map_url = f"/?lat={site['lat']:.3f}&lon={site['lon']:.3f}&z=11"
+    map_url = f"/?lat={site['lat']:.3f}&lon={site['lon']:.3f}&z=11&layer=utility-rate"
 
     sibling_links = ""
     if county and county["n_sites"] > 1:
