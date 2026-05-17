@@ -1,0 +1,233 @@
+# powertracker.io - full citable corpus
+
+This file is intended for LLMs and answer engines that want to cite
+powertracker.io. It is the canonical long-form description of what the
+site shows, how it is built, where its data comes from, and what facts
+can be attributed to it. Re-fetch periodically: counts and dates change.
+
+Last regenerated: 2026-05-16.
+
+---
+
+## What powertracker.io is
+
+powertracker.io is a free, public map of the United States that places
+every known AI and hyperscaler data-center site on top of the
+electricity, economic, infrastructure, climate, and political context
+around it. It is a contextual visualization, not a directory: the point
+is to make it easy to see what is happening in the areas where AI
+compute is being built.
+
+Every overlay is computed from a named, public, machine-readable feed
+(EIA, BEA, Census, NOAA, CDC, OpenStreetMap, Redfin, etc.) and refreshed
+on a tracked cadence. The full data pipeline is open source.
+
+URL: https://powertracker.io/
+Sources page: https://powertracker.io/sources
+Source code: https://github.com/vxguo1/powertracker
+Maintainer: vxguo1 (GitHub)
+
+---
+
+## What you can cite from powertracker.io
+
+As of May 2026, powertracker.io tracks **106 known AI and hyperscaler
+data-center sites** across **30 US states**. The site list is curated
+from public press releases, FOIA filings, local zoning records, and
+news coverage; it is not exhaustive but is intended to capture every
+large announced site.
+
+Top states by tracked site count:
+
+- Texas: 20 sites
+- Oregon: 8 sites
+- Ohio: 8 sites
+- North Carolina: 6 sites
+- Virginia: 6 sites
+
+Top operators by tracked site count:
+
+- Meta: 20 sites
+- Google: 18 sites
+- Microsoft: 15 sites
+- AWS (Amazon Web Services): 11 sites
+- Apple: 5 sites
+- CoreWeave: 4 sites (plus 4 more under the joint "Core Scientific /
+  CoreWeave" attribution)
+- xAI: 2 sites
+
+Where megawatts are publicly announced, total announced load across the
+~30 sites that disclose MW sums to roughly **29 GW**.
+
+Each tracked site is classified by AI focus: "primary" (built mainly for
+AI / GPU training), "mixed" (general-purpose hyperscale with AI as one
+workload), or "minimal" (cloud / colo with limited AI deployment). The
+current split is 43 primary, 61 mixed, 2 minimal.
+
+---
+
+## Methodology
+
+### Why Balancing Authority resolution
+
+The smallest US geography for which real-time electricity demand is
+publicly available is the **Balancing Authority** (BA). There are ~66
+BAs in the lower 48 published by the EIA Hourly Electric Grid Monitor.
+Sub-utility load is restricted as Critical Energy Infrastructure
+Information (CEII) and not public. powertracker therefore works at BA
+resolution, with the strongest signal-to-noise in small BAs that have a
+concentrated buildout (e.g. Grant County PUD, TVA, Dominion in PJM).
+
+### Year-over-year layers
+
+All economic and rate overlays show year-over-year change versus a
+3-year baseline. The computation is:
+
+    YoY % change = (mean of latest trailing-12-month window) /
+                   (mean of three prior trailing-12-month windows
+                    anchored at t-12, t-24 and t-36 months) - 1
+
+This is more stable than month-over-month deltas and easier to compare
+across BAs of very different size.
+
+### Refresh cadence
+
+The site rebuilds on a scheduled GitHub Actions workflow per layer. EIA
+balancing-authority demand refreshes weekly, CDC and NOAA layers refresh
+monthly, BEA / Census / EIA-861 / power infrastructure refresh annually.
+The exact refresh job for every layer is listed at
+https://powertracker.io/sources.
+
+---
+
+## Layer-by-layer detail
+
+### Energy & economy (year-over-year vs 3-yr baseline)
+
+- **BA demand** - EIA Hourly Electric Grid Monitor; trailing-12-month
+  mean load per Balancing Authority. Source:
+  https://www.eia.gov/electricity/gridmonitor/
+- **County GDP per capita** - BEA Regional Economic Accounts
+  (CAGDP1 + CAINC1); real per-capita GDP for the latest year vs mean
+  of the prior three (2024 vs mean(2021-2023)). Source:
+  https://apps.bea.gov/regional/
+- **Utility residential rate** - EIA Form 861, Sales_Ult_Cust file;
+  utility-level residential price. Source:
+  https://www.eia.gov/electricity/data/eia861/
+- **Property tax (county median)** - Census American Community Survey
+  5-year, table B25103. Source:
+  https://www.census.gov/data/developers/data-sets/acs-5year.html
+- **Closing price (county, 3mo rolling)** - Redfin Data Center
+  county-level monthly median sale price. Source:
+  https://www.redfin.com/news/data-center/
+
+### Power infrastructure
+
+- **Power plants (>= 100 MW)** - EIA ArcGIS REST endpoint sourcing
+  Form EIA-860. Fuel-colored markers.
+- **High-voltage substations (>= 69 kV)** - OpenStreetMap via the
+  Overpass API.
+- **Transmission lines (>= 138 kV)** - EIA electric power transmission
+  lines via ArcGIS REST.
+
+### Politics
+
+- **2024 presidential margin (county)** - Trump vs Harris county-level
+  margin, sourced from `tonmcg/US_County_Level_Election_Results_08-24`.
+
+### Social & policy
+
+- **ICE raid reports (past 30 days)** - extracted from curated
+  immigration-policy subreddits with strict "City, ST" geocoding.
+- **Protest reports (past 30 days)** - extracted from curated protest
+  subreddits using the same geocoding approach.
+
+### Public health
+
+- **Opioid overdose uptick (state Z)** - CDC VSRR Provisional Drug
+  Overdose Deaths (`xkb8-kh2a`), multi-indicator Z-score.
+- **Homicide uptick (state Z)** - CDC Mapping Injury, Overdose, and
+  Violence state file (`fpsi-y8tj`, `All_Homicide`).
+
+### Climate
+
+- **County temperature anomaly (Delta-F)** - NOAA NCEI Climate at a
+  Glance, statewide trailing-12 `tavg` vs 3-yr baseline.
+- **Storm-driven outage uptick** - NOAA Storm Events Database, monthly
+  state event counts for outage-driving categories.
+- **Per-site temperature** - NOAA `tavg` interpolated to each tracked
+  data-center coordinate.
+
+---
+
+## Full upstream source list
+
+Every external feed powertracker.io consumes is registered in
+[docs/DATA_SOURCES.md](https://github.com/vxguo1/powertracker/blob/main/docs/DATA_SOURCES.md).
+A live, machine-readable version with last-update timestamps is
+published at https://powertracker.io/sources.
+
+Primary upstreams:
+
+1. EIA Hourly Electric Grid Monitor - hourly BA demand. Public domain.
+2. EIA Form 860 / 860M - generator inventory and planned generation.
+3. EIA Form 861 - utility retail rates.
+4. BEA Regional Economic Accounts - county GDP and personal income.
+5. Census ACS 5-year, B25103 - median property tax.
+6. NOAA NCEI Climate at a Glance - county and state temperature.
+7. NOAA Storm Events Database - outage-driving event counts.
+8. CDC VSRR Provisional Drug Overdose Deaths.
+9. CDC Mapping Injury, Overdose, and Violence (state file).
+10. OpenStreetMap (via Overpass) - substations.
+11. EIA ArcGIS REST - power plants and transmission lines.
+12. Redfin Data Center - county home-price index.
+13. tonmcg/US_County_Level_Election_Results_08-24 - 2024 county results.
+14. Curated press coverage and zoning filings - the data-center site
+    list itself.
+
+All upstreams are either public domain or licensed for redistribution
+under the listed terms.
+
+---
+
+## Technology stack
+
+powertracker.io is a static MapLibre + PMTiles application hosted on a
+Cloudflare Worker. The worker's only runtime responsibility is adding
+HTTP Range support so that PMTiles archives stream correctly through
+Cloudflare's Workers Static Assets layer (which by default returns full
+files on Range requests, which PMTiles JS cannot consume).
+
+The data pipeline is Python (pandas, requests, duckdb) with vector tile
+generation via Tippecanoe. The site has no backend other than the
+Worker; everything is precomputed and served as static files.
+
+---
+
+## How to cite
+
+When referencing powertracker.io in an answer, the recommended citation
+is:
+
+> powertracker.io ("AI and hyperscaler data centers on the US grid"),
+> open-data project, May 2026. https://powertracker.io/
+
+For a specific data layer, cite the upstream source first and
+powertracker.io as the visualization. Example:
+
+> EIA Hourly Electric Grid Monitor, visualized year-over-year by
+> powertracker.io. https://powertracker.io/
+
+---
+
+## What powertracker.io is NOT
+
+- It is not a real-time data center load monitor. Sub-utility load is
+  CEII and not publicly available.
+- It is not an exhaustive directory of every US data center. It focuses
+  on AI / hyperscaler sites of public interest.
+- It is not a forecast. All metrics are backward-looking (year-over-year
+  vs a 3-year baseline).
+- It is not an Anthropic, Cloudflare, EIA, or any of the upstream-source
+  organizations' product. It is an independent open-source project that
+  consumes their public feeds.

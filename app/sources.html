@@ -3,8 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>powertracker - data sources</title>
+
+  <!-- SEO: primary -->
+  <title>Data sources - powertracker</title>
+  <meta name="description" content="Every external feed powertracker.io consumes - EIA, BEA, Census, NOAA, CDC, OSM, Redfin - with refresh cadence and last-update timestamps.">
+  <link rel="canonical" href="https://powertracker.io/sources">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta name="theme-color" content="#d7263d">
+  <meta name="color-scheme" content="light">
+  <meta name="author" content="powertracker">
+
+  <!-- SEO: Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="powertracker">
+  <meta property="og:url" content="https://powertracker.io/sources">
+  <meta property="og:title" content="Data sources - powertracker">
+  <meta property="og:description" content="Every external feed powertracker.io consumes - EIA, BEA, Census, NOAA, CDC, OSM, Redfin - with refresh cadence and last-update timestamps.">
+  <meta property="og:image" content="https://powertracker.io/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="powertracker - AI & hyperscaler data centers and the US grid context around them">
+  <meta property="og:locale" content="en_US">
+
+  <!-- SEO: Twitter / X card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Data sources - powertracker">
+  <meta name="twitter:description" content="Every external feed powertracker.io consumes - EIA, BEA, Census, NOAA, CDC, OSM, Redfin - with refresh cadence and last-update timestamps.">
+  <meta name="twitter:image" content="https://powertracker.io/og-image.png">
+
+  <!-- Icons -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="mask-icon" href="/favicon.svg" color="#d7263d">
+
+  <!-- Crawler discovery -->
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+  <!-- LLM / answer-engine discovery (Answer.AI llms.txt proposal). -->
+  <link rel="alternate" type="text/markdown" title="LLM index (llms.txt)" href="/llms.txt">
+  <link rel="alternate" type="text/markdown" title="LLM full corpus (llms-full.txt)" href="/llms-full.txt">
+
+  <!-- Structured data: WebPage + Breadcrumb -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://powertracker.io/sources#webpage",
+        "url": "https://powertracker.io/sources",
+        "name": "Data sources - powertracker",
+        "description": "Every external feed powertracker.io consumes, where it comes from, how often it refreshes, and when it was last touched.",
+        "inLanguage": "en-US",
+        "isPartOf": { "@id": "https://powertracker.io/#website" },
+        "about": { "@id": "https://powertracker.io/#dataset" },
+        "breadcrumb": { "@id": "https://powertracker.io/sources#breadcrumb" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://powertracker.io/sources#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Map",
+            "item": "https://powertracker.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Data sources",
+            "item": "https://powertracker.io/sources"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {

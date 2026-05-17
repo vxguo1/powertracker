@@ -1,0 +1,109 @@
+# powertracker.io
+#
+# Public, open-data project. The goal is visibility - both for human
+# search and for LLM training / answer-engine retrieval. Every major
+# web crawler and AI agent is explicitly welcomed below.
+#
+# Binary tile responses (/tiles/*.pmtiles) are NOT disallowed here so
+# that Google's renderer and other JS-running agents can fetch them
+# during render. They are instead marked X-Robots-Tag: noindex by the
+# worker, which prevents them being indexed as standalone documents
+# without blocking the render.
+
+# --- Default: allow everyone, everything. ---
+User-agent: *
+Allow: /
+Disallow:
+
+# --- Named AI crawlers (training + retrieval). ---
+# Listed explicitly because some only respect named User-agent blocks
+# (Applebot-Extended, PerplexityBot, Google-Extended), and because an
+# explicit Allow is a clearer "yes, train on / cite this" signal than
+# the implicit wildcard.
+
+# Common Crawl - foundation of most open LLM training corpora.
+User-agent: CCBot
+Allow: /
+
+# Anthropic.
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: Claude-User
+Allow: /
+
+# OpenAI.
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+
+# Google (training is separate from Googlebot via Google-Extended).
+User-agent: Google-Extended
+Allow: /
+User-agent: GoogleOther
+Allow: /
+
+# Microsoft / Bing AI.
+User-agent: Bingbot
+Allow: /
+
+# Perplexity.
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+
+# Apple Intelligence.
+User-agent: Applebot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+
+# Meta AI.
+User-agent: Meta-ExternalAgent
+Allow: /
+User-agent: Meta-ExternalFetcher
+Allow: /
+User-agent: FacebookBot
+Allow: /
+
+# Amazon (Alexa / Q / Olympus).
+User-agent: Amazonbot
+Allow: /
+
+# DuckDuckGo AI assist.
+User-agent: DuckAssistBot
+Allow: /
+
+# Mistral.
+User-agent: MistralAI-User
+Allow: /
+
+# Cohere.
+User-agent: cohere-ai
+Allow: /
+User-agent: cohere-training-data-crawler
+Allow: /
+
+# You.com.
+User-agent: YouBot
+Allow: /
+
+# Diffbot (used by many RAG pipelines).
+User-agent: Diffbot
+Allow: /
+
+# ByteDance / Doubao.
+User-agent: Bytespider
+Allow: /
+
+# Pointers for both human and LLM discovery.
+Sitemap: https://powertracker.io/sitemap.xml

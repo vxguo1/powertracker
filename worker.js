@@ -41,6 +41,9 @@ export default {
     headers.set("Content-Type", "application/octet-stream");
     headers.set("Accept-Ranges", "bytes");
     headers.set("Cache-Control", PMTILES_CACHE_CONTROL);
+    // Keep PMTiles archives out of search indexes. They are not standalone
+    // documents and should not appear in site: results.
+    headers.set("X-Robots-Tag", "noindex, nofollow");
     const etag = assetRes.headers.get("etag");
     if (etag) headers.set("ETag", etag);
 
