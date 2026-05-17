@@ -1,0 +1,17 @@
+[
+  {
+    "date": "2026-05-17",
+    "kickoff": true,
+    "new_campuses": [],
+    "rate_movers": [],
+    "home_movers": [],
+    "tax_movers": [],
+    "stats": {
+      "total_campuses": 106,
+      "total_announced_mw": 29133.0,
+      "utility_rate_rows": 1973,
+      "home_price_rows": 1657,
+      "property_tax_rows": 3186
+    }
+  }
+]

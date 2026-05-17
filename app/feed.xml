@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>powertracker · weekly</title>
+  <link>https://powertracker.io/weekly</link>
+  <description>Weekly diff of US AI / hyperscaler data-center campuses and the grid + economic context around them.</description>
+  <atom:link href="https://powertracker.io/feed.xml" rel="self" type="application/rss+xml"/>
+  <language>en-us</language>
+  <lastBuildDate>Sun, 17 May 2026 18:58:04 +0000</lastBuildDate>
+  <item>
+    <title>powertracker · 2026-05-17</title>
+    <link>https://powertracker.io/weekly#2026-05-17</link>
+    <guid isPermaLink="true">https://powertracker.io/weekly#2026-05-17</guid>
+    <pubDate>Sun, 17 May 2026 00:00:00 +0000</pubDate>
+    <description><![CDATA[<pre>First digest - baseline snapshot.</pre>]]></description>
+  </item>
+</channel>
+</rss>

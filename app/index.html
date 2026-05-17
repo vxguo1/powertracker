@@ -49,6 +49,7 @@
 
   <!-- Crawler discovery -->
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <link rel="alternate" type="application/rss+xml" title="powertracker weekly digest" href="/feed.xml">
 
   <!-- LLM / answer-engine discovery (Answer.AI llms.txt proposal). -->
   <link rel="alternate" type="text/markdown" title="LLM index (llms.txt)" href="/llms.txt">
@@ -830,7 +831,11 @@
     All overlays show year-over-year % change.
   </p>
   <p class="tagline" style="margin-top:6px;">
-    <a href="./sources">data sources &amp; last update &rarr;</a>
+    <a href="./rankings">county rankings &rarr;</a>
+    &nbsp;&middot;&nbsp;
+    <a href="./weekly/">weekly digest</a>
+    &nbsp;&middot;&nbsp;
+    <a href="./sources">data sources</a>
   </p>
 </aside>
 
@@ -903,7 +908,10 @@
     Redfin Data Center, and curated public coverage of hyperscaler campuses.
     The full machine-readable registry of every feed, its refresh cadence, and
     when it was last touched is at
-    <a href="/sources">powertracker.io/sources</a>.
+    <a href="/sources">powertracker.io/sources</a>. A prerendered ranking of
+    the US counties absorbing the most announced AI data-center load &mdash;
+    joined to utility rate, home price and property tax change &mdash; is at
+    <a href="/rankings">powertracker.io/rankings</a>.
   </p>
 
   <h2>How it is built</h2>
@@ -1552,6 +1560,18 @@
     };
   }
 
+  // Honor ?lat=&lon=&z= query params so the rankings page (and any external
+  // share link) can deep-link into a specific county. Falls back to a full
+  // CONUS view when params are missing or malformed.
+  const __qp = new URLSearchParams(window.location.search);
+  const __qpNum = (k, fallback) => {
+    const v = parseFloat(__qp.get(k));
+    return Number.isFinite(v) ? v : fallback;
+  };
+  const __initLon = __qpNum('lon', -97);
+  const __initLat = __qpNum('lat', 39.5);
+  const __initZoom = __qpNum('z', 4);
+
   const map = new maplibregl.Map({
     container: 'map',
     style: {
@@ -2070,8 +2090,8 @@
         }
       ]
     },
-    center: [-97, 39.5],
-    zoom: 4,
+    center: [__initLon, __initLat],
+    zoom: __initZoom,
     minZoom: 3,
     maxZoom: 14
   });
@@ -2646,7 +2666,11 @@
     if (SITE_LAYER_IDS.includes(f.layer.id)) {
       const mw = p.announced_mw != null ? `${Math.round(p.announced_mw).toLocaleString()} MW` : 'n/a';
       const yr = p.online_year != null ? p.online_year : '?';
-      const src = p.source ? `<br><a href="${p.source}" target="_blank">source</a>` : '';
+      // Slug must match scripts/build_locations.py:slugify (lowercase, non-
+      // alphanumeric -> '-', strip leading/trailing). Keep these in sync.
+      const slug = p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      const page = `<br><a href="/site/${slug}">page ↗</a>`;
+      const src = p.source ? ` &middot; <a href="${p.source}" target="_blank">source</a>` : '';
       let temp = '';
       if (p.temp_delta_f != null) {
         const d = +p.temp_delta_f;
@@ -2661,7 +2685,7 @@
              `${p.operator}<br>${p.city}, ${p.state}<br>` +
              `BA: ${p.ba_code} (${p.utility})<br>` +
              `${mw} - ${p.status} (${yr})<br>` +
-             `AI focus: <b>${p.ai_focus}</b>` + temp + src;
+             `AI focus: <b>${p.ai_focus}</b>` + temp + page + src;
     }
     return '';
   }
