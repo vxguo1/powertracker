@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=41.970&lon=-91.660&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Cedar Rapids has 137,710 residents, Iowa&#x27;s second-largest city. The August 2020 derecho left 95% of the city without power with 60 to 80 mph sustained winds and gusts over 110 mph, the most expensive thunderstorm event in US history.</span><span class="s">Source: sources[0] (Wikipedia: Cedar Rapids, Iowa)</span></li>
+    <li><span class="t">Linn County has 229,463 residents on a median household income of $76,421. The Google campus drops onto Alliant Energy territory, where EIA does not publish a clean 3-year residential rate delta for Linn County.</span><span class="s">Source: Census ACS 2023 B01003, B19013 + data/cache/utility_rate_yoy.csv (no Alliant Energy IA residential row)</span></li>
+    <li><span class="t">Home prices rose 14.2% over three years against a $204,400 median home value. Property tax assessments rose 10.2% over the same window, a 4-point spread that says the market is moving faster than the assessor.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 19113) + Census ACS 2023 B25077</span></li>
+    <li><span class="t">34.8% of Linn County adults hold a bachelor&#x27;s degree against a median age of 38.5. The Cedar Rapids labor market already supports Collins Aerospace and Quaker Foods, so the Google campus enters a workforce with industrial-engineering depth.</span><span class="s">Source: Census ACS 2023 B15003, B01002 (Linn County, IA)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,6 +126,14 @@
   </div>
 
   <a class="cta" href="/?lat=33.440&lon=-111.974&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Maricopa County is 4,491,987 residents, the fourth-largest county in the US. Five publicly announced AI campuses share the Salt River Project and APS service area, including Meta and Apple at Mesa, Microsoft at Goodyear and El Mirage, and Google at Mesa.</span><span class="s">Source: Census ACS 2023 B01003 + data/sites/data_centers.csv</span></li>
+    <li><span class="t">Mesa alone had 504,258 residents at the 2020 census, making it bigger than 19 US state capitals and larger than Atlanta proper. Three of the five Maricopa campuses sit inside Mesa city limits.</span><span class="s">Source: sources[0] (Wikipedia: Mesa, Arizona) + data/sites/data_centers.csv</span></li>
+    <li><span class="t">Salt River Project&#x27;s residential rate rose 12.6%, from 11.95 to 13.46 cents per kWh from 2021 to 2023, on 1.05 million residential customers. That is about $163 more per year on a typical household bill.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Salt River Project, AZ)</span></li>
+    <li><span class="t">Median household income in Maricopa is $85,518 and 35.9% of adults hold a bachelor&#x27;s degree. Home prices rose only 3.1% over three years, a sharp deceleration from the 2020-22 Phoenix run-up.</span><span class="s">Source: Census ACS 2023 B19013, B15003 + data/cache/realestate_yoy.csv (FIPS 04013)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

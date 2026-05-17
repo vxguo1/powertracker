@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=43.460&lon=-116.430&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Ada County has 508,052 residents and includes Boise. Meta&#x27;s announced campus is in Kuna, a south-Ada town that sits on Idaho Power&#x27;s territory along with the rest of the county.</span><span class="s">Source: Census ACS 2023 B01003 + data/sites/data_centers.csv</span></li>
+    <li><span class="t">Idaho Power&#x27;s residential rate rose 7.8% (10.9 to 11.8 cents per kWh) between 2021 and 2023 on 525,751 in-state residential customers. That is the steepest residential rate move in the Mountain West outside Cheyenne.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Idaho Power Co, ID)</span></li>
+    <li><span class="t">Median household income in Ada County is $88,907 and 43.9% of adults hold a bachelor&#x27;s degree. The median home value is $476,000, the highest in this batch and a structural barrier to in-migration even before campus construction starts.</span><span class="s">Source: Census ACS 2023 B19013, B15003, B25077 (Ada County, ID)</span></li>
+    <li><span class="t">Home prices rose only 1.6% on a 3-year baseline, the smallest delta in this batch except for Maricopa. The Boise market has cooled sharply from the 2020 to 2022 in-migration peak.</span><span class="s">Source: data/cache/realestate_yoy.csv (FIPS 16001)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=31.860&lon=-106.660&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Dona Ana County has 221,665 residents with a $55,663 median household income. Santa Teresa, where Project Jupiter sits, is a 5,044-resident community 81% Hispanic or Latino, anchored by a US-Mexico port of entry and the Dona Ana County International Jetport.</span><span class="s">Source: Census ACS 2023 B01003, B19013 (FIPS 35013) + sources[0] (Wikipedia: Santa Teresa, NM)</span></li>
+    <li><span class="t">Oracle and OpenAI&#x27;s Project Jupiter is the public name for a $165 billion Stargate site at Santa Teresa, on El Paso Electric&#x27;s grid rather than New Mexico&#x27;s PNM. El Paso Electric&#x27;s New Mexico residential rate actually fell 9.8% from 2021 to 2023, the steepest 3-year rate decline of any AI host county in this batch.</span><span class="s">Source: data/sites/data_centers.csv (Project Jupiter) + data/cache/utility_rate_yoy.csv (El Paso Electric Co, NM)</span></li>
+    <li><span class="t">31.4% of county adults 25 and older hold a bachelor&#x27;s degree, lifted by New Mexico State University in Las Cruces. Median home value is $205,400 and home prices rose 3.0% over three years.</span><span class="s">Source: Census ACS 2023 B15003, B25077 + data/cache/realestate_yoy.csv (FIPS 35013)</span></li>
+    <li><span class="t">Property tax assessments rose 10.4% over three years, well above the 3.0% home-price delta. The Santa Teresa Gateway Rail Park, a 1,100-acre Union Pacific interchange, gives Project Jupiter direct rail access to the wider Stargate logistics chain.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 35013) + sources[0]</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

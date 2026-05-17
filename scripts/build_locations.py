@@ -24,6 +24,7 @@ from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
+import yaml
 from PIL import Image, ImageDraw, ImageFont
 
 import sys
@@ -48,6 +49,52 @@ OG_COUNTY_DIR = APP / "og" / "county"
 OG_SITE_DIR = APP / "og" / "site"
 COUNTY_DIR = APP / "county"
 SITE_DIR = APP / "site"
+TAKEAWAYS_YAML = ROOT / "data" / "takeaways.yaml"
+
+
+_TAKEAWAYS: dict | None = None
+
+
+def load_takeaways() -> dict:
+    """Load data/takeaways.yaml lazily. Returns {} if the file is absent."""
+    global _TAKEAWAYS
+    if _TAKEAWAYS is None:
+        if TAKEAWAYS_YAML.exists():
+            with open(TAKEAWAYS_YAML, encoding="utf-8") as f_in:
+                _TAKEAWAYS = yaml.safe_load(f_in) or {}
+        else:
+            _TAKEAWAYS = {}
+    return _TAKEAWAYS
+
+
+def render_takeaways_html(slug: str) -> str:
+    """Build the 'Key takeaways' section for a county. Empty string when the
+    slug has no entry in takeaways.yaml. The section sits between the stats
+    grid and the campus list. Voice: methodology-forward, each bullet ends
+    with a source line in muted color."""
+    entries = load_takeaways().get(slug)
+    if not entries or not entries.get("takeaways"):
+        return ""
+    items = []
+    for t in entries["takeaways"]:
+        text = (t.get("text") or "").strip()
+        src = (t.get("source") or "").strip()
+        if not text:
+            continue
+        items.append(
+            f'<li><span class="t">{html.escape(text)}</span>'
+            f'<span class="s">Source: {html.escape(src)}</span></li>'
+        )
+    if not items:
+        return ""
+    body = "\n    ".join(items)
+    return (
+        '<h2 class="section">Key takeaways</h2>\n'
+        '  <ul class="takeaways">\n    '
+        + body
+        + '\n  </ul>'
+    )
+
 
 W, H = 1200, 630
 BG = (255, 255, 255)
@@ -687,6 +734,7 @@ def render_county_page(out: Path, county: dict, today: str) -> None:
         sub_e_class=pct_class(county["property_tax_pct"], 15),
         map_url=map_url,
         map_label="Open on map",
+        takeaways_html=render_takeaways_html(slug),
         list_heading="Campuses in this county",
         list_html=site_html,
         back_url="/rankings",
@@ -788,6 +836,7 @@ def render_site_page(out: Path, site: dict, county: dict | None, today: str) -> 
         sub_e_class=sub_e_class,
         map_url=map_url,
         map_label="Open on map",
+        takeaways_html="",
         list_heading="Source",
         list_html=f'<li><a href="{html.escape(site.get("source") or "#")}" '
                   f'target="_blank" rel="noopener">{html.escape(site.get("source") or "—")}</a></li>',
@@ -902,6 +951,10 @@ LOCATION_PAGE_TEMPLATE = """<!DOCTYPE html>
     .sibling-row{{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}}
     .sibling-row .chip{{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}}
     .sibling-row .chip:hover{{background:var(--c-accent);color:#fff;text-decoration:none}}
+    ul.takeaways{{list-style:none;padding:0;margin:0 0 8px}}
+    ul.takeaways li{{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}}
+    ul.takeaways li .t{{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}}
+    ul.takeaways li .s{{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}}
     footer.foot{{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}}
     footer.foot a{{color:var(--c-ink-muted)}}footer.foot a:hover{{color:var(--c-accent)}}
   </style>
@@ -939,6 +992,8 @@ LOCATION_PAGE_TEMPLATE = """<!DOCTYPE html>
   </div>
 
   <a class="cta" href="{map_url}">{map_label} &rarr;</a>
+
+  {takeaways_html}
 
   <h2 class="section">{list_heading}</h2>
   <ul class="list">

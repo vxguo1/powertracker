@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,6 +126,14 @@
   </div>
 
   <a class="cta" href="/?lat=38.750&lon=-77.480&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Prince William County has 484,625 residents and is the second-largest county in Virginia. The 502,966 estimate for 2025 puts it on the cusp of overtaking Fairfax as the Northern Virginia data-center population center.</span><span class="s">Source: Census ACS 2023 B01003 (Prince William County, VA) + sources[0] (Wikipedia: Prince William County, Virginia)</span></li>
+    <li><span class="t">Median household income is $128,873 and 44.5% of residents over 25 hold a bachelor&#x27;s degree, the third-highest in this batch. The county is the affordable spillover from Loudoun for federal-contractor families priced out of Ashburn.</span><span class="s">Source: Census ACS 2023 B19013, B15003 (FIPS 51153)</span></li>
+    <li><span class="t">Dominion Energy Virginia residential rates rose 7.2% from 2021 to 2023, the same delta every Dominion-served county faces. Home prices rose 7.2% and property tax assessments rose 7.2% over the same window, an exact coincidence that suggests a homeowner whose income tracks Dominion exactly is treading water.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Virginia Electric &amp; Power Co, VA) + data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 51153)</span></li>
+    <li><span class="t">The AWS Manassas campus sits in the corridor that became the focus of the Prince William Digital Gateway rezoning fight, the largest data-center land-use battle in the state. Acreage estimates for the full Gateway parcel run into the thousands, dwarfing the operational AWS footprint already on the grid.</span><span class="s">Source: data/sites/data_centers.csv (Manassas, AWS) + sources[0] (Wikipedia: Prince William County, Virginia)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

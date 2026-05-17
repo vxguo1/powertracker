@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=39.040&lon=-77.490&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Loudoun County&#x27;s median household income is $178,707, the highest of any county in the United States as of the 2023 ACS. 64.0% of residents over 25 hold a bachelor&#x27;s degree, the highest concentration of college-educated workers in this batch.</span><span class="s">Source: Census ACS 2023 B19013, B15003 (FIPS 51107) + sources[0] (Wikipedia: Loudoun County, Virginia)</span></li>
+    <li><span class="t">Data Center Alley in Ashburn now holds more than 25 million square feet of operational data centers across 60-plus campuses. Estimates of how much daily global web traffic transits the corridor range from 22% to 70%, a contested but unrivaled concentration.</span><span class="s">Source: sources[0] (Wikipedia: Loudoun County, Virginia and Data Center Alley)</span></li>
+    <li><span class="t">Dominion Energy Virginia residential rates rose 7.2% from 2021 to 2023 and Loudoun home prices rose only 3.8% over three years against a $701,000 median home value, the most muted home-price move in this batch. The 6.4% property tax delta is similarly restrained, in line with the county&#x27;s existing high revenue base.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Virginia Electric &amp; Power Co, VA) + data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 51107)</span></li>
+    <li><span class="t">Loudoun&#x27;s 427,082 residents already share their grid with AWS us-east-1, the region that hosts an estimated 70% of all AWS IP addresses. The single county is the canonical example of what a 25 million square-foot data-center cluster does to a wealthy bedroom community.</span><span class="s">Source: Census ACS 2023 B01003 + sources[0] (Wikipedia: Data Center Alley)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

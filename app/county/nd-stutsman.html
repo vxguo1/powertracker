@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=46.910&lon=-98.710&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Stutsman County is 21,525 residents centered on Jamestown, a city of 15,849 that was a Northern Pacific Railroad repair-yard town from 1872 until the 1960s. The economy now leans on precision manufacturing, food processing, and the Jamestown JMS01 HPC site.</span><span class="s">Source: Census ACS 2023 B01003 (FIPS 38093) + sources[0] (Wikipedia: Jamestown, ND)</span></li>
+    <li><span class="t">Applied Digital&#x27;s 100 MW Jamestown JMS01 went operational in 2024 and was the company&#x27;s first North Dakota HPC site, predating the larger Polaris Forge campuses in Dickey and Cass counties. The 100 MW load is roughly 4.6 kW per Stutsman resident.</span><span class="s">Source: data/sites/data_centers.csv (Jamestown JMS01) + Census ACS 2023 B01003</span></li>
+    <li><span class="t">Otter Tail Power&#x27;s North Dakota residential rate rose 9.3% from 2021 to 2023 and the utility has only 45,467 residential customers statewide. Property tax assessments rose 9.2% over the same baseline on a $200,300 median home value.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Otter Tail Power Co, ND) + data/cache/property_tax_yoy.csv (FIPS 38093) + Census ACS 2023 B25077</span></li>
+    <li><span class="t">Median household income is $60,172 and the median age is 40.6. 24.4% of adults hold a bachelor&#x27;s degree, leaving Stutsman with a smaller technically-trained labor pool than Cass County 100 miles north.</span><span class="s">Source: Census ACS 2023 B19013, B01002, B15003 (FIPS 38093)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

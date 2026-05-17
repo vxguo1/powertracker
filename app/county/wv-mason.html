@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=38.850&lon=-82.130&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Mason County has 25,214 residents with a median age of 44.2 and a median household income of $53,454. Only 16.2% of residents over 25 hold a bachelor&#x27;s degree, the lowest of any top-10 AI county.</span><span class="s">Source: Census ACS 2023 B01003, B01002, B19013, B15003</span></li>
+    <li><span class="t">Appalachian Power residential rates rose 11.6%, from 15.0 to 16.8 cents per kWh between 2021 and 2023. That adds about $188 per year to a typical household bill on incomes that have not kept pace.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Appalachian Power Co, WV)</span></li>
+    <li><span class="t">Nscale&#x27;s Monarch is a 2,250-acre campus next door to AEP&#x27;s 1,300 MW Mountaineer coal plant, which has burned roughly 9,000 tons of coal per day since 1980 and still operates as of 2025. The Monarch microgrid is rated to scale to 8 GW, more than six times Mountaineer&#x27;s nameplate.</span><span class="s">Source: sources[0] (Wikipedia: Mountaineer Power Plant) + sources[1] (Nscale press release)</span></li>
+    <li><span class="t">Microsoft has signed a letter of intent for 1.35 GW of Vera Rubin AI capacity at Monarch starting in late 2027. The site became the United States&#x27; first state-certified AI microgrid jurisdiction.</span><span class="s">Source: sources[1] (Nscale press release)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

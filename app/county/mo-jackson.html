@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=39.100&lon=-94.470&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Jackson County contains both Kansas City and Independence and is home to 717,021 residents. The two announced campuses (Nebius at 1.2 GW and a Google Kansas City build) will share Evergy&#x27;s grid with 1.14 million existing jobs.</span><span class="s">Source: Census ACS 2023 B01003 + sources[0] (Wikipedia: Jackson County, MO) + data/sites/data_centers.csv</span></li>
+    <li><span class="t">Evergy Metro Missouri residential rates rose 3.0% from 13.3 to 13.7 cents per kWh between 2021 and 2023, adding about $44 per year to a typical household bill. The Missouri PSC has not yet ruled on cost-allocation for the Nebius Independence load.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Evergy Metro, MO)</span></li>
+    <li><span class="t">Independence, Missouri is the second city in Jackson County with 121,944 residents and a median household income of $59,480. Northrop Grumman is the largest non-public employer there at 1,722 jobs, a baseline Nebius could match with a single training campus.</span><span class="s">Source: Census ACS 2023 B01003, B19013 + sources[0] (Wikipedia: Independence, MO)</span></li>
+    <li><span class="t">Home prices rose 10.7% and property tax assessments rose 11.5% over three years, both well above local wage growth. The Jackson County assessor&#x27;s office faced a class-action lawsuit over the 2023 reassessment cycle, which preceded the AI announcements.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 29095)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

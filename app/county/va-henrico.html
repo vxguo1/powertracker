@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=37.510&lon=-77.310&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Henrico County has 334,434 residents and is the fifth-most-populous county in Virginia. The Meta Sandston campus sits in the White Oak Technology Park east of Richmond International Airport, the same park that hosts QTS Richmond.</span><span class="s">Source: Census ACS 2023 B01003 (Henrico County, VA) + sources[0] (Wikipedia: Henrico County, Virginia)</span></li>
+    <li><span class="t">45.7% of Henrico residents over 25 hold a bachelor&#x27;s degree against a median household income of $86,397 and a $333,600 median home value. The data-center workforce competes with VCU Health, Capital One, and the State of Virginia for the same college-educated talent pool.</span><span class="s">Source: Census ACS 2023 B15003, B19013, B25077 (FIPS 51087)</span></li>
+    <li><span class="t">Henrico property tax assessments rose 12.8% over three years on a $2,565 median bill, the steepest property-tax move of any Virginia county in this batch. Home prices rose 5.3% over the same window, well below the assessment growth.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 51087) + data/cache/realestate_yoy.csv</span></li>
+    <li><span class="t">Dominion Energy Virginia residential rates rose 7.2% from 2021 to 2023, the same rate-delta hitting every Dominion-served county in this batch. The Meta Sandston campus has been operating since the original Facebook lease in 2017 and was on the grid before the AI-era rate-of-load shock began.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Virginia Electric &amp; Power Co, VA) + data/sites/data_centers.csv</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

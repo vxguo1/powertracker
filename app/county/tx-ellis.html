@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=32.500&lon=-96.905&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Ellis County has 213,160 residents and hosts two announced Google campuses, in Midlothian and Red Oak. Midlothian alone has nearly doubled from 18,037 to 35,125 residents between 2010 and 2020, a 94.7% jump.</span><span class="s">Source: Census ACS 2024 B01003 + data/sites/data_centers.csv + sources[0] (Wikipedia: Midlothian, TX)</span></li>
+    <li><span class="t">Midlothian already hosts three of the top 10 US cement plants, run by Martin Marietta, Holcim, and Ash Grove, plus a Gerdau Ameristeel mill. The Google campus is landing next to an already heavy-industrial grid corner.</span><span class="s">Source: sources[0] (Wikipedia: Midlothian, TX)</span></li>
+    <li><span class="t">Property tax assessments rose 14.2% over three years against a county median household income of $99,595 and a median home value of $348,600. Home prices are still up 6.3% on a 3-year baseline despite the DFW correction nearby.</span><span class="s">Source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 48139) + Census ACS 2024 B19013, B25077</span></li>
+    <li><span class="t">The Red Oak Google build is a $600 million Ellis County site, and both campuses sit on Oncor&#x27;s ERCOT grid with no published residential rate delta. Ellis is the only batch-4 county where a single hyperscaler runs two separate campuses.</span><span class="s">Source: data/sites/data_centers.csv + data/cache/utility_rate_yoy.csv (no Oncor residential row)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

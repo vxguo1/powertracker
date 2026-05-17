@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=41.720&lon=-86.315&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">St. Joseph County&#x27;s population is 272,574 and has been essentially flat for 20 years (265,559 in 2000). Project Rainier&#x27;s 2.2 GW AWS and Anthropic build in New Carlisle is the largest single industrial commitment to the county since Studebaker.</span><span class="s">Source: Census ACS 2023 B01003 + Wikipedia: St. Joseph County, Indiana</span></li>
+    <li><span class="t">Indiana Michigan Power residential rates rose from 15.5 to 16.3 cents per kWh from 2021 to 2023, a 5.1% jump worth about $86 per year per household. The utility serves 422,062 residential customers across the region.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Indiana Michigan Power, IN)</span></li>
+    <li><span class="t">County home prices are up 16.8% over three years against a median household income of $64,885 and a median home value of $179,800. The 32.6% bachelor&#x27;s-degree share is buoyed by Notre Dame, which sits in the same census tract.</span><span class="s">Source: data/cache/realestate_yoy.csv + Census ACS 2023 B19013, B25077, B15003</span></li>
+    <li><span class="t">Project Rainier is the public-facing name for Anthropic&#x27;s primary Trainium training cluster. Microsoft separately announced two more campuses in Granger and La Porte, putting Indiana Michigan Power on the hook for more than 3 GW of new AI load across two adjacent counties.</span><span class="s">Source: data/sites/data_centers.csv (Project Rainier, Granger, La Porte)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

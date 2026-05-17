@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=32.455&lon=-99.750&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Abilene&#x27;s 127,130 residents now share their grid with Stargate, which the city&#x27;s own 2026 timeline lists as one of its largest employers at over 6,400 workers. That is more than Hardin-Simmons, McMurry, and Abilene Christian combined and almost matches Dyess Air Force Base&#x27;s 8,864.</span><span class="s">Source: sources[0] (Wikipedia: Abilene, Texas) + Census ACS 2023 B01003</span></li>
+    <li><span class="t">ERCOT&#x27;s deregulated retail market means AEP Texas does not publish a single residential rate. EIA cannot report a 3-year rate delta for Taylor County, so the household-bill impact of 2.1 GW of new AI demand is invisible in the standard data.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (no AEP Texas residential row)</span></li>
+    <li><span class="t">Property taxes in Taylor County rose 9.4% over three years on a county median household income of $66,406 and a median home value of $190,300. The Abilene ISD and Taylor County CAD have flagged Stargate&#x27;s land transactions as the lead driver of rising assessed values.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 48441) + Census ACS 2023 B19013, B25077</span></li>
+    <li><span class="t">Stargate Abilene is anchored by an Oracle lease backed by a $2.3 billion JPMorgan loan to the Crusoe / Blue Owl / Primary Digital joint venture. Crusoe Phase 2 adds another 900 MW dedicated to Microsoft, all on the same Abilene parcel.</span><span class="s">Source: sources[1] (Wikipedia: Stargate LLC) + data/sites/data_centers.csv</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

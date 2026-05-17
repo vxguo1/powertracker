@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=38.420&lon=-77.410&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Stafford County has 160,520 residents and is the fastest-growing of the Northern Virginia data-center counties, projected at 170,803 by 2025. Marine Corps Base Quantico, the FBI Academy, the FBI National Laboratory and NCIS HQ all sit on the Stafford side of the county line.</span><span class="s">Source: Census ACS 2023 B01003 + sources[0] (Wikipedia: Stafford County, Virginia)</span></li>
+    <li><span class="t">Median household income in Stafford County is $133,792, the second-highest in this batch behind Loudoun. The county was ranked the 11th highest-income county in the US by Forbes in 2009 and 43.3% of residents over 25 hold a bachelor&#x27;s degree.</span><span class="s">Source: Census ACS 2023 B19013, B15003 (FIPS 51179) + sources[0] (Wikipedia: Stafford County, Virginia)</span></li>
+    <li><span class="t">Dominion Energy Virginia residential rates rose 7.2% from 2021 to 2023 and Stafford property tax assessments rose 7.4% over three years, almost the same rate. The AWS Stafford campus is the southernmost AWS footprint in this batch and competes for grid capacity with both the federal facilities and the bedroom subdivisions.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Virginia Electric &amp; Power Co, VA) + data/cache/property_tax_yoy.csv (FIPS 51179)</span></li>
+    <li><span class="t">Home prices rose 5.5% over three years against a $458,800 median home value. The federal-employee homeowner base means the housing market is anchored to federal-pay scales, not the data-center wage premium that drives Loudoun and Prince William.</span><span class="s">Source: data/cache/realestate_yoy.csv (FIPS 51179) + Census ACS 2023 B25077</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

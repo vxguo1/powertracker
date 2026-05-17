@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=41.200&lon=-95.850&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Google&#x27;s Council Bluffs campus reached $1.5 billion in total investment, which Wikipedia notes is the largest private investment in Iowa history as of the 2014 Southlands expansion announcement. Employment grew from a 200-job target at first opening (2009) to over 300 on site by June 2016.</span><span class="s">Source: sources[0] (Wikipedia: Council Bluffs, Iowa)</span></li>
+    <li><span class="t">Pottawattamie County has 93,407 residents on a median household income of $71,446. 23.5% of adults hold a bachelor&#x27;s degree, well below the Polk and Dallas County share but typical for the western-Iowa Loess Hills corridor.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B15003 (Pottawattamie County, IA)</span></li>
+    <li><span class="t">Home prices rose 15.7% over three years against a $183,600 median home value. That is the sharpest 3-year move in this batch outside Jackson County Alabama and DeKalb Illinois, and is happening on the lowest median home value in the Iowa group.</span><span class="s">Source: data/cache/realestate_yoy.csv (FIPS 19155) + Census ACS 2023 B25077</span></li>
+    <li><span class="t">Median age in Pottawattamie is 40.1, the oldest in the Iowa cluster. MidAmerican Energy&#x27;s 0.9% residential rate move is the same wind-heavy Iowa pool that holds across all three Iowa hyperscaler counties in this batch.</span><span class="s">Source: Census ACS 2023 B01002 + data/cache/utility_rate_yoy.csv (MidAmerican Energy Co, IA)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

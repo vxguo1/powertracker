@@ -1,0 +1,1069 @@
+# Per-county editorial takeaways rendered on /county/<slug> landing pages.
+# Schema:
+#   <slug>:
+#     last_updated: ISO date
+#     takeaways:
+#       - text: 1-2 sentence bullet. No em/en dashes, no semicolons.
+#         source: 1-line provenance (data file path, Census table, or sources[N] URL ref).
+#     sources:
+#       - URL fetched while researching this county.
+#
+# Bullets contextualize the rendered stats with demographics or a single
+# distinctive local fact. The build script reads this file and renders a
+# "Key takeaways" section between the stats grid and the campus list.
+
+wi-racine:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: 27,694 people live in Mount Pleasant village. The two Microsoft campuses on the old Foxconn parcel add up to 3.3 GW of announced load, roughly 120 kW of AI compute per resident.
+    source: Census ACS 2023 B01003 (Mount Pleasant village, WI) + data/sites/data_centers.csv
+  - text: The We Energies residential rate rose from 17.3 cents to 19.2 cents per kWh from 2021 to 2023, an 11.4% jump. On an average 10,800 kWh household, that is about $213 more per year on bills, against a county median income of $75,331.
+    source: data/cache/utility_rate_yoy.csv (Wisconsin Electric Power Co, WI) + Census ACS 2023 B19013
+  - text: Microsoft bought the 315-acre Mount Pleasant parcel for $50 million in April 2023, eight years after Wisconsin pledged $3 billion to $4.8 billion in subsidies for a Foxconn LCD plant that never opened. The state recovered most of those credits when the Foxconn deal was renegotiated down to $672 million in 2021.
+    source: 'sources[0] (Wikipedia: Foxconn in Wisconsin)'
+  - text: County home prices are up 24.9% on a 3-year baseline, the steepest of any top-10 AI county, while property tax growth has been held to 4.1% by the local TIF financing that backed the original Foxconn deal.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 55101)
+  sources:
+  - https://en.wikipedia.org/wiki/Foxconn_in_Wisconsin
+  - https://blogs.microsoft.com/blog/2025/09/18/inside-the-worlds-most-powerful-ai-datacenter/
+wy-laramie:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Cheyenne has 64,976 residents. The three announced campuses (Crusoe, Meta, Microsoft) add 2.6 GW of load to a city that today draws roughly 250 MW for everything else.
+    source: Census ACS 2023 B01003 (Cheyenne city, WY) + data/sites/data_centers.csv
+  - text: Cheyenne Light Fuel & Power residential rates rose from 15.0 to 17.0 cents per kWh from 2021 to 2023, a 13.3% jump worth about $215 per year on a typical household bill. The utility has only 39,954 residential customers across the city.
+    source: data/cache/utility_rate_yoy.csv (Cheyenne Light Fuel & Power, WY)
+  - text: The Crusoe and Tallgrass Wyoming campus is designed to scale from 1.8 GW to 10 GW and runs primarily on natural gas tied to Tallgrass's existing CO2 sequestration hub. None of that power touches the residential grid.
+    source: sources[0] (Crusoe/Tallgrass press release)
+  - text: Laramie County property tax assessments rose 15.4% over three years against a $77,884 county median income, the steepest property-tax move in any top-10 AI county.
+    source: data/cache/property_tax_yoy.csv (FIPS 56021) + Census ACS 2023 B19013
+  sources:
+  - https://www.crusoe.ai/resources/newsroom/crusoe-and-tallgrass-announce-ai-data-center-in-wyoming
+in-st-joseph:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: St. Joseph County's population is 272,574 and has been essentially flat for 20 years (265,559 in 2000). Project Rainier's 2.2 GW AWS and Anthropic build in New Carlisle is the largest single industrial commitment to the county since Studebaker.
+    source: 'Census ACS 2023 B01003 + Wikipedia: St. Joseph County, Indiana'
+  - text: Indiana Michigan Power residential rates rose from 15.5 to 16.3 cents per kWh from 2021 to 2023, a 5.1% jump worth about $86 per year per household. The utility serves 422,062 residential customers across the region.
+    source: data/cache/utility_rate_yoy.csv (Indiana Michigan Power, IN)
+  - text: County home prices are up 16.8% over three years against a median household income of $64,885 and a median home value of $179,800. The 32.6% bachelor's-degree share is buoyed by Notre Dame, which sits in the same census tract.
+    source: data/cache/realestate_yoy.csv + Census ACS 2023 B19013, B25077, B15003
+  - text: Project Rainier is the public-facing name for Anthropic's primary Trainium training cluster. Microsoft separately announced two more campuses in Granger and La Porte, putting Indiana Michigan Power on the hook for more than 3 GW of new AI load across two adjacent counties.
+    source: data/sites/data_centers.csv (Project Rainier, Granger, La Porte)
+  sources: []
+tx-taylor:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Abilene's 127,130 residents now share their grid with Stargate, which the city's own 2026 timeline lists as one of its largest employers at over 6,400 workers. That is more than Hardin-Simmons, McMurry, and Abilene Christian combined and almost matches Dyess Air Force Base's 8,864.
+    source: 'sources[0] (Wikipedia: Abilene, Texas) + Census ACS 2023 B01003'
+  - text: ERCOT's deregulated retail market means AEP Texas does not publish a single residential rate. EIA cannot report a 3-year rate delta for Taylor County, so the household-bill impact of 2.1 GW of new AI demand is invisible in the standard data.
+    source: data/cache/utility_rate_yoy.csv (no AEP Texas residential row)
+  - text: Property taxes in Taylor County rose 9.4% over three years on a county median household income of $66,406 and a median home value of $190,300. The Abilene ISD and Taylor County CAD have flagged Stargate's land transactions as the lead driver of rising assessed values.
+    source: data/cache/property_tax_yoy.csv (FIPS 48441) + Census ACS 2023 B19013, B25077
+  - text: Stargate Abilene is anchored by an Oracle lease backed by a $2.3 billion JPMorgan loan to the Crusoe / Blue Owl / Primary Digital joint venture. Crusoe Phase 2 adds another 900 MW dedicated to Microsoft, all on the same Abilene parcel.
+    source: 'sources[1] (Wikipedia: Stargate LLC) + data/sites/data_centers.csv'
+  sources:
+  - https://en.wikipedia.org/wiki/Abilene,_Texas
+  - https://en.wikipedia.org/wiki/Stargate_LLC
+tn-shelby:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Shelby County is 922,195 residents and 61% Black, with Memphis ranking as the poorest large metro in the US census. xAI's Colossus and Colossus 2 add 2 GW of training load to a community already fighting the cancelled Byhalia Pipeline through Boxtown.
+    source: 'Census ACS 2023 B01003 + sources[0] (Wikipedia: Memphis, TN)'
+  - text: 'MLGW is a municipal utility, so EIA does not publish a residential rate delta for Shelby County. The political consequence: there is no public price signal on how the 2 GW of new AI load is being recovered from Memphis ratepayers.'
+    source: data/cache/utility_rate_yoy.csv (no MLGW row) + sources[0]
+  - text: xAI moved its gas turbines from Memphis to Southaven, Mississippi after local pushback. Mississippi regulators granted temporary approval to run the turbines for up to 12 months without a permit, exporting Memphis's emissions across the state line.
+    source: 'sources[1] (SemiAnalysis: xAI Colossus 2)'
+  - text: Shelby home prices rose 7.4% and property tax assessments rose 6.9% over three years, both restrained relative to the county median income of $62,337 by Memphis's persistent population stagnation.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 47157) + Census ACS 2023 B19013
+  sources:
+  - https://en.wikipedia.org/wiki/Memphis,_Tennessee
+  - https://newsletter.semianalysis.com/p/xais-colossus-2-first-gigawatt-datacenter
+la-richland:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Richland Parish has 19,908 residents and a median household income of $52,960, the lowest of any top-10 AI county. Meta's Hyperion campus will draw up to 5 GW at full buildout, roughly 250 kW per resident.
+    source: 'Census ACS 2023 B01003, B19013 + sources[0] (Wikipedia: Hyperion data center)'
+  - text: Meta is spending $10 billion on Hyperion on a 2,250-acre former-farmland parcel outside Rayville, a town of 3,297 people. The parish was originally named for the productivity of its cotton and soybean fields.
+    source: 'sources[0] (Wikipedia: Hyperion data center) + Census ACS 2023 B01003 (Rayville town)'
+  - text: Entergy Louisiana's residential rate actually fell 4.2% from 2021 to 2023, the only top-10 AI county where bills went down on a 3-year baseline. The state PSC has not yet ruled on how Hyperion's load will affect that trajectory.
+    source: data/cache/utility_rate_yoy.csv (Entergy Louisiana LLC, LA)
+  - text: Richland's property tax assessments rose 10.3% over three years, sharper than its near-zero population growth would predict. The Hyperion ITEP application is the explicit driver.
+    source: data/cache/property_tax_yoy.csv (FIPS 22083)
+  sources:
+  - https://en.wikipedia.org/wiki/Hyperion_(data_center)
+wv-mason:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Mason County has 25,214 residents with a median age of 44.2 and a median household income of $53,454. Only 16.2% of residents over 25 hold a bachelor's degree, the lowest of any top-10 AI county.
+    source: Census ACS 2023 B01003, B01002, B19013, B15003
+  - text: Appalachian Power residential rates rose 11.6%, from 15.0 to 16.8 cents per kWh between 2021 and 2023. That adds about $188 per year to a typical household bill on incomes that have not kept pace.
+    source: data/cache/utility_rate_yoy.csv (Appalachian Power Co, WV)
+  - text: Nscale's Monarch is a 2,250-acre campus next door to AEP's 1,300 MW Mountaineer coal plant, which has burned roughly 9,000 tons of coal per day since 1980 and still operates as of 2025. The Monarch microgrid is rated to scale to 8 GW, more than six times Mountaineer's nameplate.
+    source: 'sources[0] (Wikipedia: Mountaineer Power Plant) + sources[1] (Nscale press release)'
+  - text: Microsoft has signed a letter of intent for 1.35 GW of Vera Rubin AI capacity at Monarch starting in late 2027. The site became the United States' first state-certified AI microgrid jurisdiction.
+    source: sources[1] (Nscale press release)
+  sources:
+  - https://en.wikipedia.org/wiki/Mountaineer_Power_Plant
+  - https://www.nscale.com/press-releases/nscale-west-virginia-ai-factory
+tx-nolan:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Sweetwater has 10,484 residents and the surrounding Nolan County has 14,565. IREN's 2 GW Sweetwater campus is roughly 200 kW of AI compute per Nolan County resident, the highest per-capita load of any top-10 county.
+    source: Census ACS 2023 B01003 (Sweetwater city, Nolan County)
+  - text: Nolan County hosts more than 1,500 MW of installed wind capacity, including the Roscoe Wind Farm. Wind paid the county about $18 million in landowner royalties and $12 million in school taxes in a single year, the existing rural-electric template that AI is now joining.
+    source: 'sources[0] (Wikipedia: Sweetwater, Texas)'
+  - text: Median household income in Nolan County is $50,160 and the median home value is $98,300, the lowest in any top-10 AI county. Only 13.7% of residents over 25 hold a bachelor's degree.
+    source: Census ACS 2023 B19013, B25077, B15003
+  - text: Property tax assessments rose 4.8% over three years, the most restrained of any top-10 AI county. ERCOT's deregulated retail market means there is no published residential rate delta for AEP Texas, so the bill-side impact of 2 GW of new IREN demand is invisible in the standard data.
+    source: data/cache/property_tax_yoy.csv (FIPS 48353) + data/cache/utility_rate_yoy.csv (no AEP Texas residential row)
+  sources:
+  - https://en.wikipedia.org/wiki/Sweetwater,_Texas
+oh-trumbull:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Trumbull County's population peaked at 241,863 in 1980 and has fallen to 201,367, a 17% loss. The Stargate Lordstown build occupies the former GM Lordstown assembly plant that closed in March 2019.
+    source: 'Census ACS 2023 B01003 + sources[0] (Wikipedia: Trumbull County OH and Lordstown Assembly)'
+  - text: 'The Lordstown site has changed hands four times in six years: GM sold to Lordstown Motors for $20 million in 2019, Foxconn paid $230 million in 2022, and SoftBank''s Crescent Dune LLC bought the property for $375 million in August 2025 to retool for Stargate equipment.'
+    source: 'sources[0] (Wikipedia: Lordstown Assembly)'
+  - text: FirstEnergy's Ohio Edison residential rate rose 3.4%, from 9.2 to 9.6 cents per kWh, the smallest delta of any top-10 AI county. The bill-side impact of the new 1.5 GW Stargate load has not yet flowed through to retail.
+    source: data/cache/utility_rate_yoy.csv (Ohio Edison Co, OH)
+  - text: Home prices rose 16.4% over three years against a median household income of $55,088 and a $128,100 median home value, a sign that the speculative spillover from the AI build has begun even before Stargate energizes.
+    source: data/cache/realestate_yoy.csv + Census ACS 2023 B19013, B25077
+  sources:
+  - https://en.wikipedia.org/wiki/Trumbull_County,_Ohio
+  - https://en.wikipedia.org/wiki/Lordstown_Assembly
+mo-jackson:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Jackson County contains both Kansas City and Independence and is home to 717,021 residents. The two announced campuses (Nebius at 1.2 GW and a Google Kansas City build) will share Evergy's grid with 1.14 million existing jobs.
+    source: 'Census ACS 2023 B01003 + sources[0] (Wikipedia: Jackson County, MO) + data/sites/data_centers.csv'
+  - text: Evergy Metro Missouri residential rates rose 3.0% from 13.3 to 13.7 cents per kWh between 2021 and 2023, adding about $44 per year to a typical household bill. The Missouri PSC has not yet ruled on cost-allocation for the Nebius Independence load.
+    source: data/cache/utility_rate_yoy.csv (Evergy Metro, MO)
+  - text: Independence, Missouri is the second city in Jackson County with 121,944 residents and a median household income of $59,480. Northrop Grumman is the largest non-public employer there at 1,722 jobs, a baseline Nebius could match with a single training campus.
+    source: 'Census ACS 2023 B01003, B19013 + sources[0] (Wikipedia: Independence, MO)'
+  - text: Home prices rose 10.7% and property tax assessments rose 11.5% over three years, both well above local wage growth. The Jackson County assessor's office faced a class-action lawsuit over the 2023 reassessment cycle, which preceded the AI announcements.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 29095)
+  sources:
+  - https://en.wikipedia.org/wiki/Jackson_County,_Missouri
+  - https://en.wikipedia.org/wiki/Independence,_Missouri
+al-jackson:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Bridgeport had 2,264 residents at the 2020 census, down from 2,418 in 2010. The Google campus sits on the retired Widows Creek Power Plant parcel that TVA opened in 1952 and shut in September 2015 at 1,600 MW of coal-fired nameplate.
+    source: 'sources[0] (Wikipedia: Bridgeport, Alabama) + sources[1] (Wikipedia: Widows Creek Fossil Plant)'
+  - text: Google announced $600 million for the Widows Creek conversion in June 2015 and TVA added matching renewable capacity to the system. The site is one of 58 TVA direct-serve industrial and institutional customers, which is why no residential rate delta shows up for Jackson County.
+    source: 'sources[1] (Wikipedia: Widows Creek Fossil Plant) + sources[2] (Wikipedia: TVA)'
+  - text: Jackson County has 52,839 residents on a median household income of $49,454. Only 15.5% of adults over 25 hold a bachelor's degree, the lowest education share in this batch and a step below the rural-Appalachian baseline.
+    source: Census ACS 2023 B01003, B19013, B15003 (Jackson County, AL)
+  - text: County home prices rose 26.6% on a 3-year baseline, the largest jump in this batch and the second-largest in any AI county outside Racine. The median home value remains $145,800, so the dollar move per house is roughly $40,000.
+    source: data/cache/realestate_yoy.csv (FIPS 01071) + Census ACS 2023 B25077
+  sources:
+  - https://en.wikipedia.org/wiki/Bridgeport,_Alabama
+  - https://en.wikipedia.org/wiki/Widows_Creek_Fossil_Plant
+  - https://en.wikipedia.org/wiki/Tennessee_Valley_Authority
+al-montgomery:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Montgomery County has 227,197 residents and a median household income of $58,153. Hyundai Motor Manufacturing Alabama has been the largest private employer at 3,530 workers since the plant opened in May 2005, with another 1,010 at MOBIS Alabama and 12,280 at Maxwell-Gunter Air Force Base.
+    source: 'Census ACS 2023 B01003, B19013 + sources[0] (Wikipedia: Hyundai Motor Manufacturing Alabama) + sources[1] (Wikipedia: Montgomery, Alabama)'
+  - text: Alabama Power's residential rate rose 10.7%, from 15.1 to 16.8 cents per kWh between 2021 and 2023, on 1.33 million in-state residential customers. That adds about $179 per year to a typical 10,800 kWh household bill.
+    source: data/cache/utility_rate_yoy.csv (Alabama Power Co, AL)
+  - text: Property tax assessments rose 23.8% on a 3-year baseline, the steepest move in this batch and the second-steepest of any AI county. Home prices rose 12.0% over the same window against a median home value of $160,100.
+    source: data/cache/property_tax_yoy.csv (FIPS 01101) + data/cache/realestate_yoy.csv + Census ACS 2023 B25077
+  - text: 34.3% of Montgomery County adults hold a bachelor's degree, which is well above the surrounding Black-Belt counties. Meta's campus joins an industrial corridor where automotive and federal employers already anchor the load.
+    source: Census ACS 2023 B15003 (Montgomery County, AL)
+  sources:
+  - https://en.wikipedia.org/wiki/Hyundai_Motor_Manufacturing_Alabama
+  - https://en.wikipedia.org/wiki/Montgomery,_Alabama
+az-maricopa:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Maricopa County is 4,491,987 residents, the fourth-largest county in the US. Five publicly announced AI campuses share the Salt River Project and APS service area, including Meta and Apple at Mesa, Microsoft at Goodyear and El Mirage, and Google at Mesa.
+    source: Census ACS 2023 B01003 + data/sites/data_centers.csv
+  - text: Mesa alone had 504,258 residents at the 2020 census, making it bigger than 19 US state capitals and larger than Atlanta proper. Three of the five Maricopa campuses sit inside Mesa city limits.
+    source: 'sources[0] (Wikipedia: Mesa, Arizona) + data/sites/data_centers.csv'
+  - text: Salt River Project's residential rate rose 12.6%, from 11.95 to 13.46 cents per kWh from 2021 to 2023, on 1.05 million residential customers. That is about $163 more per year on a typical household bill.
+    source: data/cache/utility_rate_yoy.csv (Salt River Project, AZ)
+  - text: Median household income in Maricopa is $85,518 and 35.9% of adults hold a bachelor's degree. Home prices rose only 3.1% over three years, a sharp deceleration from the 2020-22 Phoenix run-up.
+    source: Census ACS 2023 B19013, B15003 + data/cache/realestate_yoy.csv (FIPS 04013)
+  sources:
+  - https://en.wikipedia.org/wiki/Mesa,_Arizona
+ga-douglas:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Douglasville is 20 miles west of Atlanta with 34,650 residents at the 2020 census and three interchanges on I-20. The CoreWeave / Flexential campus sits inside that I-20 transit corridor on Georgia Power feed.
+    source: 'sources[0] (Wikipedia: Douglasville, Georgia) + data/sites/data_centers.csv'
+  - text: Douglas County is the only AI county in this batch where 3-year home prices actually fell, dropping 5.2%. Property tax assessments still rose 17.9% over the same window, a 23-point spread that points to a reassessment cycle running ahead of the market.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 13097)
+  - text: County population is 146,141 with a median household income of $80,764, the second-highest in this batch. 30.8% of adults hold a bachelor's degree.
+    source: Census ACS 2023 B01003, B19013, B15003 (Douglas County, GA)
+  - text: Georgia Power's residential rate rose 8.0% from 2021 to 2023, from 14.3 to 15.5 cents per kWh, on 2.45 million residential customers across the state. That adds about $124 per year on a typical 10,800 kWh household bill.
+    source: data/cache/utility_rate_yoy.csv (Georgia Power Co, GA)
+  sources:
+  - https://en.wikipedia.org/wiki/Douglasville,_Georgia
+ga-fulton:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Microsoft's Fairwater Atlanta sits in Palmetto, a town of 5,071 residents that mostly lies in south Fulton County. The county itself has 1,068,507 residents, so the campus drops on a population gradient that runs from rural-southern Fulton to downtown Atlanta within 30 miles.
+    source: 'sources[0] (Wikipedia: Palmetto, Georgia) + Census ACS 2023 B01003'
+  - text: Fulton County's median household income is $91,490 and 58.0% of adults hold a bachelor's degree, the highest education share of any AI county in this batch. The county absorbs the campus with by far the deepest local talent base.
+    source: Census ACS 2023 B19013, B15003 (Fulton County, GA)
+  - text: Home prices rose 7.9% over three years on a median home value of $431,200. Property tax assessments rose 11.6% over the same window, consistent with the steady Atlanta-metro reassessment rhythm rather than a campus-driven shock.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 13121) + Census ACS 2023 B25077
+  - text: Georgia Power's 8.0% residential rate move (14.3 to 15.5 cents per kWh) is the same 2.45-million-customer pool that absorbed the Plant Vogtle nuclear cost recovery. The Microsoft Fairwater build joins that cost stack.
+    source: data/cache/utility_rate_yoy.csv (Georgia Power Co, GA)
+  sources:
+  - https://en.wikipedia.org/wiki/Palmetto,_Georgia
+ga-walton:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Walton County's seat is Monroe with a 2020 population of 96,673, and the Meta site is in Social Circle, a town of 4,974 residents 45 miles east of Atlanta. Total county population is 100,361.
+    source: 'sources[0] (Wikipedia: Social Circle, Georgia) + sources[1] (Wikipedia: Walton County, Georgia) + Census ACS 2023 B01003'
+  - text: Home prices fell 4.4% on a 3-year baseline against a $300,500 median home value, the only AI county outside Douglas where Redfin shows a clear negative trend. Property taxes still rose 14.2% over the same window.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 13297) + Census ACS 2023 B25077
+  - text: Median household income is $82,381 and 24.9% of adults hold a bachelor's degree. The 39.7 median age is the oldest in this batch by more than a year, reflecting a settled exurban demographic rather than a college or boomtown population.
+    source: Census ACS 2023 B19013, B15003, B01002 (Walton County, GA)
+  - text: The Meta campus sits on the Georgia Power 8.0% rate move, the same statewide pool that runs through Fulton and Douglas counties in this batch. There is no separate Walton-specific tariff.
+    source: data/cache/utility_rate_yoy.csv (Georgia Power Co, GA)
+  sources:
+  - https://en.wikipedia.org/wiki/Social_Circle,_Georgia
+  - https://en.wikipedia.org/wiki/Walton_County,_Georgia
+ga-whitfield:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Dalton produced 85% to 90% of all carpet sold in the US at the turn of the 21st century. That same municipal Dalton Utilities now feeds the 175 MW Core Scientific campus, the only top-100 AI campus on a publicly owned electric system in Georgia.
+    source: 'sources[0] (Wikipedia: Carpet) + sources[1] (Wikipedia: Dalton, Georgia)'
+  - text: The carpet industry shed 4,600 jobs between June 2011 and June 2012, making Dalton the city with the worst single-year job loss in the United States that year. The Core Scientific campus arrives in a labor market that has not fully replaced those losses.
+    source: 'sources[1] (Wikipedia: Dalton, Georgia)'
+  - text: Whitfield County has 103,118 residents and a median household income of $64,262. Only 19.3% of adults hold a bachelor's degree, the second-lowest education share in this batch after rural Jackson County, Alabama.
+    source: Census ACS 2023 B01003, B19013, B15003 (Whitfield County, GA)
+  - text: Dalton Utilities residential rates actually fell 5.7% on a 3-year baseline, from 10.7 to 10.1 cents per kWh, by far the cheapest published rate in this batch. That is the structural advantage that brought Core Scientific in the first place.
+    source: data/cache/utility_rate_yoy.csv (Dalton Utilities, GA)
+  sources:
+  - https://en.wikipedia.org/wiki/Carpet
+  - https://en.wikipedia.org/wiki/Dalton,_Georgia
+ia-dallas:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Apple chose Waukee in 2017 for a $1.38 billion data-center campus. Waukee's population grew from 13,790 in 2010 to 23,940 in 2020 (a 73.6% jump) and is estimated at 34,420 by 2024, putting the campus in the fastest-growing suburb of Des Moines.
+    source: 'sources[0] (Wikipedia: Waukee, Iowa)'
+  - text: Dallas County's median household income is $102,349, the highest in this batch and the second-highest of any AI county nationwide after Loudoun, Virginia. 51.6% of adults hold a bachelor's degree.
+    source: Census ACS 2023 B19013, B15003 (Dallas County, IA)
+  - text: Home prices rose only 1.7% over three years against a $333,400 median home value. Property tax assessments still rose 8.0% over the same window, sharper than the home-price track.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 19049) + Census ACS 2023 B25077
+  - text: MidAmerican Energy's residential rate is essentially flat over three years (+0.9%), the smallest move in this batch. That stability reflects MidAmerican's heavy in-state wind generation share, which now exceeds 80% of its Iowa retail load on annual energy.
+    source: data/cache/utility_rate_yoy.csv (MidAmerican Energy Co, IA)
+  sources:
+  - https://en.wikipedia.org/wiki/Waukee,_Iowa
+ia-linn:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Cedar Rapids has 137,710 residents, Iowa's second-largest city. The August 2020 derecho left 95% of the city without power with 60 to 80 mph sustained winds and gusts over 110 mph, the most expensive thunderstorm event in US history.
+    source: 'sources[0] (Wikipedia: Cedar Rapids, Iowa)'
+  - text: Linn County has 229,463 residents on a median household income of $76,421. The Google campus drops onto Alliant Energy territory, where EIA does not publish a clean 3-year residential rate delta for Linn County.
+    source: Census ACS 2023 B01003, B19013 + data/cache/utility_rate_yoy.csv (no Alliant Energy IA residential row)
+  - text: Home prices rose 14.2% over three years against a $204,400 median home value. Property tax assessments rose 10.2% over the same window, a 4-point spread that says the market is moving faster than the assessor.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 19113) + Census ACS 2023 B25077
+  - text: 34.8% of Linn County adults hold a bachelor's degree against a median age of 38.5. The Cedar Rapids labor market already supports Collins Aerospace and Quaker Foods, so the Google campus enters a workforce with industrial-engineering depth.
+    source: Census ACS 2023 B15003, B01002 (Linn County, IA)
+  sources:
+  - https://en.wikipedia.org/wiki/Cedar_Rapids,_Iowa
+ia-polk:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Microsoft maintains several West Des Moines data centers, one of which hosts the company's most advanced supercomputer that supported training for OpenAI's ChatGPT. The Polk County build pre-dates the current AI cycle and was first announced in the early 2010s.
+    source: 'sources[0] (Wikipedia: West Des Moines, Iowa)'
+  - text: Meta started construction in Altoona in 2013 and asked local firm RPM Access to build a wind farm sized to put more energy into the system than the data center consumes. That structural pairing now serves as the template for hyperscaler PPAs across the region.
+    source: 'sources[1] (Wikipedia: Altoona, Iowa)'
+  - text: Polk County has 497,441 residents on a median household income of $81,621. MidAmerican Energy's residential rate rose only 0.9% over three years, which is the smallest delta in this batch and reflects a wind-heavy generation mix.
+    source: Census ACS 2023 B01003, B19013 + data/cache/utility_rate_yoy.csv (MidAmerican Energy Co, IA)
+  - text: 39.5% of Polk County adults hold a bachelor's degree and 36.2 is the median age. Property tax growth of 5.8% over three years is the smallest in this batch outside of DeKalb, Illinois.
+    source: Census ACS 2023 B15003, B01002 + data/cache/property_tax_yoy.csv (FIPS 19153)
+  sources:
+  - https://en.wikipedia.org/wiki/West_Des_Moines,_Iowa
+  - https://en.wikipedia.org/wiki/Altoona,_Iowa
+ia-pottawattamie:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Google's Council Bluffs campus reached $1.5 billion in total investment, which Wikipedia notes is the largest private investment in Iowa history as of the 2014 Southlands expansion announcement. Employment grew from a 200-job target at first opening (2009) to over 300 on site by June 2016.
+    source: 'sources[0] (Wikipedia: Council Bluffs, Iowa)'
+  - text: Pottawattamie County has 93,407 residents on a median household income of $71,446. 23.5% of adults hold a bachelor's degree, well below the Polk and Dallas County share but typical for the western-Iowa Loess Hills corridor.
+    source: Census ACS 2023 B01003, B19013, B15003 (Pottawattamie County, IA)
+  - text: Home prices rose 15.7% over three years against a $183,600 median home value. That is the sharpest 3-year move in this batch outside Jackson County Alabama and DeKalb Illinois, and is happening on the lowest median home value in the Iowa group.
+    source: data/cache/realestate_yoy.csv (FIPS 19155) + Census ACS 2023 B25077
+  - text: Median age in Pottawattamie is 40.1, the oldest in the Iowa cluster. MidAmerican Energy's 0.9% residential rate move is the same wind-heavy Iowa pool that holds across all three Iowa hyperscaler counties in this batch.
+    source: Census ACS 2023 B01002 + data/cache/utility_rate_yoy.csv (MidAmerican Energy Co, IA)
+  sources:
+  - https://en.wikipedia.org/wiki/Council_Bluffs,_Iowa
+id-ada:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Ada County has 508,052 residents and includes Boise. Meta's announced campus is in Kuna, a south-Ada town that sits on Idaho Power's territory along with the rest of the county.
+    source: Census ACS 2023 B01003 + data/sites/data_centers.csv
+  - text: Idaho Power's residential rate rose 7.8% (10.9 to 11.8 cents per kWh) between 2021 and 2023 on 525,751 in-state residential customers. That is the steepest residential rate move in the Mountain West outside Cheyenne.
+    source: data/cache/utility_rate_yoy.csv (Idaho Power Co, ID)
+  - text: Median household income in Ada County is $88,907 and 43.9% of adults hold a bachelor's degree. The median home value is $476,000, the highest in this batch and a structural barrier to in-migration even before campus construction starts.
+    source: Census ACS 2023 B19013, B15003, B25077 (Ada County, ID)
+  - text: Home prices rose only 1.6% on a 3-year baseline, the smallest delta in this batch except for Maricopa. The Boise market has cooled sharply from the 2020 to 2022 in-migration peak.
+    source: data/cache/realestate_yoy.csv (FIPS 16001)
+  sources: []
+il-dekalb:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Meta announced an $800 million DeKalb data center in June 2020. Northern Illinois University, the city's largest employer with about 20,000 students, is Illinois's third-largest campus and shares the same ComEd substation rotation that now backs the Meta build.
+    source: 'sources[0] (Wikipedia: DeKalb, Illinois)'
+  - text: DeKalb already hosts distribution warehouses for Target, 3M, Nestle, and Ferrara Candy Company. The Meta campus on the south side of town joins that industrial cluster instead of starting greenfield.
+    source: 'sources[0] (Wikipedia: DeKalb, Illinois)'
+  - text: DeKalb County has 100,512 residents on a median household income of $69,022. Home prices rose 20.5% over three years against a $231,900 median home value, the sharpest move in this batch.
+    source: Census ACS 2023 B01003, B19013, B25077 + data/cache/realestate_yoy.csv (FIPS 17037)
+  - text: ComEd's residential rate rose only 3.1% over three years and property tax assessments rose 5.3% over the same window, both the most restrained in this batch outside Dalton. Illinois's nuclear-heavy generation mix is the structural reason the rate is so flat.
+    source: data/cache/utility_rate_yoy.csv (Commonwealth Edison Co, IL) + data/cache/property_tax_yoy.csv (FIPS 17037)
+  sources:
+  - https://en.wikipedia.org/wiki/DeKalb,_Illinois
+in-clark:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Jeffersonville sits across the Ohio River from Louisville, Kentucky. Duke Energy Indiana's residential rate actually fell 9.8% (14.1 to 12.7 cents per kWh) between 2021 and 2023 on 796,265 in-state residential customers, the only rate cut in this batch.
+    source: data/cache/utility_rate_yoy.csv (Duke Energy Indiana LLC, IN)
+  - text: Clark County has 122,800 residents on a median household income of $72,298 and a $212,400 median home value. 25.5% of adults hold a bachelor's degree, lifted slightly by the Louisville cross-river commute share.
+    source: Census ACS 2023 B01003, B19013, B25077, B15003 (Clark County, IN)
+  - text: Property tax assessments rose 18.3% over three years, the second-steepest move in this batch after Montgomery, Alabama. That is happening before the announced Meta campus begins energizing load.
+    source: data/cache/property_tax_yoy.csv (FIPS 18019)
+  - text: Median age in Clark is 39.8 against a 6.0% 3-year home-price move. The 24-point spread between flat home prices and a 18% tax-assessment jump is the largest mismatch in this batch.
+    source: Census ACS 2023 B01002 + data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 18019)
+  sources: []
+in-laporte:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: LaPorte County's 112,141 residents have a median household income of $70,452 and a median age of 40.8. Only 21.7% of adults 25 and older hold a bachelor's degree, well below the share at next-door St. Joseph County where Notre Dame sits.
+    source: Census ACS 2023 B01003, B19013, B01002, B15003 (FIPS 18091)
+  - text: Microsoft's $1 billion La Porte campus is a 245,000 sqft build at the Radius Industrial Park. Indiana Michigan Power residential rates rose 5.1% from 2021 to 2023, adding about $86 per year to a typical household bill, and the utility serves 422,062 residential customers across the region.
+    source: data/sites/data_centers.csv (La Porte campus) + data/cache/utility_rate_yoy.csv (Indiana Michigan Power Co, IN)
+  - text: County home prices rose 19.1% over three years against a $180,700 median home value, the steepest 3-year delta of any non-coastal Microsoft site in our cache. Property tax assessments tracked at +9.8%.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 18091) + Census ACS 2023 B25077
+  - text: 'Microsoft has now announced three Indiana Michigan Power campuses in the South Bend metro: Project Rainier in New Carlisle, Granger, and La Porte. The three sites together are the largest concentration of new AI load tied to a single mid-size Midwestern utility.'
+    source: data/sites/data_centers.csv (Project Rainier, Granger, La Porte)
+  sources:
+  - https://en.wikipedia.org/wiki/La_Porte,_Indiana
+mn-dakota:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Dakota County is 442,204 people with a $105,212 median household income, the highest of any county in this batch. 44.6% of adults 25 and older hold a bachelor's degree, making it the most-educated Meta site outside of the Bay Area.
+    source: Census ACS 2023 B01003, B19013, B15003 (FIPS 27037)
+  - text: Meta's 715,000 sqft Rosemount build sits on the former UMore Park parcel, land the University of Minnesota acquired from the WWII-era Gopher Ordnance Works in 1947. Rosemount itself is 25,650 residents.
+    source: 'data/sites/data_centers.csv (Rosemount) + sources[0] (Wikipedia: Rosemount, MN)'
+  - text: Xcel Energy's Minnesota residential rate rose from 15.3 to 17.0 cents per kWh between 2021 and 2023, an 11.2% jump worth about $184 per year on a typical 10,800 kWh household. Xcel's 1.23 million Minnesota residential customers are absorbing that on top of the new Rosemount load.
+    source: data/cache/utility_rate_yoy.csv (Northern States Power Co - Minnesota, MN)
+  - text: Property tax assessments rose 10.0% over three years against a $362,100 median home value, the only Twin Cities suburban county in this batch and the only one where home prices have stayed under +5% while taxes ran into double digits.
+    source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 27037)
+  sources:
+  - https://en.wikipedia.org/wiki/Rosemount,_Minnesota
+nc-caldwell:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Caldwell County is 80,618 residents with a $55,401 median household income and a median age of 45.5. Lenoir, the county seat at 18,352 residents, built its economy on Broyhill Furniture and the broader Catawba Valley furniture cluster before Google arrived in 2008.
+    source: 'Census ACS 2023 B01003, B19013, B01002 (FIPS 37027) + sources[0] (Wikipedia: Lenoir, NC)'
+  - text: Duke Energy Carolinas residential rates rose from 10.9 to 13.9 cents per kWh from 2021 to 2023, a 28.3% jump worth about $330 per year on a typical 10,800 kWh household. Duke serves 1.92 million residential customers in North Carolina alone.
+    source: data/cache/utility_rate_yoy.csv (Duke Energy Carolinas, NC)
+  - text: Home prices rose 23.2% over three years against a $174,000 median home value, the steepest 3-year home-price delta in any North Carolina AI county we track. Only 18.6% of adults hold a bachelor's degree.
+    source: data/cache/realestate_yoy.csv (FIPS 37027) + Census ACS 2023 B25077, B15003
+  - text: Google's Lenoir campus has been operational since 2008, well before the current AI boom. It is the longest-running hyperscaler campus on Duke Energy Carolinas, and the original tax-incentive package generated the local controversy now being replayed in Caldwell's three new neighboring builds in Catawba and Rutherford.
+    source: data/sites/data_centers.csv (Lenoir) + sources[0]
+  sources:
+  - https://en.wikipedia.org/wiki/Lenoir,_North_Carolina
+nc-catawba:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Catawba County's 162,051 residents have a $64,544 median household income. The Hickory area still makes 40% of the world's fiber-optic cable, which gives the county both the labor pool and the right-of-way to host three hyperscaler campuses on Duke Energy Carolinas.
+    source: 'Census ACS 2023 B01003, B19013 (FIPS 37035) + sources[0] (Wikipedia: Hickory, NC)'
+  - text: Apple's Maiden iCloud campus has been operational since 2011 on a 500,000 sqft footprint. Maiden itself is a town of 3,736 that was incorporated in 1883 as a cotton-mill site.
+    source: 'data/sites/data_centers.csv (Maiden) + sources[1] (Wikipedia: Maiden, NC)'
+  - text: Microsoft's Lyle Creek and Boyd Farms builds add a 1,385-acre Catawba County campus cluster announced in 2024. The two parcels sit within a few miles of Apple's existing campus, all on the same Duke Energy Carolinas grid that just took a 28.3% residential rate increase.
+    source: data/sites/data_centers.csv (Lyle Creek, Boyd Farms) + data/cache/utility_rate_yoy.csv
+  - text: Property tax assessments rose 12.7% over three years against a $218,100 median home value. Home prices rose 10.7% on the same baseline, a more restrained pairing than in Caldwell or Rutherford even with three active builds.
+    source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 37035) + Census ACS 2023 B25077
+  sources:
+  - https://en.wikipedia.org/wiki/Hickory,_North_Carolina
+  - https://en.wikipedia.org/wiki/Maiden,_North_Carolina
+nc-cherokee:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Cherokee County has 29,197 residents with a median age of 53.3, the oldest of any AI host county in this batch. Median household income is $51,496.
+    source: Census ACS 2023 B01003, B19013, B01002 (FIPS 37039)
+  - text: Core Scientific's 65 MW Marble site is small by current AI standards but represents a roughly $250 million capital investment in a county whose entire annual GDP is under $1 billion. The CoreWeave lease is the anchor tenant.
+    source: data/sites/data_centers.csv (Marble) + Census ACS 2023 B19013
+  - text: Duke Energy Carolinas residential rates rose 28.3% from 2021 to 2023, the same jump felt across the Carolinas. On Cherokee's $51,496 median household income, that 28.3% rate move adds about $330 per year to a typical bill before the Marble load energizes.
+    source: data/cache/utility_rate_yoy.csv (Duke Energy Carolinas, NC) + Census ACS 2023 B19013
+  - text: Home prices rose 11.6% over three years against a $208,700 median home value. Only 24.2% of adults 25 and older hold a bachelor's degree, and the county lost population between 2010 and 2020.
+    source: data/cache/realestate_yoy.csv (FIPS 37039) + Census ACS 2023 B25077, B15003
+  sources: []
+nc-rutherford:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Rutherford County has 64,850 residents with a $49,771 median household income, the lowest of any North Carolina AI county we track. Forest City, where Meta's campus sits, is 7,377 residents and built its economy on the Alexander Manufacturing textile mill before Facebook arrived in 2010.
+    source: 'Census ACS 2023 B01003, B19013 (FIPS 37161) + sources[0] (Wikipedia: Forest City, NC)'
+  - text: Meta's original Forest City announcement in 2010 was a $450 million build. The campus is now classified as legacy storage-heavy and is being expanded as part of Meta's national AI footprint refresh.
+    source: data/sites/data_centers.csv (Forest City) + sources[0]
+  - text: Property tax assessments rose 21.0% over three years, the steepest property-tax delta in any North Carolina AI county we track and roughly three times the local wage growth implied by Census BLS data.
+    source: data/cache/property_tax_yoy.csv (FIPS 37161)
+  - text: Duke Energy Carolinas residential rates rose 28.3% from 2021 to 2023, adding about $330 per year to a typical household bill. On Rutherford's $49,771 median income, that rate jump consumes roughly 0.7% of pre-tax household income before the Meta expansion adds new load.
+    source: data/cache/utility_rate_yoy.csv (Duke Energy Carolinas, NC) + Census ACS 2023 B19013
+  sources:
+  - https://en.wikipedia.org/wiki/Forest_City,_North_Carolina
+nd-cass:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Cass County is 189,286 residents anchored by Fargo, with a $75,023 median household income and a median age of 32.9, the youngest of any AI host county in this batch. 43.3% of adults hold a bachelor's degree, lifted by North Dakota State University.
+    source: Census ACS 2023 B01003, B19013, B01002, B15003 (FIPS 38017)
+  - text: Applied Digital's $3 billion Polaris Forge 2 campus sits in Harwood, a city of 794 residents north of Fargo. The campus is the largest single industrial commitment Cass County has seen since the Microsoft Bing data center build cycle of the late 2000s.
+    source: 'data/sites/data_centers.csv (Polaris Forge 2) + sources[0] (Wikipedia: Harwood, ND)'
+  - text: Otter Tail Power's North Dakota residential rate rose from 10.4 to 11.4 cents per kWh between 2021 and 2023, a 9.3% jump worth about $104 per year on a typical 10,800 kWh household. Otter Tail has only 45,467 residential customers across all of North Dakota.
+    source: data/cache/utility_rate_yoy.csv (Otter Tail Power Co, ND)
+  - text: Median home value in Cass County is $284,700 and property tax assessments rose 10.0% over three years. Zillow does not publish a 3-year typical-home-value series for Cass County, which is why the standard home-price delta reads as n/a.
+    source: Census ACS 2023 B25077 + data/cache/property_tax_yoy.csv (FIPS 38017) + data/cache/realestate_yoy.csv
+  sources:
+  - https://en.wikipedia.org/wiki/Harwood,_North_Dakota
+nd-dickey:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Dickey County has 4,959 residents and a $63,125 median household income. Applied Digital's 400 MW Ellendale Polaris Forge 1 campus translates to roughly 81 kW of AI compute per resident, the highest per-capita ratio of any county in this batch.
+    source: Census ACS 2023 B01003, B19013 (FIPS 38021) + data/sites/data_centers.csv (Ellendale Polaris Forge 1)
+  - text: Ellendale itself is 1,125 residents and was platted in 1882 as a stop on the Chicago, Milwaukee, St. Paul and Pacific Railroad. CoreWeave's 250 MW lease at Polaris Forge 1 is now the anchor tenant on the only US AI campus built primarily for HPC training in a town this small.
+    source: 'sources[0] (Wikipedia: Ellendale, ND) + data/sites/data_centers.csv (Ellendale Polaris Forge 1)'
+  - text: Property tax assessments fell 1.3% over three years, the only county in this batch where assessments actually dropped. Otter Tail Power's North Dakota residential rate is up 9.3% on the same baseline.
+    source: data/cache/property_tax_yoy.csv (FIPS 38021) + data/cache/utility_rate_yoy.csv (Otter Tail Power Co, ND)
+  - text: Median home value is $167,100, the lowest of any AI county in this batch, and 27.1% of adults 25 and older hold a bachelor's degree. Zillow has no 3-year typical-home-value series here, so any home-price spillover from the AI build will not surface in the standard data feed.
+    source: Census ACS 2023 B25077, B15003 + data/cache/realestate_yoy.csv (no FIPS 38021 row)
+  sources:
+  - https://en.wikipedia.org/wiki/Ellendale,_North_Dakota
+nd-stutsman:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Stutsman County is 21,525 residents centered on Jamestown, a city of 15,849 that was a Northern Pacific Railroad repair-yard town from 1872 until the 1960s. The economy now leans on precision manufacturing, food processing, and the Jamestown JMS01 HPC site.
+    source: 'Census ACS 2023 B01003 (FIPS 38093) + sources[0] (Wikipedia: Jamestown, ND)'
+  - text: Applied Digital's 100 MW Jamestown JMS01 went operational in 2024 and was the company's first North Dakota HPC site, predating the larger Polaris Forge campuses in Dickey and Cass counties. The 100 MW load is roughly 4.6 kW per Stutsman resident.
+    source: data/sites/data_centers.csv (Jamestown JMS01) + Census ACS 2023 B01003
+  - text: Otter Tail Power's North Dakota residential rate rose 9.3% from 2021 to 2023 and the utility has only 45,467 residential customers statewide. Property tax assessments rose 9.2% over the same baseline on a $200,300 median home value.
+    source: data/cache/utility_rate_yoy.csv (Otter Tail Power Co, ND) + data/cache/property_tax_yoy.csv (FIPS 38093) + Census ACS 2023 B25077
+  - text: Median household income is $60,172 and the median age is 40.6. 24.4% of adults hold a bachelor's degree, leaving Stutsman with a smaller technically-trained labor pool than Cass County 100 miles north.
+    source: Census ACS 2023 B19013, B01002, B15003 (FIPS 38093)
+  sources:
+  - https://en.wikipedia.org/wiki/Jamestown,_North_Dakota
+ne-sarpy:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Sarpy County has 194,051 residents with a $101,402 median household income, the highest in Nebraska and the second-highest in this batch behind Dakota MN. Papillion is 24,159 residents and 41.9% of county adults hold a bachelor's degree.
+    source: 'Census ACS 2023 B01003, B19013, B15003 (FIPS 31153) + sources[0] (Wikipedia: Papillion, NE)'
+  - text: Meta's Papillion campus has been operational since 2017 on the OPPD grid. Google also operates separate data centers in Papillion, making Sarpy County one of the few US counties where both Meta and Google hyperscalers run on the same municipal utility.
+    source: data/sites/data_centers.csv (Sarpy County) + sources[0]
+  - text: OPPD is a public-power utility with 362,918 residential customers. Its residential rate rose from 11.7 to 12.4 cents per kWh between 2021 and 2023, a 5.7% jump worth about $72 per year on a typical household bill, the most restrained in any county in this batch with multiple hyperscalers.
+    source: data/cache/utility_rate_yoy.csv (Omaha Public Power District, NE)
+  - text: Home prices rose 1.9% over three years against a $287,600 median home value, the smallest 3-year home-price delta in this batch. Property tax assessments rose 13.2% on the same baseline, an unusual decoupling of tax growth from price growth.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 31153) + Census ACS 2023 B25077
+  sources:
+  - https://en.wikipedia.org/wiki/Papillion,_Nebraska
+nj-union:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Union County is 572,549 residents with a $100,117 median household income and a $488,800 median home value. It is the only Northeast urban county in this batch and the only one where a hyperscaler is converting an existing pharmaceutical complex into AI compute.
+    source: Census ACS 2023 B01003, B19013, B25077 (FIPS 34039)
+  - text: CoreWeave's $1.8 billion Kenilworth NEST is built into former Merck and Schering-Plough lab space. Merck announced in April 2020 it would move its global headquarters out of Kenilworth to Rahway by the end of 2023, freeing the campus for retrofit.
+    source: 'data/sites/data_centers.csv (Kenilworth NEST) + sources[0] (Wikipedia: Kenilworth, NJ)'
+  - text: PSE&G's New Jersey residential rate rose from 17.1 to 19.8 cents per kWh between 2021 and 2023, a 15.6% jump worth about $292 per year on a typical household bill. PSE&G has 2.06 million residential customers across the state.
+    source: data/cache/utility_rate_yoy.csv (Public Service Elec & Gas Co, NJ)
+  - text: County home prices rose 13.3% over three years and property tax assessments are flat at 0.0%, the only AI host county in this batch where tax assessments did not move. The CoreWeave project was the first award under New Jersey's new EDA AI tax-credit program.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 34039) + data/sites/data_centers.csv (Kenilworth NEST source URL)
+  sources:
+  - https://en.wikipedia.org/wiki/Kenilworth,_New_Jersey
+nm-dona-ana:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Dona Ana County has 221,665 residents with a $55,663 median household income. Santa Teresa, where Project Jupiter sits, is a 5,044-resident community 81% Hispanic or Latino, anchored by a US-Mexico port of entry and the Dona Ana County International Jetport.
+    source: 'Census ACS 2023 B01003, B19013 (FIPS 35013) + sources[0] (Wikipedia: Santa Teresa, NM)'
+  - text: Oracle and OpenAI's Project Jupiter is the public name for a $165 billion Stargate site at Santa Teresa, on El Paso Electric's grid rather than New Mexico's PNM. El Paso Electric's New Mexico residential rate actually fell 9.8% from 2021 to 2023, the steepest 3-year rate decline of any AI host county in this batch.
+    source: data/sites/data_centers.csv (Project Jupiter) + data/cache/utility_rate_yoy.csv (El Paso Electric Co, NM)
+  - text: 31.4% of county adults 25 and older hold a bachelor's degree, lifted by New Mexico State University in Las Cruces. Median home value is $205,400 and home prices rose 3.0% over three years.
+    source: Census ACS 2023 B15003, B25077 + data/cache/realestate_yoy.csv (FIPS 35013)
+  - text: Property tax assessments rose 10.4% over three years, well above the 3.0% home-price delta. The Santa Teresa Gateway Rail Park, a 1,100-acre Union Pacific interchange, gives Project Jupiter direct rail access to the wider Stargate logistics chain.
+    source: data/cache/property_tax_yoy.csv (FIPS 35013) + sources[0]
+  sources:
+  - https://en.wikipedia.org/wiki/Santa_Teresa,_New_Mexico
+nm-valencia:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Valencia County is 77,382 residents with a $58,333 median household income. Los Lunas, on the west bank of the Rio Grande, is 17,242 residents and 20.8% of county adults hold a bachelor's degree.
+    source: 'Census ACS 2023 B01003, B19013, B15003 (FIPS 35061) + sources[0] (Wikipedia: Los Lunas, NM)'
+  - text: Meta's Los Lunas campus is now eight data centers totaling 3.8 million sqft. The original Facebook announcement was in September 2016 and the site has been operational since February 2019, with construction phases overlapping AI buildout.
+    source: data/sites/data_centers.csv (Los Lunas) + sources[0]
+  - text: PNM residential rates rose from 14.7 to 15.6 cents per kWh between 2021 and 2023, a 5.9% jump worth about $96 per year on a typical 10,800 kWh household. PNM has 492,945 residential customers across New Mexico.
+    source: data/cache/utility_rate_yoy.csv (Public Service Co of NM, NM)
+  - text: Property tax assessments rose 7.3% over three years against a $206,800 median home value. Zillow has no 3-year typical-home-value series for Valencia County, so the home-price spillover from Meta's expansion is not yet visible in standard data.
+    source: data/cache/property_tax_yoy.csv (FIPS 35061) + Census ACS 2023 B25077 + data/cache/realestate_yoy.csv (no FIPS 35061 row)
+  sources:
+  - https://en.wikipedia.org/wiki/Los_Lunas,_New_Mexico
+nv-clark:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Clark County is 2,293,764 residents, the largest county in this batch by more than 4x. Median household income is $73,845 and 27.3% of adults 25 and older hold a bachelor's degree, both well below the Las Vegas tourism-economy narrative implies.
+    source: Census ACS 2023 B01003, B19013, B15003 (FIPS 32003)
+  - text: Google's Henderson campus was a $600 million build on a 64-acre site, the company's first Nevada data center. Google announced an additional $400 million investment in Nevada data centers in 2024.
+    source: 'data/sites/data_centers.csv (Henderson) + sources[0] (Wikipedia: Henderson, NV)'
+  - text: NV Energy's residential rate rose from 14.3 to 15.3 cents per kWh between 2021 and 2023, a 6.9% jump worth about $108 per year on a typical 10,800 kWh household. Nevada Power has 916,385 residential customers, the second-largest residential base of any utility in this batch behind PSE&G.
+    source: data/cache/utility_rate_yoy.csv (Nevada Power Co, NV)
+  - text: Home prices rose 4.6% over three years against a $400,800 median home value, the highest median value in this batch outside of Union NJ. Property tax assessments rose 9.4% on the same baseline.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 32003) + Census ACS 2023 B25077
+  sources:
+  - https://en.wikipedia.org/wiki/Henderson,_Nevada
+nv-washoe:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Washoe County has 491,770 residents and a median household income of $85,600, both the highest of any AI county outside the Pacific Northwest tech corridor. The Tahoe Reno Industrial Center east of Sparks spans 107,000 acres, the largest industrial park in the United States.
+    source: 'Census ACS 2023 B01003, B19013 (Washoe County, NV) + sources[0] (Wikipedia: Tahoe Reno Industrial Center)'
+  - text: Google bought 1,200 acres at the TRI Center for its Storey County campus. The same park already hosts Tesla's Gigafactory Nevada, Switch, Walmart, and Panasonic battery production behind a private power network of more than 900 MW.
+    source: 'sources[0] (Wikipedia: Tahoe Reno Industrial Center) + data/sites/data_centers.csv'
+  - text: NV Energy's Nevada Power residential rate rose from 14.3 to 15.3 cents per kWh between 2021 and 2023, a 6.9% jump worth about $107 per year on a typical household. Sierra Pacific Power, the NV Energy subsidiary that actually serves Reno, posted a sharper 8.0% rise over the same period.
+    source: data/cache/utility_rate_yoy.csv (Nevada Power Co and Sierra Pacific Power Co, NV)
+  - text: Property tax assessments rose 10.6% over three years, sharper than the 6.3% home price gain. Apple's Reno Technology Park added a second Sparks campus that runs on NV Energy alongside the Google site, with neither operator disclosing the actual draw.
+    source: data/cache/property_tax_yoy.csv (FIPS 32031) + data/cache/realestate_yoy.csv + data/sites/data_centers.csv
+  sources:
+  - https://en.wikipedia.org/wiki/Tahoe_Reno_Industrial_Center
+ny-niagara:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Niagara County has 211,341 residents and a median household income of $67,809. Home prices rose 23.4% over three years, the steepest 3-year gain in any batch-3 county, against a median home value of just $177,400.
+    source: Census ACS 2023 B01003, B19013, B25077 (Niagara County, NY) + data/cache/realestate_yoy.csv
+  - text: Lake Mariner sits on the former Somerset coal plant site in Barker, leased to TeraWulf by an entity 99.9% owned by CEO Paul Prager. The 360 MW campus signed AI hosting agreements with Fluidstack that route capacity to Google, the largest hyperscaler tied to Niagara hydropower.
+    source: 'sources[0] (Wikipedia: TeraWulf) + data/sites/data_centers.csv'
+  - text: Niagara Mohawk's residential rate rose only 4.5% from 2021 to 2023, well below the New York investor-owned average. New York State Electric and Gas in the same region rose 27.9%, so the bill outcome for Lake Mariner's neighbors depends entirely on which utility their meter is on.
+    source: data/cache/utility_rate_yoy.csv (Niagara Mohawk Power Corp and New York State Elec and Gas, NY)
+  - text: Anthropic's New York campus in the Town of Niagara is a Fluidstack custom build with no announced MW disclosure. The town itself has 7,903 residents, so the project will likely be the second-largest private employer in the municipality once energized.
+    source: 'data/sites/data_centers.csv (Anthropic New York) + sources[1] (Wikipedia: Niagara town NY)'
+  sources:
+  - https://en.wikipedia.org/wiki/TeraWulf
+  - https://en.wikipedia.org/wiki/Niagara_(town),_New_York
+oh-fairfield:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Fairfield County has 161,289 residents and a median household income of $87,069, the highest of any batch-3 county. Lancaster, the county seat, has 40,552 residents and a 200-year glass-manufacturing legacy that earned it the nickname Glass City.
+    source: 'Census ACS 2023 B01003, B19013 (Fairfield County, OH) + sources[0] (Wikipedia: Lancaster, OH)'
+  - text: AEP Ohio (Ohio Power Co) residential rates rose 13.7%, from 12.6 to 14.4 cents per kWh between 2021 and 2023. That adds about $187 per year to a typical household bill before any new AI demand flows through to retail.
+    source: data/cache/utility_rate_yoy.csv (Ohio Power Co, OH)
+  - text: Home prices rose 11.1% over three years against a $272,200 median home value. Property tax assessments rose 13.3% in the same window, the second-steepest of any batch-3 county.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 39045) + Census ACS 2023 B25077
+  - text: Google's Lancaster campus is the southernmost site in its $2.3 billion central Ohio cluster, joining the Columbus and New Albany builds in Franklin and Licking counties. All three counties share the same AEP Ohio retail tariff, so the Lancaster build's bill impact is indistinguishable from its neighbors.
+    source: data/sites/data_centers.csv (Lancaster Google) + data/cache/utility_rate_yoy.csv (Ohio Power Co, OH)
+  sources:
+  - https://en.wikipedia.org/wiki/Lancaster,_Ohio
+oh-franklin:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Franklin County is the most populous of the central Ohio AI counties at 1,321,635 residents and includes Columbus. 42.0% of residents over 25 hold a bachelor's degree, the highest education base of any AI county in Ohio.
+    source: Census ACS 2023 B01003, B15003 (Franklin County, OH)
+  - text: AEP Ohio residential rates rose 13.7% from 2021 to 2023, the same retail tariff that hits Licking and Fairfield counties. On the Franklin County median household income of $73,795, the $187 annual bill impact is muted by the strongest wage base in the cluster.
+    source: data/cache/utility_rate_yoy.csv (Ohio Power Co, OH) + Census ACS 2023 B19013
+  - text: Google's Columbus campus opened in 2023 as the cloud region anchor for central Ohio. The AWS Hilliard site adds a 3-campus cluster in the western suburb, but neither operator has disclosed a single MW figure for any Franklin County build.
+    source: data/sites/data_centers.csv (Columbus Google, Hilliard)
+  - text: Home prices rose 8.1% and property tax assessments rose 7.9% over three years, the most restrained pair in the central Ohio cluster. The 34.7 median age and university anchor partly explain why Franklin has absorbed the AI announcements without the price spike Licking saw next door.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 39049) + Census ACS 2023 B01002
+  sources: []
+oh-licking:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Licking County has 180,311 residents, but the New Albany Personal Property Tax district absorbs four campuses (Meta Prometheus, Microsoft Heath/Hebron, Google New Albany, AWS New Albany) totaling over 1 GW of announced load. New Albany itself has only 10,825 residents.
+    source: 'Census ACS 2023 B01003 (Licking County, OH) + sources[0] (Wikipedia: New Albany, OH) + data/sites/data_centers.csv'
+  - text: Meta's Prometheus is the world's first announced 1 GW AI data center, a single building scheduled to energize in 2026 on AEP Ohio's grid. Its load alone exceeds the residential demand of any city in Licking County.
+    source: 'data/sites/data_centers.csv (Prometheus) + sources[1] (DCPulse: Meta Prometheus)'
+  - text: Property tax assessments rose 12.2% over three years against a median household income of $81,033. The home-price rise of 6.0% is unusually moderate for a county absorbing four hyperscaler builds at once, a sign that most of the tax base growth is industrial rather than residential.
+    source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 39089) + Census ACS 2023 B19013
+  - text: New Albany grew from 414 residents in 1980 to 10,825 in 2020, an explicit master-planned community funded by Limited Brands founder Les Wexner. Intel's separate $20 billion semiconductor fab next door means the same AEP Ohio substation has to land semiconductor and AI campus load in parallel.
+    source: 'sources[0] (Wikipedia: New Albany, OH)'
+  sources:
+  - https://en.wikipedia.org/wiki/New_Albany,_Ohio
+  - https://dcpulse.com/project/meta-prometheus-new-albany-1gw-ai-data-center
+ok-mayes:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Mayes County has 39,406 residents and a median household income of $57,279. Only 16.5% of residents over 25 hold a bachelor's degree, the second-lowest education base in any batch-3 county.
+    source: Census ACS 2023 B01003, B19013, B15003 (Mayes County, OK)
+  - text: Pryor's MidAmerica Industrial Park hosts more than 80 companies including Google, DuPont, and Nordam, with its own airport and a 5,000-foot runway. Google has invested $2.5 billion in its Pryor campus over two phases, making it the company's second-largest data center globally.
+    source: 'sources[0] (Wikipedia: Pryor Creek, OK)'
+  - text: Grand River Dam Authority is a state-owned wholesale utility, so EIA does not publish a residential rate delta for Mayes County. The bill-side impact of the Google load is invisible in the standard data even though GRDA is the named seller of record.
+    source: data/cache/utility_rate_yoy.csv (no GRDA row) + data/sites/data_centers.csv
+  - text: Property tax assessments rose 13.4% over three years against a 4.2% home-price gain. The gap is the widest of any batch-3 county and reflects industrial assessments running ahead of residential, the standard signature of a single large taxpayer like Google MidAmerica.
+    source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 40097)
+  sources:
+  - https://en.wikipedia.org/wiki/Pryor_Creek,_Oklahoma
+ok-muskogee:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Muskogee County has 66,471 residents and a median household income of $51,999, the lowest of any batch-3 county. The city of Muskogee itself has 36,878 residents and was proposed as the capital of the Native-American-led State of Sequoyah in 1905.
+    source: 'Census ACS 2023 B01003, B19013 (Muskogee County, OK) + sources[0] (Wikipedia: Muskogee, OK)'
+  - text: Home prices rose 19.7% over three years against a median home value of $138,800, the largest percent gain on the smallest base in any batch-3 county. The Core Scientific 70 MW build for CoreWeave is small relative to Pryor next door but landed in a market that already moved on the announcement.
+    source: data/cache/realestate_yoy.csv (FIPS 40101) + Census ACS 2023 B25077 + data/sites/data_centers.csv
+  - text: OG&E's Oklahoma residential rate rose only 3.3% from 2021 to 2023, the smallest delta of any batch-3 county. That adds about $40 per year to a typical bill and reflects OG&E's vertically integrated cost structure across 710,123 residential customers.
+    source: data/cache/utility_rate_yoy.csv (Oklahoma Gas and Electric Co, OK)
+  - text: Stardust Power broke ground on a $1.2 billion lithium refinery in Muskogee in January 2025, and Google announced two additional Oklahoma data centers in November 2025 as part of a $9 billion state investment. The 70 MW CoreWeave site is the leading edge of a much bigger industrial bet on Muskogee.
+    source: 'sources[0] (Wikipedia: Muskogee, OK)'
+  sources:
+  - https://en.wikipedia.org/wiki/Muskogee,_Oklahoma
+or-crook:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Crook County has 25,651 residents and a median household income of $81,675. The county seat Prineville has 10,736 residents, with a median age of 40.6, but hosts both Meta and Apple's primary Pacific Northwest data center clusters.
+    source: 'Census ACS 2023 B01003, B19013 (Crook County, OR) + sources[0] (Wikipedia: Prineville, OR)'
+  - text: PacifiCorp's Oregon residential rate rose 30.0%, from 10.8 to 14.0 cents per kWh between 2021 and 2023. That adds about $349 per year to a typical Crook County household bill, the steepest 3-year residential rate move in any batch-3 county.
+    source: data/cache/utility_rate_yoy.csv (PacifiCorp, OR)
+  - text: Property tax assessments rose 14.5% over three years against a $423,300 median home value. Both Apple and Meta have invested over $1 billion each in Prineville since the late 2000s, anchoring the assessed-value rise.
+    source: 'data/cache/property_tax_yoy.csv (FIPS 41013) + Census ACS 2023 B25077 + sources[0] (Wikipedia: Prineville, OR)'
+  - text: Facebook selected Prineville in 2010 for its first owned data center anywhere in the world, the template every hyperscaler later copied for rural Western Oregon sites. The campus now scales across multiple buildings on the same parcel.
+    source: 'sources[0] (Wikipedia: Prineville, OR) + data/sites/data_centers.csv (Prineville Meta)'
+  sources:
+  - https://en.wikipedia.org/wiki/Prineville,_Oregon
+or-morrow:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Morrow County has 12,249 residents, the smallest population of any batch-3 county, and only 9.8% of residents over 25 hold a bachelor's degree. The county is 73.5% Hispanic or Latino in Boardman, the largest town at 3,828 residents.
+    source: 'Census ACS 2023 B01003, B15003 (Morrow County, OR) + sources[0] (Wikipedia: Boardman, OR)'
+  - text: Umatilla Electric Cooperative residential rates rose 8.3% from 2021 to 2023, modest in absolute percentage but applied to a small base. The cooperative has only 12,620 residential customers across both Morrow and Umatilla counties to absorb AWS's announced 16-building Boardman expansion.
+    source: data/cache/utility_rate_yoy.csv (Umatilla Electric Coop Assn, OR)
+  - text: Portland General Electric's Boardman coal plant shut down in October 2020, the last coal-fired plant in Oregon, and was demolished in 2022. AWS's data center campus inherited the regional grid headroom that closure created.
+    source: 'sources[0] (Wikipedia: Boardman, OR)'
+  - text: Property tax assessments rose 7.1% over three years and home-price data is unavailable for the county. AWS's $4.8 billion 16-building expansion is the explicit driver of any future assessed-value rise, with the existing Boardman and Morrow Expansion sites already operational.
+    source: data/cache/property_tax_yoy.csv (FIPS 41049) + data/sites/data_centers.csv (Boardman, Morrow County Expansion)
+  sources:
+  - https://en.wikipedia.org/wiki/Boardman,_Oregon
+or-umatilla:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Umatilla County has 80,087 residents and a median household income of $68,958. Hermiston, the largest city at 19,354 residents, added 2,930 jobs from 2012 to 2022, 91% of all net job growth in the county over the decade.
+    source: 'Census ACS 2023 B01003, B19013 (Umatilla County, OR) + sources[0] (Wikipedia: Hermiston, OR)'
+  - text: Amazon Web Services is already the largest employer in greater Hermiston at 2,058 workers, more than double Lamb Weston's 370 in Boardman. The 2 AWS campuses in Umatilla County (Hermiston, Umatilla) ride the same Umatilla Electric Cooperative tariff as the Morrow County builds next door.
+    source: 'sources[0] (Wikipedia: Hermiston, OR) + data/sites/data_centers.csv'
+  - text: Property tax assessments rose 7.1% over three years against a 9.9% home-price gain. Both stats are restrained relative to neighboring Morrow County, which suggests AWS load is being captured by the Port of Morrow industrial enterprise zone rather than the residential tax base.
+    source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 41059)
+  - text: Only 18.0% of residents over 25 hold a bachelor's degree, the second-lowest in the Pacific Northwest AI cluster after Morrow County. The Hispanic-majority demographic and irrigation-fed watermelon agriculture predate the data center boom and have not been displaced by it.
+    source: 'Census ACS 2023 B15003 + sources[0] (Wikipedia: Hermiston, OR)'
+  sources:
+  - https://en.wikipedia.org/wiki/Hermiston,_Oregon
+or-wasco:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Wasco County has 26,603 residents and a median household income of $63,602. The Dalles, the county seat at 16,010 residents, hosts Google's longest-running data center anywhere in the world. The campus opened in 2006 as Project 02.
+    source: 'Census ACS 2023 B01003, B19013 (Wasco County, OR) + sources[0] (Wikipedia: The Dalles, OR)'
+  - text: Northern Wasco PUD residential rates rose 5.5% from 7.3 to 7.7 cents per kWh between 2021 and 2023, the lowest rate of any utility serving a batch-3 county. The PUD has only 9,800 residential customers and buys at Bonneville Power Administration wholesale.
+    source: data/cache/utility_rate_yoy.csv (Northern Wasco County PUD, OR)
+  - text: BPA's Celilo Converter Station opened in 1970 near The Dalles, the northern terminus of the Pacific DC Intertie sending 3,100 MW to Los Angeles. That historical export infrastructure is part of why Google chose The Dalles for its first hyperscale build.
+    source: 'sources[0] (Wikipedia: The Dalles, OR)'
+  - text: Home prices rose only 3.4% and property tax assessments rose 4.1% over three years, the most restrained pair in the Oregon AI cluster. Google employed 150 combined permanent staff and contractors at The Dalles as of 2013, a reminder that hyperscale builds do not translate to commensurate local payroll.
+    source: 'data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 41065) + sources[0] (Wikipedia: The Dalles, OR)'
+  sources:
+  - https://en.wikipedia.org/wiki/The_Dalles,_Oregon
+or-washington:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Washington County has 600,266 residents and a median household income of $104,434, the highest income of any AI county nationwide. 46.7% of residents over 25 hold a bachelor's degree.
+    source: Census ACS 2023 B01003, B19013, B15003 (Washington County, OR)
+  - text: Portland General Electric residential rates rose 29.7%, from 14.0 to 18.2 cents per kWh between 2021 and 2023, adding about $450 per year to a typical household bill. That delta lands on Hillsboro CoreWeave at the same time Intel is contracting its 16,000-employee Silicon Forest footprint.
+    source: 'data/cache/utility_rate_yoy.csv (Portland General Electric Co, OR) + sources[0] (Wikipedia: Hillsboro, OR)'
+  - text: Hillsboro is the fifth-most populous city in Oregon at 106,447 residents and the only AI county where data centers compete with Intel for fiber, power, and tax abatement. Three trans-Pacific fiber optic cable systems land in Hillsboro.
+    source: 'sources[0] (Wikipedia: Hillsboro, OR)'
+  - text: Home prices fell 1.1% over three years, the only negative 3-year home-price reading in any AI county nationwide. The CoreWeave/Flexential build is therefore the rare AI campus arriving as residential demand cools rather than accelerates.
+    source: data/cache/realestate_yoy.csv (FIPS 41067)
+  sources:
+  - https://en.wikipedia.org/wiki/Hillsboro,_Oregon
+pa-lancaster:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Lancaster County has 555,151 residents and a median household income of $83,703. The city of Lancaster has 58,039 residents and is 40.3% Hispanic, the largest non-Amish demographic concentration in any Pennsylvania AI county.
+    source: 'Census ACS 2023 B01003, B19013 (Lancaster County, PA) + sources[0] (Wikipedia: Lancaster, PA)'
+  - text: PPL Electric Utilities residential rates actually fell 0.3% from 2021 to 2023, the only cooling rate trajectory in any batch-3 county. The 300 MW CoreWeave Lancaster build is therefore one of the few AI campuses arriving without a baseline retail rate spike.
+    source: data/cache/utility_rate_yoy.csv (PPL Electric Utilities Corp, PA)
+  - text: CoreWeave's $6 billion Lancaster build with Chirisa is scheduled to energize in 2027. Lancaster General Hospital remains the largest existing employer in the city at 9,406 workers, a baseline a single 300 MW AI campus could match at scale.
+    source: 'data/sites/data_centers.csv (Lancaster CoreWeave) + sources[0] (Wikipedia: Lancaster, PA)'
+  - text: Home prices rose 9.7% and property tax assessments rose only 3.4% over three years, the most restrained tax-side delta in any batch-3 county with a similar home-price rise. Pennsylvania's separate school-tax structure damps property-tax sensitivity to industrial assessments.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 42071)
+  sources:
+  - https://en.wikipedia.org/wiki/Lancaster,_Pennsylvania
+pa-luzerne:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Luzerne County has 325,978 residents and a median household income of $62,321. The county seat Wilkes-Barre has 44,328 residents and lives with a 30.1% poverty rate, more than double the Pennsylvania state average.
+    source: 'Census ACS 2023 B01003, B19013 (Luzerne County, PA) + sources[0] (Wikipedia: Wilkes-Barre, PA)'
+  - text: AWS's Susquehanna Campus is a behind-the-meter colocation directly connected at 960 MW to the 2,514 MW Susquehanna nuclear plant in Salem Township. The full power purchase agreement scales to 1,680 to 1,920 MW by 2032 with an expected total contract value of $18 billion through 2042.
+    source: 'sources[1] (Wikipedia: Susquehanna Steam Electric Station) + data/sites/data_centers.csv'
+  - text: PPL Electric Utilities residential rates fell 0.3% from 2021 to 2023, so the bill-side impact of the AWS deal is structurally insulated from the residential tariff. The campus power flows directly from Talen Energy's nuclear units, not from the grid PPL serves.
+    source: 'data/cache/utility_rate_yoy.csv (PPL Electric Utilities Corp, PA) + sources[1] (Wikipedia: Susquehanna Steam Electric Station)'
+  - text: Home prices rose 21.0% over three years against a median home value of $163,800, the largest percent gain in any batch-3 county after Niagara. Wilkes-Barre's population peaked at over 86,000 in the 1930s and has fallen by half, so the AI build is landing on a deflated housing base poised for a sharp post-Susquehanna repricing.
+    source: 'data/cache/realestate_yoy.csv (FIPS 42079) + Census ACS 2023 B25077 + sources[0] (Wikipedia: Wilkes-Barre, PA)'
+  sources:
+  - https://en.wikipedia.org/wiki/Wilkes-Barre,_Pennsylvania
+  - https://en.wikipedia.org/wiki/Susquehanna_Steam_Electric_Station
+pa-schuylkill:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Schuylkill County's population peaked at 235,505 in the 1930 census and has fallen to 143,558. Anthracite output peaked in 1917 and now only four underground mines and 17 surface mines remain, the rump of an industry that once defined the region.
+    source: 'Census ACS 2024 B01003 + sources[0] (Wikipedia: Schuylkill County)'
+  - text: PPL's residential rate slipped 0.3% from 2021 to 2023, an outlier flat in the Mid-Atlantic. The 346-acre Tobyhanna campus in Kline Township is on a utility that has not yet been asked to absorb a publicly disclosed AI load number.
+    source: data/cache/utility_rate_yoy.csv (PPL Electric Utilities Corp, PA) + data/sites/data_centers.csv
+  - text: Home prices are up 23.5% over three years on a median household income of $68,313 and a median home value of $153,000, the largest 3-year home-price jump in any batch-4 county. Wind already supplies 80% of the county's 25% renewable electricity share, so the AWS site is landing in a county where the rural grid is unusually clean.
+    source: data/cache/realestate_yoy.csv (FIPS 42107) + Census ACS 2024 B19013, B25077 + sources[0]
+  - text: AWS has not disclosed Tobyhanna's MW or campus count, and Schuylkill is the only batch-4 county where the lead operator is AWS rather than a hyperscaler with a public site map. The bachelor's-degree share is 19.9%, low for an East Coast county.
+    source: data/sites/data_centers.csv (Tobyhanna Kline) + Census ACS 2024 B15003
+  sources:
+  - https://en.wikipedia.org/wiki/Schuylkill_County,_Pennsylvania
+sc-berkeley:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Berkeley County grew 29.2% from 2010 to 2020 and now has 246,802 residents, the fastest growth in any batch-4 county. Google has anchored Mount Holly since 2007 and announced $9 billion through 2027 to expand the Berkeley campus plus two new Dorchester County sites.
+    source: Census ACS 2024 B01003 + sources[1] (Google datacenters)
+  - text: Berkeley Electric Cooperative serves 115,117 residential members and is the only batch-4 utility that is a rural electric cooperative. Its residential rate rose 9.6% from 2021 to 2023, about $137 per year on a typical bill.
+    source: data/cache/utility_rate_yoy.csv (Berkeley Electric Coop Inc, SC)
+  - text: Property tax assessments rose 10.7% over three years against a county median income of $84,358 and a 56.2% combined Black and Hispanic share. Google signed a 225 MW renewable PPA in South Carolina in 2023 to offset the campus expansion.
+    source: data/cache/property_tax_yoy.csv (FIPS 45015) + Census ACS 2024 B19013 + sources[1]
+  - text: Volvo Cars, Nucor, and Booz Allen Hamilton are already in Berkeley's top employer list, and over 900 Google jobs sit across the three SC campuses. The 31.0% bachelor's share is mid-pack for a county anchoring a $9 billion hyperscaler buildout.
+    source: 'Census ACS 2024 B15003 + sources[0] (Wikipedia: Berkeley County)'
+  sources:
+  - https://en.wikipedia.org/wiki/Berkeley_County,_South_Carolina
+  - https://datacenters.google/locations/south-carolina/
+tn-sumner:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Sumner County has 204,424 residents and sits 25 miles northeast of Nashville, growing 9.8% from 2020 to 2025. Meta opened its Gallatin data center in 2020 and announced an expansion in 2024 that pushes total investment past $1 billion.
+    source: 'Census ACS 2024 B01003 + sources[0] (Wikipedia: Sumner County) + sources[1] (Wikipedia: Gallatin, TN)'
+  - text: Gallatin Department of Electricity is a municipal utility serving 23,204 customers, the smallest power provider in any batch-4 county. Its residential rate rose 6.3% from 11.1 to 11.8 cents per kWh between 2021 and 2023, about $75 per year on a typical bill.
+    source: data/cache/utility_rate_yoy.csv (City of Gallatin, TN)
+  - text: Home prices are up only 4.7% over three years but property tax assessments rose 9.2%, on a median household income of $90,301 and a median home value of $393,100. Sumner has the highest median income of any batch-4 county.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 47165) + Census ACS 2024 B19013, B25077
+  - text: The Meta Gallatin campus draws power downstream from TVA's coal-fired Gallatin Fossil Plant. Sumner is the only batch-4 county where a hyperscaler campus has been operating for five years before any other batch-4 site even broke ground.
+    source: 'sources[1] (Wikipedia: Gallatin, TN) + data/sites/data_centers.csv'
+  sources:
+  - https://en.wikipedia.org/wiki/Sumner_County,_Tennessee
+  - https://en.wikipedia.org/wiki/Gallatin,_Tennessee
+tx-armstrong:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Armstrong County has 1,822 residents on 914 square miles, one of the smallest counties in Texas. The county seat is Claude, named in 1888 for a railroad engineer, and Charles Goodnight's JA Ranch once spanned over a million acres across Armstrong and five adjoining counties.
+    source: 'Census ACS 2024 B01003 + sources[0] (Wikipedia: Armstrong County, TX)'
+  - text: Google's Armstrong campus is part of a $40 billion Texas commitment through 2027 that includes Armstrong and Haskell County sites. The two are Google's only new Texas data center counties in the announcement.
+    source: 'sources[1] (Google: American Innovation Texas)'
+  - text: Property tax assessments fell 7.9% over three years against a Texas-high $72,750 median household income for a county this small. The drop is a rare cool-tone in a state where most rural counties saw double-digit assessment jumps.
+    source: data/cache/property_tax_yoy.csv (FIPS 48011) + Census ACS 2024 B19013
+  - text: Xcel Energy SPS serves Armstrong's residential customers on the SPP grid, with a near-flat 0.1% 3-year rate decline. The campus will sit outside ERCOT, the only batch-4 Texas county not in the deregulated retail market.
+    source: data/cache/utility_rate_yoy.csv (Southwestern Public Service, TX) + data/sites/data_centers.csv
+  sources:
+  - https://en.wikipedia.org/wiki/Armstrong_County,_Texas
+  - https://blog.google/company-news/inside-google/company-announcements/google-american-innovation-texas/
+tx-bell:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Bell County has 386,897 residents and contains Fort Cavazos (formerly Fort Hood), one of the largest US Army installations in the country. Meta restarted construction on the Temple campus in 2024 with a new AI-optimized design after pausing the project.
+    source: 'Census ACS 2024 B01003 + data/sites/data_centers.csv (Temple, Meta) + sources[0] (Wikipedia: Bell County)'
+  - text: Median household income is $68,865 and the median home value is $241,000, both at the rural-Texas baseline despite the metro Killeen-Temple-Fort Cavazos labor market. Property tax assessments rose 9.4% over three years.
+    source: Census ACS 2024 B19013, B25077 + data/cache/property_tax_yoy.csv (FIPS 48027)
+  - text: Home prices are down 0.1% on a 3-year baseline, essentially flat, while neighboring DFW counties saw double-digit declines. The Temple campus sits on Oncor's ERCOT-side grid, where there is no published residential rate delta because of deregulation.
+    source: data/cache/realestate_yoy.csv (FIPS 48027) + data/cache/utility_rate_yoy.csv (no Oncor residential row)
+  - text: The 27.2% bachelor's share is the lowest of any major Texas data-center county outside the Panhandle. Meta has not yet disclosed Temple's MW, leaving the regional load impact invisible.
+    source: Census ACS 2024 B15003 + data/sites/data_centers.csv
+  sources:
+  - https://en.wikipedia.org/wiki/Bell_County,_Texas
+tx-bexar:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Bexar County has 2,067,341 residents, Texas's fourth most populous county and the 16th most populous in the US. Microsoft has operated a San Antonio campus since 2008, one of its older domestic data center sites.
+    source: Census ACS 2024 B01003 + data/sites/data_centers.csv (San Antonio, Microsoft)
+  - text: CPS Energy is the largest municipal utility in the United States by customers, serving 865,914 residential accounts in San Antonio. Its residential rate rose 5.7% from 11.8 to 12.4 cents per kWh between 2021 and 2023, about $77 per year on a typical household bill.
+    source: data/cache/utility_rate_yoy.csv (City of San Antonio, TX)
+  - text: Home prices are essentially flat at +0.1% over three years while property tax assessments rose 10.4% on a median household income of $72,341 and a median home value of $262,200. The 31.8% bachelor's share trails Austin metro counties.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 48029) + Census ACS 2024 B19013, B25077, B15003
+  - text: Bexar is the only batch-4 county where the hyperscaler campus has been operational for more than 15 years before the current AI build cycle. Microsoft has not disclosed a separate MW expansion figure for the legacy San Antonio site.
+    source: data/sites/data_centers.csv (operational since 2008)
+  sources:
+  - https://en.wikipedia.org/wiki/Bexar_County,_Texas
+tx-childress:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Childress County has 6,743 residents and the city of Childress has 5,737. IREN's 576-acre Childress campus is announced at 750 MW, more than 110 kW of AI compute capacity per Childress County resident.
+    source: 'Census ACS 2024 B01003 + sources[0] (IREN Childress) + sources[1] (Wikipedia: Childress, TX)'
+  - text: The IREN site connects directly to ERCOT via on-site substations IREN owns, with both air and liquid cooling. AEP Texas serves the county but ERCOT's deregulated retail market means EIA cannot report a 3-year residential rate delta.
+    source: sources[0] (IREN Childress) + data/cache/utility_rate_yoy.csv (no AEP Texas residential row)
+  - text: Property tax assessments fell 18.2% over three years, the steepest drop in any batch-4 county. Median household income is $58,654 and the median home value is $125,400, both below state averages.
+    source: data/cache/property_tax_yoy.csv (FIPS 48075) + Census ACS 2024 B19013, B25077
+  - text: Childress is the only batch-4 county with a Bitcoin-miner-turned-AI operator anchoring its grid load, IREN built the original site as a mining facility before pivoting to AI compute. Only 11.8% of residents over 25 hold a bachelor's degree, the lowest in batch 4.
+    source: data/sites/data_centers.csv (IREN) + Census ACS 2024 B15003
+  sources:
+  - https://iren.com/data-centers/childress
+  - https://en.wikipedia.org/wiki/Childress,_Texas
+tx-collin:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Collin County has 1,163,337 residents and a median household income of $121,600, the highest of any batch-4 county. JPMorgan Chase, Capital One, Toyota North America, and PepsiCo all have their corporate footprint in Plano, the campus city.
+    source: 'Census ACS 2024 B01003, B19013 + sources[0] (Wikipedia: Plano, TX)'
+  - text: Home prices fell 9.8% over three years against a median home value of $475,600, the steepest decline of any batch-4 county. CoreWeave's Plano site sits in a DFW housing market that is correcting after the 2021-2022 boom.
+    source: data/cache/realestate_yoy.csv (FIPS 48085) + Census ACS 2024 B25077
+  - text: The 56.2% bachelor's-or-higher share is the highest in any batch-4 county and rivals Silicon Valley counties. Property tax assessments rose only 6.0% over three years, restrained by the price correction.
+    source: Census ACS 2024 B15003 + data/cache/property_tax_yoy.csv (FIPS 48085)
+  - text: CoreWeave's Plano campus is on Oncor's ERCOT grid with no published residential rate delta because of retail deregulation. Plano is Texas's 9th most populous city, 73rd in the US, and the only batch-4 host city with five Fortune 500 HQs already in place.
+    source: data/cache/utility_rate_yoy.csv (no Oncor residential row) + sources[0]
+  sources:
+  - https://en.wikipedia.org/wiki/Plano,_Texas
+tx-denton:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Denton County has 979,561 residents and the campus city of Denton runs its own municipal utility, Denton Municipal Electric, with 58,941 residential customers. The Core Scientific and CoreWeave site is announced at 260 MW with a $1.2 billion 12-year contract.
+    source: Census ACS 2024 B01003 + data/cache/utility_rate_yoy.csv (City of Denton, TX) + sources[0] (Core Scientific press release)
+  - text: Denton Municipal Electric's residential rate jumped 20.5% from 10.6 to 12.8 cents per kWh between 2021 and 2023, the steepest 3-year residential rate move of any batch-4 county. That works out to about $235 per year more on a typical household bill.
+    source: data/cache/utility_rate_yoy.csv (City of Denton, TX)
+  - text: Home prices fell 3.9% over three years against a median home value of $437,200 and a $111,498 median household income. The campus expansion brings CoreWeave's total contracted infrastructure across Core Scientific's six sites to roughly 590 MW.
+    source: data/cache/realestate_yoy.csv (FIPS 48121) + Census ACS 2024 B19013, B25077 + sources[0]
+  - text: Denton is the only batch-4 county where the lead operator runs on a municipal utility and where bills have already moved sharply. The 49.4% bachelor's share reflects the University of North Texas's presence in the same city.
+    source: data/sites/data_centers.csv + Census ACS 2024 B15003
+  sources:
+  - https://investors.corescientific.com/news-events/press-releases/detail/110/core-scientific-and-coreweave-announce-1-2-billion-expansion-at-denton-tx-site
+tx-dickens:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Dickens County has 1,747 residents on 905 square miles, one of the four smallest counties in batch 4 and 100% rural. The county seat is Dickens but the largest city is Spur, and the median age is 47.6.
+    source: 'Census ACS 2024 B01003, B01002 + sources[0] (Wikipedia: Dickens County, TX)'
+  - text: Galaxy Digital's 800 MW Helios campus is the second largest announced site in batch 4 after Stargate Milam. CoreWeave is the anchor tenant on a 15-year lease, the longest disclosed lease term in any batch-4 deal.
+    source: data/sites/data_centers.csv (Helios)
+  - text: Property tax assessments rose 19.1% over three years, the steepest jump in any batch-4 county that disclosed an MW number. Median household income is $49,335 and median home value is $65,300, both the lowest in batch 4.
+    source: data/cache/property_tax_yoy.csv (FIPS 48125) + Census ACS 2024 B19013, B25077
+  - text: Helios is on ERCOT via AEP Texas, with no published residential rate delta because of retail deregulation. The campus delivers 458 kW of announced AI compute per Dickens County resident, the highest density in batch 4.
+    source: data/cache/utility_rate_yoy.csv (no AEP Texas residential row) + data/sites/data_centers.csv
+  sources:
+  - https://en.wikipedia.org/wiki/Dickens_County,_Texas
+tx-ellis:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Ellis County has 213,160 residents and hosts two announced Google campuses, in Midlothian and Red Oak. Midlothian alone has nearly doubled from 18,037 to 35,125 residents between 2010 and 2020, a 94.7% jump.
+    source: 'Census ACS 2024 B01003 + data/sites/data_centers.csv + sources[0] (Wikipedia: Midlothian, TX)'
+  - text: Midlothian already hosts three of the top 10 US cement plants, run by Martin Marietta, Holcim, and Ash Grove, plus a Gerdau Ameristeel mill. The Google campus is landing next to an already heavy-industrial grid corner.
+    source: 'sources[0] (Wikipedia: Midlothian, TX)'
+  - text: Property tax assessments rose 14.2% over three years against a county median household income of $99,595 and a median home value of $348,600. Home prices are still up 6.3% on a 3-year baseline despite the DFW correction nearby.
+    source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 48139) + Census ACS 2024 B19013, B25077
+  - text: The Red Oak Google build is a $600 million Ellis County site, and both campuses sit on Oncor's ERCOT grid with no published residential rate delta. Ellis is the only batch-4 county where a single hyperscaler runs two separate campuses.
+    source: data/sites/data_centers.csv + data/cache/utility_rate_yoy.csv (no Oncor residential row)
+  sources:
+  - https://en.wikipedia.org/wiki/Midlothian,_Texas
+tx-hale:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Hale County has 32,131 residents and Plainview, the county seat, fell 9% from 22,194 to 20,187 between 2010 and 2020. TeraWulf and Fluidstack announced a 168 MW campus in Abernathy backed by a Google offtake commitment.
+    source: 'Census ACS 2024 B01003 + sources[0] (Wikipedia: Plainview, TX) + data/sites/data_centers.csv'
+  - text: Median household income is $51,897 and the median home value is $116,500, the second lowest values in batch 4 after Dickens. Property tax assessments still rose 10.4% over three years on the smaller base.
+    source: Census ACS 2024 B19013, B25077 + data/cache/property_tax_yoy.csv (FIPS 48189)
+  - text: Only 15.3% of Hale residents over 25 hold a bachelor's degree, second lowest in batch 4 after Childress. The 168 MW Abernathy site is the smallest disclosed MW in any batch-4 county, but a Google-backed deal is unusual for TeraWulf.
+    source: Census ACS 2024 B15003 + data/sites/data_centers.csv
+  - text: Abernathy sits on AEP Texas inside ERCOT, with no published residential rate delta because of deregulation. The campus adds about 5.2 kW of AI compute per Hale County resident, the lowest per-capita density in batch 4.
+    source: data/cache/utility_rate_yoy.csv (no AEP Texas residential row) + data/sites/data_centers.csv
+  sources:
+  - https://en.wikipedia.org/wiki/Plainview,_Texas
+tx-haskell:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Haskell County has 5,421 residents and remained 23% below the poverty line in the 2000 census. Google announced two Haskell campuses as part of a $40 billion Texas package, with one site to be co-located with a new solar plus battery storage plant.
+    source: 'Census ACS 2024 B01003 + sources[0] (Wikipedia: Haskell County, TX) + sources[1] (Google: American Innovation Texas)'
+  - text: Property tax assessments jumped 26.3% over three years, the steepest jump in any batch-4 county and the steepest of any disclosed slot on the powertracker map. Land speculation around the Google announcement appears to be the explicit driver.
+    source: data/cache/property_tax_yoy.csv (FIPS 48207)
+  - text: Median household income is $60,653 and median home value is $98,700, with the county on AEP Texas inside ERCOT and no published 3-year residential rate delta. Google has secured more than 6,200 MW of new Texas generation through PPAs to cover its package.
+    source: Census ACS 2024 B19013, B25077 + data/cache/utility_rate_yoy.csv (no AEP Texas residential row) + sources[1]
+  - text: Haskell is the only batch-4 county where a hyperscaler campus is explicitly being built next to its own dedicated solar plus battery facility. Google plans 1,700 new electrical apprentices statewide by 2030 to staff the buildout.
+    source: 'sources[1] (Google: American Innovation Texas)'
+  sources:
+  - https://en.wikipedia.org/wiki/Haskell_County,_Texas
+  - https://blog.google/company-news/inside-google/company-announcements/google-american-innovation-texas/
+tx-milam:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Milam County has 25,567 residents. The Stargate Milam campus, anchored by SoftBank and SB Energy with OpenAI as primary tenant, is announced at 1.2 GW, the largest announced site in batch 4 and roughly 47 kW per county resident.
+    source: Census ACS 2024 B01003 + data/sites/data_centers.csv
+  - text: Alcoa ran a Rockdale aluminum smelter from 1952 to 2014 with capacity of about 1.67 million pounds per day, paired with the Sandow Steam Plant that closed in 2018. Bitdeer, a Bitmain division, now mines bitcoin at the former Alcoa site.
+    source: 'sources[0] (Wikipedia: Rockdale, TX)'
+  - text: Property tax assessments rose 10.1% over three years against a median household income of $66,141 and a median home value of $189,800. The county has a history of absorbing large industrial loads, just not this kind.
+    source: data/cache/property_tax_yoy.csv (FIPS 48331) + Census ACS 2024 B19013, B25077
+  - text: Stargate Milam is on Oncor's ERCOT grid with no published residential rate delta because of retail deregulation. The 1,200 MW announced load is roughly 70% of what the Sandow Steam Plant supplied at its peak, dropped back into the same county on a different timetable.
+    source: data/cache/utility_rate_yoy.csv (no Oncor residential row) + data/sites/data_centers.csv
+  sources:
+  - https://en.wikipedia.org/wiki/Rockdale,_Texas
+tx-mitchell:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Mitchell County has 8,989 residents and Colorado City the seat has 3,991. The 300 MW Cipher / Fluidstack Barber Lake campus is roughly 33 kW of AI compute per Mitchell County resident.
+    source: Census ACS 2023 B01003 (Mitchell County, TX and Colorado City) + app/county/tx-mitchell.html
+  - text: Median household income in Mitchell County is $56,033 and the median home value is $85,700, the lowest home value in the West Texas data-center belt. Only 13.9% of residents over 25 hold a bachelor's degree.
+    source: Census ACS 2023 B19013, B25077, B15003 (FIPS 48335)
+  - text: Colorado City sits on Lake Colorado City and Lake J.B. Thomas, two of the larger surface-water reservoirs in the Permian fringe. Cipher's Barber Lake campus is named for the third reservoir, the one closest to the parcel.
+    source: data/sites/data_centers.csv (Barber Lake)
+  - text: Property tax assessments rose 6.5% over three years on a $1,599 median bill. ERCOT's deregulated retail market means AEP Texas has no published residential rate delta, so the bill-side cost of 300 MW of new load is invisible in the standard data.
+    source: data/cache/property_tax_yoy.csv (FIPS 48335) + data/cache/utility_rate_yoy.csv (no AEP Texas residential row)
+  sources:
+  - https://en.wikipedia.org/wiki/Colorado_City,_Texas
+tx-oldham:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Oldham County has 2,097 residents, the smallest county in this batch. Hut 8's 205 MW Vega campus is roughly 98 kW of compute per resident, one of the highest per-capita ratios in the dataset.
+    source: Census ACS 2023 B01003 (Oldham County, TX) + app/county/tx-oldham.html
+  - text: Vega sits on historic Route 66 and the surrounding county is wheat and wind. Oldham County hosts several utility-scale wind farms tied to the Xcel SPS grid, the same grid Hut 8 is now drawing 205 MW from.
+    source: 'sources[0] (Wikipedia: Oldham County, Texas)'
+  - text: Xcel SPS residential rates actually fell 0.1% from 2021 to 2023 and Oldham property tax assessments fell 4.4% over the same window. Hut 8's load has not yet flowed through to either bill.
+    source: data/cache/utility_rate_yoy.csv (Southwestern Public Service Co, TX) + data/cache/property_tax_yoy.csv (FIPS 48359)
+  - text: Median household income in Oldham County is $76,402, the highest of the four West Texas counties in this batch. That income is propped up by a small population of ranch landowners rather than wage workers.
+    source: Census ACS 2023 B19013, B25077 (FIPS 48359)
+  sources:
+  - https://en.wikipedia.org/wiki/Oldham_County,_Texas
+tx-shackelford:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Shackelford County has 3,169 residents and Albany the seat has 1,854. The Stargate Shackelford build is the third Oracle / OpenAI campus in Texas, with megawatts not yet publicly disclosed.
+    source: 'Census ACS 2023 B01003 (Shackelford County, TX and Albany) + sources[0] (Wikipedia: Albany, TX)'
+  - text: Median household income in Shackelford County is $64,659 against a median home value of $176,900, the highest home value of the four West Texas counties in this batch. The 34.6% bachelor's-degree share is the highest, lifted by ranch-management and oilfield-engineering wages.
+    source: Census ACS 2023 B19013, B25077, B15003 (FIPS 48417)
+  - text: Property tax assessments in Shackelford County fell 9.9% over three years, the steepest tax drop of any county in this batch. Stargate land transactions have not yet shown up in the assessor's roll.
+    source: data/cache/property_tax_yoy.csv (FIPS 48417)
+  - text: Albany's motto is Home of the Hereford and the Fort Griffin Fandangle is the official state theatrical production. The county sits in the heart of Permian-adjacent cattle country, not the oilfields that anchor the other Stargate Texas sites.
+    source: 'sources[0] (Wikipedia: Albany, Texas)'
+  sources:
+  - https://en.wikipedia.org/wiki/Albany,_Texas
+tx-wilbarger:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Wilbarger County has 12,712 residents and Vernon the seat has 10,078, an 8.4% population loss over the last decade. The Google / AES Vernon campus is the largest single industrial commitment to the county since Tyson Foods built its Wright Brand bacon plant.
+    source: 'Census ACS 2023 B01003 (Wilbarger County, TX and Vernon) + sources[0] (Wikipedia: Vernon, Texas)'
+  - text: Vernon hosts the Waggoner Ranch, the largest spread in Texas under one fence at roughly 510,000 acres. Google's data center is not on Waggoner land but the ranch's existing wind leases set the template for how rural Texas counties absorb new electric load.
+    source: 'sources[0] (Wikipedia: Vernon, Texas)'
+  - text: Median household income in Wilbarger County is $51,626 against a median home value of $98,800. Only 17.4% of residents over 25 hold a bachelor's degree, lower than every county in the batch except Mitchell.
+    source: Census ACS 2023 B19013, B25077, B15003 (FIPS 48487)
+  - text: Wilbarger property tax assessments rose 4.3% over three years, modest given the 10,000-resident base. AEP Texas does not publish a retail residential rate in EIA Form 861 so the bill-side impact of Google's new load is invisible in the standard data.
+    source: data/cache/property_tax_yoy.csv (FIPS 48487) + data/cache/utility_rate_yoy.csv (no AEP Texas residential row)
+  sources:
+  - https://en.wikipedia.org/wiki/Vernon,_Texas
+ut-utah:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Utah County has 683,622 residents, the second-most-populous county in Utah. Eagle Mountain alone is 60,575 residents in 2024, up from 43,623 in 2020, a 39% jump in four years that has nothing to do with the Meta campus and everything to do with cheap Wasatch Front housing.
+    source: 'Census ACS 2023 B01003 (Utah County, UT) + sources[0] (Wikipedia: Eagle Mountain, Utah)'
+  - text: Median household income in Utah County is $96,877 against a $489,200 median home value and a 25.5 median age, the youngest county in this batch by a wide margin. The Mormon family-formation pipeline keeps the workforce expanding faster than data centers can recruit from it.
+    source: Census ACS 2023 B19013, B25077, B01002 (FIPS 49049)
+  - text: Rocky Mountain Power residential rates rose 13.6% from 2021 to 2023 and property tax assessments rose 17.5% over the same window, the second-steepest tax move of any county in this batch. Meta's Eagle Mountain campus is one of nine PacifiCorp data-center loads driving the Wasatch Front rate case.
+    source: data/cache/utility_rate_yoy.csv (PacifiCorp, UT) + data/cache/property_tax_yoy.csv (FIPS 49049)
+  - text: Home prices rose 6.0% over three years against a $96,877 median income, modest by Utah standards. Eagle Mountain's growth has been absorbing the rate-and-tax pressure that is showing up first on the assessor's roll.
+    source: data/cache/realestate_yoy.csv (FIPS 49049) + Census ACS 2023 B19013
+  sources:
+  - https://en.wikipedia.org/wiki/Eagle_Mountain,_Utah
+va-chesterfield:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Chesterfield County has 371,610 residents and a median household income of $98,910, the third-highest of the six Virginia counties in this batch. The 120 MW CoreWeave / Chirisa campus in Chester sits roughly 15 miles south of downtown Richmond on the Meadowville Technology Park corridor.
+    source: Census ACS 2023 B01003, B19013 (FIPS 51041) + app/county/va-chesterfield.html
+  - text: Dominion Energy Virginia residential rates rose 7.2% from 2021 to 2023, the same rate-delta hitting every other Dominion-served county in this batch. The cost is allocated state-wide regardless of which county hosts the data-center load.
+    source: data/cache/utility_rate_yoy.csv (Virginia Electric & Power Co, VA)
+  - text: Chesterfield property tax assessments rose 11.5% over three years on a $2,773 median bill, the second-steepest tax move of any Virginia county in this batch. Home prices rose 6.9% over the same window against a $336,700 median home value.
+    source: data/cache/property_tax_yoy.csv (FIPS 51041) + data/cache/realestate_yoy.csv + Census ACS 2023 B25077
+  - text: 42.7% of Chesterfield residents over 25 hold a bachelor's degree, well above the national 35% but below Loudoun's 64% and Henrico's 45.7%. The county is the suburban-family bedroom for Richmond, not the data-center magnet that Northern Virginia is.
+    source: Census ACS 2023 B15003 (Chesterfield County, VA)
+  sources: []
+va-henrico:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Henrico County has 334,434 residents and is the fifth-most-populous county in Virginia. The Meta Sandston campus sits in the White Oak Technology Park east of Richmond International Airport, the same park that hosts QTS Richmond.
+    source: 'Census ACS 2023 B01003 (Henrico County, VA) + sources[0] (Wikipedia: Henrico County, Virginia)'
+  - text: 45.7% of Henrico residents over 25 hold a bachelor's degree against a median household income of $86,397 and a $333,600 median home value. The data-center workforce competes with VCU Health, Capital One, and the State of Virginia for the same college-educated talent pool.
+    source: Census ACS 2023 B15003, B19013, B25077 (FIPS 51087)
+  - text: Henrico property tax assessments rose 12.8% over three years on a $2,565 median bill, the steepest property-tax move of any Virginia county in this batch. Home prices rose 5.3% over the same window, well below the assessment growth.
+    source: data/cache/property_tax_yoy.csv (FIPS 51087) + data/cache/realestate_yoy.csv
+  - text: Dominion Energy Virginia residential rates rose 7.2% from 2021 to 2023, the same rate-delta hitting every Dominion-served county in this batch. The Meta Sandston campus has been operating since the original Facebook lease in 2017 and was on the grid before the AI-era rate-of-load shock began.
+    source: data/cache/utility_rate_yoy.csv (Virginia Electric & Power Co, VA) + data/sites/data_centers.csv
+  sources:
+  - https://en.wikipedia.org/wiki/Henrico_County,_Virginia
+va-loudoun:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Loudoun County's median household income is $178,707, the highest of any county in the United States as of the 2023 ACS. 64.0% of residents over 25 hold a bachelor's degree, the highest concentration of college-educated workers in this batch.
+    source: 'Census ACS 2023 B19013, B15003 (FIPS 51107) + sources[0] (Wikipedia: Loudoun County, Virginia)'
+  - text: Data Center Alley in Ashburn now holds more than 25 million square feet of operational data centers across 60-plus campuses. Estimates of how much daily global web traffic transits the corridor range from 22% to 70%, a contested but unrivaled concentration.
+    source: 'sources[0] (Wikipedia: Loudoun County, Virginia and Data Center Alley)'
+  - text: Dominion Energy Virginia residential rates rose 7.2% from 2021 to 2023 and Loudoun home prices rose only 3.8% over three years against a $701,000 median home value, the most muted home-price move in this batch. The 6.4% property tax delta is similarly restrained, in line with the county's existing high revenue base.
+    source: data/cache/utility_rate_yoy.csv (Virginia Electric & Power Co, VA) + data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 51107)
+  - text: Loudoun's 427,082 residents already share their grid with AWS us-east-1, the region that hosts an estimated 70% of all AWS IP addresses. The single county is the canonical example of what a 25 million square-foot data-center cluster does to a wealthy bedroom community.
+    source: 'Census ACS 2023 B01003 + sources[0] (Wikipedia: Data Center Alley)'
+  sources:
+  - https://en.wikipedia.org/wiki/Loudoun_County,_Virginia
+va-mecklenburg:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Mecklenburg County has 30,431 residents and Boydton the seat has 302. Microsoft started its $500 million Boydton campus in 2010 and expanded it for another $350 million in 2014, the oldest hyperscaler footprint in this batch.
+    source: 'Census ACS 2023 B01003 (Mecklenburg County, VA and Boydton) + sources[0] (Wikipedia: Boydton, Virginia)'
+  - text: Median household income in Mecklenburg County is $51,691 and the median home value is $169,400, the lowest home value and the lowest income of any Virginia county in this batch. Only 21.2% of residents over 25 hold a bachelor's degree, less than half of Loudoun's share.
+    source: Census ACS 2023 B19013, B25077, B15003 (FIPS 51117)
+  - text: Home prices in Mecklenburg County fell 12.7% over three years, the only county in this batch where Redfin shows a negative home-price delta. The 64 trailing-3-month sales is the lowest sales volume of any county in this batch, so the swing reflects a thin market as much as a softening one.
+    source: data/cache/realestate_yoy.csv (FIPS 51117)
+  - text: Dominion Energy Virginia residential rates rose 7.2% from 2021 to 2023, the same delta Loudoun and Prince William residents face despite the gap in incomes. A Boydton household at the $51,691 median feels that rate increase roughly three times harder than a Loudoun household at $178,707.
+    source: data/cache/utility_rate_yoy.csv (Virginia Electric & Power Co, VA) + Census ACS 2023 B19013
+  sources:
+  - https://en.wikipedia.org/wiki/Boydton,_Virginia
+va-prince-william:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Prince William County has 484,625 residents and is the second-largest county in Virginia. The 502,966 estimate for 2025 puts it on the cusp of overtaking Fairfax as the Northern Virginia data-center population center.
+    source: 'Census ACS 2023 B01003 (Prince William County, VA) + sources[0] (Wikipedia: Prince William County, Virginia)'
+  - text: Median household income is $128,873 and 44.5% of residents over 25 hold a bachelor's degree, the third-highest in this batch. The county is the affordable spillover from Loudoun for federal-contractor families priced out of Ashburn.
+    source: Census ACS 2023 B19013, B15003 (FIPS 51153)
+  - text: Dominion Energy Virginia residential rates rose 7.2% from 2021 to 2023, the same delta every Dominion-served county faces. Home prices rose 7.2% and property tax assessments rose 7.2% over the same window, an exact coincidence that suggests a homeowner whose income tracks Dominion exactly is treading water.
+    source: data/cache/utility_rate_yoy.csv (Virginia Electric & Power Co, VA) + data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 51153)
+  - text: The AWS Manassas campus sits in the corridor that became the focus of the Prince William Digital Gateway rezoning fight, the largest data-center land-use battle in the state. Acreage estimates for the full Gateway parcel run into the thousands, dwarfing the operational AWS footprint already on the grid.
+    source: 'data/sites/data_centers.csv (Manassas, AWS) + sources[0] (Wikipedia: Prince William County, Virginia)'
+  sources:
+  - https://en.wikipedia.org/wiki/Prince_William_County,_Virginia
+va-stafford:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Stafford County has 160,520 residents and is the fastest-growing of the Northern Virginia data-center counties, projected at 170,803 by 2025. Marine Corps Base Quantico, the FBI Academy, the FBI National Laboratory and NCIS HQ all sit on the Stafford side of the county line.
+    source: 'Census ACS 2023 B01003 + sources[0] (Wikipedia: Stafford County, Virginia)'
+  - text: Median household income in Stafford County is $133,792, the second-highest in this batch behind Loudoun. The county was ranked the 11th highest-income county in the US by Forbes in 2009 and 43.3% of residents over 25 hold a bachelor's degree.
+    source: 'Census ACS 2023 B19013, B15003 (FIPS 51179) + sources[0] (Wikipedia: Stafford County, Virginia)'
+  - text: Dominion Energy Virginia residential rates rose 7.2% from 2021 to 2023 and Stafford property tax assessments rose 7.4% over three years, almost the same rate. The AWS Stafford campus is the southernmost AWS footprint in this batch and competes for grid capacity with both the federal facilities and the bedroom subdivisions.
+    source: data/cache/utility_rate_yoy.csv (Virginia Electric & Power Co, VA) + data/cache/property_tax_yoy.csv (FIPS 51179)
+  - text: Home prices rose 5.5% over three years against a $458,800 median home value. The federal-employee homeowner base means the housing market is anchored to federal-pay scales, not the data-center wage premium that drives Loudoun and Prince William.
+    source: data/cache/realestate_yoy.csv (FIPS 51179) + Census ACS 2023 B25077
+  sources:
+  - https://en.wikipedia.org/wiki/Stafford_County,_Virginia
+wa-grant:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Grant County has 100,428 residents and Quincy the data-center seat has 7,543. Microsoft, Yahoo, Dell, and Intuit have all sited campuses in Quincy since 2007, drawing on Grant County PUD's hydropower from the Priest Rapids and Wanapum dams.
+    source: 'Census ACS 2023 B01003 (Grant County, WA and Quincy) + sources[0] (Wikipedia: Quincy, Washington)'
+  - text: Grant County PUD residential rates rose only 6.4% from 2021 to 2023, the cheapest rate environment of any data-center county in this batch. The 6.0-cent kWh average is roughly a third of Dominion Virginia's, which is why hyperscalers continue siting new builds here despite the 2010s diesel-emissions fines.
+    source: 'data/cache/utility_rate_yoy.csv (PUD No 2 of Grant County, WA) + sources[0] (Wikipedia: Quincy, WA)'
+  - text: Median household income in Grant County is $71,115 against a $275,700 median home value. Only 18.2% of residents over 25 hold a bachelor's degree, lower than every county in this batch except Mitchell and Wilbarger.
+    source: Census ACS 2023 B19013, B25077, B15003 (FIPS 53025)
+  - text: Home prices rose 8.2% over three years and property tax assessments rose 6.7% over the same window. The Quincy data-center cluster has been live for nearly two decades, so the local economy has absorbed a buildout that is still novel in West Texas and rural Virginia.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 53025)
+  sources:
+  - https://en.wikipedia.org/wiki/Quincy,_Washington
+wi-dodge:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Dodge County has 88,818 residents and Beaver Dam the largest city has 16,708. Meta's Beaver Dam campus is one of two new Wisconsin hyperscaler sites in this batch, joining the 1 GW Stargate Lighthouse in Port Washington 60 miles east.
+    source: 'Census ACS 2023 B01003 (Dodge County, WI and Beaver Dam) + sources[0] (Wikipedia: Beaver Dam, Wisconsin)'
+  - text: Alliant Energy's Wisconsin Power & Light residential rate rose 13.1% from 2021 to 2023, the second-steepest utility rate move in this batch behind Rocky Mountain Power. The 16.9-cent kWh average puts the average Dodge household bill at roughly $1,824 per year before Meta's load lands.
+    source: data/cache/utility_rate_yoy.csv (Wisconsin Power & Light Co, WI)
+  - text: Home prices in Dodge County rose 15.4% over three years, the steepest home-price move of any county in this batch. The $287,006 median sale price is up from $248,736 three years earlier and the trend predates the Meta announcement.
+    source: data/cache/realestate_yoy.csv (FIPS 55027)
+  - text: Median household income in Dodge County is $73,992 against a $218,400 median home value. Only 19.9% of residents over 25 hold a bachelor's degree, less than half of Ozaukee's 50.4% just one county over.
+    source: Census ACS 2023 B19013, B25077, B15003 (FIPS 55027)
+  sources:
+  - https://en.wikipedia.org/wiki/Beaver_Dam,_Wisconsin
+wi-ozaukee:
+  last_updated: '2026-05-17'
+  takeaways:
+  - text: Ozaukee County has 92,345 residents and Port Washington the host city has 12,353. The Stargate Lighthouse build at 1.0 GW is the largest Oracle / OpenAI / Vantage commitment outside of Texas and Wisconsin's largest single data-center campus.
+    source: 'Census ACS 2023 B01003 (Ozaukee County, WI and Port Washington) + sources[0] (Wikipedia: Port Washington, Wisconsin) + app/county/wi-ozaukee.html'
+  - text: Median household income in Ozaukee County is $96,734, the highest in Wisconsin. 50.4% of residents over 25 hold a bachelor's degree, the second-highest in this batch behind Loudoun and Stafford.
+    source: Census ACS 2023 B19013, B15003 (FIPS 55089)
+  - text: We Energies residential rates rose 11.4% from 2021 to 2023, the same delta hitting neighboring Racine County where Microsoft is spending $3.3 GW on the old Foxconn parcel. Ozaukee and Racine are now both We Energies hyperscaler counties and share the same rate-case cost-allocation question.
+    source: data/cache/utility_rate_yoy.csv (Wisconsin Electric Power Co, WI) + data/sites/data_centers.csv
+  - text: Home prices in Ozaukee County rose 13.7% over three years on a $487,274 median sale price. Property tax assessments rose only 3.3% over the same window, a gap that suggests the assessor has not yet caught up to the market or to the Stargate land-acquisition signal.
+    source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 55089)
+  sources:
+  - https://en.wikipedia.org/wiki/Port_Washington,_Wisconsin

@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=40.680&lon=-74.290&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Union County is 572,549 residents with a $100,117 median household income and a $488,800 median home value. It is the only Northeast urban county in this batch and the only one where a hyperscaler is converting an existing pharmaceutical complex into AI compute.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B25077 (FIPS 34039)</span></li>
+    <li><span class="t">CoreWeave&#x27;s $1.8 billion Kenilworth NEST is built into former Merck and Schering-Plough lab space. Merck announced in April 2020 it would move its global headquarters out of Kenilworth to Rahway by the end of 2023, freeing the campus for retrofit.</span><span class="s">Source: data/sites/data_centers.csv (Kenilworth NEST) + sources[0] (Wikipedia: Kenilworth, NJ)</span></li>
+    <li><span class="t">PSE&amp;G&#x27;s New Jersey residential rate rose from 17.1 to 19.8 cents per kWh between 2021 and 2023, a 15.6% jump worth about $292 per year on a typical household bill. PSE&amp;G has 2.06 million residential customers across the state.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Public Service Elec &amp; Gas Co, NJ)</span></li>
+    <li><span class="t">County home prices rose 13.3% over three years and property tax assessments are flat at 0.0%, the only AI host county in this batch where tax assessments did not move. The CoreWeave project was the first award under New Jersey&#x27;s new EDA AI tax-credit program.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 34039) + data/sites/data_centers.csv (Kenilworth NEST source URL)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

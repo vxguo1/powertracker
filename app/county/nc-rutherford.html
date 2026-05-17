@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=35.340&lon=-81.860&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Rutherford County has 64,850 residents with a $49,771 median household income, the lowest of any North Carolina AI county we track. Forest City, where Meta&#x27;s campus sits, is 7,377 residents and built its economy on the Alexander Manufacturing textile mill before Facebook arrived in 2010.</span><span class="s">Source: Census ACS 2023 B01003, B19013 (FIPS 37161) + sources[0] (Wikipedia: Forest City, NC)</span></li>
+    <li><span class="t">Meta&#x27;s original Forest City announcement in 2010 was a $450 million build. The campus is now classified as legacy storage-heavy and is being expanded as part of Meta&#x27;s national AI footprint refresh.</span><span class="s">Source: data/sites/data_centers.csv (Forest City) + sources[0]</span></li>
+    <li><span class="t">Property tax assessments rose 21.0% over three years, the steepest property-tax delta in any North Carolina AI county we track and roughly three times the local wage growth implied by Census BLS data.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 37161)</span></li>
+    <li><span class="t">Duke Energy Carolinas residential rates rose 28.3% from 2021 to 2023, adding about $330 per year to a typical household bill. On Rutherford&#x27;s $49,771 median income, that rate jump consumes roughly 0.7% of pre-tax household income before the Meta expansion adds new load.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Duke Energy Carolinas, NC) + Census ACS 2023 B19013</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

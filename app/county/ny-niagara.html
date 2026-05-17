@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Niagara County, New York: AI data-center load + grid context</title>
-  <meta name="description" content="Niagara County, New York hosts 2 publicly announced AI / hyperscaler campuses with 360 MW of announced load. Lead operator TeraWulf on NYSEG/NYPA. Residential rate +27.9%, home price +23.4% on a 3-year baseline.">
+  <meta name="description" content="Niagara County, New York hosts 2 publicly announced AI / hyperscaler campuses with 360 MW of announced load. Lead operator TeraWulf on National Grid. Residential rate n/a, home price +23.4% on a 3-year baseline.">
   <link rel="canonical" href="https://powertracker.io/county/ny-niagara">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <meta name="theme-color" content="#d7263d">
@@ -15,7 +15,7 @@
   <meta property="og:site_name" content="powertracker">
   <meta property="og:url" content="https://powertracker.io/county/ny-niagara">
   <meta property="og:title" content="Niagara County, New York: AI data-center load + grid context">
-  <meta property="og:description" content="Niagara County, New York hosts 2 publicly announced AI / hyperscaler campuses with 360 MW of announced load. Lead operator TeraWulf on NYSEG/NYPA. Residential rate +27.9%, home price +23.4% on a 3-year baseline.">
+  <meta property="og:description" content="Niagara County, New York hosts 2 publicly announced AI / hyperscaler campuses with 360 MW of announced load. Lead operator TeraWulf on National Grid. Residential rate n/a, home price +23.4% on a 3-year baseline.">
   <meta property="og:image" content="https://powertracker.io/og/county/ny-niagara.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -25,7 +25,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Niagara County, New York: AI data-center load + grid context">
-  <meta name="twitter:description" content="Niagara County, New York hosts 2 publicly announced AI / hyperscaler campuses with 360 MW of announced load. Lead operator TeraWulf on NYSEG/NYPA. Residential rate +27.9%, home price +23.4% on a 3-year baseline.">
+  <meta name="twitter:description" content="Niagara County, New York hosts 2 publicly announced AI / hyperscaler campuses with 360 MW of announced load. Lead operator TeraWulf on National Grid. Residential rate n/a, home price +23.4% on a 3-year baseline.">
   <meta name="twitter:image" content="https://powertracker.io/og/county/ny-niagara.png">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -116,12 +120,20 @@
   <div class="stats">
     <div class="stat"><div class="l">Campuses</div><div class="v">2</div></div>
     <div class="stat"><div class="l">Lead operator</div><div class="v">TeraWulf</div></div>
-    <div class="stat hot"><div class="l">Resi rate &Delta; (NYSEG/NYPA)</div><div class="v">+27.9%</div></div>
+    <div class="stat "><div class="l">Resi rate &Delta; (National Grid)</div><div class="v">n/a</div></div>
     <div class="stat hot"><div class="l">Home price &Delta; (3y)</div><div class="v">+23.4%</div></div>
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+6.5%</div></div>
   </div>
 
   <a class="cta" href="/?lat=43.220&lon=-78.750&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Niagara County has 211,341 residents and a median household income of $67,809. Home prices rose 23.4% over three years, the steepest 3-year gain in any batch-3 county, against a median home value of just $177,400.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B25077 (Niagara County, NY) + data/cache/realestate_yoy.csv</span></li>
+    <li><span class="t">Lake Mariner sits on the former Somerset coal plant site in Barker, leased to TeraWulf by an entity 99.9% owned by CEO Paul Prager. The 360 MW campus signed AI hosting agreements with Fluidstack that route capacity to Google, the largest hyperscaler tied to Niagara hydropower.</span><span class="s">Source: sources[0] (Wikipedia: TeraWulf) + data/sites/data_centers.csv</span></li>
+    <li><span class="t">Niagara Mohawk&#x27;s residential rate rose only 4.5% from 2021 to 2023, well below the New York investor-owned average. New York State Electric and Gas in the same region rose 27.9%, so the bill outcome for Lake Mariner&#x27;s neighbors depends entirely on which utility their meter is on.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Niagara Mohawk Power Corp and New York State Elec and Gas, NY)</span></li>
+    <li><span class="t">Anthropic&#x27;s New York campus in the Town of Niagara is a Fluidstack custom build with no announced MW disclosure. The town itself has 7,903 residents, so the project will likely be the second-largest private employer in the municipality once energized.</span><span class="s">Source: data/sites/data_centers.csv (Anthropic New York) + sources[1] (Wikipedia: Niagara town NY)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

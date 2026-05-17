@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=44.740&lon=-93.070&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Dakota County is 442,204 people with a $105,212 median household income, the highest of any county in this batch. 44.6% of adults 25 and older hold a bachelor&#x27;s degree, making it the most-educated Meta site outside of the Bay Area.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B15003 (FIPS 27037)</span></li>
+    <li><span class="t">Meta&#x27;s 715,000 sqft Rosemount build sits on the former UMore Park parcel, land the University of Minnesota acquired from the WWII-era Gopher Ordnance Works in 1947. Rosemount itself is 25,650 residents.</span><span class="s">Source: data/sites/data_centers.csv (Rosemount) + sources[0] (Wikipedia: Rosemount, MN)</span></li>
+    <li><span class="t">Xcel Energy&#x27;s Minnesota residential rate rose from 15.3 to 17.0 cents per kWh between 2021 and 2023, an 11.2% jump worth about $184 per year on a typical 10,800 kWh household. Xcel&#x27;s 1.23 million Minnesota residential customers are absorbing that on top of the new Rosemount load.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Northern States Power Co - Minnesota, MN)</span></li>
+    <li><span class="t">Property tax assessments rose 10.0% over three years against a $362,100 median home value, the only Twin Cities suburban county in this batch and the only one where home prices have stayed under +5% while taxes ran into double digits.</span><span class="s">Source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 27037)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

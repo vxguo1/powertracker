@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -123,6 +127,14 @@
   </div>
 
   <a class="cta" href="/?lat=41.077&lon=-104.780&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Cheyenne has 64,976 residents. The three announced campuses (Crusoe, Meta, Microsoft) add 2.6 GW of load to a city that today draws roughly 250 MW for everything else.</span><span class="s">Source: Census ACS 2023 B01003 (Cheyenne city, WY) + data/sites/data_centers.csv</span></li>
+    <li><span class="t">Cheyenne Light Fuel &amp; Power residential rates rose from 15.0 to 17.0 cents per kWh from 2021 to 2023, a 13.3% jump worth about $215 per year on a typical household bill. The utility has only 39,954 residential customers across the city.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Cheyenne Light Fuel &amp; Power, WY)</span></li>
+    <li><span class="t">The Crusoe and Tallgrass Wyoming campus is designed to scale from 1.8 GW to 10 GW and runs primarily on natural gas tied to Tallgrass&#x27;s existing CO2 sequestration hub. None of that power touches the residential grid.</span><span class="s">Source: sources[0] (Crusoe/Tallgrass press release)</span></li>
+    <li><span class="t">Laramie County property tax assessments rose 15.4% over three years against a $77,884 county median income, the steepest property-tax move in any top-10 AI county.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 56021) + Census ACS 2023 B19013</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">
