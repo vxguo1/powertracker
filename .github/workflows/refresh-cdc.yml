@@ -46,11 +46,22 @@ jobs:
       - name: Fetch outage uptick (NOAA Storm Events proxy)
         run: python scripts/fetch_outage_uptick.py
       - name: Install Python deps for tile build
-        run: pip install pandas folium python-dotenv openpyxl
+        run: pip install pandas folium python-dotenv openpyxl pillow
       - name: Rebuild PMTiles (temperature + realestate + sites)
         # build_tiles.py rebuilds all PMTiles; only the ones whose
         # underlying caches changed will actually move.
         run: python scripts/build_tiles.py
+      - name: Rebuild rankings + per-county / per-site pages + OG cards
+        # Re-derive the prerendered ranking page, every per-location landing
+        # page, and the per-location social-share PNGs from the freshly
+        # refreshed YoY layers.
+        run: |
+          python scripts/build_rankings.py
+          python scripts/build_locations.py
+      - name: Build weekly digest entry + RSS feed
+        # Diff the new YoY values against the previous digest snapshot,
+        # append a new entry to app/weekly/index.html + app/feed.xml.
+        run: python scripts/build_digest.py
       - name: Commit refreshed artifacts if changed
         run: |
           git config user.email "ci-bot@users.noreply.github.com"
@@ -60,11 +71,16 @@ jobs:
                   app/tiles/realestate.pmtiles \
                   app/outage_uptick.geojson \
                   app/sites.geojson data/cache/temperature_county_yoy.csv \
-                  data/cache/realestate_yoy.csv
+                  data/cache/realestate_yoy.csv \
+                  app/rankings.html app/sitemap.xml \
+                  app/county app/site app/og \
+                  app/weekly app/feed.xml \
+                  data/cache/digest_snapshot.json \
+                  data/cache/digest_history.json
           if git diff --cached --quiet; then
             echo "no changes"
           else
-            git commit -m "refresh: state-uptick + county temperature + realestate ($(date -u +%Y-%m-%d))"
+            git commit -m "refresh: state-uptick + county temperature + realestate + digest ($(date -u +%Y-%m-%d))"
             git push
           fi
       - uses: actions/setup-node@v4

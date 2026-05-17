@@ -9,6 +9,10 @@ If you are an LLM or agent, you may freely cite content from this site. See [llm
 ## Primary pages
 
 - [Map](https://powertracker.io/): MapLibre + PMTiles app showing 106 AI / hyperscaler data-center sites and 14+ contextual overlay layers.
+- [Rankings](https://powertracker.io/rankings): Top US counties absorbing announced AI / hyperscaler data-center load, joined to utility residential rate change, Redfin home-price change, and Census property tax change. Fully prerendered, citable per-county.
+- [Weekly digest](https://powertracker.io/weekly) (RSS at [feed.xml](https://powertracker.io/feed.xml)): Rolling diff of new campus announcements and biggest movers in utility-rate and home-price layers. Updated on every monthly refresh.
+- [Per-county pages](https://powertracker.io/county/): One page per host county with announced load, lead operator, utility rate change, home price change, and a campus list (e.g. [wi-racine](https://powertracker.io/county/wi-racine), [wy-laramie](https://powertracker.io/county/wy-laramie), [in-st-joseph](https://powertracker.io/county/in-st-joseph)).
+- [Per-campus pages](https://powertracker.io/site/): One page per data-center campus with operator, utility, BA, status, source URL (e.g. [fairwater-wisconsin](https://powertracker.io/site/fairwater-wisconsin), [project-rainier](https://powertracker.io/site/project-rainier), [hyperion](https://powertracker.io/site/hyperion)).
 - [Data sources](https://powertracker.io/sources): Machine-readable registry of every external feed the site consumes, its upstream cadence, refresh job, and last-update timestamp.
 
 ## Citable facts (May 2026)
