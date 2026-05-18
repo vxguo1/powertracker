@@ -450,6 +450,37 @@ def fmt_pct(v: float | None) -> str:
     return f"{sign}{v:.1f}%"
 
 
+def fmt_population(n: int | None) -> str:
+    if n is None or n <= 0:
+        return "n/a"
+    if n >= 1_000_000:
+        return f"{n / 1_000_000:.2f}M"
+    if n >= 10_000:
+        return f"{n / 1_000:.0f}K"
+    return f"{n:,}"
+
+
+def fmt_income(n: int | None) -> str:
+    if n is None or n <= 0:
+        return "n/a"
+    return f"${n:,}"
+
+
+def load_demographics() -> dict[str, dict]:
+    """Returns fips -> {'population': int|None, 'median_hh_income': int|None}."""
+    path = Path(__file__).resolve().parent.parent / "data" / "cache" / "county_demographics.csv"
+    out: dict[str, dict] = {}
+    if not path.exists():
+        return out
+    with open(path, encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            fips = row["fips"].zfill(5)
+            pop = int(row["population"]) if row["population"] else None
+            inc = int(row["median_hh_income"]) if row["median_hh_income"] else None
+            out[fips] = {"population": pop, "median_hh_income": inc}
+    return out
+
+
 def pct_color(v: float | None, hot_threshold: float):
     if v is None:
         return INK_SOFT, PANEL
@@ -760,6 +791,8 @@ def render_county_page(out: Path, county: dict, today: str) -> None:
         sub_e_label="Property tax &Delta; (3y)",
         sub_e_value=tax,
         sub_e_class=pct_class(county["property_tax_pct"], 15),
+        sub_f_value=fmt_population(county.get("population")),
+        sub_g_value=fmt_income(county.get("median_hh_income")),
         map_url=map_url,
         map_label="Open on map",
         takeaways_html=render_takeaways_html(slug),
@@ -863,6 +896,8 @@ def render_site_page(out: Path, site: dict, county: dict | None, today: str) -> 
         sub_e_label=sub_e_label,
         sub_e_value=sub_e_value,
         sub_e_class=sub_e_class,
+        sub_f_value=fmt_population(county.get("population") if county else None),
+        sub_g_value=fmt_income(county.get("median_hh_income") if county else None),
         map_url=map_url,
         map_label="Open on map",
         takeaways_html="",
@@ -1019,6 +1054,8 @@ LOCATION_PAGE_TEMPLATE = """<!DOCTYPE html>
     <div class="stat {sub_c_class}"><div class="l">{sub_c_label}</div><div class="v">{sub_c_value}</div></div>
     <div class="stat {sub_d_class}"><div class="l">{sub_d_label}</div><div class="v">{sub_d_value}</div></div>
     <div class="stat {sub_e_class}"><div class="l">{sub_e_label}</div><div class="v">{sub_e_value}</div></div>
+    <div class="stat"><div class="l">Population (2024 ACS)</div><div class="v">{sub_f_value}</div></div>
+    <div class="stat"><div class="l">Median HH income (2024 ACS)</div><div class="v">{sub_g_value}</div></div>
   </div>
 
   <a class="cta" href="{map_url}">{map_label} &rarr;</a>
@@ -1051,6 +1088,7 @@ def main() -> None:
     rates = load_utility_rates()
     homes = load_fips_pct(REALESTATE, "growth_pct")
     taxes = load_fips_pct(PROPERTY_TAX, "growth_pct")
+    demographics = load_demographics()
 
     sites = []
     with open(SITES_CSV, encoding="utf-8") as f_in:
@@ -1115,6 +1153,9 @@ def main() -> None:
         c["utility_rate_pct"] = match_utility(c["lead_utility"], c["state"], rates)
         c["home_price_pct"] = homes.get(c["fips"])
         c["property_tax_pct"] = taxes.get(c["fips"])
+        demo = demographics.get(c["fips"], {})
+        c["population"] = demo.get("population")
+        c["median_hh_income"] = demo.get("median_hh_income")
         c["lat"] = sum(s["lat"] for s in c["sites"]) / len(c["sites"])
         c["lon"] = sum(s["lon"] for s in c["sites"]) / len(c["sites"])
 
