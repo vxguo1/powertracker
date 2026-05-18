@@ -1,5 +1,794 @@
 [
   {
+    "date": "2026-05-18",
+    "kickoff": false,
+    "new_campuses": [],
+    "rate_movers": [
+      {
+        "utility_name": "Alabama Power Co",
+        "state": "AL",
+        "now": 10.743619817469053,
+        "prev": 10.743619817469053,
+        "delta": 0.0
+      },
+      {
+        "utility_name": "Amicalola Electric Member Corp",
+        "state": "GA",
+        "now": 5.817725185648692,
+        "prev": 5.817725185648692,
+        "delta": 0.0
+      },
+      {
+        "utility_name": "City of Anaheim - (CA)",
+        "state": "CA",
+        "now": 1.0093014779788634,
+        "prev": 1.0093014779788634,
+        "delta": 0.0
+      },
+      {
+        "utility_name": "Connexus Energy",
+        "state": "MN",
+        "now": -0.7559304799479638,
+        "prev": -0.7559304799479638,
+        "delta": 0.0
+      },
+      {
+        "utility_name": "Appalachian Power Co",
+        "state": "VA",
+        "now": 27.458928942421924,
+        "prev": 27.458928942421924,
+        "delta": 0.0
+      }
+    ],
+    "home_movers": [
+      {
+        "fips": "01001",
+        "county": "Autauga County, Alabama",
+        "now": 11.03,
+        "prev": 11.03,
+        "delta": 0.0
+      },
+      {
+        "fips": "01003",
+        "county": "Baldwin County, Alabama",
+        "now": 0.86,
+        "prev": 0.86,
+        "delta": 0.0
+      },
+      {
+        "fips": "01009",
+        "county": "Blount County, Alabama",
+        "now": 7.4,
+        "prev": 7.4,
+        "delta": 0.0
+      },
+      {
+        "fips": "01015",
+        "county": "Calhoun County, Alabama",
+        "now": 14.17,
+        "prev": 14.17,
+        "delta": 0.0
+      },
+      {
+        "fips": "01017",
+        "county": "Chambers County, Alabama",
+        "now": 13.55,
+        "prev": 13.55,
+        "delta": 0.0
+      }
+    ],
+    "tax_movers": [
+      {
+        "fips": "01001",
+        "county": "Autauga County, Alabama",
+        "now": 18.6003,
+        "prev": 18.6003,
+        "delta": 0.0
+      },
+      {
+        "fips": "01003",
+        "county": "Baldwin County, Alabama",
+        "now": 20.2505,
+        "prev": 20.2505,
+        "delta": 0.0
+      },
+      {
+        "fips": "01005",
+        "county": "Barbour County, Alabama",
+        "now": 20.417,
+        "prev": 20.417,
+        "delta": 0.0
+      },
+      {
+        "fips": "01007",
+        "county": "Bibb County, Alabama",
+        "now": 9.0244,
+        "prev": 9.0244,
+        "delta": 0.0
+      },
+      {
+        "fips": "01009",
+        "county": "Blount County, Alabama",
+        "now": 13.0403,
+        "prev": 13.0403,
+        "delta": 0.0
+      }
+    ],
+    "stats": {
+      "total_campuses": 144,
+      "total_announced_mw": 90943.0,
+      "utility_rate_rows": 1973,
+      "home_price_rows": 1657,
+      "property_tax_rows": 3186
+    }
+  },
+  {
+    "date": "2026-05-18",
+    "kickoff": false,
+    "new_campuses": [
+      {
+        "name": "Project Matador",
+        "operator": "Fermi America (Rick Perry)",
+        "city": "Panhandle",
+        "state": "TX",
+        "utility": "Xcel Energy SPS",
+        "announced_mw": 11000.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://amarillotribune.org/2025/11/05/just-facts-fermi-america-and-project-matador/"
+      },
+      {
+        "name": "Hassayampa Ranch",
+        "operator": "Arizona Land Consulting / Social Capital",
+        "city": "Tonopah",
+        "state": "AZ",
+        "utility": "Arizona Public Service",
+        "announced_mw": 1500.0,
+        "status": "proposed",
+        "online_year": "2029",
+        "source": "https://www.datacenterdynamics.com/en/news/arizona-land-consulting-buys-land-for-potential-15gw-data-center/"
+      },
+      {
+        "name": "DAMAC Edgerton",
+        "operator": "DAMAC Digital (Edgnex)",
+        "city": "Edgerton",
+        "state": "KS",
+        "utility": "Evergy",
+        "announced_mw": 860.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://johnsoncountypost.com/2026/05/14/edgerton-data-center-plan-286461/"
+      },
+      {
+        "name": "Fort Bliss Carlyle Campus",
+        "operator": "Carlyle Group",
+        "city": "Fort Bliss",
+        "state": "TX",
+        "utility": "El Paso Electric",
+        "announced_mw": 3000.0,
+        "status": "proposed",
+        "online_year": "2029",
+        "source": "https://elpasomatters.org/2026/04/30/fort-bliss-data-center-water-electricity-use-army-carlyle-group-meta-project-jupiter/"
+      },
+      {
+        "name": "Dugway CyrusOne Campus",
+        "operator": "CyrusOne (KKR/BlackRock)",
+        "city": "Dugway",
+        "state": "UT",
+        "utility": "Rocky Mountain Power",
+        "announced_mw": 2000.0,
+        "status": "proposed",
+        "online_year": "2029",
+        "source": "https://defensescoop.com/2026/03/26/commercial-data-centers-army-bases-fort-bliss-dugway/"
+      },
+      {
+        "name": "SB Energy Portsmouth",
+        "operator": "SB Energy (SoftBank)",
+        "city": "Piketon",
+        "state": "OH",
+        "utility": "AEP Ohio",
+        "announced_mw": 10000.0,
+        "status": "under_construction",
+        "online_year": "2029",
+        "source": "https://www.datacenterdynamics.com/en/news/softbank-eyes-10gw-data-center-at-former-doe-nuclear-enrichment-site-in-ohio/"
+      },
+      {
+        "name": "Beacon Point",
+        "operator": "Hut 8 / American Bitcoin",
+        "city": "Robstown",
+        "state": "TX",
+        "utility": "AEP Texas",
+        "announced_mw": 1000.0,
+        "status": "under_construction",
+        "online_year": "2028",
+        "source": "https://www.prnewswire.com/news-releases/hut-8-commercializes-first-phase-of-1-gw-beacon-point-ai-data-center-campus-with-15-year-352-mw-it-lease-with-base-term-contract-value-of-9-8-billion-302763484.html"
+      },
+      {
+        "name": "Bolt West Texas",
+        "operator": "Bolt Data & Energy / Texas Pacific Land",
+        "city": "Pecos",
+        "state": "TX",
+        "utility": "Oncor",
+        "announced_mw": 1000.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://fortune.com/2026/01/02/eric-schmidt-ai-data-centers-bolt-texas-pacific-land-tpl/"
+      }
+    ],
+    "rate_movers": [
+      {
+        "utility_name": "Alabama Power Co",
+        "state": "AL",
+        "now": 10.743619817469053,
+        "prev": 10.743619817469053,
+        "delta": 0.0
+      },
+      {
+        "utility_name": "Amicalola Electric Member Corp",
+        "state": "GA",
+        "now": 5.817725185648692,
+        "prev": 5.817725185648692,
+        "delta": 0.0
+      },
+      {
+        "utility_name": "City of Anaheim - (CA)",
+        "state": "CA",
+        "now": 1.0093014779788634,
+        "prev": 1.0093014779788634,
+        "delta": 0.0
+      },
+      {
+        "utility_name": "Connexus Energy",
+        "state": "MN",
+        "now": -0.7559304799479638,
+        "prev": -0.7559304799479638,
+        "delta": 0.0
+      },
+      {
+        "utility_name": "Appalachian Power Co",
+        "state": "VA",
+        "now": 27.458928942421924,
+        "prev": 27.458928942421924,
+        "delta": 0.0
+      }
+    ],
+    "home_movers": [
+      {
+        "fips": "01001",
+        "county": "Autauga County, Alabama",
+        "now": 11.03,
+        "prev": 11.03,
+        "delta": 0.0
+      },
+      {
+        "fips": "01003",
+        "county": "Baldwin County, Alabama",
+        "now": 0.86,
+        "prev": 0.86,
+        "delta": 0.0
+      },
+      {
+        "fips": "01009",
+        "county": "Blount County, Alabama",
+        "now": 7.4,
+        "prev": 7.4,
+        "delta": 0.0
+      },
+      {
+        "fips": "01015",
+        "county": "Calhoun County, Alabama",
+        "now": 14.17,
+        "prev": 14.17,
+        "delta": 0.0
+      },
+      {
+        "fips": "01017",
+        "county": "Chambers County, Alabama",
+        "now": 13.55,
+        "prev": 13.55,
+        "delta": 0.0
+      }
+    ],
+    "tax_movers": [
+      {
+        "fips": "01001",
+        "county": "Autauga County, Alabama",
+        "now": 18.6003,
+        "prev": 18.6003,
+        "delta": 0.0
+      },
+      {
+        "fips": "01003",
+        "county": "Baldwin County, Alabama",
+        "now": 20.2505,
+        "prev": 20.2505,
+        "delta": 0.0
+      },
+      {
+        "fips": "01005",
+        "county": "Barbour County, Alabama",
+        "now": 20.417,
+        "prev": 20.417,
+        "delta": 0.0
+      },
+      {
+        "fips": "01007",
+        "county": "Bibb County, Alabama",
+        "now": 9.0244,
+        "prev": 9.0244,
+        "delta": 0.0
+      },
+      {
+        "fips": "01009",
+        "county": "Blount County, Alabama",
+        "now": 13.0403,
+        "prev": 13.0403,
+        "delta": 0.0
+      }
+    ],
+    "stats": {
+      "total_campuses": 144,
+      "total_announced_mw": 90943.0,
+      "utility_rate_rows": 1973,
+      "home_price_rows": 1657,
+      "property_tax_rows": 3186
+    }
+  },
+  {
+    "date": "2026-05-18",
+    "kickoff": false,
+    "new_campuses": [
+      {
+        "name": "Project Blue",
+        "operator": "Beale Infrastructure (Blue Owl)",
+        "city": "Tucson",
+        "state": "AZ",
+        "utility": "Tucson Electric Power",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2027",
+        "source": "https://www.kold.com/2026/01/16/new-lawsuit-threatens-project-blue-pima-county/"
+      },
+      {
+        "name": "PW Digital Gateway (QTS)",
+        "operator": "QTS/Blackstone",
+        "city": "Gainesville",
+        "state": "VA",
+        "utility": "Dominion Energy Virginia",
+        "announced_mw": 7000.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.washingtonpost.com/dc-md-va/2026/05/01/data-center-virginia-lawsuit-manassas/"
+      },
+      {
+        "name": "Project Sail (Newnan)",
+        "operator": "Atlas Development/Prologis",
+        "city": "Newnan",
+        "state": "GA",
+        "utility": "Georgia Power",
+        "announced_mw": 900.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://thecitizen.com/2026/05/11/coweta-residents-sue-to-block-project-sail-data-center/"
+      },
+      {
+        "name": "Project Delta",
+        "operator": "undisclosed (David Crouch landowner)",
+        "city": "Walnut Cove",
+        "state": "NC",
+        "utility": "Duke Energy Carolinas",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.selc.org/press-release/community-groups-residents-file-lawsuit-over-stokes-county-data-center-rezoning/"
+      },
+      {
+        "name": "Bessemer Hyperscale Campus",
+        "operator": "Logistic Land Investments",
+        "city": "Bessemer",
+        "state": "AL",
+        "utility": "Alabama Power",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://alabamareflector.com/2025/11/19/bessemer-officials-approve-data-center-construction-despite-environmental-concerns/"
+      },
+      {
+        "name": "Stratos Project",
+        "operator": "O'Leary Digital (MIDA)",
+        "city": "Snowville",
+        "state": "UT",
+        "utility": "Rocky Mountain Power",
+        "announced_mw": 9000.0,
+        "status": "proposed",
+        "online_year": "2030",
+        "source": "https://www.sltrib.com/news/2026/05/04/utah-data-center-final-vote-box/"
+      },
+      {
+        "name": "Slavic Village Campus",
+        "operator": "Lakeland Equity Group",
+        "city": "Cleveland",
+        "state": "OH",
+        "utility": "Cleveland Public Power",
+        "announced_mw": 150.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.cleveland19.com/2026/05/14/city-rejects-permit-application-proposed-data-center-clevelands-slavic-village-neighborhood/"
+      },
+      {
+        "name": "Comanche Circle",
+        "operator": "Sailfish Digital Ventures",
+        "city": "Tolar",
+        "state": "TX",
+        "utility": "United Cooperative Services",
+        "announced_mw": 5000.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.keranews.org/energy-environment/2026-01-13/hood-county-data-centers-comanche-circle"
+      },
+      {
+        "name": "Project Bluestem",
+        "operator": "Cloverleaf Infrastructure",
+        "city": "Tonganoxie",
+        "state": "KS",
+        "utility": "Evergy",
+        "announced_mw": 600.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.kshb.com/news/local-news/kansas/leavenworth-county/leavenworth-county-commissioners-pass-90-day-moratorium-on-data-centers"
+      },
+      {
+        "name": "AWS Calvert Cliffs Campus",
+        "operator": "AWS",
+        "city": "Lusby",
+        "state": "MD",
+        "utility": "SMECO",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2029",
+        "source": "https://www.thebanner.com/economy/amazon-data-center-calvert-cliffs-nuclear-IJRONAZSDRDOXP4G6Q7XKKFOI4/"
+      },
+      {
+        "name": "Remington Innovation Campus",
+        "operator": "SDC Capital Partners",
+        "city": "Remington",
+        "state": "VA",
+        "utility": "Rappahannock Electric",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.datacenterdynamics.com/en/news/six-building-campus-proposed-in-virginias-fauquier-county/"
+      },
+      {
+        "name": "Martindale-Brightwood",
+        "operator": "Metrobloks",
+        "city": "Indianapolis",
+        "state": "IN",
+        "utility": "AES Indiana",
+        "announced_mw": 500.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.wfyi.org/wfyi-news/2026-05-12/martindale-brightwood-data-center-court-challenge"
+      },
+      {
+        "name": "Project Spring",
+        "operator": "White Rose Partners (Google)",
+        "city": "Sand Springs",
+        "state": "OK",
+        "utility": "PSO/AEP",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://krmg.com/2026/03/26/lawsuit-filed-over-proposed-google-data-center-site-near-sand-springs/"
+      },
+      {
+        "name": "Gemini Sioux Falls",
+        "operator": "Gemini Data Center SD LLC",
+        "city": "Sioux Falls",
+        "state": "SD",
+        "utility": "Xcel Energy",
+        "announced_mw": 500.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://siouxfalls.business/hyperscale-data-center-gains-rezoning-vote-after-hours-of-opposing-testimony/"
+      },
+      {
+        "name": "Clarksdale Coahoma Site",
+        "operator": "undisclosed",
+        "city": "Clarksdale",
+        "state": "MS",
+        "utility": "Entergy Mississippi",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2029",
+        "source": "https://mississippitoday.org/2026/03/24/clarksdale-data-center-rezoning/"
+      },
+      {
+        "name": "Caroline SAC III Campus",
+        "operator": "SAC III Acquisition (Stack)",
+        "city": "Bowling Green",
+        "state": "VA",
+        "utility": "Dominion Energy Virginia",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://co.caroline.va.us/AgendaCenter/ViewFile/Agenda/_04142026-546"
+      },
+      {
+        "name": "Tarboro Edgecombe Campus",
+        "operator": "Energy Storage Solutions",
+        "city": "Tarboro",
+        "state": "NC",
+        "utility": "Duke Energy Progress",
+        "announced_mw": 900.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.wral.com/news/local/data-centers-edgecombe-county-residents-mixed-feelings-tarboro-sept-2025/"
+      },
+      {
+        "name": "Chestnut Commerce Center",
+        "operator": "undisclosed",
+        "city": "Ravenna",
+        "state": "OH",
+        "utility": "FirstEnergy",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://theportager.com/ravenna-city-council-rushes-to-block-potential-data-center-proposal"
+      },
+      {
+        "name": "Holyoke MGHPCC Adjacent",
+        "operator": "undisclosed",
+        "city": "Holyoke",
+        "state": "MA",
+        "utility": "Holyoke Gas & Electric",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://thereminder.com/local-news/hampden-county/holyoke/ordinance-committee-to-host-public-hearings-about-proposed-zoning-changes/"
+      },
+      {
+        "name": "Lockport Hyperscale",
+        "operator": "undisclosed",
+        "city": "Lockport",
+        "state": "NY",
+        "utility": "National Grid",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.yahoo.com/news/articles/opponents-proposed-data-center-zoning-164600401.html"
+      },
+      {
+        "name": "Spotsylvania SUP Proposal",
+        "operator": "undisclosed",
+        "city": "Spotsylvania",
+        "state": "VA",
+        "utility": "Dominion Energy Virginia",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.fredericksburgfreepress.com/2025/12/10/spotsylvania-board-of-supervisors-approves-data-center-design-standards-but-they-may-be-short-lived/"
+      },
+      {
+        "name": "Charles City Diode Campus",
+        "operator": "Diode Ventures",
+        "city": "Charles City",
+        "state": "VA",
+        "utility": "Dominion Energy Virginia",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://virginiabusiness.com/data-center-campus-planned-for-charles-city-county/"
+      },
+      {
+        "name": "Berry Hill Megasite",
+        "operator": "Stack Infrastructure",
+        "city": "Cascade",
+        "state": "VA",
+        "utility": "Appalachian Power",
+        "announced_mw": 2000.0,
+        "status": "proposed",
+        "online_year": "2030",
+        "source": "https://cardinalnews.org/2026/03/10/73-billion-project-at-pittsylvania-megasite-would-be-largest-in-southside-history/"
+      },
+      {
+        "name": "Frederick CDI Referendum",
+        "operator": "various (TPG/Aligned/AWS)",
+        "city": "Adamstown",
+        "state": "MD",
+        "utility": "Potomac Edison",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://foxbaltimore.com/news/local/frederick-county-residents-push-referendum-data-center-zoning-plan-passes"
+      },
+      {
+        "name": "Prometheus Hyperscale Natrona",
+        "operator": "Prometheus Hyperscale/Spiritus",
+        "city": "Casper",
+        "state": "WY",
+        "utility": "Rocky Mountain Power",
+        "announced_mw": 1500.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://oilcity.news/business-feature-2/2026/05/01/large-data-center-proposed-near-casper/"
+      },
+      {
+        "name": "Stargate Saline Township",
+        "operator": "OpenAI/Oracle/Related Digital",
+        "city": "Saline",
+        "state": "MI",
+        "utility": "DTE Energy",
+        "announced_mw": 1400.0,
+        "status": "proposed",
+        "online_year": "2027",
+        "source": "https://bridgemi.com/michigan-environment-watch/michigan-regulators-approve-contract-for-michigans-first-hyperscale-data-center/"
+      },
+      {
+        "name": "Buckeystown Quantum Aligned",
+        "operator": "Aligned/TPG",
+        "city": "Buckeystown",
+        "state": "MD",
+        "utility": "Potomac Edison",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.datacenterdynamics.com/en/news/aligned-to-move-forward-with-data-center-campus-at-quantum-loophole-park-in-maryland/"
+      },
+      {
+        "name": "Hill County Pause Sites",
+        "operator": "undisclosed",
+        "city": "Hillsboro",
+        "state": "TX",
+        "utility": "Oncor",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.texastribune.org/2026/05/12/texas-hood-county-approves-data-center-construction-pause-ai/"
+      },
+      {
+        "name": "xAI Southaven Expansion",
+        "operator": "xAI",
+        "city": "Southaven",
+        "state": "MS",
+        "utility": "Entergy Mississippi",
+        "announced_mw": 2000.0,
+        "status": "proposed",
+        "online_year": "2027",
+        "source": "https://mississippitoday.org/2025/12/31/elon-musk-mississippi-data-center-southaven-memphis/"
+      },
+      {
+        "name": "Project Yellow",
+        "operator": "AWS",
+        "city": "Canton",
+        "state": "MS",
+        "utility": "Entergy Mississippi",
+        "announced_mw": 0.0,
+        "status": "proposed",
+        "online_year": "2028",
+        "source": "https://www.wlbt.com/2026/04/09/gov-reeves-local-leaders-expected-announce-major-economic-investments-mississippi/"
+      }
+    ],
+    "rate_movers": [
+      {
+        "utility_name": "Alabama Power Co",
+        "state": "AL",
+        "now": 10.743619817469053,
+        "prev": 10.743619817469053,
+        "delta": 0.0
+      },
+      {
+        "utility_name": "Amicalola Electric Member Corp",
+        "state": "GA",
+        "now": 5.817725185648692,
+        "prev": 5.817725185648692,
+        "delta": 0.0
+      },
+      {
+        "utility_name": "City of Anaheim - (CA)",
+        "state": "CA",
+        "now": 1.0093014779788634,
+        "prev": 1.0093014779788634,
+        "delta": 0.0
+      },
+      {
+        "utility_name": "Connexus Energy",
+        "state": "MN",
+        "now": -0.7559304799479638,
+        "prev": -0.7559304799479638,
+        "delta": 0.0
+      },
+      {
+        "utility_name": "Appalachian Power Co",
+        "state": "VA",
+        "now": 27.458928942421924,
+        "prev": 27.458928942421924,
+        "delta": 0.0
+      }
+    ],
+    "home_movers": [
+      {
+        "fips": "01001",
+        "county": "Autauga County, Alabama",
+        "now": 11.03,
+        "prev": 11.03,
+        "delta": 0.0
+      },
+      {
+        "fips": "01003",
+        "county": "Baldwin County, Alabama",
+        "now": 0.86,
+        "prev": 0.86,
+        "delta": 0.0
+      },
+      {
+        "fips": "01009",
+        "county": "Blount County, Alabama",
+        "now": 7.4,
+        "prev": 7.4,
+        "delta": 0.0
+      },
+      {
+        "fips": "01015",
+        "county": "Calhoun County, Alabama",
+        "now": 14.17,
+        "prev": 14.17,
+        "delta": 0.0
+      },
+      {
+        "fips": "01017",
+        "county": "Chambers County, Alabama",
+        "now": 13.55,
+        "prev": 13.55,
+        "delta": 0.0
+      }
+    ],
+    "tax_movers": [
+      {
+        "fips": "01001",
+        "county": "Autauga County, Alabama",
+        "now": 18.6003,
+        "prev": 18.6003,
+        "delta": 0.0
+      },
+      {
+        "fips": "01003",
+        "county": "Baldwin County, Alabama",
+        "now": 20.2505,
+        "prev": 20.2505,
+        "delta": 0.0
+      },
+      {
+        "fips": "01005",
+        "county": "Barbour County, Alabama",
+        "now": 20.417,
+        "prev": 20.417,
+        "delta": 0.0
+      },
+      {
+        "fips": "01007",
+        "county": "Bibb County, Alabama",
+        "now": 9.0244,
+        "prev": 9.0244,
+        "delta": 0.0
+      },
+      {
+        "fips": "01009",
+        "county": "Blount County, Alabama",
+        "now": 13.0403,
+        "prev": 13.0403,
+        "delta": 0.0
+      }
+    ],
+    "stats": {
+      "total_campuses": 136,
+      "total_announced_mw": 60583.0,
+      "utility_rate_rows": 1973,
+      "home_price_rows": 1657,
+      "property_tax_rows": 3186
+    }
+  },
+  {
     "date": "2026-05-17",
     "kickoff": true,
     "new_campuses": [],

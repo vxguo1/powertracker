@@ -88,8 +88,11 @@ def main() -> None:
                 "(EIA-861 raw, joined to HIFLD utility service territories)\n"
                 "- **County GDP YoY**: 2023 vs 2024 real per-capita GDP "
                 "(BEA CAGDP1 + CAINC1)\n"
-                "- **Sites**: 106 US AI / hyperscaler data centers, researched "
-                "from operator press releases + primary news sources\n\n"
+                "- **Sites**: 144 US AI / hyperscaler data centers (108 operational / "
+                "under construction / announced + 36 proposed and pending local-gov approval, "
+                "including celebrity-fronted megacampuses by Kevin O'Leary, Rick Perry, "
+                "Chamath Palihapitiya, David Rubenstein, Larry Fink and Eric Schmidt), "
+                "researched from operator press releases + primary news sources\n\n"
                 "None of the YoY metrics are weather-normalized; AZPS +8% "
                 "includes whatever the year's cooling-degree delta was."
             )

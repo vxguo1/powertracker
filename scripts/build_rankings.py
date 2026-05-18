@@ -474,7 +474,7 @@ def render_html(ranked: list[dict], state_rank: list[tuple], stats: dict) -> str
             ops += f" + {len(c['unique_operators']) - 3}"
         status_chips = []
         for status, n in sorted(c["statuses"].items(), key=lambda x: -x[1]):
-            label = {"operational": "live", "under_construction": "building", "announced": "announced"}.get(status, status)
+            label = {"operational": "live", "under_construction": "building", "announced": "announced", "proposed": "proposed"}.get(status, status)
             status_chips.append(f'<span class="chip chip-{status}">{n} {label}</span>')
         mw_str = fmt_mw(c["total_mw"]) if c["total_mw"] > 0 else "&mdash;"
         map_url = f"/?lat={c['lat']:.3f}&lon={c['lon']:.3f}&z=9"
@@ -751,6 +751,7 @@ def render_html(ranked: list[dict], state_rank: list[tuple], stats: dict) -> str
     .chip-operational {{ background: #d5ecdb; color: #1b5a30; }}
     .chip-under_construction {{ background: #fdf0d8; color: #7a3a10; }}
     .chip-announced {{ background: #e6e6f5; color: #443d72; }}
+    .chip-proposed {{ background: #f0e6f5; color: #5a2772; }}
 
     .rank-stats {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; }}
     .stat-block {{
@@ -817,6 +818,7 @@ def render_html(ranked: list[dict], state_rank: list[tuple], stats: dict) -> str
     </div>
     <nav>
       <a href="/">&larr; map</a>
+      <a href="/schedule">schedule</a>
       <a href="/weekly/">weekly</a>
       <a href="/sources">sources</a>
       <a href="https://github.com/vxguo1/powertracker" target="_blank" rel="noopener">github</a>
