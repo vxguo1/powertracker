@@ -1,5 +1,5 @@
 {
-  "date": "2026-05-17",
+  "date": "2026-05-18",
   "sites": {
     "Colossus|Memphis|TN": {
       "operator": "xAI",
@@ -530,6 +530,196 @@
       "operator": "Anthropic/Fluidstack",
       "mw": 0.0,
       "status": "under_construction"
+    },
+    "Project Blue|Tucson|AZ": {
+      "operator": "Beale Infrastructure (Blue Owl)",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "PW Digital Gateway (QTS)|Gainesville|VA": {
+      "operator": "QTS/Blackstone",
+      "mw": 7000.0,
+      "status": "proposed"
+    },
+    "Project Sail (Newnan)|Newnan|GA": {
+      "operator": "Atlas Development/Prologis",
+      "mw": 900.0,
+      "status": "proposed"
+    },
+    "Project Delta|Walnut Cove|NC": {
+      "operator": "undisclosed (David Crouch landowner)",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Bessemer Hyperscale Campus|Bessemer|AL": {
+      "operator": "Logistic Land Investments",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Stratos Project|Snowville|UT": {
+      "operator": "O'Leary Digital (MIDA)",
+      "mw": 9000.0,
+      "status": "proposed"
+    },
+    "Slavic Village Campus|Cleveland|OH": {
+      "operator": "Lakeland Equity Group",
+      "mw": 150.0,
+      "status": "proposed"
+    },
+    "Comanche Circle|Tolar|TX": {
+      "operator": "Sailfish Digital Ventures",
+      "mw": 5000.0,
+      "status": "proposed"
+    },
+    "Project Bluestem|Tonganoxie|KS": {
+      "operator": "Cloverleaf Infrastructure",
+      "mw": 600.0,
+      "status": "proposed"
+    },
+    "AWS Calvert Cliffs Campus|Lusby|MD": {
+      "operator": "AWS",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Remington Innovation Campus|Remington|VA": {
+      "operator": "SDC Capital Partners",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Martindale-Brightwood|Indianapolis|IN": {
+      "operator": "Metrobloks",
+      "mw": 500.0,
+      "status": "proposed"
+    },
+    "Project Spring|Sand Springs|OK": {
+      "operator": "White Rose Partners (Google)",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Gemini Sioux Falls|Sioux Falls|SD": {
+      "operator": "Gemini Data Center SD LLC",
+      "mw": 500.0,
+      "status": "proposed"
+    },
+    "Clarksdale Coahoma Site|Clarksdale|MS": {
+      "operator": "undisclosed",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Caroline SAC III Campus|Bowling Green|VA": {
+      "operator": "SAC III Acquisition (Stack)",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Tarboro Edgecombe Campus|Tarboro|NC": {
+      "operator": "Energy Storage Solutions",
+      "mw": 900.0,
+      "status": "proposed"
+    },
+    "Chestnut Commerce Center|Ravenna|OH": {
+      "operator": "undisclosed",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Holyoke MGHPCC Adjacent|Holyoke|MA": {
+      "operator": "undisclosed",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Lockport Hyperscale|Lockport|NY": {
+      "operator": "undisclosed",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Spotsylvania SUP Proposal|Spotsylvania|VA": {
+      "operator": "undisclosed",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Charles City Diode Campus|Charles City|VA": {
+      "operator": "Diode Ventures",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Berry Hill Megasite|Cascade|VA": {
+      "operator": "Stack Infrastructure",
+      "mw": 2000.0,
+      "status": "proposed"
+    },
+    "Frederick CDI Referendum|Adamstown|MD": {
+      "operator": "various (TPG/Aligned/AWS)",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Prometheus Hyperscale Natrona|Casper|WY": {
+      "operator": "Prometheus Hyperscale/Spiritus",
+      "mw": 1500.0,
+      "status": "proposed"
+    },
+    "Stargate Saline Township|Saline|MI": {
+      "operator": "OpenAI/Oracle/Related Digital",
+      "mw": 1400.0,
+      "status": "proposed"
+    },
+    "Buckeystown Quantum Aligned|Buckeystown|MD": {
+      "operator": "Aligned/TPG",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Hill County Pause Sites|Hillsboro|TX": {
+      "operator": "undisclosed",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "xAI Southaven Expansion|Southaven|MS": {
+      "operator": "xAI",
+      "mw": 2000.0,
+      "status": "proposed"
+    },
+    "Project Yellow|Canton|MS": {
+      "operator": "AWS",
+      "mw": 0.0,
+      "status": "proposed"
+    },
+    "Project Matador|Panhandle|TX": {
+      "operator": "Fermi America (Rick Perry)",
+      "mw": 11000.0,
+      "status": "proposed"
+    },
+    "Hassayampa Ranch|Tonopah|AZ": {
+      "operator": "Arizona Land Consulting / Social Capital",
+      "mw": 1500.0,
+      "status": "proposed"
+    },
+    "DAMAC Edgerton|Edgerton|KS": {
+      "operator": "DAMAC Digital (Edgnex)",
+      "mw": 860.0,
+      "status": "proposed"
+    },
+    "Fort Bliss Carlyle Campus|Fort Bliss|TX": {
+      "operator": "Carlyle Group",
+      "mw": 3000.0,
+      "status": "proposed"
+    },
+    "Dugway CyrusOne Campus|Dugway|UT": {
+      "operator": "CyrusOne (KKR/BlackRock)",
+      "mw": 2000.0,
+      "status": "proposed"
+    },
+    "SB Energy Portsmouth|Piketon|OH": {
+      "operator": "SB Energy (SoftBank)",
+      "mw": 10000.0,
+      "status": "under_construction"
+    },
+    "Beacon Point|Robstown|TX": {
+      "operator": "Hut 8 / American Bitcoin",
+      "mw": 1000.0,
+      "status": "under_construction"
+    },
+    "Bolt West Texas|Pecos|TX": {
+      "operator": "Bolt Data & Energy / Texas Pacific Land",
+      "mw": 1000.0,
+      "status": "proposed"
     }
   },
   "rates": {

@@ -3,6 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url><loc>https://powertracker.io/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://powertracker.io/rankings</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://powertracker.io/schedule</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://powertracker.io/weekly</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://powertracker.io/sources</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://powertracker.io/county/tn-shelby</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -85,6 +86,40 @@
   <url><loc>https://powertracker.io/county/va-chesterfield</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://powertracker.io/county/ga-douglas</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://powertracker.io/county/or-washington</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/az-pima</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/ga-coweta</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/nc-stokes</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/al-jefferson</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/ut-box-elder</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/oh-cuyahoga</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/tx-hood</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/ks-leavenworth</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/md-calvert</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/va-fauquier</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/in-marion</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/ok-tulsa</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/sd-minnehaha</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/ms-coahoma</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/va-caroline</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/nc-edgecombe</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/oh-portage</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/ma-hampden</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/va-spotsylvania</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/va-charles-city</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/va-pittsylvania</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/md-frederick</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/wy-natrona</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/mi-washtenaw</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/tx-hill</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/ms-desoto</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/ms-madison</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/tx-carson</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/ks-johnson</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/tx-el-paso</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/ut-tooele</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/oh-pike</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/tx-nueces</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/county/tx-reeves</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://powertracker.io/site/colossus</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://powertracker.io/site/stargate-abilene</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://powertracker.io/site/hyperion</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -191,4 +226,42 @@
   <url><loc>https://powertracker.io/site/independence</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://powertracker.io/site/anthropic-texas</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://powertracker.io/site/anthropic-new-york</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/project-blue</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/pw-digital-gateway-qts</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/project-sail-newnan</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/project-delta</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/bessemer-hyperscale-campus</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/stratos-project</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/slavic-village-campus</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/comanche-circle</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/project-bluestem</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/aws-calvert-cliffs-campus</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/remington-innovation-campus</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/martindale-brightwood</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/project-spring</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/gemini-sioux-falls</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/clarksdale-coahoma-site</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/caroline-sac-iii-campus</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/tarboro-edgecombe-campus</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/chestnut-commerce-center</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/holyoke-mghpcc-adjacent</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/lockport-hyperscale</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/spotsylvania-sup-proposal</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/charles-city-diode-campus</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/berry-hill-megasite</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/frederick-cdi-referendum</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/prometheus-hyperscale-natrona</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/stargate-saline-township</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/buckeystown-quantum-aligned</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/hill-county-pause-sites</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/xai-southaven-expansion</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/project-yellow</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/project-matador</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/hassayampa-ranch</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/damac-edgerton</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/fort-bliss-carlyle-campus</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/dugway-cyrusone-campus</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/sb-energy-portsmouth</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/beacon-point</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://powertracker.io/site/bolt-west-texas</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>

@@ -916,6 +916,7 @@ LOCATION_PAGE_TEMPLATE = """<!DOCTYPE html>
     <nav>
       <a href="/">map</a>
       <a href="/rankings">rankings</a>
+      <a href="/schedule">schedule</a>
       <a href="{back_url}">{back_label}</a>
     </nav>
   </header>
@@ -1074,6 +1075,7 @@ def update_sitemap(counties: list[tuple[str, str]], sites: list[tuple[str, str]]
     pages = [
         ("https://powertracker.io/", "weekly", "1.0"),
         ("https://powertracker.io/rankings", "weekly", "0.9"),
+        ("https://powertracker.io/schedule", "weekly", "0.9"),
         ("https://powertracker.io/weekly", "weekly", "0.8"),
         ("https://powertracker.io/sources", "weekly", "0.7"),
     ]

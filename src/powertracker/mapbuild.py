@@ -43,7 +43,7 @@ GROWTH_BINS: list[tuple[float, str, str]] = [
 NO_DATA_COLOR = "#dddddd"
 
 FOCUS_COLORS = {"primary": "#d7263d", "mixed": "#2e86ab", "minimal": "#9e9e9e"}
-STATUS_OPACITY = {"operational": 0.85, "under_construction": 0.65, "announced": 0.45, "planned": 0.35}
+STATUS_OPACITY = {"operational": 0.85, "under_construction": 0.65, "announced": 0.45, "proposed": 0.30, "planned": 0.30}
 
 UNKNOWN_MW_RADIUS = 5
 MIN_RADIUS = 4
@@ -74,7 +74,7 @@ class MapData:
 @dataclass
 class MapFilters:
     focus: set[str] | None = None       # subset of {primary, mixed, minimal}
-    status: set[str] | None = None      # subset of {operational, under_construction, announced, planned}
+    status: set[str] | None = None      # subset of {operational, under_construction, announced, proposed, planned}
     states: set[str] | None = None      # 2-letter state codes
     show_layers: set[str] = field(default_factory=lambda: {
         "ba_demand", "utility_rates", "gdp", "sites", "zones", "heatmap"

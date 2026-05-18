@@ -509,6 +509,7 @@ WEEKLY_TEMPLATE = """<!DOCTYPE html>
     <nav>
       <a href="/">map</a>
       <a href="/rankings">rankings</a>
+      <a href="/schedule">schedule</a>
       <a href="/sources">sources</a>
     </nav>
   </header>

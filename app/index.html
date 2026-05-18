@@ -161,7 +161,7 @@
         "name": "How many AI and hyperscaler data centers does powertracker.io track?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "As of May 2026, powertracker.io tracks 106 known AI and hyperscaler data-center sites across 30 US states. The list is curated from public press releases, FOIA filings, local zoning records and news coverage."
+          "text": "As of May 2026, powertracker.io tracks 144 known AI and hyperscaler data-center sites across 36 US states: 108 operational, under-construction, or fully announced sites plus 36 proposed sites still pending local-government approval (zoning vote, special-use permit, county-commission decision, or state-regulator sign-off). The proposed bucket includes a growing set of high-profile, celebrity-fronted campuses (Kevin O'Leary's Stratos in Utah, Rick Perry's Fermi America Project Matador, Chamath Palihapitiya's Hassayampa Ranch, David Rubenstein's Carlyle Fort Bliss campus, Eric Schmidt's Bolt at Texas Pacific Land, and others). The list is curated from public press releases, FOIA filings, local zoning records and news coverage."
         }
       },
       {
@@ -169,7 +169,15 @@
         "name": "Which US states have the most tracked AI data centers?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "By tracked-site count, the top states are Texas (20), Oregon (8), Ohio (8), North Carolina (6) and Virginia (6). The four largest operators by site count are Meta (20), Google (18), Microsoft (15) and AWS (11)."
+          "text": "By tracked-site count, the top states are Texas (26), Virginia (12), Ohio (11), North Carolina (8), Oregon (8) and Arizona (7). The five largest operators by site count are Meta (20), Google (19), Microsoft (15), AWS (14) and CoreWeave (7)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does powertracker.io track the upcoming votes and hearings that decide whether each proposed data center is built?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. A hand-curated schedule of upcoming and recently-decided zoning votes, special-use-permit hearings, county-commission decisions, court rulings, regulator approvals (utility commissions, state power-siting boards), referenda, moratorium votes and permit deadlines is published at https://powertracker.io/schedule. Each event links to the relevant data-center site page and to an authoritative source (local newspaper, county agenda, regulator docket, court filing). Journalists and researchers can subscribe via the iCal feed at https://powertracker.io/schedule.ics."
         }
       },
       {
@@ -856,11 +864,12 @@
 
   <h2>Key facts (May 2026)</h2>
   <ul>
-    <li>powertracker.io tracks <strong>106 AI and hyperscaler data-center sites</strong> across <strong>30 US states</strong>.</li>
-    <li>Top states by tracked-site count: Texas (20), Oregon (8), Ohio (8), North Carolina (6), Virginia (6).</li>
-    <li>Top operators by tracked-site count: Meta (20), Google (18), Microsoft (15), AWS (11), Apple (5).</li>
-    <li>Across the ~30 sites that publicly disclose announced megawatts, the announced load sums to roughly <strong>29 GW</strong>.</li>
-    <li>Sites are classified by AI focus: 43 primary, 61 mixed, 2 minimal.</li>
+    <li>powertracker.io tracks <strong>144 AI and hyperscaler data-center sites</strong> across <strong>36 US states</strong>: 108 operational, under-construction, or fully announced, plus <strong>36 proposed sites pending local-government approval</strong> (zoning vote, special-use permit, county-commission decision, state-regulator sign-off).</li>
+    <li>The proposed bucket increasingly includes high-profile, celebrity-fronted campuses: Kevin O'Leary's <em>Stratos</em> (Utah), Rick Perry's Fermi America <em>Project Matador</em> (Texas Panhandle), Chamath Palihapitiya's <em>Hassayampa Ranch</em> (Arizona), David Rubenstein's <em>Carlyle Fort Bliss</em> campus (Texas), Larry Fink &amp; Henry Kravis's CyrusOne Dugway (Utah), Hussain Sajwani's <em>DAMAC Edgerton</em> (Kansas), and Eric Schmidt's <em>Bolt</em> (West Texas).</li>
+    <li>Top states by tracked-site count: Texas (26), Virginia (12), Ohio (11), North Carolina (8), Oregon (8), Arizona (7).</li>
+    <li>Top operators by tracked-site count: Meta (20), Google (19), Microsoft (15), AWS (14), CoreWeave (7), Apple (5).</li>
+    <li>Across the 51 sites that publicly disclose target megawatts, announced + proposed load sums to roughly <strong>91 GW</strong> &mdash; ~40 GW operational, under construction, or fully announced, ~51 GW still gated on local approval.</li>
+    <li>Sites are classified by AI focus: 61 primary, 81 mixed, 2 minimal.</li>
     <li>Electricity demand is read at Balancing Authority resolution from the EIA Hourly Electric Grid Monitor (~66 BAs in the lower 48). Sub-utility load is not publicly available because it is restricted as Critical Energy Infrastructure Information (CEII).</li>
     <li>Year-over-year layers compare the latest trailing-12-month window to the mean of the three prior trailing-12-month windows anchored at t-12, t-24, and t-36 months.</li>
   </ul>
@@ -911,7 +920,11 @@
     <a href="/sources">powertracker.io/sources</a>. A prerendered ranking of
     the US counties absorbing the most announced AI data-center load &mdash;
     joined to utility rate, home price and property tax change &mdash; is at
-    <a href="/rankings">powertracker.io/rankings</a>.
+    <a href="/rankings">powertracker.io/rankings</a>. A hand-curated
+    schedule of upcoming and recently-decided local-government votes, regulator
+    decisions, court rulings and permit hearings that gate the proposed
+    campuses is at <a href="/schedule">powertracker.io/schedule</a> (subscribe
+    via <a href="/schedule.ics">/schedule.ics</a>).
   </p>
 
   <h2>How it is built</h2>
@@ -1231,6 +1244,7 @@
       <span><span class="legend-dot" style="background:#1a1a23;opacity:0.85"></span>operational</span>
       <span><span class="legend-dot" style="background:#1a1a23;opacity:0.65"></span>construction</span>
       <span><span class="legend-dot" style="background:#1a1a23;opacity:0.45"></span>announced</span>
+      <span><span class="legend-dot" style="background:#1a1a23;opacity:0.30"></span>proposed</span>
     </div>
   </div>
 
@@ -1539,7 +1553,8 @@
     'operational', 0.85,
     'under_construction', 0.65,
     'announced', 0.45,
-    'planned', 0.35,
+    'proposed', 0.30,
+    'planned', 0.30,
     0.7
   ];
 

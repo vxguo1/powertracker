@@ -6,7 +6,119 @@
   <description>Weekly diff of US AI / hyperscaler data-center campuses and the grid + economic context around them.</description>
   <atom:link href="https://powertracker.io/feed.xml" rel="self" type="application/rss+xml"/>
   <language>en-us</language>
-  <lastBuildDate>Sun, 17 May 2026 18:58:04 +0000</lastBuildDate>
+  <lastBuildDate>Mon, 18 May 2026 02:40:37 +0000</lastBuildDate>
+  <item>
+    <title>powertracker · 2026-05-18 · 5 rate movers</title>
+    <link>https://powertracker.io/weekly#2026-05-18</link>
+    <guid isPermaLink="true">https://powertracker.io/weekly#2026-05-18</guid>
+    <pubDate>Mon, 18 May 2026 00:00:00 +0000</pubDate>
+    <description><![CDATA[<pre>Rate movers:
+  - Alabama Power Co (AL): +10.7% (was +10.7%, +0.0pp)
+  - Amicalola Electric Member Corp (GA): +5.8% (was +5.8%, +0.0pp)
+  - City of Anaheim - (CA) (CA): +1.0% (was +1.0%, +0.0pp)
+  - Connexus Energy (MN): -0.8% (was -0.8%, +0.0pp)
+  - Appalachian Power Co (VA): +27.5% (was +27.5%, +0.0pp)
+Home-price movers:
+  - Autauga County, Alabama: +11.0% (was +11.0%, +0.0pp)
+  - Baldwin County, Alabama: +0.9% (was +0.9%, +0.0pp)
+  - Blount County, Alabama: +7.4% (was +7.4%, +0.0pp)
+  - Calhoun County, Alabama: +14.2% (was +14.2%, +0.0pp)
+  - Chambers County, Alabama: +13.6% (was +13.6%, +0.0pp)
+Property-tax movers:
+  - Autauga County, Alabama: +18.6% (was +18.6%, +0.0pp)
+  - Baldwin County, Alabama: +20.3% (was +20.3%, +0.0pp)
+  - Barbour County, Alabama: +20.4% (was +20.4%, +0.0pp)
+  - Bibb County, Alabama: +9.0% (was +9.0%, +0.0pp)
+  - Blount County, Alabama: +13.0% (was +13.0%, +0.0pp)</pre>]]></description>
+  </item>
+  <item>
+    <title>powertracker · 2026-05-18 · 8 new campuses · 5 rate movers</title>
+    <link>https://powertracker.io/weekly#2026-05-18</link>
+    <guid isPermaLink="true">https://powertracker.io/weekly#2026-05-18</guid>
+    <pubDate>Mon, 18 May 2026 00:00:00 +0000</pubDate>
+    <description><![CDATA[<pre>New campuses:
+  - Project Matador (Fermi America (Rick Perry), Panhandle, TX) - 11000 MW
+  - Hassayampa Ranch (Arizona Land Consulting / Social Capital, Tonopah, AZ) - 1500 MW
+  - DAMAC Edgerton (DAMAC Digital (Edgnex), Edgerton, KS) - 860 MW
+  - Fort Bliss Carlyle Campus (Carlyle Group, Fort Bliss, TX) - 3000 MW
+  - Dugway CyrusOne Campus (CyrusOne (KKR/BlackRock), Dugway, UT) - 2000 MW
+  - SB Energy Portsmouth (SB Energy (SoftBank), Piketon, OH) - 10000 MW
+  - Beacon Point (Hut 8 / American Bitcoin, Robstown, TX) - 1000 MW
+  - Bolt West Texas (Bolt Data &amp; Energy / Texas Pacific Land, Pecos, TX) - 1000 MW
+Rate movers:
+  - Alabama Power Co (AL): +10.7% (was +10.7%, +0.0pp)
+  - Amicalola Electric Member Corp (GA): +5.8% (was +5.8%, +0.0pp)
+  - City of Anaheim - (CA) (CA): +1.0% (was +1.0%, +0.0pp)
+  - Connexus Energy (MN): -0.8% (was -0.8%, +0.0pp)
+  - Appalachian Power Co (VA): +27.5% (was +27.5%, +0.0pp)
+Home-price movers:
+  - Autauga County, Alabama: +11.0% (was +11.0%, +0.0pp)
+  - Baldwin County, Alabama: +0.9% (was +0.9%, +0.0pp)
+  - Blount County, Alabama: +7.4% (was +7.4%, +0.0pp)
+  - Calhoun County, Alabama: +14.2% (was +14.2%, +0.0pp)
+  - Chambers County, Alabama: +13.6% (was +13.6%, +0.0pp)
+Property-tax movers:
+  - Autauga County, Alabama: +18.6% (was +18.6%, +0.0pp)
+  - Baldwin County, Alabama: +20.3% (was +20.3%, +0.0pp)
+  - Barbour County, Alabama: +20.4% (was +20.4%, +0.0pp)
+  - Bibb County, Alabama: +9.0% (was +9.0%, +0.0pp)
+  - Blount County, Alabama: +13.0% (was +13.0%, +0.0pp)</pre>]]></description>
+  </item>
+  <item>
+    <title>powertracker · 2026-05-18 · 30 new campuses · 5 rate movers</title>
+    <link>https://powertracker.io/weekly#2026-05-18</link>
+    <guid isPermaLink="true">https://powertracker.io/weekly#2026-05-18</guid>
+    <pubDate>Mon, 18 May 2026 00:00:00 +0000</pubDate>
+    <description><![CDATA[<pre>New campuses:
+  - Project Blue (Beale Infrastructure (Blue Owl), Tucson, AZ)
+  - PW Digital Gateway (QTS) (QTS/Blackstone, Gainesville, VA) - 7000 MW
+  - Project Sail (Newnan) (Atlas Development/Prologis, Newnan, GA) - 900 MW
+  - Project Delta (undisclosed (David Crouch landowner), Walnut Cove, NC)
+  - Bessemer Hyperscale Campus (Logistic Land Investments, Bessemer, AL)
+  - Stratos Project (O&#x27;Leary Digital (MIDA), Snowville, UT) - 9000 MW
+  - Slavic Village Campus (Lakeland Equity Group, Cleveland, OH) - 150 MW
+  - Comanche Circle (Sailfish Digital Ventures, Tolar, TX) - 5000 MW
+  - Project Bluestem (Cloverleaf Infrastructure, Tonganoxie, KS) - 600 MW
+  - AWS Calvert Cliffs Campus (AWS, Lusby, MD)
+  - Remington Innovation Campus (SDC Capital Partners, Remington, VA)
+  - Martindale-Brightwood (Metrobloks, Indianapolis, IN) - 500 MW
+  - Project Spring (White Rose Partners (Google), Sand Springs, OK)
+  - Gemini Sioux Falls (Gemini Data Center SD LLC, Sioux Falls, SD) - 500 MW
+  - Clarksdale Coahoma Site (undisclosed, Clarksdale, MS)
+  - Caroline SAC III Campus (SAC III Acquisition (Stack), Bowling Green, VA)
+  - Tarboro Edgecombe Campus (Energy Storage Solutions, Tarboro, NC) - 900 MW
+  - Chestnut Commerce Center (undisclosed, Ravenna, OH)
+  - Holyoke MGHPCC Adjacent (undisclosed, Holyoke, MA)
+  - Lockport Hyperscale (undisclosed, Lockport, NY)
+  - Spotsylvania SUP Proposal (undisclosed, Spotsylvania, VA)
+  - Charles City Diode Campus (Diode Ventures, Charles City, VA)
+  - Berry Hill Megasite (Stack Infrastructure, Cascade, VA) - 2000 MW
+  - Frederick CDI Referendum (various (TPG/Aligned/AWS), Adamstown, MD)
+  - Prometheus Hyperscale Natrona (Prometheus Hyperscale/Spiritus, Casper, WY) - 1500 MW
+  - Stargate Saline Township (OpenAI/Oracle/Related Digital, Saline, MI) - 1400 MW
+  - Buckeystown Quantum Aligned (Aligned/TPG, Buckeystown, MD)
+  - Hill County Pause Sites (undisclosed, Hillsboro, TX)
+  - xAI Southaven Expansion (xAI, Southaven, MS) - 2000 MW
+  - Project Yellow (AWS, Canton, MS)
+Rate movers:
+  - Alabama Power Co (AL): +10.7% (was +10.7%, +0.0pp)
+  - Amicalola Electric Member Corp (GA): +5.8% (was +5.8%, +0.0pp)
+  - City of Anaheim - (CA) (CA): +1.0% (was +1.0%, +0.0pp)
+  - Connexus Energy (MN): -0.8% (was -0.8%, +0.0pp)
+  - Appalachian Power Co (VA): +27.5% (was +27.5%, +0.0pp)
+Home-price movers:
+  - Autauga County, Alabama: +11.0% (was +11.0%, +0.0pp)
+  - Baldwin County, Alabama: +0.9% (was +0.9%, +0.0pp)
+  - Blount County, Alabama: +7.4% (was +7.4%, +0.0pp)
+  - Calhoun County, Alabama: +14.2% (was +14.2%, +0.0pp)
+  - Chambers County, Alabama: +13.6% (was +13.6%, +0.0pp)
+Property-tax movers:
+  - Autauga County, Alabama: +18.6% (was +18.6%, +0.0pp)
+  - Baldwin County, Alabama: +20.3% (was +20.3%, +0.0pp)
+  - Barbour County, Alabama: +20.4% (was +20.4%, +0.0pp)
+  - Bibb County, Alabama: +9.0% (was +9.0%, +0.0pp)
+  - Blount County, Alabama: +13.0% (was +13.0%, +0.0pp)</pre>]]></description>
+  </item>
   <item>
     <title>powertracker · 2026-05-17</title>
     <link>https://powertracker.io/weekly#2026-05-17</link>

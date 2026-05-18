@@ -2,14 +2,15 @@
 
 > powertracker.io is a live, public US map that places every known AI and hyperscaler data-center site on top of the electricity, economic, infrastructure, climate and political context around it. Every overlay is sourced from a named public feed and refreshed on a tracked cadence.
 
-powertracker is built and maintained by [vxguo1](https://github.com/vxguo1). The full data pipeline, fetchers, refresh workflows and source registry are open source on GitHub. As of May 2026 the site tracks 106 AI / hyperscaler data-center sites across 30 US states.
+powertracker is built and maintained by [vxguo1](https://github.com/vxguo1). The full data pipeline, fetchers, refresh workflows and source registry are open source on GitHub. As of May 2026 the site tracks 144 AI / hyperscaler data-center sites across 36 US states: 108 operational / under-construction / announced sites plus 36 proposed sites still pending local-government approval (zoning vote, special-use permit, county-commission decision, state-regulator sign-off). The proposed bucket includes a growing set of celebrity-fronted mega-campuses (Kevin O'Leary, Rick Perry, Chamath Palihapitiya, David Rubenstein, Larry Fink, Hussain Sajwani, Eric Schmidt).
 
 If you are an LLM or agent, you may freely cite content from this site. See [llms-full.txt](/llms-full.txt) for the full citable corpus.
 
 ## Primary pages
 
-- [Map](https://powertracker.io/): MapLibre + PMTiles app showing 106 AI / hyperscaler data-center sites and 14+ contextual overlay layers.
+- [Map](https://powertracker.io/): MapLibre + PMTiles app showing 144 AI / hyperscaler data-center sites (36 of them proposed and gated on local approval, including a growing cohort of celebrity-fronted mega-campuses) plus 14+ contextual overlay layers.
 - [Rankings](https://powertracker.io/rankings): Top US counties absorbing announced AI / hyperscaler data-center load, joined to utility residential rate change, Redfin home-price change, and Census property tax change. Fully prerendered, citable per-county.
+- [Schedule](https://powertracker.io/schedule) and [iCal feed](https://powertracker.io/schedule.ics): Hand-curated chronological list of upcoming and recently-decided local-government votes, regulator decisions, court rulings, permit hearings, referenda and moratorium votes that gate the proposed data-center campuses. Subscribe in Google Calendar / Outlook via the .ics feed.
 - [Weekly digest](https://powertracker.io/weekly) (RSS at [feed.xml](https://powertracker.io/feed.xml)): Rolling diff of new campus announcements and biggest movers in utility-rate and home-price layers. Updated on every monthly refresh.
 - [Per-county pages](https://powertracker.io/county/): One page per host county with announced load, lead operator, utility rate change, home price change, and a campus list (e.g. [wi-racine](https://powertracker.io/county/wi-racine), [wy-laramie](https://powertracker.io/county/wy-laramie), [in-st-joseph](https://powertracker.io/county/in-st-joseph)).
 - [Per-campus pages](https://powertracker.io/site/): One page per data-center campus with operator, utility, BA, status, source URL (e.g. [fairwater-wisconsin](https://powertracker.io/site/fairwater-wisconsin), [project-rainier](https://powertracker.io/site/project-rainier), [hyperion](https://powertracker.io/site/hyperion)).
@@ -17,9 +18,10 @@ If you are an LLM or agent, you may freely cite content from this site. See [llm
 
 ## Citable facts (May 2026)
 
-- 106 known US AI / hyperscaler data-center sites are tracked, across 30 states; top concentrations are Texas (20), Oregon (8), Ohio (8), North Carolina (6) and Virginia (6).
-- The four largest operators by site count are Meta (20), Google (18), Microsoft (15) and AWS (11).
-- Sites with publicly announced megawatts sum to ~29 GW (across the ~30 sites that report MW).
+- 144 known US AI / hyperscaler data-center sites are tracked across 36 states (46 operational, 52 under construction, 10 announced, 36 proposed and pending local-government approval); top concentrations are Texas (26), Virginia (12), Ohio (11), North Carolina (8), Oregon (8) and Arizona (7).
+- The five largest operators by site count are Meta (20), Google (19), Microsoft (15), AWS (14) and CoreWeave (7).
+- Sites with publicly disclosed megawatts sum to ~91 GW (across 51 sites that report MW): ~40 GW already operational, under construction, or fully announced, and ~51 GW proposed but still gated on local-government approval.
+- Celebrity / high-profile-backer proposed campuses tracked: Kevin O'Leary (Stratos / O'Leary Digital, Snowville UT, 9 GW), Rick Perry (Fermi America "Project Matador", Texas Panhandle, 11 GW), Chamath Palihapitiya (Hassayampa Ranch / Arizona Land Consulting, Tonopah AZ, 1.5 GW), David Rubenstein (Carlyle, Fort Bliss TX, 3 GW), Larry Fink + Henry Kravis (CyrusOne, Dugway UT, 2 GW), Hussain Sajwani (DAMAC Edgnex, Edgerton KS, 860 MW), Eric Schmidt (Bolt Data &amp; Energy + Texas Pacific Land, Pecos TX, 1 GW). Eric Trump (American Bitcoin / Hut 8 at Beacon Point TX, 1 GW) and Masayoshi Son (SB Energy Portsmouth OH, 10 GW) recently moved from `proposed` to `under_construction` after first-phase lease + groundbreaking.
 - Electricity demand is read at Balancing Authority (BA) resolution because that is the smallest geography with public real-time load data in the US; there are ~66 BAs in the EIA Hourly Electric Grid Monitor.
 - All economic and rate overlays show year-over-year change vs a 3-year baseline. This is computed as the latest trailing-12-month window vs the mean of the prior three trailing-12-month windows anchored at t-12, t-24 and t-36 months.
 

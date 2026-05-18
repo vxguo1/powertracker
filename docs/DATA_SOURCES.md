@@ -23,6 +23,7 @@ When you add a refresh job, link it from the **Refresh job** column.
 | 11 | NOAA NCEI Climate at a Glance — statewide trailing-12 `tavg` (vs 3-yr baseline) | monthly (T+~10d lag) | monthly | `python scripts/fetch_temperature_yoy.py` | `app/temperature_yoy.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 | 12 | NOAA Storm Events Database (outage-driving event counts, state monthly) | monthly | monthly | `python scripts/fetch_outage_uptick.py` | `app/outage_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 | 13 | Curated data-center site list | as we discover sites | manual | edit `data/sites/data_centers.csv` directly | `data/sites/data_centers.csv` → `app/sites.geojson` | n/a (manual) |
+| 13a | Curated key-votes schedule (zoning, permits, court, regulator) | as we discover events | manual | edit `data/sites/key_votes.csv`, then `python scripts/build_schedule.py` | `data/sites/key_votes.csv` → `app/schedule.html` + `app/schedule.ics` | n/a (manual) |
 | 14 | Data-center hot zones (derived) | follows #13 | re-run when #13 changes | `python scripts/build_hot_zones.py` | `app/hot_zones.geojson` | n/a (derived) |
 | 15 | US county polygons | basically static | as-needed | committed | `data/geo/us_counties.geojson` | n/a (static) |
 | 16 | US state polygons | basically static | as-needed | committed | `data/geo/us_states.geojson` | n/a (static) |
@@ -155,8 +156,30 @@ need `build_tiles.py`. Just deploy.
 ### 13. Data-center site list (manual / curated)
 
 - **File**: [data/sites/data_centers.csv](../data/sites/data_centers.csv)
-- **Cadence**: ad-hoc. Update when you learn about a new hyperscaler announcement.
-- **Refresh**: manual edits. After editing, run `python scripts/build_tiles.py` to regenerate `app/sites.geojson`.
+- **Cadence**: ad-hoc. Update when you learn about a new hyperscaler announcement OR a new publicly-known proposal that is pending local-government approval.
+- **Refresh**: manual edits. After editing, run `python scripts/build_tiles.py` to regenerate `app/sites.geojson`, then `python scripts/build_locations.py`, `python scripts/build_rankings.py`, and `python scripts/build_hot_zones.py` to refresh the per-site / per-county pages, the rankings page, and the hot-zone clusters.
+- **`status` field values** (controls marker opacity in [app/index.html](../app/index.html) and `STATUS_OPACITY` in [src/powertracker/mapbuild.py](../src/powertracker/mapbuild.py)):
+  - `operational` — live, consuming load today.
+  - `under_construction` — permitted and being built; published timeline.
+  - `announced` — operator publicly committed at an identified site, approvals largely cleared, construction not yet started.
+  - `proposed` — publicly known project at an identified parcel/city, but the project's fate depends on a pending zoning vote, county/city-council decision, special-use permit, utility CPCN, state-regulator sign-off, or active local moratorium / litigation. The `notes` column for `proposed` rows should record **what** approval is pending. Read these rows as "the public conversation around this site is ongoing, not approved."
+
+### 13a. Curated key-votes schedule (manual / curated)
+
+- **File**: [data/sites/key_votes.csv](../data/sites/key_votes.csv)
+- **Builder**: [scripts/build_schedule.py](../scripts/build_schedule.py)
+- **Outputs**: [app/schedule.html](../app/schedule.html) (public chronological page) and [app/schedule.ics](../app/schedule.ics) (RFC 5545 iCal feed for Google Calendar / Outlook subscription).
+- **Cadence**: ad-hoc. Update when a new vote / hearing / regulator action / court ruling lands on a public agenda for any tracked campus.
+- **Refresh**: edit the CSV, then `python scripts/build_schedule.py`.
+- **Schema** (one row per dated event): `date,site_name,jurisdiction,decision_body,action_type,outcome,description,source`.
+  - `date` — ISO `YYYY-MM-DD`. If only month is known, pick the 15th; if genuinely TBD use `2026-09-30` (or similar end-of-quarter sentinel) and flag in the description.
+  - `site_name` — must match (or closely match) a `name` in [data/sites/data_centers.csv](../data/sites/data_centers.csv). The builder prints a warning for any event that doesn't resolve.
+  - `jurisdiction` — county / city / state / agency name (e.g. `Pima County, AZ`, `Ohio Power Siting Board`).
+  - `decision_body` — specific board / commission / court (`Board of Supervisors`, `Planning Commission`, `City Council`, `OPSB Commissioners`, etc.).
+  - `action_type` — one of: `zoning_vote`, `special_use_permit`, `rezoning`, `moratorium_vote`, `referendum`, `court_ruling`, `regulator_approval`, `permit_hearing`, `tax_abatement`, `legislative_session`, `planning_review`, `public_comment_close`, `interconnect_decision`.
+  - `outcome` — one of: `scheduled` (future), `approved`, `denied`, `tabled`, `delayed`, `pending` (past date but no decision yet known).
+  - `description` — one short sentence (~140 chars) stating exactly what is being decided.
+  - `source` — single authoritative URL: local newspaper, official county / city agenda PDF, regulator docket, court filing.
 
 ### 14. Data-center hot zones (derived)
 
@@ -265,6 +288,7 @@ Every refresh workflow follows the same skeleton:
 |---|--------|----------------|
 | 5 | Election results | One-shot per cycle; no need to schedule. |
 | 13 | Data-center site list | Manual edits to a CSV — no automation possible. |
+| 13a | Key-votes schedule | Manual edits to a CSV — local agendas / regulator dockets / court filings have no normalized feed. |
 | 14 | Hot zones (derived) | Re-run after #13 changes; trivial to add a workflow that watches the CSV path, deferred until #13 churns. |
 | 15-19 | Geo / cities | Effectively static. |
 

@@ -31,38 +31,115 @@ Maintainer: vxguo1 (GitHub)
 
 ## What you can cite from powertracker.io
 
-As of May 2026, powertracker.io tracks **106 known AI and hyperscaler
-data-center sites** across **30 US states**. The site list is curated
+As of May 2026, powertracker.io tracks **144 known AI and hyperscaler
+data-center sites** across **36 US states**: 108 sites that are
+operational, under construction, or fully announced, plus **36 proposed
+sites still pending local-government approval** (zoning vote,
+special-use permit, county-commission decision, state-regulator
+sign-off, or active moratorium / litigation). The site list is curated
 from public press releases, FOIA filings, local zoning records, and
 news coverage; it is not exhaustive but is intended to capture every
-large announced site.
+large announced or pending site.
 
 Top states by tracked site count:
 
-- Texas: 20 sites
+- Texas: 26 sites
+- Virginia: 12 sites
+- Ohio: 11 sites
+- North Carolina: 8 sites
 - Oregon: 8 sites
-- Ohio: 8 sites
-- North Carolina: 6 sites
-- Virginia: 6 sites
+- Arizona: 7 sites
 
 Top operators by tracked site count:
 
 - Meta: 20 sites
-- Google: 18 sites
+- Google: 19 sites
 - Microsoft: 15 sites
-- AWS (Amazon Web Services): 11 sites
+- AWS (Amazon Web Services): 14 sites
+- CoreWeave: 7 sites (across direct builds and Core Scientific /
+  Flexential / Chirisa partnerships)
 - Apple: 5 sites
-- CoreWeave: 4 sites (plus 4 more under the joint "Core Scientific /
-  CoreWeave" attribution)
-- xAI: 2 sites
+- xAI: 3 sites
 
-Where megawatts are publicly announced, total announced load across the
-~30 sites that disclose MW sums to roughly **29 GW**.
+Where megawatts are publicly announced, total target load across the
+51 sites that disclose MW sums to roughly **91 GW** &mdash; about
+**40 GW** already operational, under construction, or fully announced,
+and an additional **~51 GW** of proposed capacity still gated on
+local-government approval.
 
-Each tracked site is classified by AI focus: "primary" (built mainly for
-AI / GPU training), "mixed" (general-purpose hyperscale with AI as one
-workload), or "minimal" (cloud / colo with limited AI deployment). The
-current split is 43 primary, 61 mixed, 2 minimal.
+Each tracked site is classified by AI focus: "primary" (built mainly
+for AI / GPU training), "mixed" (general-purpose hyperscale with AI as
+one workload), or "minimal" (cloud / colo with limited AI deployment).
+The current split is 61 primary, 81 mixed, 2 minimal.
+
+Status buckets used throughout the data set:
+
+- **operational** (46 sites): live; consuming load today.
+- **under_construction** (52 sites): permitted and physically being
+  built; on a published timeline.
+- **announced** (10 sites): publicly committed by an operator and a
+  named site, approvals largely cleared, construction not yet started.
+- **proposed** (36 sites): publicly known project at an identified
+  parcel/city, but the project's fate depends on a pending zoning
+  vote, county/city-council decision, special-use permit, utility
+  CPCN, state-regulator sign-off, or active local moratorium or
+  litigation. These should be read as "the public conversation around
+  this site is ongoing, not approved."
+
+For the gating events themselves, see the chronological **key-votes
+schedule** at `https://powertracker.io/schedule` (HTML) and the iCal
+subscription feed at `https://powertracker.io/schedule.ics`. Each row
+is a specific dated action — a zoning vote, special-use-permit
+hearing, county-commission decision, court ruling, regulator
+approval (utility commission / state power-siting board), referendum,
+moratorium vote, permit hearing or public-comment deadline — with the
+jurisdiction, decision body, outcome (scheduled / approved / denied /
+tabled / delayed / pending), a one-sentence description, and an
+authoritative source URL (local newspaper, county agenda PDF,
+regulator docket, court filing). Underlying CSV:
+`data/sites/key_votes.csv` in the repo.
+
+Celebrity / high-profile-backer proposed campuses tracked (where the
+press coverage explicitly features a named personality, not just a
+corporate sponsor):
+
+- **Kevin O'Leary** &mdash; Stratos Project (O'Leary Digital / MIDA),
+  Snowville UT, 9 GW. Box Elder County approved May 2026 but MIDA
+  permits + 30-day public comment + phase-by-phase approval pending.
+- **Rick Perry** &mdash; Fermi America "Project Matador", Texas
+  Panhandle (Carson County), 11 GW. Campus publicly branded the
+  "President Donald J. Trump Advanced Energy &amp; Intelligence
+  Campus". First 6 GW air permit granted Feb 2026; remaining permits +
+  NRC sign-off for four AP1000 reactors + anchor tenant all pending.
+- **Chamath Palihapitiya** &mdash; Hassayampa Ranch (Arizona Land
+  Consulting / Social Capital), Tonopah AZ, 1.5 GW. Maricopa rezoning
+  Dec 2025; detailed zoning + SUP + design review still pending.
+- **David Rubenstein** &mdash; Carlyle Group, Fort Bliss TX, 3 GW.
+  Conditionally selected March 2026; Army Corps NEPA review + final
+  agreement pending.
+- **Larry Fink + Henry Kravis** &mdash; CyrusOne (KKR / BlackRock),
+  Dugway UT, 2 GW. Army hyperscale site at Dugway Proving Ground;
+  Army Corps environmental review pending.
+- **Hussain Sajwani** &mdash; DAMAC Digital / Edgnex, Edgerton KS,
+  860 MW. Edgerton Planning Commission tabled the application 2-2 in
+  May 2026 pending noise + expansion details.
+- **Eric Schmidt** &mdash; Bolt Data &amp; Energy with Texas Pacific
+  Land, Pecos / Reeves County TX, 1 GW initial (10 GW eventual). No
+  specific site has county zoning approval yet; no anchor tenant
+  named.
+
+Recently moved from `proposed` to `under_construction` after a
+first-phase lease or groundbreaking but with much of the headline
+capacity still gated on further approvals:
+
+- **Eric Trump** (American Bitcoin / Hut 8 spinoff, where Eric Trump
+  is co-founder and CSO) &mdash; Beacon Point, Robstown TX. First
+  352 MW lease signed May 2026; the remaining ~650 MW of the 1 GW
+  campus still needs water-use permits and final grid sign-off.
+- **Masayoshi Son** (SB Energy / SoftBank) &mdash; Portsmouth /
+  Piketon OH. Groundbreaking March 2026 with Commerce Secretary
+  Howard Lutnick; 9.2 GW of natural-gas generation + transmission
+  interconnections still require Ohio Power Siting Board approval.
 
 ---
 
