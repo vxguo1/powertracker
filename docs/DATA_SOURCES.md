@@ -24,6 +24,7 @@ When you add a refresh job, link it from the **Refresh job** column.
 | 12 | NOAA Storm Events Database (outage-driving event counts, state monthly) | monthly | monthly | `python scripts/fetch_outage_uptick.py` | `app/outage_uptick.geojson` | [refresh-cdc.yml](../.github/workflows/refresh-cdc.yml) |
 | 13 | Curated data-center site list | as we discover sites | manual | edit `data/sites/data_centers.csv` directly | `data/sites/data_centers.csv` → `app/sites.geojson` | n/a (manual) |
 | 13a | Curated key-votes schedule (zoning, permits, court, regulator) | as we discover events | manual | edit `data/sites/key_votes.csv`, then `python scripts/build_schedule.py` | `data/sites/key_votes.csv` → `app/schedule.html` + `app/schedule.ics` | n/a (manual) |
+| 13b | Census ACS 5-year county demographics (population + median HH income) | annual (Dec release) | annual | `python scripts/fetch_county_demographics.py` (uses `CENSUS_API_KEY` env var or keys-folder `census_apikey.txt`) | `data/cache/county_demographics.csv` | n/a (manual) |
 | 14 | Data-center hot zones (derived) | follows #13 | re-run when #13 changes | `python scripts/build_hot_zones.py` | `app/hot_zones.geojson` | n/a (derived) |
 | 15 | US county polygons | basically static | as-needed | committed | `data/geo/us_counties.geojson` | n/a (static) |
 | 16 | US state polygons | basically static | as-needed | committed | `data/geo/us_states.geojson` | n/a (static) |
@@ -180,6 +181,15 @@ need `build_tiles.py`. Just deploy.
   - `outcome` — one of: `scheduled` (future), `approved`, `denied`, `tabled`, `delayed`, `pending` (past date but no decision yet known).
   - `description` — one short sentence (~140 chars) stating exactly what is being decided.
   - `source` — single authoritative URL: local newspaper, official county / city agenda PDF, regulator docket, court filing.
+
+### 13b. Census ACS county demographics (population + median household income)
+
+- **Upstream**: Census ACS 5-year API, tables `B01003` (Total Population) and `B19013` (Median Household Income). One request returns all ~3107 US counties for both variables.
+- **Script**: [scripts/fetch_county_demographics.py](../scripts/fetch_county_demographics.py)
+- **File**: [data/cache/county_demographics.csv](../data/cache/county_demographics.csv) (columns: `fips, name, population, median_hh_income, vintage_year`).
+- **Cadence**: ACS 5-year republishes annually, typically December. Re-run after each release.
+- **Auth**: Census API requires a key on every request. Provide via `CENSUS_API_KEY` env var, or place the key at `C:\Users\PC\OneDrive\keys\census_apikey.txt` (the keys-folder convention).
+- **Where it's surfaced**: every per-county landing page (`/county/<state>-<slug>`) and every per-site landing page (`/site/<slug>`) gets two demographic stat cards — population and median HH income for the host county.
 
 ### 14. Data-center hot zones (derived)
 
