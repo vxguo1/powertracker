@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+7.2%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=41.160&lon=-80.850&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=41.160&lon=-80.850&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Trumbull County&#x27;s population peaked at 241,863 in 1980 and has fallen to 201,367, a 17% loss. The Stargate Lordstown build occupies the former GM Lordstown assembly plant that closed in March 2019.</span><span class="s">Source: Census ACS 2023 B01003 + sources[0] (Wikipedia: Trumbull County OH and Lordstown Assembly)</span></li>
+    <li><span class="t">The Lordstown site has changed hands four times in six years: GM sold to Lordstown Motors for $20 million in 2019, Foxconn paid $230 million in 2022, and SoftBank&#x27;s Crescent Dune LLC bought the property for $375 million in August 2025 to retool for Stargate equipment.</span><span class="s">Source: sources[0] (Wikipedia: Lordstown Assembly)</span></li>
+    <li><span class="t">FirstEnergy&#x27;s Ohio Edison residential rate rose 3.4%, from 9.2 to 9.6 cents per kWh, the smallest delta of any top-10 AI county. The bill-side impact of the new 1.5 GW Stargate load has not yet flowed through to retail.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Ohio Edison Co, OH)</span></li>
+    <li><span class="t">Home prices rose 16.4% over three years against a median household income of $55,088 and a $128,100 median home value, a sign that the speculative spillover from the AI build has begun even before Stargate energizes.</span><span class="s">Source: data/cache/realestate_yoy.csv + Census ACS 2023 B19013, B25077</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Manufacturing still employs 18.9% of Trumbull&#x27;s workforce despite the Lordstown plant closure, the highest manufacturing share of any Ohio AI county. The local trades have not yet exited the labor market the Stargate retool needs to rehire.</span><span class="s">Source: Census ACS 2023 C24050 (Trumbull County, OH)</span></li>
+    <li><span class="t">Only 83.2% of Trumbull households have wired broadband, the lowest connectivity rate of any Ohio AI county. The Stargate campus will sit inside a region where residential fiber gaps run alongside the fiber the campus itself is pulling.</span><span class="s">Source: Census ACS 2023 B28002 (Trumbull County, OH)</span></li>
+    <li><span class="t">Trumbull&#x27;s poverty rate is 16.8%, more than double Fairfield&#x27;s 8.2%. The 1.5 GW Stargate buildout is the first major capital event landing in this county since GM closed, and it lands on the most economically stressed population of the Ohio AI cluster.</span><span class="s">Source: Census ACS 2023 B17001 (Trumbull County, OH)</span></li>
+    <li><span class="t">Veterans make up 9.0% of Trumbull adults (14,347 veterans), the highest veteran share of any Ohio batch-3 county. Youngstown Air Reserve Station&#x27;s proximity is part of why the Lordstown labor pool retained operations-and-maintenance skills the Stargate site can draw from.</span><span class="s">Source: Census ACS 2023 B21001 (Trumbull County, OH)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

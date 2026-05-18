@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+7.9%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=40.015&lon=-83.075&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=40.015&lon=-83.075&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Franklin County is the most populous of the central Ohio AI counties at 1,321,635 residents and includes Columbus. 42.0% of residents over 25 hold a bachelor&#x27;s degree, the highest education base of any AI county in Ohio.</span><span class="s">Source: Census ACS 2023 B01003, B15003 (Franklin County, OH)</span></li>
+    <li><span class="t">AEP Ohio residential rates rose 13.7% from 2021 to 2023, the same retail tariff that hits Licking and Fairfield counties. On the Franklin County median household income of $73,795, the $187 annual bill impact is muted by the strongest wage base in the cluster.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Ohio Power Co, OH) + Census ACS 2023 B19013</span></li>
+    <li><span class="t">Google&#x27;s Columbus campus opened in 2023 as the cloud region anchor for central Ohio. The AWS Hilliard site adds a 3-campus cluster in the western suburb, but neither operator has disclosed a single MW figure for any Franklin County build.</span><span class="s">Source: data/sites/data_centers.csv (Columbus Google, Hilliard)</span></li>
+    <li><span class="t">Home prices rose 8.1% and property tax assessments rose 7.9% over three years, the most restrained pair in the central Ohio cluster. The 34.7 median age and university anchor partly explain why Franklin has absorbed the AI announcements without the price spike Licking saw next door.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 39049) + Census ACS 2023 B01002</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Franklin County is 23.0% Black and 7.1% Hispanic, the most diverse county in the central Ohio AI cluster. Columbus absorbs the hyperscaler footprint without the demographic monoculture Licking and Fairfield show next door.</span><span class="s">Source: Census ACS 2023 B02001 and B03003 (Franklin County, OH)</span></li>
+    <li><span class="t">93.3% of Franklin households have wired broadband, the highest in any Ohio batch-3 county. The 547,922-unit housing stock includes Ohio State student rentals and downtown Columbus apartments that already run on fiber the rural AI counties lack.</span><span class="s">Source: Census ACS 2023 B28002 and B25003 (Franklin County, OH)</span></li>
+    <li><span class="t">Only 53.0% of Franklin&#x27;s housing is owner-occupied (290,219 units), the lowest of any Ohio AI county. The Google Columbus and AWS Hilliard builds therefore land in a rental-heavy market where landlord pass-throughs, not homeowner tax escrows, capture the bill-side rate impact.</span><span class="s">Source: Census ACS 2023 B25003 (Franklin County, OH)</span></li>
+    <li><span class="t">Manufacturing has fallen to 7.5% of Franklin&#x27;s workforce, half the share in Trumbull County. The Columbus cluster is the only Ohio AI county where the data center buildout is layering on a service economy rather than backfilling a deindustrialized one.</span><span class="s">Source: Census ACS 2023 C24050 (Franklin County, OH)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

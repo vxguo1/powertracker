@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+9.8%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=35.910&lon=-81.540&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=35.910&lon=-81.540&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Caldwell County is 80,618 residents with a $55,401 median household income and a median age of 45.5. Lenoir, the county seat at 18,352 residents, built its economy on Broyhill Furniture and the broader Catawba Valley furniture cluster before Google arrived in 2008.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B01002 (FIPS 37027) + sources[0] (Wikipedia: Lenoir, NC)</span></li>
+    <li><span class="t">Duke Energy Carolinas residential rates rose from 10.9 to 13.9 cents per kWh from 2021 to 2023, a 28.3% jump worth about $330 per year on a typical 10,800 kWh household. Duke serves 1.92 million residential customers in North Carolina alone.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Duke Energy Carolinas, NC)</span></li>
+    <li><span class="t">Home prices rose 23.2% over three years against a $174,000 median home value, the steepest 3-year home-price delta in any North Carolina AI county we track. Only 18.6% of adults hold a bachelor&#x27;s degree.</span><span class="s">Source: data/cache/realestate_yoy.csv (FIPS 37027) + Census ACS 2023 B25077, B15003</span></li>
+    <li><span class="t">Google&#x27;s Lenoir campus has been operational since 2008, well before the current AI boom. It is the longest-running hyperscaler campus on Duke Energy Carolinas, and the original tax-incentive package generated the local controversy now being replayed in Caldwell&#x27;s three new neighboring builds in Catawba and Rutherford.</span><span class="s">Source: data/sites/data_centers.csv (Lenoir) + sources[0]</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">21.5% of Caldwell County workers are in manufacturing, the highest manufacturing share of any AI host county in this batch. The Catawba Valley furniture and fiber-optic-cable cluster still employs more workers than any service sector.</span><span class="s">Source: Census ACS 2023 C24050 (FIPS 37027)</span></li>
+    <li><span class="t">Median gross rent in Caldwell is $735 a month, the lowest in this batch. With 26.0% renter households and a poverty rate of 12.7%, any wage-driven rent inflation from the Google Lenoir expansion lands hardest on the third of the county that does not own.</span><span class="s">Source: Census ACS 2023 B25064, B25003, B17001 (FIPS 37027)</span></li>
+    <li><span class="t">Caldwell County is 86.6% white, 4.1% Black, 6.4% Hispanic, and only 0.5% Asian. Google&#x27;s longest-running Southeast campus operates in a county that is demographically closer to mid-century Appalachia than to its Atlanta or Charlotte hyperscaler peers.</span><span class="s">Source: Census ACS 2023 B02001, B03003 (FIPS 37027)</span></li>
+    <li><span class="t">Only 1.2% of Caldwell residents moved in from another state in the past year, the second-lowest interstate migration rate in this batch. Google has spent 17 years operating in a county whose population is not being replenished by newcomers.</span><span class="s">Source: Census ACS 2023 B07001 (FIPS 37027)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+4.8%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=36.650&lon=-78.390&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=36.650&lon=-78.390&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Mecklenburg County has 30,431 residents and Boydton the seat has 302. Microsoft started its $500 million Boydton campus in 2010 and expanded it for another $350 million in 2014, the oldest hyperscaler footprint in this batch.</span><span class="s">Source: Census ACS 2023 B01003 (Mecklenburg County, VA and Boydton) + sources[0] (Wikipedia: Boydton, Virginia)</span></li>
+    <li><span class="t">Median household income in Mecklenburg County is $51,691 and the median home value is $169,400, the lowest home value and the lowest income of any Virginia county in this batch. Only 21.2% of residents over 25 hold a bachelor&#x27;s degree, less than half of Loudoun&#x27;s share.</span><span class="s">Source: Census ACS 2023 B19013, B25077, B15003 (FIPS 51117)</span></li>
+    <li><span class="t">Home prices in Mecklenburg County fell 12.7% over three years, the only county in this batch where Redfin shows a negative home-price delta. The 64 trailing-3-month sales is the lowest sales volume of any county in this batch, so the swing reflects a thin market as much as a softening one.</span><span class="s">Source: data/cache/realestate_yoy.csv (FIPS 51117)</span></li>
+    <li><span class="t">Dominion Energy Virginia residential rates rose 7.2% from 2021 to 2023, the same delta Loudoun and Prince William residents face despite the gap in incomes. A Boydton household at the $51,691 median feels that rate increase roughly three times harder than a Loudoun household at $178,707.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Virginia Electric &amp; Power Co, VA) + Census ACS 2023 B19013</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Mecklenburg is 32.9% Black against a 61.9% white share and just 3.0% Hispanic. The Black population share is the largest of any county in this batch and a sharper contrast against Loudoun&#x27;s 7.7% than any income gap.</span><span class="s">Source: Census ACS 2023 B02001, B03003 (FIPS 51117)</span></li>
+    <li><span class="t">Only 71.8% of Mecklenburg households have a home broadband subscription, the lowest broadband share of any county in this batch. Microsoft&#x27;s $850 million Boydton campus moves cloud bytes for the world from a county where 28% of households have no home internet.</span><span class="s">Source: Census ACS 2023 B28002 (FIPS 51117)</span></li>
+    <li><span class="t">17.4% of Mecklenburg residents live below the poverty line and median gross rent is $804 per month. Both numbers put the county closer to rural West Virginia or West Texas than to neighboring Dominion Virginia data-center counties.</span><span class="s">Source: Census ACS 2023 B17001, B25064 (FIPS 51117)</span></li>
+    <li><span class="t">Unemployment is just 3.0% on a small 12,887-person labor force, the tightest market of any Virginia county in this batch outside Loudoun. Manufacturing already employs 9.6% of workers, the largest manufacturing share of the six Virginia counties here.</span><span class="s">Source: Census ACS 2023 B23025, C24050 (FIPS 51117)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

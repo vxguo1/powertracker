@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+10.6%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=39.535&lon=-119.550&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=39.535&lon=-119.550&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Washoe County has 491,770 residents and a median household income of $85,600, both the highest of any AI county outside the Pacific Northwest tech corridor. The Tahoe Reno Industrial Center east of Sparks spans 107,000 acres, the largest industrial park in the United States.</span><span class="s">Source: Census ACS 2023 B01003, B19013 (Washoe County, NV) + sources[0] (Wikipedia: Tahoe Reno Industrial Center)</span></li>
+    <li><span class="t">Google bought 1,200 acres at the TRI Center for its Storey County campus. The same park already hosts Tesla&#x27;s Gigafactory Nevada, Switch, Walmart, and Panasonic battery production behind a private power network of more than 900 MW.</span><span class="s">Source: sources[0] (Wikipedia: Tahoe Reno Industrial Center) + data/sites/data_centers.csv</span></li>
+    <li><span class="t">NV Energy&#x27;s Nevada Power residential rate rose from 14.3 to 15.3 cents per kWh between 2021 and 2023, a 6.9% jump worth about $107 per year on a typical household. Sierra Pacific Power, the NV Energy subsidiary that actually serves Reno, posted a sharper 8.0% rise over the same period.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Nevada Power Co and Sierra Pacific Power Co, NV)</span></li>
+    <li><span class="t">Property tax assessments rose 10.6% over three years, sharper than the 6.3% home price gain. Apple&#x27;s Reno Technology Park added a second Sparks campus that runs on NV Energy alongside the Google site, with neither operator disclosing the actual draw.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 32031) + data/cache/realestate_yoy.csv + data/sites/data_centers.csv</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">25.6% of Washoe County residents are Hispanic and 5.6% are Asian, with a 65.5% white share. Reno is the most Hispanic of the Northwest tech-corridor AI host counties and the only one where the Hispanic share exceeds 20%.</span><span class="s">Source: Census ACS 2023 B02001, B03003 (FIPS 32031)</span></li>
+    <li><span class="t">40.5% of Washoe County households rent rather than own at a median gross rent of $1,507 a month, a stack much closer to Clark NV than to the rural northern Nevada baseline. The Tahoe Reno Industrial Center wage premium runs through this rental market.</span><span class="s">Source: Census ACS 2023 B25003, B25064 (FIPS 32031)</span></li>
+    <li><span class="t">9.6% of Washoe workers are in manufacturing, a higher share than Clark NV&#x27;s 3.9% even though Reno is one-fifth the population. Tesla Gigafactory and the Panasonic battery line at TRI are the visible drivers behind that ratio.</span><span class="s">Source: Census ACS 2023 C24050 (FIPS 32031)</span></li>
+    <li><span class="t">3.6% of Washoe residents moved in from another state in the past year, the highest interstate-migration rate of any Nevada AI county. The Bay Area to Reno corridor is still feeding labor into the Google and Apple builds.</span><span class="s">Source: Census ACS 2023 B07001 (FIPS 32031)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

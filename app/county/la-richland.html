@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+10.3%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=32.480&lon=-91.760&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=32.480&lon=-91.760&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Richland Parish has 19,908 residents and a median household income of $52,960, the lowest of any top-10 AI county. Meta&#x27;s Hyperion campus will draw up to 5 GW at full buildout, roughly 250 kW per resident.</span><span class="s">Source: Census ACS 2023 B01003, B19013 + sources[0] (Wikipedia: Hyperion data center)</span></li>
+    <li><span class="t">Meta is spending $10 billion on Hyperion on a 2,250-acre former-farmland parcel outside Rayville, a town of 3,297 people. The parish was originally named for the productivity of its cotton and soybean fields.</span><span class="s">Source: sources[0] (Wikipedia: Hyperion data center) + Census ACS 2023 B01003 (Rayville town)</span></li>
+    <li><span class="t">Entergy Louisiana&#x27;s residential rate actually fell 4.2% from 2021 to 2023, the only top-10 AI county where bills went down on a 3-year baseline. The state PSC has not yet ruled on how Hyperion&#x27;s load will affect that trajectory.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Entergy Louisiana LLC, LA)</span></li>
+    <li><span class="t">Richland&#x27;s property tax assessments rose 10.3% over three years, sharper than its near-zero population growth would predict. The Hyperion ITEP application is the explicit driver.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 22083)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">23.5% of Richland Parish residents live below the federal poverty line, the highest poverty rate of any top-10 AI host county. Meta&#x27;s $10 billion Hyperion campus will rise on land where roughly 1 in 4 neighbors already lives below poverty.</span><span class="s">Source: Census ACS 2023 B17001 (FIPS 22083)</span></li>
+    <li><span class="t">Richland Parish is 36.1% Black, 60.6% white, with only 434 Hispanic residents and zero Asian residents in the 2023 ACS sample. Hyperion lands in one of the few US AI campuses sited in a majority-non-white Black Belt parish.</span><span class="s">Source: Census ACS 2023 B02001, B03003 (FIPS 22083)</span></li>
+    <li><span class="t">Only 68.0% of Richland households have a wired broadband subscription at home, the lowest of any county in this batch. The Hyperion campus will sit on a fiber backbone its neighbors cannot afford to plug into.</span><span class="s">Source: Census ACS 2023 B28002 (FIPS 22083)</span></li>
+    <li><span class="t">Median gross rent in Richland is $836 a month, less than half of Union NJ ($1,664) and Dakota MN ($1,497). A 33.0% renter share with rents this low means a small dollar increase from Hyperion spillover can move a much larger share of household budgets.</span><span class="s">Source: Census ACS 2023 B25064, B25003 (FIPS 22083)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

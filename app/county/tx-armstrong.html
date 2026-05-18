@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat cool"><div class="l">Property tax &Delta; (3y)</div><div class="v">-7.9%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=34.970&lon=-101.360&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=34.970&lon=-101.360&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Armstrong County has 1,822 residents on 914 square miles, one of the smallest counties in Texas. The county seat is Claude, named in 1888 for a railroad engineer, and Charles Goodnight&#x27;s JA Ranch once spanned over a million acres across Armstrong and five adjoining counties.</span><span class="s">Source: Census ACS 2024 B01003 + sources[0] (Wikipedia: Armstrong County, TX)</span></li>
+    <li><span class="t">Google&#x27;s Armstrong campus is part of a $40 billion Texas commitment through 2027 that includes Armstrong and Haskell County sites. The two are Google&#x27;s only new Texas data center counties in the announcement.</span><span class="s">Source: sources[1] (Google: American Innovation Texas)</span></li>
+    <li><span class="t">Property tax assessments fell 7.9% over three years against a Texas-high $72,750 median household income for a county this small. The drop is a rare cool-tone in a state where most rural counties saw double-digit assessment jumps.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 48011) + Census ACS 2024 B19013</span></li>
+    <li><span class="t">Xcel Energy SPS serves Armstrong&#x27;s residential customers on the SPP grid, with a near-flat 0.1% 3-year rate decline. The campus will sit outside ERCOT, the only batch-4 Texas county not in the deregulated retail market.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Southwestern Public Service, TX) + data/sites/data_centers.csv</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Just 5.8% of Armstrong residents live in poverty and only 0.9% are unemployed, the lowest poverty and unemployment of any Texas county in batch 4. The Google campus is landing in a county where the baseline labor market is essentially closed.</span><span class="s">Source: Census ACS 2023 B17001, B23025 (FIPS 48011)</span></li>
+    <li><span class="t">81.8% of Armstrong households own their home, tied for the highest owner-occupied share in batch 4. Median gross rent is $1,010 on a rental stock of fewer than 130 units, meaning new arrivals have almost nowhere to land.</span><span class="s">Source: Census ACS 2023 B25003, B25064 (FIPS 48011)</span></li>
+    <li><span class="t">Hispanic residents make up 9.6% of Armstrong&#x27;s 1,883 people, the lowest Hispanic share of any rural Texas county in batch 4. 92.6% of residents are white alone, atypical for the southern High Plains.</span><span class="s">Source: Census ACS 2023 B03003, B02001 (FIPS 48011)</span></li>
+    <li><span class="t">91.9% of Armstrong households have broadband at home, far above the rural Texas average. 93.0% of residents over 1 lived in the same house a year ago, the most settled population in batch 4.</span><span class="s">Source: Census ACS 2023 B28002, B07001 (FIPS 48011)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

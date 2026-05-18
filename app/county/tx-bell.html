@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+9.4%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=31.100&lon=-97.340&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=31.100&lon=-97.340&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Bell County has 386,897 residents and contains Fort Cavazos (formerly Fort Hood), one of the largest US Army installations in the country. Meta restarted construction on the Temple campus in 2024 with a new AI-optimized design after pausing the project.</span><span class="s">Source: Census ACS 2024 B01003 + data/sites/data_centers.csv (Temple, Meta) + sources[0] (Wikipedia: Bell County)</span></li>
+    <li><span class="t">Median household income is $68,865 and the median home value is $241,000, both at the rural-Texas baseline despite the metro Killeen-Temple-Fort Cavazos labor market. Property tax assessments rose 9.4% over three years.</span><span class="s">Source: Census ACS 2024 B19013, B25077 + data/cache/property_tax_yoy.csv (FIPS 48027)</span></li>
+    <li><span class="t">Home prices are down 0.1% on a 3-year baseline, essentially flat, while neighboring DFW counties saw double-digit declines. The Temple campus sits on Oncor&#x27;s ERCOT-side grid, where there is no published residential rate delta because of deregulation.</span><span class="s">Source: data/cache/realestate_yoy.csv (FIPS 48027) + data/cache/utility_rate_yoy.csv (no Oncor residential row)</span></li>
+    <li><span class="t">The 27.2% bachelor&#x27;s share is the lowest of any major Texas data-center county outside the Panhandle. Meta has not yet disclosed Temple&#x27;s MW, leaving the regional load impact invisible.</span><span class="s">Source: Census ACS 2024 B15003 + data/sites/data_centers.csv</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">19.4% of Bell County adults are veterans, the highest veteran share in batch 4 and roughly four times the Texas average. Fort Cavazos retirees and active-duty separations dominate the post-service civilian labor market around the Meta Temple site.</span><span class="s">Source: Census ACS 2023 B21001 (FIPS 48027)</span></li>
+    <li><span class="t">Bell County is 52.1% white, 23.3% Black, and 25.8% Hispanic, the most racially balanced batch-4 county. Killeen and Temple have absorbed Army-driven demographic mixing for decades, distinct from rural Texas next door.</span><span class="s">Source: Census ACS 2023 B02001, B03003 (FIPS 48027)</span></li>
+    <li><span class="t">14.6% of Bell residents live in poverty and 6.5% are unemployed, both well above the Texas state baseline. The Meta campus enters a labor market where one in seven residents already qualifies as poor.</span><span class="s">Source: Census ACS 2023 B17001, B23025 (FIPS 48027)</span></li>
+    <li><span class="t">Only 56.2% of Bell households own their home, the second lowest owner-occupied rate in batch 4 after Shelby. Military-rotation rentals depress the ownership baseline that Killeen&#x27;s home-price decline would normally help.</span><span class="s">Source: Census ACS 2023 B25003 (FIPS 48027)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

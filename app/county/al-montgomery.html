@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat hot"><div class="l">Property tax &Delta; (3y)</div><div class="v">+23.8%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=32.390&lon=-86.300&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=32.390&lon=-86.300&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Montgomery County has 227,197 residents and a median household income of $58,153. Hyundai Motor Manufacturing Alabama has been the largest private employer at 3,530 workers since the plant opened in May 2005, with another 1,010 at MOBIS Alabama and 12,280 at Maxwell-Gunter Air Force Base.</span><span class="s">Source: Census ACS 2023 B01003, B19013 + sources[0] (Wikipedia: Hyundai Motor Manufacturing Alabama) + sources[1] (Wikipedia: Montgomery, Alabama)</span></li>
+    <li><span class="t">Alabama Power&#x27;s residential rate rose 10.7%, from 15.1 to 16.8 cents per kWh between 2021 and 2023, on 1.33 million in-state residential customers. That adds about $179 per year to a typical 10,800 kWh household bill.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Alabama Power Co, AL)</span></li>
+    <li><span class="t">Property tax assessments rose 23.8% on a 3-year baseline, the steepest move in this batch and the second-steepest of any AI county. Home prices rose 12.0% over the same window against a median home value of $160,100.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 01101) + data/cache/realestate_yoy.csv + Census ACS 2023 B25077</span></li>
+    <li><span class="t">34.3% of Montgomery County adults hold a bachelor&#x27;s degree, which is well above the surrounding Black-Belt counties. Meta&#x27;s campus joins an industrial corridor where automotive and federal employers already anchor the load.</span><span class="s">Source: Census ACS 2023 B15003 (Montgomery County, AL)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">58.8% of Montgomery County residents are Black alone and 19.3% live in poverty, the highest poverty rate in this batch. The Meta campus drops on the most racially and economically distinct host community in the batch.</span><span class="s">Source: Census ACS 2023 B02001_001E, B02001_003E, B17001_001E, B17001_002E (Montgomery County, AL)</span></li>
+    <li><span class="t">Only 57.7% of Montgomery County housing units are owner-occupied, the lowest owner share in this batch outside Fulton. The 42% renter base will see the Alabama Power rate increase pass straight into monthly rent before any property reassessment cycle catches up.</span><span class="s">Source: Census ACS 2023 B25003_001E, B25003_002E (Montgomery County, AL)</span></li>
+    <li><span class="t">8.9% of adults are veterans, the highest veteran share in this batch and a direct reflection of the Maxwell-Gunter footprint. Federal and military payrolls already stabilize the local labor base before the Meta build adds construction headcount.</span><span class="s">Source: Census ACS 2023 B21001_001E, B21001_002E (Montgomery County, AL)</span></li>
+    <li><span class="t">Median gross rent is $1,061 against a 12.4% manufacturing employment share, half the Jackson-County share to the north. Montgomery is the post-industrial pivot county in the Alabama pair, not the rural one.</span><span class="s">Source: Census ACS 2023 B25064_001E, C24050_001E, C24050_004E (Montgomery County, AL)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

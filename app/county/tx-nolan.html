@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+4.8%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=32.470&lon=-100.410&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=32.470&lon=-100.410&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Sweetwater has 10,484 residents and the surrounding Nolan County has 14,565. IREN&#x27;s 2 GW Sweetwater campus is roughly 200 kW of AI compute per Nolan County resident, the highest per-capita load of any top-10 county.</span><span class="s">Source: Census ACS 2023 B01003 (Sweetwater city, Nolan County)</span></li>
+    <li><span class="t">Nolan County hosts more than 1,500 MW of installed wind capacity, including the Roscoe Wind Farm. Wind paid the county about $18 million in landowner royalties and $12 million in school taxes in a single year, the existing rural-electric template that AI is now joining.</span><span class="s">Source: sources[0] (Wikipedia: Sweetwater, Texas)</span></li>
+    <li><span class="t">Median household income in Nolan County is $50,160 and the median home value is $98,300, the lowest in any top-10 AI county. Only 13.7% of residents over 25 hold a bachelor&#x27;s degree.</span><span class="s">Source: Census ACS 2023 B19013, B25077, B15003</span></li>
+    <li><span class="t">Property tax assessments rose 4.8% over three years, the most restrained of any top-10 AI county. ERCOT&#x27;s deregulated retail market means there is no published residential rate delta for AEP Texas, so the bill-side impact of 2 GW of new IREN demand is invisible in the standard data.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 48353) + data/cache/utility_rate_yoy.csv (no AEP Texas residential row)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">37.0% of Nolan County residents are Hispanic, roughly triple the share Sweetwater carried in the 1980 census. The IREN campus is landing in a county where the wind-farm boom already brought Latino transmission-line crews.</span><span class="s">Source: Census ACS 2023 B03003 (FIPS 48353)</span></li>
+    <li><span class="t">12.8% of Nolan&#x27;s working population is in manufacturing, the highest mfg share of any batch-4 Texas county outside Ellis. Sweetwater&#x27;s cement and gypsum plants plus wind-tower fabrication anchor the existing industrial wage floor.</span><span class="s">Source: Census ACS 2023 C24050 (FIPS 48353)</span></li>
+    <li><span class="t">18.8% of Nolan residents live in poverty and 5.7% are unemployed, with only 80.7% of households on home broadband. The IREN 2 GW campus is moving into the second-poorest county in batch 4 after Hale.</span><span class="s">Source: Census ACS 2023 B17001, B23025, B28002 (FIPS 48353)</span></li>
+    <li><span class="t">66.1% of Nolan households own their home and median gross rent is $866. The 200 kW per resident IREN density is the per-capita extreme of batch 4, in a county whose existing rental stock is about 1,800 units.</span><span class="s">Source: Census ACS 2023 B25003, B25064 (FIPS 48353)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

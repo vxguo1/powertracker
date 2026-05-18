@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+11.5%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=37.360&lon=-77.440&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=37.360&lon=-77.440&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Chesterfield County has 371,610 residents and a median household income of $98,910, the third-highest of the six Virginia counties in this batch. The 120 MW CoreWeave / Chirisa campus in Chester sits roughly 15 miles south of downtown Richmond on the Meadowville Technology Park corridor.</span><span class="s">Source: Census ACS 2023 B01003, B19013 (FIPS 51041) + app/county/va-chesterfield.html</span></li>
+    <li><span class="t">Dominion Energy Virginia residential rates rose 7.2% from 2021 to 2023, the same rate-delta hitting every other Dominion-served county in this batch. The cost is allocated state-wide regardless of which county hosts the data-center load.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Virginia Electric &amp; Power Co, VA)</span></li>
+    <li><span class="t">Chesterfield property tax assessments rose 11.5% over three years on a $2,773 median bill, the second-steepest tax move of any Virginia county in this batch. Home prices rose 6.9% over the same window against a $336,700 median home value.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 51041) + data/cache/realestate_yoy.csv + Census ACS 2023 B25077</span></li>
+    <li><span class="t">42.7% of Chesterfield residents over 25 hold a bachelor&#x27;s degree, well above the national 35% but below Loudoun&#x27;s 64% and Henrico&#x27;s 45.7%. The county is the suburban-family bedroom for Richmond, not the data-center magnet that Northern Virginia is.</span><span class="s">Source: Census ACS 2023 B15003 (Chesterfield County, VA)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Chesterfield is 23.5% Black, 11.4% Hispanic, and 3.5% Asian against a 59.5% white share. The Black population share is the second-highest in this batch behind Henrico, and well above neighboring Loudoun&#x27;s 7.7%.</span><span class="s">Source: Census ACS 2023 B02001, B03003 (FIPS 51041)</span></li>
+    <li><span class="t">Median gross rent in Chesterfield County is $1,542 per month, less than two-thirds of Loudoun&#x27;s $2,317 despite the same Dominion rate-of-load shock. 77.3% of occupied homes are owner-occupied, the highest in Virginia data-center counties tied with Loudoun.</span><span class="s">Source: Census ACS 2023 B25064, B25003 (FIPS 51041)</span></li>
+    <li><span class="t">Only 6.8% of Chesterfield residents live below the poverty line, the lowest poverty rate of any Virginia data-center county in this batch outside Loudoun and Stafford. 9.0% of adults are veterans, comparable to Henrico but well below Stafford&#x27;s 17.5%.</span><span class="s">Source: Census ACS 2023 B17001, B21001 (FIPS 51041)</span></li>
+    <li><span class="t">88.0% of Chesterfield residents lived in the same house one year earlier. The county is the suburban anchor that retains families, not the transient corridor that Loudoun has become for federal contractors.</span><span class="s">Source: Census ACS 2023 B07001 (FIPS 51041)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

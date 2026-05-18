@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+10.7%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=33.210&lon=-79.970&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=33.210&lon=-79.970&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Berkeley County grew 29.2% from 2010 to 2020 and now has 246,802 residents, the fastest growth in any batch-4 county. Google has anchored Mount Holly since 2007 and announced $9 billion through 2027 to expand the Berkeley campus plus two new Dorchester County sites.</span><span class="s">Source: Census ACS 2024 B01003 + sources[1] (Google datacenters)</span></li>
+    <li><span class="t">Berkeley Electric Cooperative serves 115,117 residential members and is the only batch-4 utility that is a rural electric cooperative. Its residential rate rose 9.6% from 2021 to 2023, about $137 per year on a typical bill.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Berkeley Electric Coop Inc, SC)</span></li>
+    <li><span class="t">Property tax assessments rose 10.7% over three years against a county median income of $84,358 and a 56.2% combined Black and Hispanic share. Google signed a 225 MW renewable PPA in South Carolina in 2023 to offset the campus expansion.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 45015) + Census ACS 2024 B19013 + sources[1]</span></li>
+    <li><span class="t">Volvo Cars, Nucor, and Booz Allen Hamilton are already in Berkeley&#x27;s top employer list, and over 900 Google jobs sit across the three SC campuses. The 31.0% bachelor&#x27;s share is mid-pack for a county anchoring a $9 billion hyperscaler buildout.</span><span class="s">Source: Census ACS 2024 B15003 + sources[0] (Wikipedia: Berkeley County)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Berkeley County is 23.2% Black and 8.9% Hispanic, the deepest combined non-white share of any batch-3 county outside Franklin OH. The Mount Holly Google campus sits in a Lowcountry corridor where the Gullah Geechee population has anchored Berkeley&#x27;s coastal demographics for three centuries.</span><span class="s">Source: Census ACS 2023 B02001 and B03003 (Berkeley County, SC)</span></li>
+    <li><span class="t">12.5% of Berkeley adults are veterans (21,799 veterans), the highest veteran share of any AI county on the East Coast. Joint Base Charleston&#x27;s labor spillover gives Google the deepest operations-and-maintenance recruitment pool in the Southeast.</span><span class="s">Source: Census ACS 2023 B21001 (Berkeley County, SC)</span></li>
+    <li><span class="t">Manufacturing employs 13.2% of Berkeley&#x27;s workforce (14,922 jobs), reflecting the Volvo, Boeing 787, and Nucor footprints already in the Lowcountry industrial belt. Google&#x27;s $9 billion buildout layers AI capacity on top of an existing heavy-manufacturing labor base rather than into a deindustrialized one.</span><span class="s">Source: Census ACS 2023 C24050 (Berkeley County, SC)</span></li>
+    <li><span class="t">Median gross rent in Berkeley County is $1,518, well above the SC state average and second only to Washington County OR among batch-3 sites. The Charleston spillover means the same renter base that powers AI campus operations is paying near-coastal rents on a Lowcountry wage.</span><span class="s">Source: Census ACS 2023 B25064 (Berkeley County, SC)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

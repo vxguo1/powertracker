@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+13.3%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=39.710&lon=-82.600&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=39.710&lon=-82.600&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Fairfield County has 161,289 residents and a median household income of $87,069, the highest of any batch-3 county. Lancaster, the county seat, has 40,552 residents and a 200-year glass-manufacturing legacy that earned it the nickname Glass City.</span><span class="s">Source: Census ACS 2023 B01003, B19013 (Fairfield County, OH) + sources[0] (Wikipedia: Lancaster, OH)</span></li>
+    <li><span class="t">AEP Ohio (Ohio Power Co) residential rates rose 13.7%, from 12.6 to 14.4 cents per kWh between 2021 and 2023. That adds about $187 per year to a typical household bill before any new AI demand flows through to retail.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Ohio Power Co, OH)</span></li>
+    <li><span class="t">Home prices rose 11.1% over three years against a $272,200 median home value. Property tax assessments rose 13.3% in the same window, the second-steepest of any batch-3 county.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 39045) + Census ACS 2023 B25077</span></li>
+    <li><span class="t">Google&#x27;s Lancaster campus is the southernmost site in its $2.3 billion central Ohio cluster, joining the Columbus and New Albany builds in Franklin and Licking counties. All three counties share the same AEP Ohio retail tariff, so the Lancaster build&#x27;s bill impact is indistinguishable from its neighbors.</span><span class="s">Source: data/sites/data_centers.csv (Lancaster Google) + data/cache/utility_rate_yoy.csv (Ohio Power Co, OH)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">91.2% of Fairfield County households subscribe to wired broadband, the highest connectivity rate of any Ohio county in this batch. The Google Lancaster build lands in the part of the central Ohio cluster least exposed to a residential digital divide.</span><span class="s">Source: Census ACS 2023 B28002 (Fairfield County, OH)</span></li>
+    <li><span class="t">Fairfield&#x27;s poverty rate is 8.2% and unemployment is just 3.6%, the tightest labor market of the four Ohio AI counties. Any local hire for the Lancaster Google campus pulls from a workforce that is already near full employment.</span><span class="s">Source: Census ACS 2023 B17001 and B23025 (Fairfield County, OH)</span></li>
+    <li><span class="t">Median gross rent in Fairfield County is $1,114, well below the Franklin County figure of $1,233 next door. The 16-mile commute from Lancaster to Columbus is a rent arbitrage already running before Google adds construction labor demand.</span><span class="s">Source: Census ACS 2023 B25064 (Fairfield County, OH)</span></li>
+    <li><span class="t">89.0% of Fairfield residents lived in the same county a year earlier, the lowest residential stickiness of the central Ohio AI cluster. The county is already a net in-migration destination for Columbus commuters, a flow the Google campus will accelerate.</span><span class="s">Source: Census ACS 2023 B07001 (Fairfield County, OH)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

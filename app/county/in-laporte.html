@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+9.8%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=41.610&lon=-86.720&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=41.610&lon=-86.720&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">LaPorte County&#x27;s 112,141 residents have a median household income of $70,452 and a median age of 40.8. Only 21.7% of adults 25 and older hold a bachelor&#x27;s degree, well below the share at next-door St. Joseph County where Notre Dame sits.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B01002, B15003 (FIPS 18091)</span></li>
+    <li><span class="t">Microsoft&#x27;s $1 billion La Porte campus is a 245,000 sqft build at the Radius Industrial Park. Indiana Michigan Power residential rates rose 5.1% from 2021 to 2023, adding about $86 per year to a typical household bill, and the utility serves 422,062 residential customers across the region.</span><span class="s">Source: data/sites/data_centers.csv (La Porte campus) + data/cache/utility_rate_yoy.csv (Indiana Michigan Power Co, IN)</span></li>
+    <li><span class="t">County home prices rose 19.1% over three years against a $180,700 median home value, the steepest 3-year delta of any non-coastal Microsoft site in our cache. Property tax assessments tracked at +9.8%.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 18091) + Census ACS 2023 B25077</span></li>
+    <li><span class="t">Microsoft has now announced three Indiana Michigan Power campuses in the South Bend metro: Project Rainier in New Carlisle, Granger, and La Porte. The three sites together are the largest concentration of new AI load tied to a single mid-size Midwestern utility.</span><span class="s">Source: data/sites/data_centers.csv (Project Rainier, Granger, La Porte)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Manufacturing accounts for 22.5% of LaPorte County jobs, the highest manufacturing share in the Indiana group and the second-highest in this batch after Whitfield. Microsoft&#x27;s La Porte campus lands at the Radius Industrial Park inside one of the most factory-anchored host counties of the 16.</span><span class="s">Source: Census ACS 2023 C24050_001E, C24050_004E (LaPorte County, IN)</span></li>
+    <li><span class="t">14.0% of LaPorte residents live in poverty against a $926 median gross rent. The county has the second-highest poverty rate in this batch after Montgomery Alabama, paired with the second-cheapest rent in the Indiana group.</span><span class="s">Source: Census ACS 2023 B17001_001E, B17001_002E, B25064_001E (LaPorte County, IN)</span></li>
+    <li><span class="t">10.5% of LaPorte residents are Black alone, the highest Black share in the Indiana AI group and a Gary-and-Michigan-City legacy. The Microsoft build adds load to a county whose population profile mirrors the broader Lake Michigan industrial arc.</span><span class="s">Source: Census ACS 2023 B02001_001E, B02001_003E (LaPorte County, IN)</span></li>
+    <li><span class="t">7.4% of LaPorte adults are veterans and 86.7% lived in the same house a year ago. The campus arrives in a settled, veteran-heavy labor pool that has already weathered the closures of NIPSCO coal units and the Bethlehem Steel downsize.</span><span class="s">Source: Census ACS 2023 B21001_001E, B21001_002E, B07001_001E, B07001_017E (LaPorte County, IN)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

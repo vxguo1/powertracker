@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+6.5%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=43.200&lon=-78.730&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=43.200&lon=-78.730&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Niagara County has 211,341 residents and a median household income of $67,809. Home prices rose 23.4% over three years, the steepest 3-year gain in any batch-3 county, against a median home value of just $177,400.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B25077 (Niagara County, NY) + data/cache/realestate_yoy.csv</span></li>
+    <li><span class="t">Lake Mariner sits on the former Somerset coal plant site in Barker, leased to TeraWulf by an entity 99.9% owned by CEO Paul Prager. The 360 MW campus signed AI hosting agreements with Fluidstack that route capacity to Google, the largest hyperscaler tied to Niagara hydropower.</span><span class="s">Source: sources[0] (Wikipedia: TeraWulf) + data/sites/data_centers.csv</span></li>
+    <li><span class="t">Niagara Mohawk&#x27;s residential rate rose only 4.5% from 2021 to 2023, well below the New York investor-owned average. New York State Electric and Gas in the same region rose 27.9%, so the bill outcome for Lake Mariner&#x27;s neighbors depends entirely on which utility their meter is on.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Niagara Mohawk Power Corp and New York State Elec and Gas, NY)</span></li>
+    <li><span class="t">Anthropic&#x27;s New York campus in the Town of Niagara is a Fluidstack custom build with no announced MW disclosure. The town itself has 7,903 residents, so the project will likely be the second-largest private employer in the municipality once energized.</span><span class="s">Source: data/sites/data_centers.csv (Anthropic New York) + sources[1] (Wikipedia: Niagara town NY)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">70.9% of Niagara County housing is owner-occupied at a median home value cited elsewhere of $177,400, so the speculative spillover from Lake Mariner lands largely on existing homeowners rather than a thin rental market.</span><span class="s">Source: Census ACS 2023 B25003 (Niagara County, NY)</span></li>
+    <li><span class="t">Manufacturing still employs 13.9% of Niagara&#x27;s workforce, a holdover from the chemical and metals economy along the Niagara River that historically rode the same hydro that now powers TeraWulf.</span><span class="s">Source: Census ACS 2023 C24050 (Niagara County, NY)</span></li>
+    <li><span class="t">Niagara&#x27;s veteran share is 7.7% of adults 18 and over (13,066 veterans), an underused labor pool the Lake Mariner site could tap for plant-operator roles converted from former Somerset coal staff.</span><span class="s">Source: Census ACS 2023 B21001 (Niagara County, NY)</span></li>
+    <li><span class="t">Only 88.6% of Niagara households have a wired broadband subscription, behind the national 91% baseline. The same Town of Niagara that hosts the Anthropic build sits in the lower-connectivity bucket for upstate New York.</span><span class="s">Source: Census ACS 2023 B28002 (Niagara County, NY)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

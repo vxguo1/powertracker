@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+4.1%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=42.720&lon=-87.860&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=42.720&lon=-87.860&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">27,694 people live in Mount Pleasant village. The two Microsoft campuses on the old Foxconn parcel add up to 3.3 GW of announced load, roughly 120 kW of AI compute per resident.</span><span class="s">Source: Census ACS 2023 B01003 (Mount Pleasant village, WI) + data/sites/data_centers.csv</span></li>
+    <li><span class="t">The We Energies residential rate rose from 17.3 cents to 19.2 cents per kWh from 2021 to 2023, an 11.4% jump. On an average 10,800 kWh household, that is about $213 more per year on bills, against a county median income of $75,331.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Wisconsin Electric Power Co, WI) + Census ACS 2023 B19013</span></li>
+    <li><span class="t">Microsoft bought the 315-acre Mount Pleasant parcel for $50 million in April 2023, eight years after Wisconsin pledged $3 billion to $4.8 billion in subsidies for a Foxconn LCD plant that never opened. The state recovered most of those credits when the Foxconn deal was renegotiated down to $672 million in 2021.</span><span class="s">Source: sources[0] (Wikipedia: Foxconn in Wisconsin)</span></li>
+    <li><span class="t">County home prices are up 24.9% on a 3-year baseline, the steepest of any top-10 AI county, while property tax growth has been held to 4.1% by the local TIF financing that backed the original Foxconn deal.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 55101)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Racine is 10.6% Black, 14.6% Hispanic, and 1.2% Asian against a 74.2% white share. The Black population share is the largest of any Wisconsin county in this batch and more than seven times Ozaukee&#x27;s 1.5% next door.</span><span class="s">Source: Census ACS 2023 B02001, B03003 (FIPS 55101)</span></li>
+    <li><span class="t">20.8% of Racine workers are in manufacturing, the second-highest manufacturing share in this batch behind Dodge. Median gross rent is $1,017 per month, lower than Ozaukee&#x27;s $1,112 despite Racine being a much larger labor market.</span><span class="s">Source: Census ACS 2023 C24050, B25064 (FIPS 55101)</span></li>
+    <li><span class="t">Unemployment in Racine is 4.2% and 10.8% of residents live below the poverty line. Both numbers run roughly double Ozaukee&#x27;s despite the same We Energies rate environment and roughly 60 miles of separation.</span><span class="s">Source: Census ACS 2023 B23025, B17001 (FIPS 55101)</span></li>
+    <li><span class="t">90.0% of Racine households have a home broadband subscription and 6.6% of adults are veterans. The broadband share trails Ozaukee&#x27;s 93.0% by 3 points despite the Foxconn-era fiber investment in Mount Pleasant.</span><span class="s">Source: Census ACS 2023 B28002, B21001 (FIPS 55101)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

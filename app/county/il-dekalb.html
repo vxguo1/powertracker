@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+5.3%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=41.930&lon=-88.740&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=41.930&lon=-88.740&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Meta announced an $800 million DeKalb data center in June 2020. Northern Illinois University, the city&#x27;s largest employer with about 20,000 students, is Illinois&#x27;s third-largest campus and shares the same ComEd substation rotation that now backs the Meta build.</span><span class="s">Source: sources[0] (Wikipedia: DeKalb, Illinois)</span></li>
+    <li><span class="t">DeKalb already hosts distribution warehouses for Target, 3M, Nestle, and Ferrara Candy Company. The Meta campus on the south side of town joins that industrial cluster instead of starting greenfield.</span><span class="s">Source: sources[0] (Wikipedia: DeKalb, Illinois)</span></li>
+    <li><span class="t">DeKalb County has 100,512 residents on a median household income of $69,022. Home prices rose 20.5% over three years against a $231,900 median home value, the sharpest move in this batch.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B25077 + data/cache/realestate_yoy.csv (FIPS 17037)</span></li>
+    <li><span class="t">ComEd&#x27;s residential rate rose only 3.1% over three years and property tax assessments rose 5.3% over the same window, both the most restrained in this batch outside Dalton. Illinois&#x27;s nuclear-heavy generation mix is the structural reason the rate is so flat.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Commonwealth Edison Co, IL) + data/cache/property_tax_yoy.csv (FIPS 17037)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Unemployment in DeKalb County is 7.1%, the highest in this batch and more than twice the Dallas Iowa or Ada Idaho rate. The Meta campus arrives in a labor market with the most slack, which is the structural reason home-price acceleration without wage acceleration is plausible.</span><span class="s">Source: Census ACS 2023 B23025_002E, B23025_005E (DeKalb County, IL)</span></li>
+    <li><span class="t">14.0% of DeKalb residents are Hispanic of any race and 6.4% are foreign-born, well above the rural-Illinois baseline. The Northern Illinois University-anchored labor pool already pulls a more diverse base than the surrounding farm counties.</span><span class="s">Source: Census ACS 2023 B03003_001E, B03003_003E, B05002_001E, B05002_013E (DeKalb County, IL)</span></li>
+    <li><span class="t">Only 60.9% of DeKalb housing units are owner-occupied, the second-lowest owner share in this batch after Fulton. The 39.1% renter base is partly student housing for NIU&#x27;s 20,000 students, the cohort least insulated from any ComEd rate move that follows the Meta build.</span><span class="s">Source: Census ACS 2023 B25003_001E, B25003_002E (DeKalb County, IL)</span></li>
+    <li><span class="t">15.9% of DeKalb residents live in poverty and median gross rent is $1,041. The combined poverty-and-rent profile is closer to a Rust Belt mid-size city than to the I-90 logistics corridor DeKalb appears in on a map.</span><span class="s">Source: Census ACS 2023 B17001_001E, B17001_002E, B25064_001E (DeKalb County, IL)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

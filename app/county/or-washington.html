@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+6.7%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=45.520&lon=-122.990&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=45.520&lon=-122.990&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Washington County has 600,266 residents and a median household income of $104,434, the highest income of any AI county nationwide. 46.7% of residents over 25 hold a bachelor&#x27;s degree.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B15003 (Washington County, OR)</span></li>
+    <li><span class="t">Portland General Electric residential rates rose 29.7%, from 14.0 to 18.2 cents per kWh between 2021 and 2023, adding about $450 per year to a typical household bill. That delta lands on Hillsboro CoreWeave at the same time Intel is contracting its 16,000-employee Silicon Forest footprint.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Portland General Electric Co, OR) + sources[0] (Wikipedia: Hillsboro, OR)</span></li>
+    <li><span class="t">Hillsboro is the fifth-most populous city in Oregon at 106,447 residents and the only AI county where data centers compete with Intel for fiber, power, and tax abatement. Three trans-Pacific fiber optic cable systems land in Hillsboro.</span><span class="s">Source: sources[0] (Wikipedia: Hillsboro, OR)</span></li>
+    <li><span class="t">Home prices fell 1.1% over three years, the only negative 3-year home-price reading in any AI county nationwide. The CoreWeave/Flexential build is therefore the rare AI campus arriving as residential demand cools rather than accelerates.</span><span class="s">Source: data/cache/realestate_yoy.csv (FIPS 41067)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Washington County is 11.2% Asian (67,098 residents) and 18.2% Hispanic, the most diverse county in the Oregon AI cluster. Hillsboro&#x27;s Silicon Forest workforce has carried a Chinese, Vietnamese, and Indian engineering base since the 1990s Intel buildout.</span><span class="s">Source: Census ACS 2023 B02001 and B03003 (Washington County, OR)</span></li>
+    <li><span class="t">Manufacturing still employs 17.6% of Washington County&#x27;s workforce (55,826 jobs), the highest manufacturing share of any Oregon AI county. The CoreWeave Hillsboro build inherits the fiber, fab-experienced labor, and substation density that Intel&#x27;s contraction is releasing.</span><span class="s">Source: Census ACS 2023 C24050 (Washington County, OR)</span></li>
+    <li><span class="t">94.7% of Washington households subscribe to wired broadband, the highest connectivity in any batch-3 county. Hillsboro&#x27;s three trans-Pacific cable landings and Frontier&#x27;s residential fiber footprint give the CoreWeave campus a connectivity floor no other AI county matches.</span><span class="s">Source: Census ACS 2023 B28002 (Washington County, OR)</span></li>
+    <li><span class="t">Median gross rent is $1,773, the highest of any AI county nationwide. The CoreWeave/Flexential build lands in a rental market where the residential cost burden is already structural, well before any AI-driven rate pass-through.</span><span class="s">Source: Census ACS 2023 B25064 (Washington County, OR)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

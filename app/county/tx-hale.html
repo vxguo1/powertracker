@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+10.4%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=33.830&lon=-101.850&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=33.830&lon=-101.850&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Hale County has 32,131 residents and Plainview, the county seat, fell 9% from 22,194 to 20,187 between 2010 and 2020. TeraWulf and Fluidstack announced a 168 MW campus in Abernathy backed by a Google offtake commitment.</span><span class="s">Source: Census ACS 2024 B01003 + sources[0] (Wikipedia: Plainview, TX) + data/sites/data_centers.csv</span></li>
+    <li><span class="t">Median household income is $51,897 and the median home value is $116,500, the second lowest values in batch 4 after Dickens. Property tax assessments still rose 10.4% over three years on the smaller base.</span><span class="s">Source: Census ACS 2024 B19013, B25077 + data/cache/property_tax_yoy.csv (FIPS 48189)</span></li>
+    <li><span class="t">Only 15.3% of Hale residents over 25 hold a bachelor&#x27;s degree, second lowest in batch 4 after Childress. The 168 MW Abernathy site is the smallest disclosed MW in any batch-4 county, but a Google-backed deal is unusual for TeraWulf.</span><span class="s">Source: Census ACS 2024 B15003 + data/sites/data_centers.csv</span></li>
+    <li><span class="t">Abernathy sits on AEP Texas inside ERCOT, with no published residential rate delta because of deregulation. The campus adds about 5.2 kW of AI compute per Hale County resident, the lowest per-capita density in batch 4.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (no AEP Texas residential row) + data/sites/data_centers.csv</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">60.8% of Hale County residents are Hispanic, the second highest Hispanic share in batch 4 after Bexar. The TeraWulf Abernathy campus is landing in a majority-Hispanic county with falling population.</span><span class="s">Source: Census ACS 2023 B03003 (FIPS 48189)</span></li>
+    <li><span class="t">19.0% of Hale residents live below the poverty line, the highest poverty rate in batch 4. Cargill&#x27;s Plainview beef plant closed in 2013 and the county has not replaced that wage floor.</span><span class="s">Source: Census ACS 2023 B17001 (FIPS 48189)</span></li>
+    <li><span class="t">Only 80.8% of Hale households have broadband at home, tied for second lowest in batch 4. The TeraWulf site is plugging into ERCOT in a county where one in five households is offline.</span><span class="s">Source: Census ACS 2023 B28002 (FIPS 48189)</span></li>
+    <li><span class="t">5.9% of Hale&#x27;s labor force works in manufacturing and 4.2% of adults are veterans. The Wayland Baptist student population skews the broader workforce demographics in Plainview.</span><span class="s">Source: Census ACS 2023 C24050, B21001 (FIPS 48189)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+14.2%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=33.690&lon=-83.660&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=33.690&lon=-83.660&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Walton County&#x27;s seat is Monroe with a 2020 population of 96,673, and the Meta site is in Social Circle, a town of 4,974 residents 45 miles east of Atlanta. Total county population is 100,361.</span><span class="s">Source: sources[0] (Wikipedia: Social Circle, Georgia) + sources[1] (Wikipedia: Walton County, Georgia) + Census ACS 2023 B01003</span></li>
+    <li><span class="t">Home prices fell 4.4% on a 3-year baseline against a $300,500 median home value, the only AI county outside Douglas where Redfin shows a clear negative trend. Property taxes still rose 14.2% over the same window.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 13297) + Census ACS 2023 B25077</span></li>
+    <li><span class="t">Median household income is $82,381 and 24.9% of adults hold a bachelor&#x27;s degree. The 39.7 median age is the oldest in this batch by more than a year, reflecting a settled exurban demographic rather than a college or boomtown population.</span><span class="s">Source: Census ACS 2023 B19013, B15003, B01002 (Walton County, GA)</span></li>
+    <li><span class="t">The Meta campus sits on the Georgia Power 8.0% rate move, the same statewide pool that runs through Fulton and Douglas counties in this batch. There is no separate Walton-specific tariff.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Georgia Power Co, GA)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">79.2% of Walton County housing units are owner-occupied, the highest owner share in this batch. The Meta campus drops on a county where the utility-rate pass-through hits homeowners through the bill, not renters through their lease, slowing the political feedback loop.</span><span class="s">Source: Census ACS 2023 B25003_001E, B25003_002E (Walton County, GA)</span></li>
+    <li><span class="t">72.1% of Walton residents are white alone and 19.7% are Black, a demographic profile closer to rural-North-Georgia than to either Atlanta or Augusta. The county is the racially least-diverse Meta site in the eastern US.</span><span class="s">Source: Census ACS 2023 B02001_001E, B02001_002E, B02001_003E (Walton County, GA)</span></li>
+    <li><span class="t">Manufacturing still accounts for 12.1% of Walton jobs, double the Fulton rate next door. Social Circle&#x27;s Meta site lands in a county where one in eight workers still clocks into a factory shift.</span><span class="s">Source: Census ACS 2023 C24050_001E, C24050_004E (Walton County, GA)</span></li>
+    <li><span class="t">7.7% of Walton adults are veterans and only 2.3% of residents moved in from outside Georgia in the last year. The Meta build will pull labor from a settled, locally-rooted base rather than from the kind of in-migration churn seen in Ada Idaho or Maricopa.</span><span class="s">Source: Census ACS 2023 B21001_001E, B21001_002E, B07001_001E, B07001_065E, B07001_081E (Walton County, GA)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

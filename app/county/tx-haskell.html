@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat hot"><div class="l">Property tax &Delta; (3y)</div><div class="v">+26.3%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=33.160&lon=-99.730&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=33.160&lon=-99.730&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Haskell County has 5,421 residents and remained 23% below the poverty line in the 2000 census. Google announced two Haskell campuses as part of a $40 billion Texas package, with one site to be co-located with a new solar plus battery storage plant.</span><span class="s">Source: Census ACS 2024 B01003 + sources[0] (Wikipedia: Haskell County, TX) + sources[1] (Google: American Innovation Texas)</span></li>
+    <li><span class="t">Property tax assessments jumped 26.3% over three years, the steepest jump in any batch-4 county and the steepest of any disclosed slot on the powertracker map. Land speculation around the Google announcement appears to be the explicit driver.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 48207)</span></li>
+    <li><span class="t">Median household income is $60,653 and median home value is $98,700, with the county on AEP Texas inside ERCOT and no published 3-year residential rate delta. Google has secured more than 6,200 MW of new Texas generation through PPAs to cover its package.</span><span class="s">Source: Census ACS 2024 B19013, B25077 + data/cache/utility_rate_yoy.csv (no AEP Texas residential row) + sources[1]</span></li>
+    <li><span class="t">Haskell is the only batch-4 county where a hyperscaler campus is explicitly being built next to its own dedicated solar plus battery facility. Google plans 1,700 new electrical apprentices statewide by 2030 to staff the buildout.</span><span class="s">Source: sources[1] (Google: American Innovation Texas)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">74.1% of Haskell County households own their home, far above the Texas state baseline. Median gross rent is $824 on a rental stock of fewer than 600 units, leaving any incoming Google construction workforce without an in-county housing supply.</span><span class="s">Source: Census ACS 2023 B25003, B25064 (FIPS 48207)</span></li>
+    <li><span class="t">26.0% of Haskell residents are Hispanic and only 1.9% of the labor force is in manufacturing, the lowest mfg share of any Texas county in batch 4. Cotton and wheat farming have been the labor baseline for a century.</span><span class="s">Source: Census ACS 2023 B03003, C24050 (FIPS 48207)</span></li>
+    <li><span class="t">Just 84.2% of Haskell households have broadband at home and 6.6% of adults are veterans. The Google solar-plus-battery co-located build is the first industrial-scale infrastructure investment in the county in decades.</span><span class="s">Source: Census ACS 2023 B28002, B21001 (FIPS 48207)</span></li>
+    <li><span class="t">14.2% of Haskell residents live in poverty and 5.4% are unemployed, on a population of 5,390. The county would have to double its workforce to staff a 1 GW data-center campus, an option the demographics do not currently support.</span><span class="s">Source: Census ACS 2023 B17001, B23025, B01003 (FIPS 48207)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

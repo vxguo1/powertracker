@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+13.4%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=36.300&lon=-95.320&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=36.300&lon=-95.320&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Mayes County has 39,406 residents and a median household income of $57,279. Only 16.5% of residents over 25 hold a bachelor&#x27;s degree, the second-lowest education base in any batch-3 county.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B15003 (Mayes County, OK)</span></li>
+    <li><span class="t">Pryor&#x27;s MidAmerica Industrial Park hosts more than 80 companies including Google, DuPont, and Nordam, with its own airport and a 5,000-foot runway. Google has invested $2.5 billion in its Pryor campus over two phases, making it the company&#x27;s second-largest data center globally.</span><span class="s">Source: sources[0] (Wikipedia: Pryor Creek, OK)</span></li>
+    <li><span class="t">Grand River Dam Authority is a state-owned wholesale utility, so EIA does not publish a residential rate delta for Mayes County. The bill-side impact of the Google load is invisible in the standard data even though GRDA is the named seller of record.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (no GRDA row) + data/sites/data_centers.csv</span></li>
+    <li><span class="t">Property tax assessments rose 13.4% over three years against a 4.2% home-price gain. The gap is the widest of any batch-3 county and reflects industrial assessments running ahead of residential, the standard signature of a single large taxpayer like Google MidAmerica.</span><span class="s">Source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 40097)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Mayes County is only 63.8% white and includes a substantial Cherokee Nation citizen population, with the MidAmerica Industrial Park sitting inside the Cherokee Nation reservation boundary reaffirmed by McGirt v Oklahoma.</span><span class="s">Source: Census ACS 2023 B02001 (Mayes County, OK)</span></li>
+    <li><span class="t">17.6% of Mayes residents live below the poverty line and 6.6% are unemployed, the highest combined economic stress in any batch-3 county. Google&#x27;s Pryor expansion is therefore the largest single private payroll in a county where wage absorption matters more than the marginal kilowatt-hour.</span><span class="s">Source: Census ACS 2023 B17001 and B23025 (Mayes County, OK)</span></li>
+    <li><span class="t">Only 86.1% of Mayes households have wired broadband, leaving roughly 2,100 of the 15,267 occupied units without a fixed connection. The same county that hosts one of Google&#x27;s largest global compute footprints has a residential connectivity gap larger than the population of its second-largest town.</span><span class="s">Source: Census ACS 2023 B28002 (Mayes County, OK)</span></li>
+    <li><span class="t">Veterans are 9.1% of Mayes adults 18 and over, well above the national 6.2% baseline. Camp Gruber and the Tulsa veteran-services network feed a labor pool that hyperscale operations teams routinely recruit from.</span><span class="s">Source: Census ACS 2023 B21001 (Mayes County, OK)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+7.1%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=45.875&lon=-119.315&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=45.875&lon=-119.315&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Umatilla County has 80,087 residents and a median household income of $68,958. Hermiston, the largest city at 19,354 residents, added 2,930 jobs from 2012 to 2022, 91% of all net job growth in the county over the decade.</span><span class="s">Source: Census ACS 2023 B01003, B19013 (Umatilla County, OR) + sources[0] (Wikipedia: Hermiston, OR)</span></li>
+    <li><span class="t">Amazon Web Services is already the largest employer in greater Hermiston at 2,058 workers, more than double Lamb Weston&#x27;s 370 in Boardman. The 2 AWS campuses in Umatilla County (Hermiston, Umatilla) ride the same Umatilla Electric Cooperative tariff as the Morrow County builds next door.</span><span class="s">Source: sources[0] (Wikipedia: Hermiston, OR) + data/sites/data_centers.csv</span></li>
+    <li><span class="t">Property tax assessments rose 7.1% over three years against a 9.9% home-price gain. Both stats are restrained relative to neighboring Morrow County, which suggests AWS load is being captured by the Port of Morrow industrial enterprise zone rather than the residential tax base.</span><span class="s">Source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 41059)</span></li>
+    <li><span class="t">Only 18.0% of residents over 25 hold a bachelor&#x27;s degree, the second-lowest in the Pacific Northwest AI cluster after Morrow County. The Hispanic-majority demographic and irrigation-fed watermelon agriculture predate the data center boom and have not been displaced by it.</span><span class="s">Source: Census ACS 2023 B15003 + sources[0] (Wikipedia: Hermiston, OR)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Umatilla County is 28.9% Hispanic (23,185 residents), the second-highest Hispanic share of any Oregon AI county after Morrow. The same demographic concentration that built the Hermiston watermelon and onion economy now staffs the AWS data hall operations.</span><span class="s">Source: Census ACS 2023 B03003 (Umatilla County, OR)</span></li>
+    <li><span class="t">Only 85.3% of Umatilla households have wired broadband, the lowest connectivity rate among Oregon AI counties. The Umatilla Indian Reservation and the Pendleton-Hermiston-Boardman triangle hold the deepest digital-divide pockets in the Columbia River corridor.</span><span class="s">Source: Census ACS 2023 B28002 (Umatilla County, OR)</span></li>
+    <li><span class="t">Manufacturing employs 9.0% of Umatilla&#x27;s workforce while owner-occupied housing is at 67.1%. The AWS campuses share an industrial enterprise zone with Lamb Weston, ConAgra, and the Boeing-supplier corridor, all of which compete for the same rental base in Hermiston.</span><span class="s">Source: Census ACS 2023 C24050 and B25003 (Umatilla County, OR)</span></li>
+    <li><span class="t">Median gross rent of $962 sits below the $978 rent in Wasco County despite Umatilla being four times larger. The Hermiston rental ceiling has been disciplined by the Port of Morrow enterprise zone, which keeps industrial demand from flowing fully into the residential market.</span><span class="s">Source: Census ACS 2023 B25064 (Umatilla County, OR)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

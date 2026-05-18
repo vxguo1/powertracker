@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+14.5%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=44.305&lon=-120.840&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=44.305&lon=-120.840&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Crook County has 25,651 residents and a median household income of $81,675. The county seat Prineville has 10,736 residents, with a median age of 40.6, but hosts both Meta and Apple&#x27;s primary Pacific Northwest data center clusters.</span><span class="s">Source: Census ACS 2023 B01003, B19013 (Crook County, OR) + sources[0] (Wikipedia: Prineville, OR)</span></li>
+    <li><span class="t">PacifiCorp&#x27;s Oregon residential rate rose 30.0%, from 10.8 to 14.0 cents per kWh between 2021 and 2023. That adds about $349 per year to a typical Crook County household bill, the steepest 3-year residential rate move in any batch-3 county.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (PacifiCorp, OR)</span></li>
+    <li><span class="t">Property tax assessments rose 14.5% over three years against a $423,300 median home value. Both Apple and Meta have invested over $1 billion each in Prineville since the late 2000s, anchoring the assessed-value rise.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 41013) + Census ACS 2023 B25077 + sources[0] (Wikipedia: Prineville, OR)</span></li>
+    <li><span class="t">Facebook selected Prineville in 2010 for its first owned data center anywhere in the world, the template every hyperscaler later copied for rural Western Oregon sites. The campus now scales across multiple buildings on the same parcel.</span><span class="s">Source: sources[0] (Wikipedia: Prineville, OR) + data/sites/data_centers.csv (Prineville Meta)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">11.8% of Crook County adults are veterans (2,428 veterans), the highest veteran share in any batch-3 county. The retired-military draw of Central Oregon shapes the labor pool Apple and Meta hire local operators from.</span><span class="s">Source: Census ACS 2023 B21001 (Crook County, OR)</span></li>
+    <li><span class="t">Median gross rent in Crook County is $1,224, more than Wasco ($978) and Umatilla ($962) combined per square foot proxy. Prineville&#x27;s housing market is the most expensive in the Oregon AI hydro cluster, a consequence of the 14-year Apple and Meta capital flow.</span><span class="s">Source: Census ACS 2023 B25064 (Crook County, OR)</span></li>
+    <li><span class="t">75.6% of Crook County housing is owner-occupied, the highest ownership rate of any Oregon AI county. The Prineville campuses sit in a market where any further price spike from new builds flows mostly to existing homeowner equity rather than rental displacement.</span><span class="s">Source: Census ACS 2023 B25003 (Crook County, OR)</span></li>
+    <li><span class="t">Only 84.1% of Crook residents lived in the same county a year earlier, the lowest residential stickiness of any Oregon AI county. The Bonneville Power-anchored data center economy is actively pulling in-migration in a county of 25,651 people.</span><span class="s">Source: Census ACS 2023 B07001 (Crook County, OR)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+11.6%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=33.520&lon=-84.660&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=33.520&lon=-84.660&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Microsoft&#x27;s Fairwater Atlanta sits in Palmetto, a town of 5,071 residents that mostly lies in south Fulton County. The county itself has 1,068,507 residents, so the campus drops on a population gradient that runs from rural-southern Fulton to downtown Atlanta within 30 miles.</span><span class="s">Source: sources[0] (Wikipedia: Palmetto, Georgia) + Census ACS 2023 B01003</span></li>
+    <li><span class="t">Fulton County&#x27;s median household income is $91,490 and 58.0% of adults hold a bachelor&#x27;s degree, the highest education share of any AI county in this batch. The county absorbs the campus with by far the deepest local talent base.</span><span class="s">Source: Census ACS 2023 B19013, B15003 (Fulton County, GA)</span></li>
+    <li><span class="t">Home prices rose 7.9% over three years on a median home value of $431,200. Property tax assessments rose 11.6% over the same window, consistent with the steady Atlanta-metro reassessment rhythm rather than a campus-driven shock.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 13121) + Census ACS 2023 B25077</span></li>
+    <li><span class="t">Georgia Power&#x27;s 8.0% residential rate move (14.3 to 15.5 cents per kWh) is the same 2.45-million-customer pool that absorbed the Plant Vogtle nuclear cost recovery. The Microsoft Fairwater build joins that cost stack.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Georgia Power Co, GA)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Only 54.1% of Fulton County housing units are owner-occupied, the lowest owner share of any AI host county in this batch. Microsoft Fairwater drops on a 45.9% renter base that absorbs the Georgia Power rate pass-through inside the monthly rent cycle, not the annual property-tax cycle.</span><span class="s">Source: Census ACS 2023 B25003_001E, B25003_002E (Fulton County, GA)</span></li>
+    <li><span class="t">43.1% of Fulton County residents are Black alone, 7.6% are Asian, and 13.7% are foreign-born. The Fairwater campus has the most demographically complex customer-and-grievance base of any AI host in this batch.</span><span class="s">Source: Census ACS 2023 B02001_001E, B02001_003E, B02001_005E, B05002_001E, B05002_013E (Fulton County, GA)</span></li>
+    <li><span class="t">12.9% of Fulton residents live in poverty against a $1,635 median gross rent, the highest rent in this batch. The 9-point gap between high incomes downtown and entrenched poverty in south Fulton is the social geography Palmetto sits inside.</span><span class="s">Source: Census ACS 2023 B17001_001E, B17001_002E, B25064_001E (Fulton County, GA)</span></li>
+    <li><span class="t">Only 4.7% of Fulton adults are veterans, the lowest veteran share in this batch. The county has none of the federal-payroll floor that stabilizes Montgomery Alabama, so the Microsoft campus is not buffered against a service-sector slowdown.</span><span class="s">Source: Census ACS 2023 B21001_001E, B21001_002E (Fulton County, GA)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

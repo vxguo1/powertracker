@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+8.8%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=35.160&lon=-83.920&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=35.160&lon=-83.920&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Cherokee County has 29,197 residents with a median age of 53.3, the oldest of any AI host county in this batch. Median household income is $51,496.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B01002 (FIPS 37039)</span></li>
+    <li><span class="t">Core Scientific&#x27;s 65 MW Marble site is small by current AI standards but represents a roughly $250 million capital investment in a county whose entire annual GDP is under $1 billion. The CoreWeave lease is the anchor tenant.</span><span class="s">Source: data/sites/data_centers.csv (Marble) + Census ACS 2023 B19013</span></li>
+    <li><span class="t">Duke Energy Carolinas residential rates rose 28.3% from 2021 to 2023, the same jump felt across the Carolinas. On Cherokee&#x27;s $51,496 median household income, that 28.3% rate move adds about $330 per year to a typical bill before the Marble load energizes.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Duke Energy Carolinas, NC) + Census ACS 2023 B19013</span></li>
+    <li><span class="t">Home prices rose 11.6% over three years against a $208,700 median home value. Only 24.2% of adults 25 and older hold a bachelor&#x27;s degree, and the county lost population between 2010 and 2020.</span><span class="s">Source: data/cache/realestate_yoy.csv (FIPS 37039) + Census ACS 2023 B25077, B15003</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">11.3% of Cherokee County adults are veterans, the second-highest veteran share in this batch behind Sarpy NE. The aging veteran population overlaps with the county&#x27;s 53.3-year median age and explains the high homeownership rate.</span><span class="s">Source: Census ACS 2023 B21001 (FIPS 37039)</span></li>
+    <li><span class="t">83.6% of Cherokee County households own their home, the highest homeownership rate of any county in this batch. Only 16.4% rent, so the Core Scientific Marble campus lands in a community where housing stock is owner-controlled and slow to flip.</span><span class="s">Source: Census ACS 2023 B25003 (FIPS 37039)</span></li>
+    <li><span class="t">14.6% of Cherokee residents live below poverty, the highest poverty rate among the four North Carolina AI counties in this batch. The 91.2% white, 1.5% Black, 3.5% Hispanic profile makes Marble the most demographically homogeneous Carolinas data-center host.</span><span class="s">Source: Census ACS 2023 B17001, B02001, B03003 (FIPS 37039)</span></li>
+    <li><span class="t">Only 82.2% of Cherokee households have a wired broadband subscription, the lowest in North Carolina across this batch. The Murphy and Marble area sits on the western edge of the state&#x27;s broadband-equity gap that the Core Scientific build will not close on its own.</span><span class="s">Source: Census ACS 2023 B28002 (FIPS 37039)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

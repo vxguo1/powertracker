@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+10.4%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=29.420&lon=-98.490&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=29.420&lon=-98.490&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Bexar County has 2,067,341 residents, Texas&#x27;s fourth most populous county and the 16th most populous in the US. Microsoft has operated a San Antonio campus since 2008, one of its older domestic data center sites.</span><span class="s">Source: Census ACS 2024 B01003 + data/sites/data_centers.csv (San Antonio, Microsoft)</span></li>
+    <li><span class="t">CPS Energy is the largest municipal utility in the United States by customers, serving 865,914 residential accounts in San Antonio. Its residential rate rose 5.7% from 11.8 to 12.4 cents per kWh between 2021 and 2023, about $77 per year on a typical household bill.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (City of San Antonio, TX)</span></li>
+    <li><span class="t">Home prices are essentially flat at +0.1% over three years while property tax assessments rose 10.4% on a median household income of $72,341 and a median home value of $262,200. The 31.8% bachelor&#x27;s share trails Austin metro counties.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 48029) + Census ACS 2024 B19013, B25077, B15003</span></li>
+    <li><span class="t">Bexar is the only batch-4 county where the hyperscaler campus has been operational for more than 15 years before the current AI build cycle. Microsoft has not disclosed a separate MW expansion figure for the legacy San Antonio site.</span><span class="s">Source: data/sites/data_centers.csv (operational since 2008)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Bexar County is 59.5% Hispanic, the only majority-Hispanic county in batch 4 that hosts a hyperscaler campus. Microsoft has been running its San Antonio site inside this demographic for 17 years before the AI build cycle.</span><span class="s">Source: Census ACS 2023 B03003 (FIPS 48029)</span></li>
+    <li><span class="t">9.7% of Bexar adults are veterans, lifted by Joint Base San Antonio and the Lackland medical complex. That is a ready labor pool with security clearances within a 30-mile radius of the Microsoft campus.</span><span class="s">Source: Census ACS 2023 B21001 (FIPS 48029)</span></li>
+    <li><span class="t">Median gross rent in Bexar is $1,290, the second highest in batch 4 after Plano. 59.1% of households own their home, low for a non-coastal Texas metro and a sign that the existing service-sector wage floor cannot reach the median home value of $262,200.</span><span class="s">Source: Census ACS 2023 B25064, B25003 (FIPS 48029)</span></li>
+    <li><span class="t">Only 5.6% of Bexar&#x27;s working population is in manufacturing, the lowest mfg share of any major Texas metro in batch 4. The San Antonio labor market runs on hospitality, healthcare, and military services, not factory wages.</span><span class="s">Source: Census ACS 2023 C24050 (FIPS 48029)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

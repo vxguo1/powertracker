@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+8.0%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=41.620&lon=-93.940&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=41.620&lon=-93.940&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Apple chose Waukee in 2017 for a $1.38 billion data-center campus. Waukee&#x27;s population grew from 13,790 in 2010 to 23,940 in 2020 (a 73.6% jump) and is estimated at 34,420 by 2024, putting the campus in the fastest-growing suburb of Des Moines.</span><span class="s">Source: sources[0] (Wikipedia: Waukee, Iowa)</span></li>
+    <li><span class="t">Dallas County&#x27;s median household income is $102,349, the highest in this batch and the second-highest of any AI county nationwide after Loudoun, Virginia. 51.6% of adults hold a bachelor&#x27;s degree.</span><span class="s">Source: Census ACS 2023 B19013, B15003 (Dallas County, IA)</span></li>
+    <li><span class="t">Home prices rose only 1.7% over three years against a $333,400 median home value. Property tax assessments still rose 8.0% over the same window, sharper than the home-price track.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 19049) + Census ACS 2023 B25077</span></li>
+    <li><span class="t">MidAmerican Energy&#x27;s residential rate is essentially flat over three years (+0.9%), the smallest move in this batch. That stability reflects MidAmerican&#x27;s heavy in-state wind generation share, which now exceeds 80% of its Iowa retail load on annual energy.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (MidAmerican Energy Co, IA)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Only 5.8% of Dallas County residents live in poverty and unemployment is 2.9%, the lowest poverty and lowest unemployment in this batch. The Apple campus lands in the tightest labor market of any AI host county nationwide outside Loudoun Virginia.</span><span class="s">Source: Census ACS 2023 B17001_001E, B17001_002E, B23025_002E, B23025_005E (Dallas County, IA)</span></li>
+    <li><span class="t">4.6% of Dallas County residents are Asian alone, the highest Asian share in this batch outside Fulton Georgia. The Waukee tech-corridor base is already pulling a national talent profile, not just a Des Moines metro one.</span><span class="s">Source: Census ACS 2023 B02001_001E, B02001_005E (Dallas County, IA)</span></li>
+    <li><span class="t">Manufacturing is 8.1% of Dallas County jobs against a 69.5% owner-occupied share. The county runs on a service and finance footprint (Principal, Wells Fargo) rather than the manufacturing base that dominates the Polk and Linn AI sites.</span><span class="s">Source: Census ACS 2023 C24050_001E, C24050_004E, B25003_001E, B25003_002E (Dallas County, IA)</span></li>
+    <li><span class="t">Median gross rent is $1,239 per month, the highest in the Iowa group by 26%. Apple&#x27;s tenants and contractors in Waukee compete for housing inside a rent market that is already pricing closer to Minneapolis than to the rest of MidAmerican territory.</span><span class="s">Source: Census ACS 2023 B25064_001E (Dallas County, IA)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

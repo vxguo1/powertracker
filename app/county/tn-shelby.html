@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+6.9%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=35.080&lon=-90.055&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=35.080&lon=-90.055&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Shelby County is 922,195 residents and 61% Black, with Memphis ranking as the poorest large metro in the US census. xAI&#x27;s Colossus and Colossus 2 add 2 GW of training load to a community already fighting the cancelled Byhalia Pipeline through Boxtown.</span><span class="s">Source: Census ACS 2023 B01003 + sources[0] (Wikipedia: Memphis, TN)</span></li>
+    <li><span class="t">MLGW is a municipal utility, so EIA does not publish a residential rate delta for Shelby County. The political consequence: there is no public price signal on how the 2 GW of new AI load is being recovered from Memphis ratepayers.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (no MLGW row) + sources[0]</span></li>
+    <li><span class="t">xAI moved its gas turbines from Memphis to Southaven, Mississippi after local pushback. Mississippi regulators granted temporary approval to run the turbines for up to 12 months without a permit, exporting Memphis&#x27;s emissions across the state line.</span><span class="s">Source: sources[1] (SemiAnalysis: xAI Colossus 2)</span></li>
+    <li><span class="t">Shelby home prices rose 7.4% and property tax assessments rose 6.9% over three years, both restrained relative to the county median income of $62,337 by Memphis&#x27;s persistent population stagnation.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 47157) + Census ACS 2023 B19013</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">17.5% of Shelby County residents live below the poverty line and 7.1% are unemployed, the highest unemployment in batch 4. The Colossus campus is landing in the only batch-4 county where more than one in six residents is poor.</span><span class="s">Source: Census ACS 2023 B17001 + B23025 (FIPS 47157)</span></li>
+    <li><span class="t">Only 54.6% of Shelby households own their home, the lowest owner-occupied rate in batch 4. Median gross rent of $1,170 puts renter exposure to any AI-driven rate pass-through directly on the bill side, with no equity offset.</span><span class="s">Source: Census ACS 2023 B25003, B25064 (FIPS 47157)</span></li>
+    <li><span class="t">9.2% of Shelby&#x27;s working population is in manufacturing, well above the 5-7% baseline for major Texas metros in this batch. FedEx and the Memphis logistics corridor anchor a labor market that already runs on shift work.</span><span class="s">Source: Census ACS 2023 C24050 (FIPS 47157)</span></li>
+    <li><span class="t">87.2% of Shelby households have broadband at home, the lowest connectivity rate of any Tennessee or Texas county in batch 4. About 118,000 residents face a digital-divide gap as xAI is bringing 2 GW of AI training capacity into the same county.</span><span class="s">Source: Census ACS 2023 B28002 (FIPS 47157)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+6.0%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=33.020&lon=-96.700&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=33.020&lon=-96.700&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Collin County has 1,163,337 residents and a median household income of $121,600, the highest of any batch-4 county. JPMorgan Chase, Capital One, Toyota North America, and PepsiCo all have their corporate footprint in Plano, the campus city.</span><span class="s">Source: Census ACS 2024 B01003, B19013 + sources[0] (Wikipedia: Plano, TX)</span></li>
+    <li><span class="t">Home prices fell 9.8% over three years against a median home value of $475,600, the steepest decline of any batch-4 county. CoreWeave&#x27;s Plano site sits in a DFW housing market that is correcting after the 2021-2022 boom.</span><span class="s">Source: data/cache/realestate_yoy.csv (FIPS 48085) + Census ACS 2024 B25077</span></li>
+    <li><span class="t">The 56.2% bachelor&#x27;s-or-higher share is the highest in any batch-4 county and rivals Silicon Valley counties. Property tax assessments rose only 6.0% over three years, restrained by the price correction.</span><span class="s">Source: Census ACS 2024 B15003 + data/cache/property_tax_yoy.csv (FIPS 48085)</span></li>
+    <li><span class="t">CoreWeave&#x27;s Plano campus is on Oncor&#x27;s ERCOT grid with no published residential rate delta because of retail deregulation. Plano is Texas&#x27;s 9th most populous city, 73rd in the US, and the only batch-4 host city with five Fortune 500 HQs already in place.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (no Oncor residential row) + sources[0]</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">17.6% of Collin County residents are Asian, the highest Asian share of any batch-4 county and more than four times the Texas state average. Plano&#x27;s tech-corporate base has built an Asian-American population near the size of San Francisco&#x27;s.</span><span class="s">Source: Census ACS 2023 B02001 (FIPS 48085)</span></li>
+    <li><span class="t">96.1% of Collin households have broadband at home, the highest connectivity rate in batch 4. The CoreWeave Plano campus is landing in the most digitally connected county on the list.</span><span class="s">Source: Census ACS 2023 B28002 (FIPS 48085)</span></li>
+    <li><span class="t">Only 4.9% of Collin adults are veterans, the lowest veteran share of any major Texas metro in batch 4. The labor market is dominated by white-collar transplants, not military or oilfield service workers.</span><span class="s">Source: Census ACS 2023 B21001 (FIPS 48085)</span></li>
+    <li><span class="t">Just 6.3% of Collin residents live in poverty and 4.1% are unemployed, the lowest poverty rate in batch 4 outside Armstrong. Manufacturing employs 8.4% of workers, lifted by Texas Instruments and Toyota&#x27;s North American plant footprint.</span><span class="s">Source: Census ACS 2023 B17001, B23025, C24050 (FIPS 48085)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

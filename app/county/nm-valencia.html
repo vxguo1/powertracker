@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+7.3%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=34.810&lon=-106.740&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=34.810&lon=-106.740&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Valencia County is 77,382 residents with a $58,333 median household income. Los Lunas, on the west bank of the Rio Grande, is 17,242 residents and 20.8% of county adults hold a bachelor&#x27;s degree.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B15003 (FIPS 35061) + sources[0] (Wikipedia: Los Lunas, NM)</span></li>
+    <li><span class="t">Meta&#x27;s Los Lunas campus is now eight data centers totaling 3.8 million sqft. The original Facebook announcement was in September 2016 and the site has been operational since February 2019, with construction phases overlapping AI buildout.</span><span class="s">Source: data/sites/data_centers.csv (Los Lunas) + sources[0]</span></li>
+    <li><span class="t">PNM residential rates rose from 14.7 to 15.6 cents per kWh between 2021 and 2023, a 5.9% jump worth about $96 per year on a typical 10,800 kWh household. PNM has 492,945 residential customers across New Mexico.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Public Service Co of NM, NM)</span></li>
+    <li><span class="t">Property tax assessments rose 7.3% over three years against a $206,800 median home value. Zillow has no 3-year typical-home-value series for Valencia County, so the home-price spillover from Meta&#x27;s expansion is not yet visible in standard data.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 35061) + Census ACS 2023 B25077 + data/cache/realestate_yoy.csv (no FIPS 35061 row)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">60.6% of Valencia County residents are Hispanic, the second-highest Hispanic share of any AI host county tracked behind Dona Ana. The traditional New Mexican land-grant communities along the Rio Grande are the demographic core of Meta&#x27;s Los Lunas neighborhood.</span><span class="s">Source: Census ACS 2023 B03003 (FIPS 35061)</span></li>
+    <li><span class="t">9.6% of Valencia adults are veterans, the second-highest veteran share among AI counties in this batch behind Sarpy and Cherokee. Kirtland Air Force Base and Sandia National Labs in Albuquerque seed a Valencia commuter workforce with cleared technical skills.</span><span class="s">Source: Census ACS 2023 B21001 (FIPS 35061)</span></li>
+    <li><span class="t">82.1% of Valencia households own their home, the second-highest homeownership rate in this batch behind Cherokee NC. The 17.9% renter share is the smallest channel through which Meta wage pressure can move local housing costs.</span><span class="s">Source: Census ACS 2023 B25003 (FIPS 35061)</span></li>
+    <li><span class="t">18.4% of Valencia residents live below poverty and unemployment is 6.9%, both elevated against a national baseline. The eight-building Meta complex anchors a county where almost 1 in 5 residents lives below the poverty line.</span><span class="s">Source: Census ACS 2023 B17001, B23025 (FIPS 35061)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

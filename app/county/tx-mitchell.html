@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+6.5%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=32.400&lon=-100.860&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=32.400&lon=-100.860&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Mitchell County has 8,989 residents and Colorado City the seat has 3,991. The 300 MW Cipher / Fluidstack Barber Lake campus is roughly 33 kW of AI compute per Mitchell County resident.</span><span class="s">Source: Census ACS 2023 B01003 (Mitchell County, TX and Colorado City) + app/county/tx-mitchell.html</span></li>
+    <li><span class="t">Median household income in Mitchell County is $56,033 and the median home value is $85,700, the lowest home value in the West Texas data-center belt. Only 13.9% of residents over 25 hold a bachelor&#x27;s degree.</span><span class="s">Source: Census ACS 2023 B19013, B25077, B15003 (FIPS 48335)</span></li>
+    <li><span class="t">Colorado City sits on Lake Colorado City and Lake J.B. Thomas, two of the larger surface-water reservoirs in the Permian fringe. Cipher&#x27;s Barber Lake campus is named for the third reservoir, the one closest to the parcel.</span><span class="s">Source: data/sites/data_centers.csv (Barber Lake)</span></li>
+    <li><span class="t">Property tax assessments rose 6.5% over three years on a $1,599 median bill. ERCOT&#x27;s deregulated retail market means AEP Texas has no published residential rate delta, so the bill-side cost of 300 MW of new load is invisible in the standard data.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 48335) + data/cache/utility_rate_yoy.csv (no AEP Texas residential row)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">38.7% of Mitchell County residents are Hispanic, the highest Hispanic share of any West Texas county in batch 4 outside the Hale-Plainview corridor. Colorado City sits on the eastern edge of the Permian&#x27;s Latino agricultural-labor belt.</span><span class="s">Source: Census ACS 2023 B03003 (FIPS 48335)</span></li>
+    <li><span class="t">Median gross rent in Mitchell County is $481, the lowest in batch 4 by a wide margin. The Cipher Barber Lake workforce can find a rental for less than $500 a month, but the rental stock is barely 700 units total.</span><span class="s">Source: Census ACS 2023 B25064, B25003 (FIPS 48335)</span></li>
+    <li><span class="t">Only 80.0% of Mitchell households have broadband at home, the lowest connectivity rate in batch 4. About 1,800 residents are offline in the same county where a 300 MW AI campus is being announced.</span><span class="s">Source: Census ACS 2023 B28002 (FIPS 48335)</span></li>
+    <li><span class="t">13.2% of Mitchell residents live in poverty and 4.7% are unemployed. Manufacturing employs only 4.6% of the labor force, with the state prison unit and oilfield service work absorbing most of the employed adults.</span><span class="s">Source: Census ACS 2023 B17001, B23025, C24050 (FIPS 48335)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

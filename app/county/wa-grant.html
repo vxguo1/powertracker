@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+6.7%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=47.230&lon=-119.850&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=47.230&lon=-119.850&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Grant County has 100,428 residents and Quincy the data-center seat has 7,543. Microsoft, Yahoo, Dell, and Intuit have all sited campuses in Quincy since 2007, drawing on Grant County PUD&#x27;s hydropower from the Priest Rapids and Wanapum dams.</span><span class="s">Source: Census ACS 2023 B01003 (Grant County, WA and Quincy) + sources[0] (Wikipedia: Quincy, Washington)</span></li>
+    <li><span class="t">Grant County PUD residential rates rose only 6.4% from 2021 to 2023, the cheapest rate environment of any data-center county in this batch. The 6.0-cent kWh average is roughly a third of Dominion Virginia&#x27;s, which is why hyperscalers continue siting new builds here despite the 2010s diesel-emissions fines.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (PUD No 2 of Grant County, WA) + sources[0] (Wikipedia: Quincy, WA)</span></li>
+    <li><span class="t">Median household income in Grant County is $71,115 against a $275,700 median home value. Only 18.2% of residents over 25 hold a bachelor&#x27;s degree, lower than every county in this batch except Mitchell and Wilbarger.</span><span class="s">Source: Census ACS 2023 B19013, B25077, B15003 (FIPS 53025)</span></li>
+    <li><span class="t">Home prices rose 8.2% over three years and property tax assessments rose 6.7% over the same window. The Quincy data-center cluster has been live for nearly two decades, so the local economy has absorbed a buildout that is still novel in West Texas and rural Virginia.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 53025)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">43.3% of Grant County residents are Hispanic, the largest Hispanic share of any county in this batch and more than triple any other county here. The Quincy data centers operate inside the heart of Washington&#x27;s Yakima Valley agricultural workforce.</span><span class="s">Source: Census ACS 2023 B03003 (FIPS 53025)</span></li>
+    <li><span class="t">Unemployment in Grant County is 6.3% and 15.0% of residents live below the poverty line. The Microsoft, Yahoo, Dell, and Intuit cluster has been operating for nearly two decades without pulling the host county out of either statistic.</span><span class="s">Source: Census ACS 2023 B23025, B17001 (FIPS 53025)</span></li>
+    <li><span class="t">Median gross rent in Grant County is $1,059 per month and 65.6% of homes are owner-occupied. Manufacturing employs 10.8% of the workforce, largely food processing tied to the Columbia Basin irrigation district.</span><span class="s">Source: Census ACS 2023 B25064, B25003, C24050 (FIPS 53025)</span></li>
+    <li><span class="t">89.7% of Grant households have a home broadband subscription, lower than every other data-center cluster in this batch except Mecklenburg, Wilbarger, and Mason. Two decades of hyperscaler operation has not closed the in-county digital divide.</span><span class="s">Source: Census ACS 2023 B28002 (FIPS 53025)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+4.1%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=45.620&lon=-121.210&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=45.620&lon=-121.210&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Wasco County has 26,603 residents and a median household income of $63,602. The Dalles, the county seat at 16,010 residents, hosts Google&#x27;s longest-running data center anywhere in the world. The campus opened in 2006 as Project 02.</span><span class="s">Source: Census ACS 2023 B01003, B19013 (Wasco County, OR) + sources[0] (Wikipedia: The Dalles, OR)</span></li>
+    <li><span class="t">Northern Wasco PUD residential rates rose 5.5% from 7.3 to 7.7 cents per kWh between 2021 and 2023, the lowest rate of any utility serving a batch-3 county. The PUD has only 9,800 residential customers and buys at Bonneville Power Administration wholesale.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Northern Wasco County PUD, OR)</span></li>
+    <li><span class="t">BPA&#x27;s Celilo Converter Station opened in 1970 near The Dalles, the northern terminus of the Pacific DC Intertie sending 3,100 MW to Los Angeles. That historical export infrastructure is part of why Google chose The Dalles for its first hyperscale build.</span><span class="s">Source: sources[0] (Wikipedia: The Dalles, OR)</span></li>
+    <li><span class="t">Home prices rose only 3.4% and property tax assessments rose 4.1% over three years, the most restrained pair in the Oregon AI cluster. Google employed 150 combined permanent staff and contractors at The Dalles as of 2013, a reminder that hyperscale builds do not translate to commensurate local payroll.</span><span class="s">Source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 41065) + sources[0] (Wikipedia: The Dalles, OR)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Wasco County is 19.8% Hispanic and only 79.6% white. The Confederated Tribes of Warm Springs reservation borders the county to the south, anchoring a Native and Latino labor history that predates the Google build by more than a century.</span><span class="s">Source: Census ACS 2023 B02001 and B03003 (Wasco County, OR)</span></li>
+    <li><span class="t">Wasco County has a 7.7% unemployment rate, the highest in the entire batch-3 set. The Dalles is therefore the rare AI county where 19 years of Google operations have not delivered a meaningfully tighter labor market than the rural Pacific Northwest baseline.</span><span class="s">Source: Census ACS 2023 B23025 (Wasco County, OR)</span></li>
+    <li><span class="t">9.5% of Wasco adults 18 and over are veterans (1,986 veterans). The Dalles VA outpatient clinic and the Columbia Gorge military retiree corridor feed an operations-and-maintenance labor base Google has tapped since 2006.</span><span class="s">Source: Census ACS 2023 B21001 (Wasco County, OR)</span></li>
+    <li><span class="t">Only 87.9% of Wasco households have wired broadband, and only 66.2% of housing is owner-occupied. The Dalles has the most rental-heavy housing market in the Oregon AI cluster, which limits how much of Google&#x27;s land-value uplift flows to existing residents.</span><span class="s">Source: Census ACS 2023 B28002 and B25003 (Wasco County, OR)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

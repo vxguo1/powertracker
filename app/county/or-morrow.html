@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+7.1%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=45.840&lon=-119.700&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=45.840&lon=-119.700&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Morrow County has 12,249 residents, the smallest population of any batch-3 county, and only 9.8% of residents over 25 hold a bachelor&#x27;s degree. The county is 73.5% Hispanic or Latino in Boardman, the largest town at 3,828 residents.</span><span class="s">Source: Census ACS 2023 B01003, B15003 (Morrow County, OR) + sources[0] (Wikipedia: Boardman, OR)</span></li>
+    <li><span class="t">Umatilla Electric Cooperative residential rates rose 8.3% from 2021 to 2023, modest in absolute percentage but applied to a small base. The cooperative has only 12,620 residential customers across both Morrow and Umatilla counties to absorb AWS&#x27;s announced 16-building Boardman expansion.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Umatilla Electric Coop Assn, OR)</span></li>
+    <li><span class="t">Portland General Electric&#x27;s Boardman coal plant shut down in October 2020, the last coal-fired plant in Oregon, and was demolished in 2022. AWS&#x27;s data center campus inherited the regional grid headroom that closure created.</span><span class="s">Source: sources[0] (Wikipedia: Boardman, OR)</span></li>
+    <li><span class="t">Property tax assessments rose 7.1% over three years and home-price data is unavailable for the county. AWS&#x27;s $4.8 billion 16-building expansion is the explicit driver of any future assessed-value rise, with the existing Boardman and Morrow Expansion sites already operational.</span><span class="s">Source: data/cache/property_tax_yoy.csv (FIPS 41049) + data/sites/data_centers.csv (Boardman, Morrow County Expansion)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Morrow County is 41.2% Hispanic countywide, the most Hispanic-majority population of any AI county in the country outside Texas. AWS&#x27;s Boardman footprint sits inside the Columbia Basin irrigation belt that has employed Mexican-American agricultural labor for four generations.</span><span class="s">Source: Census ACS 2023 B03003 (Morrow County, OR)</span></li>
+    <li><span class="t">Median gross rent in Morrow County is $910 and 70.9% of housing is owner-occupied. The 16-building AWS expansion is therefore landing on a stable owner-resident base, with limited rental inventory for the construction labor surge that 12,249 residents cannot absorb internally.</span><span class="s">Source: Census ACS 2023 B25064 and B25003 (Morrow County, OR)</span></li>
+    <li><span class="t">Only 87.3% of Morrow households have wired broadband, despite Umatilla Electric Cooperative serving the largest AI campus in Eastern Oregon. The cooperative&#x27;s fiber buildout for AWS has not yet flowed to residential customers in Boardman, Heppner, and Irrigon.</span><span class="s">Source: Census ACS 2023 B28002 (Morrow County, OR)</span></li>
+    <li><span class="t">Manufacturing employs 15.5% of Morrow&#x27;s workforce (829 jobs), most of it food processing at Lamb Weston and Tillamook. The AWS data center is the first non-agricultural industrial employer in the county not tied to the Bonneville hydro export economy.</span><span class="s">Source: Census ACS 2023 C24050 (Morrow County, OR)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

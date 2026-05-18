@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+10.0%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=47.000&lon=-96.850&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=47.000&lon=-96.850&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Cass County is 189,286 residents anchored by Fargo, with a $75,023 median household income and a median age of 32.9, the youngest of any AI host county in this batch. 43.3% of adults hold a bachelor&#x27;s degree, lifted by North Dakota State University.</span><span class="s">Source: Census ACS 2023 B01003, B19013, B01002, B15003 (FIPS 38017)</span></li>
+    <li><span class="t">Applied Digital&#x27;s $3 billion Polaris Forge 2 campus sits in Harwood, a city of 794 residents north of Fargo. The campus is the largest single industrial commitment Cass County has seen since the Microsoft Bing data center build cycle of the late 2000s.</span><span class="s">Source: data/sites/data_centers.csv (Polaris Forge 2) + sources[0] (Wikipedia: Harwood, ND)</span></li>
+    <li><span class="t">Otter Tail Power&#x27;s North Dakota residential rate rose from 10.4 to 11.4 cents per kWh between 2021 and 2023, a 9.3% jump worth about $104 per year on a typical 10,800 kWh household. Otter Tail has only 45,467 residential customers across all of North Dakota.</span><span class="s">Source: data/cache/utility_rate_yoy.csv (Otter Tail Power Co, ND)</span></li>
+    <li><span class="t">Median home value in Cass County is $284,700 and property tax assessments rose 10.0% over three years. Zillow does not publish a 3-year typical-home-value series for Cass County, which is why the standard home-price delta reads as n/a.</span><span class="s">Source: Census ACS 2023 B25077 + data/cache/property_tax_yoy.csv (FIPS 38017) + data/cache/realestate_yoy.csv</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">48.0% of Cass County households rent rather than own, the highest renter share of any North Dakota AI county and second only to Union NJ in this batch. The North Dakota State University student body inflates the renter pool that absorbs Applied Digital wage pressure.</span><span class="s">Source: Census ACS 2023 B25003 (FIPS 38017)</span></li>
+    <li><span class="t">Only 79.2% of Cass residents lived in the same house one year earlier, the lowest residential stability in this batch. Fargo&#x27;s renter churn means rent signals from Polaris Forge 2 will show up in lease turnover faster than in any other AI host county here.</span><span class="s">Source: Census ACS 2023 B07001 (FIPS 38017)</span></li>
+    <li><span class="t">6.3% of Cass residents moved in from another state in the past year, the highest interstate migration rate of any county in this batch. The Polaris Forge 2 hiring funnel is plugging into an already-flowing Fargo in-migration pipe.</span><span class="s">Source: Census ACS 2023 B07001 (FIPS 38017)</span></li>
+    <li><span class="t">Unemployment is 3.0% with a poverty rate of 10.3% and a manufacturing share of 8.7%. Cass is the tightest North Dakota labor market in this batch and the AI buildout is competing against Bobcat, Microsoft Bing operations, and an already-low Fargo jobless pool.</span><span class="s">Source: Census ACS 2023 B23025, B17001, C24050 (FIPS 38017)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">

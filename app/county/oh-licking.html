@@ -86,6 +86,10 @@
     .sibling-row{margin-top:18px;font-size:13px;color:var(--c-ink-muted);line-height:2}
     .sibling-row .chip{display:inline-block;background:var(--c-chip);color:var(--c-ink);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin:0 4px 4px 0;white-space:nowrap}
     .sibling-row .chip:hover{background:var(--c-accent);color:#fff;text-decoration:none}
+    ul.takeaways{list-style:none;padding:0;margin:0 0 8px}
+    ul.takeaways li{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+    ul.takeaways li .t{display:block;font-size:15px;color:var(--c-ink);line-height:1.55}
+    ul.takeaways li .s{display:block;margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
     footer.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--c-border);font-size:12px;color:var(--c-ink-soft);line-height:1.7}
     footer.foot a{color:var(--c-ink-muted)}footer.foot a:hover{color:var(--c-accent)}
   </style>
@@ -122,7 +126,23 @@
     <div class="stat warm"><div class="l">Property tax &Delta; (3y)</div><div class="v">+12.2%</div></div>
   </div>
 
-  <a class="cta" href="/?lat=40.065&lon=-82.715&z=10">Open on map &rarr;</a>
+  <a class="cta" href="/?lat=40.065&lon=-82.715&z=10&layer=utility-rate">Open on map &rarr;</a>
+
+  <h2 class="section">Key takeaways</h2>
+  <ul class="takeaways">
+    <li><span class="t">Licking County has 180,311 residents, but the New Albany Personal Property Tax district absorbs four campuses (Meta Prometheus, Microsoft Heath/Hebron, Google New Albany, AWS New Albany) totaling over 1 GW of announced load. New Albany itself has only 10,825 residents.</span><span class="s">Source: Census ACS 2023 B01003 (Licking County, OH) + sources[0] (Wikipedia: New Albany, OH) + data/sites/data_centers.csv</span></li>
+    <li><span class="t">Meta&#x27;s Prometheus is the world&#x27;s first announced 1 GW AI data center, a single building scheduled to energize in 2026 on AEP Ohio&#x27;s grid. Its load alone exceeds the residential demand of any city in Licking County.</span><span class="s">Source: data/sites/data_centers.csv (Prometheus) + sources[1] (DCPulse: Meta Prometheus)</span></li>
+    <li><span class="t">Property tax assessments rose 12.2% over three years against a median household income of $81,033. The home-price rise of 6.0% is unusually moderate for a county absorbing four hyperscaler builds at once, a sign that most of the tax base growth is industrial rather than residential.</span><span class="s">Source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 39089) + Census ACS 2023 B19013</span></li>
+    <li><span class="t">New Albany grew from 414 residents in 1980 to 10,825 in 2020, an explicit master-planned community funded by Limited Brands founder Les Wexner. Intel&#x27;s separate $20 billion semiconductor fab next door means the same AEP Ohio substation has to land semiconductor and AI campus load in parallel.</span><span class="s">Source: sources[0] (Wikipedia: New Albany, OH)</span></li>
+  </ul>
+
+  <h2 class="section">Local socioeconomics</h2>
+  <ul class="takeaways">
+    <li><span class="t">Only 89.7% of Licking residents lived in the same county a year earlier, signaling 10.3% turnover. New Albany&#x27;s master-planned absorption capacity is being tested by construction labor inflow tied to four hyperscaler campuses energizing on overlapping timelines.</span><span class="s">Source: Census ACS 2023 B07001 (Licking County, OH)</span></li>
+    <li><span class="t">91.9% wired broadband adoption sits between Franklin (93.3%) and Fairfield (91.2%), placing Licking in the middle of the central Ohio cluster despite hosting the largest single AI build in the world.</span><span class="s">Source: Census ACS 2023 B28002 (Licking County, OH)</span></li>
+    <li><span class="t">Manufacturing employs 11.0% of Licking&#x27;s workforce, well above Franklin&#x27;s 7.5%. The Heath and Hebron Microsoft sites are landing in a county whose workforce already includes the kind of plant-operator skill base hyperscaler operations teams hire from.</span><span class="s">Source: Census ACS 2023 C24050 (Licking County, OH)</span></li>
+    <li><span class="t">Licking has an unemployment rate of just 3.2%, the lowest of any Ohio batch-3 county. The four-campus, 1 GW-plus build is therefore drawing construction labor from a market already at structural full employment.</span><span class="s">Source: Census ACS 2023 B23025 (Licking County, OH)</span></li>
+  </ul>
 
   <h2 class="section">Campuses in this county</h2>
   <ul class="list">
