@@ -26,6 +26,15 @@ wi-racine:
   sources:
   - https://en.wikipedia.org/wiki/Foxconn_in_Wisconsin
   - https://blogs.microsoft.com/blog/2025/09/18/inside-the-worlds-most-powerful-ai-datacenter/
+  demographics:
+  - text: Racine is 10.6% Black, 14.6% Hispanic, and 1.2% Asian against a 74.2% white share. The Black population share is the largest of any Wisconsin county in this batch and more than seven times Ozaukee's 1.5% next door.
+    source: Census ACS 2023 B02001, B03003 (FIPS 55101)
+  - text: 20.8% of Racine workers are in manufacturing, the second-highest manufacturing share in this batch behind Dodge. Median gross rent is $1,017 per month, lower than Ozaukee's $1,112 despite Racine being a much larger labor market.
+    source: Census ACS 2023 C24050, B25064 (FIPS 55101)
+  - text: Unemployment in Racine is 4.2% and 10.8% of residents live below the poverty line. Both numbers run roughly double Ozaukee's despite the same We Energies rate environment and roughly 60 miles of separation.
+    source: Census ACS 2023 B23025, B17001 (FIPS 55101)
+  - text: 90.0% of Racine households have a home broadband subscription and 6.6% of adults are veterans. The broadband share trails Ozaukee's 93.0% by 3 points despite the Foxconn-era fiber investment in Mount Pleasant.
+    source: Census ACS 2023 B28002, B21001 (FIPS 55101)
 wy-laramie:
   last_updated: '2026-05-17'
   takeaways:
@@ -39,6 +48,15 @@ wy-laramie:
     source: data/cache/property_tax_yoy.csv (FIPS 56021) + Census ACS 2023 B19013
   sources:
   - https://www.crusoe.ai/resources/newsroom/crusoe-and-tallgrass-announce-ai-data-center-in-wyoming
+  demographics:
+  - text: 13.5% of Laramie County adults are veterans, the third-highest veteran share in this batch behind Stafford and Prince William. F E Warren Air Force Base sits inside Cheyenne city limits and anchors the same security-cleared workforce that Stargate counties outside Texas rarely capture.
+    source: Census ACS 2023 B21001 (FIPS 56021)
+  - text: Laramie County is 82.2% white, 15.7% Hispanic, 2.2% Black, and 1.1% Asian. The Hispanic share is comparable to Utah County's 13.9% and Loudoun's 14.2%, larger than neighboring Wyoming counties would suggest.
+    source: Census ACS 2023 B02001, B03003 (FIPS 56021)
+  - text: Only 9.9% of Laramie residents live below the poverty line and unemployment is 3.1%. Manufacturing employs just 3.2% of workers, the smallest manufacturing base of any top-10 AI county in this batch.
+    source: Census ACS 2023 B17001, B23025, C24050 (FIPS 56021)
+  - text: 90.8% of Laramie County households have a home broadband subscription and median gross rent is $1,080 per month. 84.4% of residents lived in the same house one year earlier, the lowest residential stability in this batch and the migration signal that the Crusoe, Meta, and Microsoft builds are already producing.
+    source: Census ACS 2023 B28002, B25064, B07001 (FIPS 56021)
 in-st-joseph:
   last_updated: '2026-05-17'
   takeaways:
@@ -51,6 +69,15 @@ in-st-joseph:
   - text: Project Rainier is the public-facing name for Anthropic's primary Trainium training cluster. Microsoft separately announced two more campuses in Granger and La Porte, putting Indiana Michigan Power on the hook for more than 3 GW of new AI load across two adjacent counties.
     source: data/sites/data_centers.csv (Project Rainier, Granger, La Porte)
   sources: []
+  demographics:
+  - text: Manufacturing accounts for 16.8% of St. Joseph County jobs, less than the next-door LaPorte share but above the Indiana statewide average. Project Rainier inherits a county labor base that has been transitioning out of Studebaker-era manufacturing for 60 years.
+    source: Census ACS 2023 C24050_001E, C24050_004E (St. Joseph County, IN)
+  - text: 12.6% of St. Joseph residents are Black alone and 10.2% are Hispanic of any race, the most diverse county in the Indiana AI group. The South Bend and Mishawaka core gives the 2.2 GW campus a population profile closer to a Rust Belt mid-size city than to the surrounding rural counties.
+    source: Census ACS 2023 B02001_001E, B02001_003E, B03003_001E, B03003_003E (St. Joseph County, IN)
+  - text: 14.6% of St. Joseph residents live in poverty and median gross rent is $1,030. The Anthropic and AWS training cluster lands in a county where roughly one in seven residents lives below the federal poverty line, the third-highest rate in this batch.
+    source: Census ACS 2023 B17001_001E, B17001_002E, B25064_001E (St. Joseph County, IN)
+  - text: Only 68.8% of St. Joseph housing units are owner-occupied and 4.0% of residents moved in from out of state last year. Project Rainier's load growth hits the highest renter share and the highest in-migration in the Indiana group, the combination that translates utility-rate moves into rent moves fastest.
+    source: Census ACS 2023 B25003_001E, B25003_002E, B07001_001E, B07001_065E, B07001_081E (St. Joseph County, IN)
 tx-taylor:
   last_updated: '2026-05-17'
   takeaways:
@@ -65,6 +92,15 @@ tx-taylor:
   sources:
   - https://en.wikipedia.org/wiki/Abilene,_Texas
   - https://en.wikipedia.org/wiki/Stargate_LLC
+  demographics:
+  - text: 24.8% of Taylor County residents are Hispanic and 8.0% are Black, against a 70.5% white share. The Hispanic share is the largest in any West Texas county in this batch and twice Shackelford's next door.
+    source: Census ACS 2023 B02001, B03003 (FIPS 48441)
+  - text: Unemployment in Taylor County is 2.1%, the tightest labor market in this batch and well below the 3.7% national figure. Stargate is hiring 6,400 workers into a county that has effectively zero slack.
+    source: Census ACS 2023 B23025 (FIPS 48441)
+  - text: 9.2% of Taylor County adults are veterans, the largest veteran share among the Texas counties in this batch. Dyess Air Force Base across the county line keeps the share high and gives Stargate a security-cleared talent pipeline that other Stargate counties lack.
+    source: Census ACS 2023 B21001 (FIPS 48441)
+  - text: Median gross rent in Taylor County is $1,111 per month and 59.8% of homes are owner-occupied, the lowest ownership rate of the four West Texas counties here. Abilene is the rental market the rural Stargate Texas counties cannot match.
+    source: Census ACS 2023 B25064, B25003 (FIPS 48441)
 tn-shelby:
   last_updated: '2026-05-17'
   takeaways:
@@ -79,6 +115,16 @@ tn-shelby:
   sources:
   - https://en.wikipedia.org/wiki/Memphis,_Tennessee
   - https://newsletter.semianalysis.com/p/xais-colossus-2-first-gigawatt-datacenter
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 17.5% of Shelby County residents live below the poverty line and 7.1% are unemployed, the highest unemployment in batch 4. The Colossus campus is landing in the only batch-4 county where more than one in six residents is poor.
+    source: Census ACS 2023 B17001 + B23025 (FIPS 47157)
+  - text: Only 54.6% of Shelby households own their home, the lowest owner-occupied rate in batch 4. Median gross rent of $1,170 puts renter exposure to any AI-driven rate pass-through directly on the bill side, with no equity offset.
+    source: Census ACS 2023 B25003, B25064 (FIPS 47157)
+  - text: 9.2% of Shelby's working population is in manufacturing, well above the 5-7% baseline for major Texas metros in this batch. FedEx and the Memphis logistics corridor anchor a labor market that already runs on shift work.
+    source: Census ACS 2023 C24050 (FIPS 47157)
+  - text: 87.2% of Shelby households have broadband at home, the lowest connectivity rate of any Tennessee or Texas county in batch 4. About 118,000 residents face a digital-divide gap as xAI is bringing 2 GW of AI training capacity into the same county.
+    source: Census ACS 2023 B28002 (FIPS 47157)
 la-richland:
   last_updated: '2026-05-17'
   takeaways:
@@ -92,6 +138,16 @@ la-richland:
     source: data/cache/property_tax_yoy.csv (FIPS 22083)
   sources:
   - https://en.wikipedia.org/wiki/Hyperion_(data_center)
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 23.5% of Richland Parish residents live below the federal poverty line, the highest poverty rate of any top-10 AI host county. Meta's $10 billion Hyperion campus will rise on land where roughly 1 in 4 neighbors already lives below poverty.
+    source: Census ACS 2023 B17001 (FIPS 22083)
+  - text: Richland Parish is 36.1% Black, 60.6% white, with only 434 Hispanic residents and zero Asian residents in the 2023 ACS sample. Hyperion lands in one of the few US AI campuses sited in a majority-non-white Black Belt parish.
+    source: Census ACS 2023 B02001, B03003 (FIPS 22083)
+  - text: Only 68.0% of Richland households have a wired broadband subscription at home, the lowest of any county in this batch. The Hyperion campus will sit on a fiber backbone its neighbors cannot afford to plug into.
+    source: Census ACS 2023 B28002 (FIPS 22083)
+  - text: Median gross rent in Richland is $836 a month, less than half of Union NJ ($1,664) and Dakota MN ($1,497). A 33.0% renter share with rents this low means a small dollar increase from Hyperion spillover can move a much larger share of household budgets.
+    source: Census ACS 2023 B25064, B25003 (FIPS 22083)
 wv-mason:
   last_updated: '2026-05-17'
   takeaways:
@@ -106,6 +162,15 @@ wv-mason:
   sources:
   - https://en.wikipedia.org/wiki/Mountaineer_Power_Plant
   - https://www.nscale.com/press-releases/nscale-west-virginia-ai-factory
+  demographics:
+  - text: Mason County is 95.9% white, the least racially diverse county in this batch by a wide margin. Only 0.9% Black, 0.8% Hispanic, and 0.4% Asian residents share the AEP Mountaineer service area.
+    source: Census ACS 2023 B02001, B03003 (FIPS 54053)
+  - text: Only 82.5% of Mason County households have a home broadband subscription, lower than every county in this batch except Mecklenburg and Wilbarger. Nscale's Monarch microgrid will move 8 GW of compute from a county where roughly one in six households has no home internet.
+    source: Census ACS 2023 B28002 (FIPS 54053)
+  - text: 17.9% of Mason residents live below the poverty line and median gross rent is $654 per month, the second-lowest rent in this batch behind Shackelford. The owner-occupancy rate of 82.1% reflects a population that owns its home but has little cash flow above the mortgage.
+    source: Census ACS 2023 B17001, B25064, B25003 (FIPS 54053)
+  - text: 93.7% of Mason residents lived in the same house one year earlier, the highest residential stability in this batch. Unemployment is 3.0% on a 9,686-person labor force, so the Nscale construction crew will arrive almost entirely from out of county.
+    source: Census ACS 2023 B07001, B23025 (FIPS 54053)
 tx-nolan:
   last_updated: '2026-05-17'
   takeaways:
@@ -119,6 +184,16 @@ tx-nolan:
     source: data/cache/property_tax_yoy.csv (FIPS 48353) + data/cache/utility_rate_yoy.csv (no AEP Texas residential row)
   sources:
   - https://en.wikipedia.org/wiki/Sweetwater,_Texas
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 37.0% of Nolan County residents are Hispanic, roughly triple the share Sweetwater carried in the 1980 census. The IREN campus is landing in a county where the wind-farm boom already brought Latino transmission-line crews.
+    source: Census ACS 2023 B03003 (FIPS 48353)
+  - text: 12.8% of Nolan's working population is in manufacturing, the highest mfg share of any batch-4 Texas county outside Ellis. Sweetwater's cement and gypsum plants plus wind-tower fabrication anchor the existing industrial wage floor.
+    source: Census ACS 2023 C24050 (FIPS 48353)
+  - text: 18.8% of Nolan residents live in poverty and 5.7% are unemployed, with only 80.7% of households on home broadband. The IREN 2 GW campus is moving into the second-poorest county in batch 4 after Hale.
+    source: Census ACS 2023 B17001, B23025, B28002 (FIPS 48353)
+  - text: 66.1% of Nolan households own their home and median gross rent is $866. The 200 kW per resident IREN density is the per-capita extreme of batch 4, in a county whose existing rental stock is about 1,800 units.
+    source: Census ACS 2023 B25003, B25064 (FIPS 48353)
 oh-trumbull:
   last_updated: '2026-05-17'
   takeaways:
@@ -133,6 +208,17 @@ oh-trumbull:
   sources:
   - https://en.wikipedia.org/wiki/Trumbull_County,_Ohio
   - https://en.wikipedia.org/wiki/Lordstown_Assembly
+  - https://api.census.gov/data/2023/acs/acs5?get=C24050_004E,C24050_001E&for=county:155&in=state:39
+  - https://api.census.gov/data/2023/acs/acs5?get=B21001_002E,B21001_001E&for=county:155&in=state:39
+  demographics:
+  - text: Manufacturing still employs 18.9% of Trumbull's workforce despite the Lordstown plant closure, the highest manufacturing share of any Ohio AI county. The local trades have not yet exited the labor market the Stargate retool needs to rehire.
+    source: Census ACS 2023 C24050 (Trumbull County, OH)
+  - text: Only 83.2% of Trumbull households have wired broadband, the lowest connectivity rate of any Ohio AI county. The Stargate campus will sit inside a region where residential fiber gaps run alongside the fiber the campus itself is pulling.
+    source: Census ACS 2023 B28002 (Trumbull County, OH)
+  - text: Trumbull's poverty rate is 16.8%, more than double Fairfield's 8.2%. The 1.5 GW Stargate buildout is the first major capital event landing in this county since GM closed, and it lands on the most economically stressed population of the Ohio AI cluster.
+    source: Census ACS 2023 B17001 (Trumbull County, OH)
+  - text: Veterans make up 9.0% of Trumbull adults (14,347 veterans), the highest veteran share of any Ohio batch-3 county. Youngstown Air Reserve Station's proximity is part of why the Lordstown labor pool retained operations-and-maintenance skills the Stargate site can draw from.
+    source: Census ACS 2023 B21001 (Trumbull County, OH)
 mo-jackson:
   last_updated: '2026-05-17'
   takeaways:
@@ -147,6 +233,16 @@ mo-jackson:
   sources:
   - https://en.wikipedia.org/wiki/Jackson_County,_Missouri
   - https://en.wikipedia.org/wiki/Independence,_Missouri
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 41.2% of Jackson County households rent rather than own, the highest renter share in this batch outside of Union NJ. Median gross rent is $1,151 a month, so a 10% rent move from data-center wage pressure would cost the typical renter household about $1,380 a year.
+    source: Census ACS 2023 B25003, B25064 (FIPS 29095)
+  - text: 13.8% of Jackson County residents live below poverty against a 22.5% Black population share. The Nebius and Google campuses sit on Evergy lines that cross some of the most concentrated poverty in metropolitan Kansas City.
+    source: Census ACS 2023 B17001, B02001 (FIPS 29095)
+  - text: Only 86.4% of Jackson County residents lived in the same house one year earlier, the second-lowest residential stability in this batch behind Cass ND. Kansas City is a transient labor market by AI county standards.
+    source: Census ACS 2023 B07001 (FIPS 29095)
+  - text: 36,245 Jackson County adults are veterans, 6.6% of the adult population. Whiteman Air Force Base sits 70 miles east and the regional Kansas City VA Medical Center anchors a labor pool with security clearances directly relevant to hyperscaler hiring.
+    source: Census ACS 2023 B21001 (FIPS 29095)
 al-jackson:
   last_updated: '2026-05-17'
   takeaways:
@@ -162,6 +258,15 @@ al-jackson:
   - https://en.wikipedia.org/wiki/Bridgeport,_Alabama
   - https://en.wikipedia.org/wiki/Widows_Creek_Fossil_Plant
   - https://en.wikipedia.org/wiki/Tennessee_Valley_Authority
+  demographics:
+  - text: 92.0% of Jackson County residents lived in the same house a year earlier and only 1.6% moved in from out of state, the most rooted population in this batch. That immobile cohort is the one that will absorb any TVA rate pass-through from data-center load with the least ability to leave.
+    source: Census ACS 2023 B07001_001E, B07001_017E, B07001_065E (Jackson County, AL)
+  - text: Manufacturing still accounts for 25.2% of jobs in Jackson County, more than triple the national 8% baseline. The Widows Creek site converts from coal generation to data-center load inside a labor market still anchored by old-economy production.
+    source: Census ACS 2023 C24050_001E, C24050_004E (Jackson County, AL)
+  - text: Median gross rent is $762 per month, the cheapest in this 16-county batch and roughly half the Atlanta-metro rate. The 75.0% owner-occupied share means most households are insulated from rent shock but exposed to property-tax reassessment.
+    source: Census ACS 2023 B25064_001E, B25003_001E, B25003_002E (Jackson County, AL)
+  - text: 16.8% of Jackson County residents live below the poverty line and 86.9% have a broadband subscription at home. The 13-point gap between poverty and broadband non-access is the digital floor the Google campus markets to but does not serve.
+    source: Census ACS 2023 B17001_001E, B17001_002E, B28002_001E, B28002_004E (Jackson County, AL)
 al-montgomery:
   last_updated: '2026-05-17'
   takeaways:
@@ -176,6 +281,15 @@ al-montgomery:
   sources:
   - https://en.wikipedia.org/wiki/Hyundai_Motor_Manufacturing_Alabama
   - https://en.wikipedia.org/wiki/Montgomery,_Alabama
+  demographics:
+  - text: 58.8% of Montgomery County residents are Black alone and 19.3% live in poverty, the highest poverty rate in this batch. The Meta campus drops on the most racially and economically distinct host community in the batch.
+    source: Census ACS 2023 B02001_001E, B02001_003E, B17001_001E, B17001_002E (Montgomery County, AL)
+  - text: Only 57.7% of Montgomery County housing units are owner-occupied, the lowest owner share in this batch outside Fulton. The 42% renter base will see the Alabama Power rate increase pass straight into monthly rent before any property reassessment cycle catches up.
+    source: Census ACS 2023 B25003_001E, B25003_002E (Montgomery County, AL)
+  - text: 8.9% of adults are veterans, the highest veteran share in this batch and a direct reflection of the Maxwell-Gunter footprint. Federal and military payrolls already stabilize the local labor base before the Meta build adds construction headcount.
+    source: Census ACS 2023 B21001_001E, B21001_002E (Montgomery County, AL)
+  - text: Median gross rent is $1,061 against a 12.4% manufacturing employment share, half the Jackson-County share to the north. Montgomery is the post-industrial pivot county in the Alabama pair, not the rural one.
+    source: Census ACS 2023 B25064_001E, C24050_001E, C24050_004E (Montgomery County, AL)
 az-maricopa:
   last_updated: '2026-05-17'
   takeaways:
@@ -189,6 +303,15 @@ az-maricopa:
     source: Census ACS 2023 B19013, B15003 + data/cache/realestate_yoy.csv (FIPS 04013)
   sources:
   - https://en.wikipedia.org/wiki/Mesa,_Arizona
+  demographics:
+  - text: 30.9% of Maricopa County residents are Hispanic of any race and 14.3% are foreign-born, the highest immigrant share in this batch. The five-campus AI cluster lands in the Salt River Project and APS service area whose customer base is one of the most Spanish-speaking large metros in the US.
+    source: Census ACS 2023 B03003_001E, B03003_003E, B05002_001E, B05002_013E (Maricopa County, AZ)
+  - text: Median gross rent in Maricopa is $1,587 per month, more than double the Jackson Alabama rent and the highest in this batch. The 35.0% renter share is the cohort that absorbs any utility pass-through immediately, before annual lease renewals reprice.
+    source: Census ACS 2023 B25064_001E, B25003_001E, B25003_002E (Maricopa County, AZ)
+  - text: Manufacturing accounts for only 7.8% of Maricopa jobs against an 11.3% poverty rate. The county is the rare AI host where the data centers do not displace a still-significant manufacturing base, they simply add to a service economy already at 4.5 million people.
+    source: Census ACS 2023 C24050_001E, C24050_004E, B17001_001E, B17001_002E (Maricopa County, AZ)
+  - text: Broadband at home reaches 92.1% of Maricopa households, the highest connectivity rate in the Mountain West group. The Apple, Meta, Microsoft, and Google campuses sell capacity to a base that is already a heavy consumer of the end product.
+    source: Census ACS 2023 B28002_001E, B28002_004E (Maricopa County, AZ)
 ga-douglas:
   last_updated: '2026-05-17'
   takeaways:
@@ -202,6 +325,15 @@ ga-douglas:
     source: data/cache/utility_rate_yoy.csv (Georgia Power Co, GA)
   sources:
   - https://en.wikipedia.org/wiki/Douglasville,_Georgia
+  demographics:
+  - text: 49.2% of Douglas County residents are Black alone and 11.7% are Hispanic, making it a majority-minority I-20 exurb. The CoreWeave campus joins a county that is demographically much closer to south Fulton than to the white-majority Walton and Whitfield host counties in the Georgia group.
+    source: Census ACS 2023 B02001_001E, B02001_003E, B03003_001E, B03003_003E (Douglas County, GA)
+  - text: Manufacturing is only 8.8% of Douglas County jobs against a 6.1% unemployment rate, the highest unemployment in this batch outside DeKalb Illinois. The county already had labor slack before any AI campus broke ground.
+    source: Census ACS 2023 C24050_001E, C24050_004E, B23025_002E, B23025_005E (Douglas County, GA)
+  - text: 93.0% of Douglas households have a broadband subscription, the highest connectivity rate in this batch. The customer base for the workloads the CoreWeave campus will host is largely already online inside the same county.
+    source: Census ACS 2023 B28002_001E, B28002_004E (Douglas County, GA)
+  - text: Median gross rent is $1,447 and only 66.4% of housing units are owner-occupied. The 33.6% renter share is well above the rural-Georgia baseline and matches the I-20 commuter-corridor profile rather than a self-contained exurb.
+    source: Census ACS 2023 B25064_001E, B25003_001E, B25003_002E (Douglas County, GA)
 ga-fulton:
   last_updated: '2026-05-17'
   takeaways:
@@ -215,6 +347,15 @@ ga-fulton:
     source: data/cache/utility_rate_yoy.csv (Georgia Power Co, GA)
   sources:
   - https://en.wikipedia.org/wiki/Palmetto,_Georgia
+  demographics:
+  - text: Only 54.1% of Fulton County housing units are owner-occupied, the lowest owner share of any AI host county in this batch. Microsoft Fairwater drops on a 45.9% renter base that absorbs the Georgia Power rate pass-through inside the monthly rent cycle, not the annual property-tax cycle.
+    source: Census ACS 2023 B25003_001E, B25003_002E (Fulton County, GA)
+  - text: 43.1% of Fulton County residents are Black alone, 7.6% are Asian, and 13.7% are foreign-born. The Fairwater campus has the most demographically complex customer-and-grievance base of any AI host in this batch.
+    source: Census ACS 2023 B02001_001E, B02001_003E, B02001_005E, B05002_001E, B05002_013E (Fulton County, GA)
+  - text: 12.9% of Fulton residents live in poverty against a $1,635 median gross rent, the highest rent in this batch. The 9-point gap between high incomes downtown and entrenched poverty in south Fulton is the social geography Palmetto sits inside.
+    source: Census ACS 2023 B17001_001E, B17001_002E, B25064_001E (Fulton County, GA)
+  - text: Only 4.7% of Fulton adults are veterans, the lowest veteran share in this batch. The county has none of the federal-payroll floor that stabilizes Montgomery Alabama, so the Microsoft campus is not buffered against a service-sector slowdown.
+    source: Census ACS 2023 B21001_001E, B21001_002E (Fulton County, GA)
 ga-walton:
   last_updated: '2026-05-17'
   takeaways:
@@ -229,6 +370,15 @@ ga-walton:
   sources:
   - https://en.wikipedia.org/wiki/Social_Circle,_Georgia
   - https://en.wikipedia.org/wiki/Walton_County,_Georgia
+  demographics:
+  - text: 79.2% of Walton County housing units are owner-occupied, the highest owner share in this batch. The Meta campus drops on a county where the utility-rate pass-through hits homeowners through the bill, not renters through their lease, slowing the political feedback loop.
+    source: Census ACS 2023 B25003_001E, B25003_002E (Walton County, GA)
+  - text: 72.1% of Walton residents are white alone and 19.7% are Black, a demographic profile closer to rural-North-Georgia than to either Atlanta or Augusta. The county is the racially least-diverse Meta site in the eastern US.
+    source: Census ACS 2023 B02001_001E, B02001_002E, B02001_003E (Walton County, GA)
+  - text: Manufacturing still accounts for 12.1% of Walton jobs, double the Fulton rate next door. Social Circle's Meta site lands in a county where one in eight workers still clocks into a factory shift.
+    source: Census ACS 2023 C24050_001E, C24050_004E (Walton County, GA)
+  - text: 7.7% of Walton adults are veterans and only 2.3% of residents moved in from outside Georgia in the last year. The Meta build will pull labor from a settled, locally-rooted base rather than from the kind of in-migration churn seen in Ada Idaho or Maricopa.
+    source: Census ACS 2023 B21001_001E, B21001_002E, B07001_001E, B07001_065E, B07001_081E (Walton County, GA)
 ga-whitfield:
   last_updated: '2026-05-17'
   takeaways:
@@ -243,6 +393,15 @@ ga-whitfield:
   sources:
   - https://en.wikipedia.org/wiki/Carpet
   - https://en.wikipedia.org/wiki/Dalton,_Georgia
+  demographics:
+  - text: Manufacturing accounts for 34.6% of Whitfield County jobs, the highest manufacturing share in this batch and more than four times the national average. The Core Scientific campus is the only AI host in the batch where the local economy is still structurally industrial rather than post-industrial.
+    source: Census ACS 2023 C24050_001E, C24050_004E (Whitfield County, GA)
+  - text: 36.6% of Whitfield residents are Hispanic of any race and 18.3% are foreign-born, the highest immigrant share in this batch and a direct legacy of the carpet-industry labor pull. The campus arrives in a workforce where roughly one in three workers is from a Spanish-first household.
+    source: Census ACS 2023 B03003_001E, B03003_003E, B05002_001E, B05002_013E (Whitfield County, GA)
+  - text: Median gross rent is $907 per month, the cheapest in the Georgia group and roughly 55% of the Atlanta-metro rate. Dalton's combination of cheap power and cheap housing is a structural advantage that Atlanta-suburb counties cannot match.
+    source: Census ACS 2023 B25064_001E (Whitfield County, GA)
+  - text: 91.7% of Whitfield residents lived in the same house a year ago and only 1.6% moved in from out of state, the second-lowest in-migration in this batch after Jackson Alabama. The Core Scientific build will not pull a fresh tech-labor wave into Dalton, the county will absorb it through retraining or commuting.
+    source: Census ACS 2023 B07001_001E, B07001_017E, B07001_065E (Whitfield County, GA)
 ia-dallas:
   last_updated: '2026-05-17'
   takeaways:
@@ -256,6 +415,15 @@ ia-dallas:
     source: data/cache/utility_rate_yoy.csv (MidAmerican Energy Co, IA)
   sources:
   - https://en.wikipedia.org/wiki/Waukee,_Iowa
+  demographics:
+  - text: Only 5.8% of Dallas County residents live in poverty and unemployment is 2.9%, the lowest poverty and lowest unemployment in this batch. The Apple campus lands in the tightest labor market of any AI host county nationwide outside Loudoun Virginia.
+    source: Census ACS 2023 B17001_001E, B17001_002E, B23025_002E, B23025_005E (Dallas County, IA)
+  - text: 4.6% of Dallas County residents are Asian alone, the highest Asian share in this batch outside Fulton Georgia. The Waukee tech-corridor base is already pulling a national talent profile, not just a Des Moines metro one.
+    source: Census ACS 2023 B02001_001E, B02001_005E (Dallas County, IA)
+  - text: Manufacturing is 8.1% of Dallas County jobs against a 69.5% owner-occupied share. The county runs on a service and finance footprint (Principal, Wells Fargo) rather than the manufacturing base that dominates the Polk and Linn AI sites.
+    source: Census ACS 2023 C24050_001E, C24050_004E, B25003_001E, B25003_002E (Dallas County, IA)
+  - text: Median gross rent is $1,239 per month, the highest in the Iowa group by 26%. Apple's tenants and contractors in Waukee compete for housing inside a rent market that is already pricing closer to Minneapolis than to the rest of MidAmerican territory.
+    source: Census ACS 2023 B25064_001E (Dallas County, IA)
 ia-linn:
   last_updated: '2026-05-17'
   takeaways:
@@ -269,6 +437,15 @@ ia-linn:
     source: Census ACS 2023 B15003, B01002 (Linn County, IA)
   sources:
   - https://en.wikipedia.org/wiki/Cedar_Rapids,_Iowa
+  demographics:
+  - text: Manufacturing accounts for 17.1% of Linn County jobs, the highest manufacturing share in the Iowa group. Cedar Rapids carries the Collins Aerospace and Quaker Foods base that already gives the Google campus an industrial-grade contractor and millwright pool to draw from.
+    source: Census ACS 2023 C24050_001E, C24050_004E (Linn County, IA)
+  - text: 9.9% of Linn residents live in poverty and median gross rent is $915, the cheapest in the Iowa group. The Google campus arrives in the lowest-cost-of-living host of the three Iowa AI counties in this batch.
+    source: Census ACS 2023 B17001_001E, B17001_002E, B25064_001E (Linn County, IA)
+  - text: 5.8% of Linn residents are Black alone and 4.0% are Hispanic. That is the highest Black share in the Iowa group and a direct legacy of Cedar Rapids' meatpacking and rail-yard labor history, the base that will absorb the construction phase.
+    source: Census ACS 2023 B02001_001E, B02001_003E, B03003_001E, B03003_003E (Linn County, IA)
+  - text: 7.5% of Linn adults are veterans and only 1.9% moved in from outside Iowa last year. The Google build sits on the second-most settled in-migration profile in the Iowa group, behind only Pottawattamie.
+    source: Census ACS 2023 B21001_001E, B21001_002E, B07001_001E, B07001_065E (Linn County, IA)
 ia-polk:
   last_updated: '2026-05-17'
   takeaways:
@@ -283,6 +460,15 @@ ia-polk:
   sources:
   - https://en.wikipedia.org/wiki/West_Des_Moines,_Iowa
   - https://en.wikipedia.org/wiki/Altoona,_Iowa
+  demographics:
+  - text: 10.0% of Polk County residents are Hispanic of any race and 10.0% are foreign-born, the highest immigrant share in the Iowa group. The Microsoft and Meta campuses in Des Moines feed into a metro that has been the primary Iowa landing spot for new arrivals for two decades.
+    source: Census ACS 2023 B03003_001E, B03003_003E, B05002_001E, B05002_013E (Polk County, IA)
+  - text: Median gross rent in Polk is $1,113 against an owner-occupied share of 67.1%. The 32.9% renter base in the largest Iowa AI county is the cohort that sees the MidAmerican grid investment pass-through inside the lease cycle.
+    source: Census ACS 2023 B25064_001E, B25003_001E, B25003_002E (Polk County, IA)
+  - text: Manufacturing is only 9.3% of Polk County jobs, half the Linn share to the east. Polk runs on insurance, finance, and government payrolls, so the campus reinforces an existing white-collar service base rather than retraining a blue-collar one.
+    source: Census ACS 2023 C24050_001E, C24050_004E (Polk County, IA)
+  - text: 7.5% of Polk County residents are Black alone, the highest in the Iowa group and concentrated in the Des Moines core. The Altoona and West Des Moines campuses sit outside that core, so the property-tax base lift accrues to suburban municipalities, not the city.
+    source: Census ACS 2023 B02001_001E, B02001_003E (Polk County, IA)
 ia-pottawattamie:
   last_updated: '2026-05-17'
   takeaways:
@@ -296,6 +482,15 @@ ia-pottawattamie:
     source: Census ACS 2023 B01002 + data/cache/utility_rate_yoy.csv (MidAmerican Energy Co, IA)
   sources:
   - https://en.wikipedia.org/wiki/Council_Bluffs,_Iowa
+  demographics:
+  - text: 89.0% of Pottawattamie residents are white alone and only 1.8% are Black, the demographic floor of the Iowa group. Council Bluffs is the AI host in this batch that looks closest to a 1990s Iowa population snapshot.
+    source: Census ACS 2023 B02001_001E, B02001_002E, B02001_003E (Pottawattamie County, IA)
+  - text: Broadband at home reaches only 84.0% of Pottawattamie households, the lowest connectivity rate in the Iowa group and 8 points below Polk County across the river. The Google campus exports compute capacity from a county where roughly one in six homes is still offline.
+    source: Census ACS 2023 B28002_001E, B28002_004E (Pottawattamie County, IA)
+  - text: 8.6% of Pottawattamie adults are veterans, the highest veteran share in the Iowa group and a reflection of Offutt Air Force Base just across the Missouri River. The federal payroll floor is the same dynamic that anchors Montgomery Alabama.
+    source: Census ACS 2023 B21001_001E, B21001_002E (Pottawattamie County, IA)
+  - text: Manufacturing is 10.5% of Pottawattamie jobs against a $970 median gross rent, the second-cheapest in the Iowa group. The Council Bluffs cost-of-living base is one structural reason Google's three-phase build was the largest private investment in Iowa history.
+    source: Census ACS 2023 C24050_001E, C24050_004E, B25064_001E (Pottawattamie County, IA)
 id-ada:
   last_updated: '2026-05-17'
   takeaways:
@@ -308,6 +503,15 @@ id-ada:
   - text: Home prices rose only 1.6% on a 3-year baseline, the smallest delta in this batch except for Maricopa. The Boise market has cooled sharply from the 2020 to 2022 in-migration peak.
     source: data/cache/realestate_yoy.csv (FIPS 16001)
   sources: []
+  demographics:
+  - text: 5.5% of Ada County residents moved in from a different state in the last year, the highest in-migration rate in this 16-county batch. Meta's Kuna campus lands in the host county with the most actively churning population, which is also why the Idaho Power rate pass-through politically lands fastest.
+    source: Census ACS 2023 B07001_001E, B07001_065E (Ada County, ID)
+  - text: 9.5% of Ada residents are Hispanic of any race and 6.0% are foreign-born, the highest Hispanic share in the Mountain West group. The Boise demographic profile is closer to the Salt Lake metro than to the rural-Idaho counties around it.
+    source: Census ACS 2023 B03003_001E, B03003_003E, B05002_001E, B05002_013E (Ada County, ID)
+  - text: 8.0% of Ada adults are veterans against a 3.1% unemployment rate, the second-lowest unemployment in this batch after Dallas Iowa. Meta arrives in a labor market that is already tight before the data-center construction phase begins.
+    source: Census ACS 2023 B21001_001E, B21001_002E, B23025_002E, B23025_005E (Ada County, ID)
+  - text: Broadband at home reaches 94.4% of Ada households, the highest in this batch. The customer base for the workloads the Kuna campus will host is the most online residential population among the 16 AI host counties.
+    source: Census ACS 2023 B28002_001E, B28002_004E (Ada County, ID)
 il-dekalb:
   last_updated: '2026-05-17'
   takeaways:
@@ -321,6 +525,15 @@ il-dekalb:
     source: data/cache/utility_rate_yoy.csv (Commonwealth Edison Co, IL) + data/cache/property_tax_yoy.csv (FIPS 17037)
   sources:
   - https://en.wikipedia.org/wiki/DeKalb,_Illinois
+  demographics:
+  - text: Unemployment in DeKalb County is 7.1%, the highest in this batch and more than twice the Dallas Iowa or Ada Idaho rate. The Meta campus arrives in a labor market with the most slack, which is the structural reason home-price acceleration without wage acceleration is plausible.
+    source: Census ACS 2023 B23025_002E, B23025_005E (DeKalb County, IL)
+  - text: 14.0% of DeKalb residents are Hispanic of any race and 6.4% are foreign-born, well above the rural-Illinois baseline. The Northern Illinois University-anchored labor pool already pulls a more diverse base than the surrounding farm counties.
+    source: Census ACS 2023 B03003_001E, B03003_003E, B05002_001E, B05002_013E (DeKalb County, IL)
+  - text: Only 60.9% of DeKalb housing units are owner-occupied, the second-lowest owner share in this batch after Fulton. The 39.1% renter base is partly student housing for NIU's 20,000 students, the cohort least insulated from any ComEd rate move that follows the Meta build.
+    source: Census ACS 2023 B25003_001E, B25003_002E (DeKalb County, IL)
+  - text: 15.9% of DeKalb residents live in poverty and median gross rent is $1,041. The combined poverty-and-rent profile is closer to a Rust Belt mid-size city than to the I-90 logistics corridor DeKalb appears in on a map.
+    source: Census ACS 2023 B17001_001E, B17001_002E, B25064_001E (DeKalb County, IL)
 in-clark:
   last_updated: '2026-05-17'
   takeaways:
@@ -333,6 +546,15 @@ in-clark:
   - text: Median age in Clark is 39.8 against a 6.0% 3-year home-price move. The 24-point spread between flat home prices and a 18% tax-assessment jump is the largest mismatch in this batch.
     source: Census ACS 2023 B01002 + data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 18019)
   sources: []
+  demographics:
+  - text: Manufacturing accounts for 16.3% of Clark County jobs against a 3.8% unemployment rate. Jeffersonville is one of the tighter manufacturing labor markets in this batch, which means the Meta construction phase will compete for the same skilled trades the Ford and GE Appliances supplier base already books.
+    source: Census ACS 2023 C24050_001E, C24050_004E, B23025_002E, B23025_005E (Clark County, IN)
+  - text: 89.2% of Clark residents lived in the same house a year ago and only 3.0% moved in from out of state, despite the Louisville cross-river commute. The county absorbs the Meta build with a settled local base, not transient construction labor.
+    source: Census ACS 2023 B07001_001E, B07001_017E, B07001_065E (Clark County, IN)
+  - text: 7.0% of Clark residents are Black alone and 6.6% are Hispanic, the most diverse county in the Indiana AI group. The Louisville metro spillover is the structural reason Clark looks demographically less like Indiana and more like Kentucky.
+    source: Census ACS 2023 B02001_001E, B02001_003E, B03003_001E, B03003_003E (Clark County, IN)
+  - text: Median gross rent in Clark is $1,058 against a 9.3% poverty rate, the lowest poverty rate in the Indiana group. The Meta campus joins a host county with the strongest household balance sheet of the three Indiana AI counties in this batch.
+    source: Census ACS 2023 B25064_001E, B17001_001E, B17001_002E (Clark County, IN)
 in-laporte:
   last_updated: '2026-05-17'
   takeaways:
@@ -346,6 +568,15 @@ in-laporte:
     source: data/sites/data_centers.csv (Project Rainier, Granger, La Porte)
   sources:
   - https://en.wikipedia.org/wiki/La_Porte,_Indiana
+  demographics:
+  - text: Manufacturing accounts for 22.5% of LaPorte County jobs, the highest manufacturing share in the Indiana group and the second-highest in this batch after Whitfield. Microsoft's La Porte campus lands at the Radius Industrial Park inside one of the most factory-anchored host counties of the 16.
+    source: Census ACS 2023 C24050_001E, C24050_004E (LaPorte County, IN)
+  - text: 14.0% of LaPorte residents live in poverty against a $926 median gross rent. The county has the second-highest poverty rate in this batch after Montgomery Alabama, paired with the second-cheapest rent in the Indiana group.
+    source: Census ACS 2023 B17001_001E, B17001_002E, B25064_001E (LaPorte County, IN)
+  - text: 10.5% of LaPorte residents are Black alone, the highest Black share in the Indiana AI group and a Gary-and-Michigan-City legacy. The Microsoft build adds load to a county whose population profile mirrors the broader Lake Michigan industrial arc.
+    source: Census ACS 2023 B02001_001E, B02001_003E (LaPorte County, IN)
+  - text: 7.4% of LaPorte adults are veterans and 86.7% lived in the same house a year ago. The campus arrives in a settled, veteran-heavy labor pool that has already weathered the closures of NIPSCO coal units and the Bethlehem Steel downsize.
+    source: Census ACS 2023 B21001_001E, B21001_002E, B07001_001E, B07001_017E (LaPorte County, IN)
 mn-dakota:
   last_updated: '2026-05-17'
   takeaways:
@@ -359,6 +590,16 @@ mn-dakota:
     source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 27037)
   sources:
   - https://en.wikipedia.org/wiki/Rosemount,_Minnesota
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: Only 5.6% of Dakota County residents live below the federal poverty line and unemployment is 3.6%, both the lowest values in this batch. The Meta Rosemount campus is landing in a county that already runs a tight labor market before the construction phase ramps.
+    source: Census ACS 2023 B17001, B23025 (FIPS 27037)
+  - text: 10.8% of Dakota County workers are in manufacturing, the third-highest share in this batch. Flint Hills Resources operates the Pine Bend refinery and CHS owns the regional supply chain, so Meta is competing for skilled trades against established industrial employers.
+    source: Census ACS 2023 C24050 (FIPS 27037)
+  - text: 93.8% of Dakota County households have a wired broadband subscription, the highest in this batch. The Meta site is being built into a metro that already lives online, which changes who actually benefits from the new fiber Meta funds.
+    source: Census ACS 2023 B28002 (FIPS 27037)
+  - text: Dakota County is 7.3% Black, 8.4% Hispanic, 5.2% Asian, and 76.0% white. The Asian share is twice that of any North Dakota AI county and reflects the Twin Cities Hmong, Somali, and Lao communities concentrated north of Rosemount.
+    source: Census ACS 2023 B02001, B03003 (FIPS 27037)
 nc-caldwell:
   last_updated: '2026-05-17'
   takeaways:
@@ -372,6 +613,16 @@ nc-caldwell:
     source: data/sites/data_centers.csv (Lenoir) + sources[0]
   sources:
   - https://en.wikipedia.org/wiki/Lenoir,_North_Carolina
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 21.5% of Caldwell County workers are in manufacturing, the highest manufacturing share of any AI host county in this batch. The Catawba Valley furniture and fiber-optic-cable cluster still employs more workers than any service sector.
+    source: Census ACS 2023 C24050 (FIPS 37027)
+  - text: Median gross rent in Caldwell is $735 a month, the lowest in this batch. With 26.0% renter households and a poverty rate of 12.7%, any wage-driven rent inflation from the Google Lenoir expansion lands hardest on the third of the county that does not own.
+    source: Census ACS 2023 B25064, B25003, B17001 (FIPS 37027)
+  - text: Caldwell County is 86.6% white, 4.1% Black, 6.4% Hispanic, and only 0.5% Asian. Google's longest-running Southeast campus operates in a county that is demographically closer to mid-century Appalachia than to its Atlanta or Charlotte hyperscaler peers.
+    source: Census ACS 2023 B02001, B03003 (FIPS 37027)
+  - text: Only 1.2% of Caldwell residents moved in from another state in the past year, the second-lowest interstate migration rate in this batch. Google has spent 17 years operating in a county whose population is not being replenished by newcomers.
+    source: Census ACS 2023 B07001 (FIPS 37027)
 nc-catawba:
   last_updated: '2026-05-17'
   takeaways:
@@ -386,6 +637,16 @@ nc-catawba:
   sources:
   - https://en.wikipedia.org/wiki/Hickory,_North_Carolina
   - https://en.wikipedia.org/wiki/Maiden,_North_Carolina
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 26.5% of Catawba County workers are in manufacturing, the highest share of any AI host county in this batch and roughly 3x the national average of about 10%. The Hickory fiber-optic and furniture clusters give Microsoft and Apple a labor pool no other Carolinas county can match.
+    source: Census ACS 2023 C24050 (FIPS 37035)
+  - text: Catawba County is 4.1% Asian and 11.1% Hispanic, the most ethnically diverse of the three Carolinas counties in this batch. The Hmong and Latino communities around Newton and Conover are a legacy of the 1980s textile-mill labor recruitment.
+    source: Census ACS 2023 B02001, B03003 (FIPS 37035)
+  - text: Only 1.8% of Catawba residents moved in from another state in the past year despite three active hyperscaler builds. The skilled workforce hosting Apple, Microsoft Lyle Creek, and Microsoft Boyd Farms is still drawn overwhelmingly from within North Carolina.
+    source: Census ACS 2023 B07001 (FIPS 37035)
+  - text: 12.8% of Catawba residents live below poverty and 27.3% rent. With three campuses on the same Duke Energy grid that just took a 28.3% residential rate hike, the rent and bill stack on lower-income households compounds faster than in Caldwell or Rutherford.
+    source: Census ACS 2023 B17001, B25003 (FIPS 37035)
 nc-cherokee:
   last_updated: '2026-05-17'
   takeaways:
@@ -397,7 +658,17 @@ nc-cherokee:
     source: data/cache/utility_rate_yoy.csv (Duke Energy Carolinas, NC) + Census ACS 2023 B19013
   - text: Home prices rose 11.6% over three years against a $208,700 median home value. Only 24.2% of adults 25 and older hold a bachelor's degree, and the county lost population between 2010 and 2020.
     source: data/cache/realestate_yoy.csv (FIPS 37039) + Census ACS 2023 B25077, B15003
-  sources: []
+  sources:
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 11.3% of Cherokee County adults are veterans, the second-highest veteran share in this batch behind Sarpy NE. The aging veteran population overlaps with the county's 53.3-year median age and explains the high homeownership rate.
+    source: Census ACS 2023 B21001 (FIPS 37039)
+  - text: 83.6% of Cherokee County households own their home, the highest homeownership rate of any county in this batch. Only 16.4% rent, so the Core Scientific Marble campus lands in a community where housing stock is owner-controlled and slow to flip.
+    source: Census ACS 2023 B25003 (FIPS 37039)
+  - text: 14.6% of Cherokee residents live below poverty, the highest poverty rate among the four North Carolina AI counties in this batch. The 91.2% white, 1.5% Black, 3.5% Hispanic profile makes Marble the most demographically homogeneous Carolinas data-center host.
+    source: Census ACS 2023 B17001, B02001, B03003 (FIPS 37039)
+  - text: Only 82.2% of Cherokee households have a wired broadband subscription, the lowest in North Carolina across this batch. The Murphy and Marble area sits on the western edge of the state's broadband-equity gap that the Core Scientific build will not close on its own.
+    source: Census ACS 2023 B28002 (FIPS 37039)
 nc-rutherford:
   last_updated: '2026-05-17'
   takeaways:
@@ -411,6 +682,16 @@ nc-rutherford:
     source: data/cache/utility_rate_yoy.csv (Duke Energy Carolinas, NC) + Census ACS 2023 B19013
   sources:
   - https://en.wikipedia.org/wiki/Forest_City,_North_Carolina
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 17.6% of Rutherford County residents live below poverty, the highest poverty rate of any North Carolina AI host county in this batch. Meta's Forest City expansion arrives in a county that has carried mill-closure poverty since the 2000s.
+    source: Census ACS 2023 B17001 (FIPS 37161)
+  - text: 16.1% of Rutherford workers are in manufacturing, second only to Caldwell among the Carolinas AI counties in this batch. The textile-and-furniture industrial base remains the wage floor that Meta's expansion is now bidding against.
+    source: Census ACS 2023 C24050 (FIPS 37161)
+  - text: 8.0% of Rutherford adults are veterans, the highest veteran share among the four North Carolina counties in this batch. The 5.5% unemployment rate is also the highest of any NC AI county here.
+    source: Census ACS 2023 B21001, B23025 (FIPS 37161)
+  - text: Median gross rent in Rutherford is $748 a month against a 25.9% renter share. With Duke Energy Carolinas already up 28.3% on residential rates, the dollar bill increase from electricity now exceeds an entire month of typical rent inflation.
+    source: Census ACS 2023 B25064, B25003 (FIPS 37161)
 nd-cass:
   last_updated: '2026-05-17'
   takeaways:
@@ -424,6 +705,16 @@ nd-cass:
     source: Census ACS 2023 B25077 + data/cache/property_tax_yoy.csv (FIPS 38017) + data/cache/realestate_yoy.csv
   sources:
   - https://en.wikipedia.org/wiki/Harwood,_North_Dakota
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 48.0% of Cass County households rent rather than own, the highest renter share of any North Dakota AI county and second only to Union NJ in this batch. The North Dakota State University student body inflates the renter pool that absorbs Applied Digital wage pressure.
+    source: Census ACS 2023 B25003 (FIPS 38017)
+  - text: Only 79.2% of Cass residents lived in the same house one year earlier, the lowest residential stability in this batch. Fargo's renter churn means rent signals from Polaris Forge 2 will show up in lease turnover faster than in any other AI host county here.
+    source: Census ACS 2023 B07001 (FIPS 38017)
+  - text: 6.3% of Cass residents moved in from another state in the past year, the highest interstate migration rate of any county in this batch. The Polaris Forge 2 hiring funnel is plugging into an already-flowing Fargo in-migration pipe.
+    source: Census ACS 2023 B07001 (FIPS 38017)
+  - text: Unemployment is 3.0% with a poverty rate of 10.3% and a manufacturing share of 8.7%. Cass is the tightest North Dakota labor market in this batch and the AI buildout is competing against Bobcat, Microsoft Bing operations, and an already-low Fargo jobless pool.
+    source: Census ACS 2023 B23025, B17001, C24050 (FIPS 38017)
 nd-dickey:
   last_updated: '2026-05-17'
   takeaways:
@@ -437,6 +728,16 @@ nd-dickey:
     source: Census ACS 2023 B25077, B15003 + data/cache/realestate_yoy.csv (no FIPS 38021 row)
   sources:
   - https://en.wikipedia.org/wiki/Ellendale,_North_Dakota
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: Dickey County has 4,959 residents but only 1,953 housing units. The CoreWeave-anchored Ellendale Polaris Forge 1 campus will draw construction and operations workers into a county with roughly 2,000 doors total, including the rental stock.
+    source: Census ACS 2023 B25003 (FIPS 38021)
+  - text: 92.7% of Dickey residents are white, 3.9% Hispanic, 1.1% Asian, and 0.3% Black, with just 14 Black residents in the 2023 ACS sample. Applied Digital is opening the most racially homogeneous AI host county in the entire dataset.
+    source: Census ACS 2023 B02001, B03003 (FIPS 38021)
+  - text: Unemployment is 2.9% and 13.4% of Dickey workers are in manufacturing. Cavalier Specialty Vehicles in Ellendale and the regional grain processors already absorb the working-age labor pool, so Polaris Forge 1 will largely run on commute-in or housed-in workers.
+    source: Census ACS 2023 B23025, C24050 (FIPS 38021)
+  - text: Only 81.7% of Dickey households have a wired broadband subscription. The 400 MW CoreWeave HPC cluster will train frontier models on a fiber spine that 18% of its host county's residents do not yet plug into at home.
+    source: Census ACS 2023 B28002 (FIPS 38021)
 nd-stutsman:
   last_updated: '2026-05-17'
   takeaways:
@@ -450,6 +751,16 @@ nd-stutsman:
     source: Census ACS 2023 B19013, B01002, B15003 (FIPS 38093)
   sources:
   - https://en.wikipedia.org/wiki/Jamestown,_North_Dakota
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 11.0% of Stutsman County workers are in manufacturing including Cavendish Farms potato processing in Jamestown. The 100 MW JMS01 site is competing for the same skilled-trades labor pool that staffs the Cavendish line.
+    source: Census ACS 2023 C24050 (FIPS 38093)
+  - text: Unemployment is 3.6% and 12.4% of Stutsman residents live below poverty. The poverty rate is higher than Cass County 100 miles north despite the same Otter Tail Power rate environment.
+    source: Census ACS 2023 B23025, B17001 (FIPS 38093)
+  - text: 36.4% of Stutsman households rent rather than own, the highest renter share of any North Dakota AI host county. A small 100 MW hyperscaler load can move rents in a market this tight more visibly than the larger Cass or Dickey builds will.
+    source: Census ACS 2023 B25003 (FIPS 38093)
+  - text: 92.0% of Stutsman residents are white, 3.0% Hispanic, 2.1% Black, and 0.5% Asian. The University of Jamestown student body lifts the local diversity baseline above what the surrounding agricultural counties report.
+    source: Census ACS 2023 B02001, B03003 (FIPS 38093)
 ne-sarpy:
   last_updated: '2026-05-17'
   takeaways:
@@ -463,6 +774,16 @@ ne-sarpy:
     source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 31153) + Census ACS 2023 B25077
   sources:
   - https://en.wikipedia.org/wiki/Papillion,_Nebraska
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 12.8% of Sarpy County adults are veterans, the highest veteran share of any county in this batch. Offutt Air Force Base, headquarters of US Strategic Command, sits inside the county and seeds a labor pool with active security clearances directly relevant to Meta and Google.
+    source: Census ACS 2023 B21001 (FIPS 31153)
+  - text: Unemployment is 2.3% and poverty is 5.2%, both the lowest values of any county in this batch. The Sarpy hyperscaler labor pool is the tightest of any multi-campus county here.
+    source: Census ACS 2023 B23025, B17001 (FIPS 31153)
+  - text: 94.8% of Sarpy households have a wired broadband subscription, the highest in this batch. Meta and Google built into a county where residential connectivity already matches the campus they then funded.
+    source: Census ACS 2023 B28002 (FIPS 31153)
+  - text: Median gross rent in Sarpy is $1,284 against a 29.4% renter share and an 11.1% Hispanic population. The renter share is lower than urban metros even though Papillion and Bellevue function as Omaha-suburban commuter towns.
+    source: Census ACS 2023 B25064, B25003, B03003 (FIPS 31153)
 nj-union:
   last_updated: '2026-05-17'
   takeaways:
@@ -476,6 +797,16 @@ nj-union:
     source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 34039) + data/sites/data_centers.csv (Kenilworth NEST source URL)
   sources:
   - https://en.wikipedia.org/wiki/Kenilworth,_New_Jersey
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: Union County is 34.4% Hispanic, 20.5% Black, 5.6% Asian, and 41.7% white, the only US AI host county with no racial majority. Kenilworth NEST is the first hyperscaler retrofit landing in a true Northeast plurality county.
+    source: Census ACS 2023 B02001, B03003 (FIPS 34039)
+  - text: 42.4% of Union County households rent rather than own, the highest renter share of any county in this batch. Median gross rent is $1,664 a month, the highest rent in the dataset, so a 15.6% PSE&G rate increase compounds on top of an already squeezed renter base.
+    source: Census ACS 2023 B25003, B25064 (FIPS 34039)
+  - text: Unemployment is 6.3% in Union County, the second-highest jobless rate in this batch. CoreWeave's Kenilworth retrofit lands in a labor market where roughly 1 in 16 active workers is currently unemployed, against the same Census reference month.
+    source: Census ACS 2023 B23025 (FIPS 34039)
+  - text: Only 2.8% of Union adults are veterans, the lowest veteran share of any AI host county in this batch. The traditional defense-manufacturing labor pipeline that anchors counties like Sarpy or Jackson does not exist here.
+    source: Census ACS 2023 B21001 (FIPS 34039)
 nm-dona-ana:
   last_updated: '2026-05-17'
   takeaways:
@@ -489,6 +820,16 @@ nm-dona-ana:
     source: data/cache/property_tax_yoy.csv (FIPS 35013) + sources[0]
   sources:
   - https://en.wikipedia.org/wiki/Santa_Teresa,_New_Mexico
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 22.2% of Dona Ana County residents live below the federal poverty line and 67.6% are Hispanic. Project Jupiter sits in the second-poorest county in this batch behind Richland LA and the highest Hispanic share of any AI host county tracked.
+    source: Census ACS 2023 B17001, B03003 (FIPS 35013)
+  - text: Only 4.6% of Dona Ana workers are in manufacturing, the lowest manufacturing share of any county in this batch. The local economy runs on government, NMSU, agriculture, and the Santa Teresa port of entry rather than industrial wages.
+    source: Census ACS 2023 C24050 (FIPS 35013)
+  - text: Unemployment is 6.8% in Dona Ana County, the highest jobless rate of any AI host county in this batch. Project Jupiter is being announced into the loosest labor market in the dataset.
+    source: Census ACS 2023 B23025 (FIPS 35013)
+  - text: 34.7% of Dona Ana households rent rather than own. Median gross rent is $903 a month, low by national standards but high relative to the 22.2% poverty rate, so a Stargate-driven rent move would hit the working-poor Hispanic majority hardest.
+    source: Census ACS 2023 B25003, B25064, B17001 (FIPS 35013)
 nm-valencia:
   last_updated: '2026-05-17'
   takeaways:
@@ -502,6 +843,16 @@ nm-valencia:
     source: data/cache/property_tax_yoy.csv (FIPS 35061) + Census ACS 2023 B25077 + data/cache/realestate_yoy.csv (no FIPS 35061 row)
   sources:
   - https://en.wikipedia.org/wiki/Los_Lunas,_New_Mexico
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 60.6% of Valencia County residents are Hispanic, the second-highest Hispanic share of any AI host county tracked behind Dona Ana. The traditional New Mexican land-grant communities along the Rio Grande are the demographic core of Meta's Los Lunas neighborhood.
+    source: Census ACS 2023 B03003 (FIPS 35061)
+  - text: 9.6% of Valencia adults are veterans, the second-highest veteran share among AI counties in this batch behind Sarpy and Cherokee. Kirtland Air Force Base and Sandia National Labs in Albuquerque seed a Valencia commuter workforce with cleared technical skills.
+    source: Census ACS 2023 B21001 (FIPS 35061)
+  - text: 82.1% of Valencia households own their home, the second-highest homeownership rate in this batch behind Cherokee NC. The 17.9% renter share is the smallest channel through which Meta wage pressure can move local housing costs.
+    source: Census ACS 2023 B25003 (FIPS 35061)
+  - text: 18.4% of Valencia residents live below poverty and unemployment is 6.9%, both elevated against a national baseline. The eight-building Meta complex anchors a county where almost 1 in 5 residents lives below the poverty line.
+    source: Census ACS 2023 B17001, B23025 (FIPS 35061)
 nv-clark:
   last_updated: '2026-05-17'
   takeaways:
@@ -515,6 +866,16 @@ nv-clark:
     source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 32003) + Census ACS 2023 B25077
   sources:
   - https://en.wikipedia.org/wiki/Henderson,_Nevada
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: Clark County is 31.4% Hispanic, 12.1% Black, 10.5% Asian, and 47.1% white, the most racially diverse AI host county in the entire dataset. Google's Henderson expansion lands in a community without any single demographic majority.
+    source: Census ACS 2023 B02001, B03003 (FIPS 32003)
+  - text: Unemployment is 7.4% in Clark County, the highest jobless rate of any AI host county in the dataset. The Las Vegas service economy still bears Strip cycle volatility that the Henderson tech corridor only partially insulates.
+    source: Census ACS 2023 B23025 (FIPS 32003)
+  - text: 43.0% of Clark County households rent rather than own at a median rent of $1,518 a month. NV Energy's 6.9% residential rate jump on a renter base this large amplifies the effective bill-plus-rent stack on roughly 364,000 households.
+    source: Census ACS 2023 B25003, B25064 (FIPS 32003)
+  - text: Only 3.9% of Clark County workers are in manufacturing, against 13.2% in poverty. Google's data-center capex is one of the few non-hospitality industrial investments in a county whose labor force is otherwise locked to tourism cycles.
+    source: Census ACS 2023 C24050, B17001 (FIPS 32003)
 nv-washoe:
   last_updated: '2026-05-17'
   takeaways:
@@ -528,6 +889,16 @@ nv-washoe:
     source: data/cache/property_tax_yoy.csv (FIPS 32031) + data/cache/realestate_yoy.csv + data/sites/data_centers.csv
   sources:
   - https://en.wikipedia.org/wiki/Tahoe_Reno_Industrial_Center
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 25.6% of Washoe County residents are Hispanic and 5.6% are Asian, with a 65.5% white share. Reno is the most Hispanic of the Northwest tech-corridor AI host counties and the only one where the Hispanic share exceeds 20%.
+    source: Census ACS 2023 B02001, B03003 (FIPS 32031)
+  - text: 40.5% of Washoe County households rent rather than own at a median gross rent of $1,507 a month, a stack much closer to Clark NV than to the rural northern Nevada baseline. The Tahoe Reno Industrial Center wage premium runs through this rental market.
+    source: Census ACS 2023 B25003, B25064 (FIPS 32031)
+  - text: 9.6% of Washoe workers are in manufacturing, a higher share than Clark NV's 3.9% even though Reno is one-fifth the population. Tesla Gigafactory and the Panasonic battery line at TRI are the visible drivers behind that ratio.
+    source: Census ACS 2023 C24050 (FIPS 32031)
+  - text: 3.6% of Washoe residents moved in from another state in the past year, the highest interstate-migration rate of any Nevada AI county. The Bay Area to Reno corridor is still feeding labor into the Google and Apple builds.
+    source: Census ACS 2023 B07001 (FIPS 32031)
 ny-niagara:
   last_updated: '2026-05-17'
   takeaways:
@@ -542,6 +913,17 @@ ny-niagara:
   sources:
   - https://en.wikipedia.org/wiki/TeraWulf
   - https://en.wikipedia.org/wiki/Niagara_(town),_New_York
+  - https://api.census.gov/data/2023/acs/acs5?get=B25003_002E,B25003_001E&for=county:063&in=state:36
+  - https://api.census.gov/data/2023/acs/acs5?get=B28002_004E,B28002_001E&for=county:063&in=state:36
+  demographics:
+  - text: 70.9% of Niagara County housing is owner-occupied at a median home value cited elsewhere of $177,400, so the speculative spillover from Lake Mariner lands largely on existing homeowners rather than a thin rental market.
+    source: Census ACS 2023 B25003 (Niagara County, NY)
+  - text: Manufacturing still employs 13.9% of Niagara's workforce, a holdover from the chemical and metals economy along the Niagara River that historically rode the same hydro that now powers TeraWulf.
+    source: Census ACS 2023 C24050 (Niagara County, NY)
+  - text: Niagara's veteran share is 7.7% of adults 18 and over (13,066 veterans), an underused labor pool the Lake Mariner site could tap for plant-operator roles converted from former Somerset coal staff.
+    source: Census ACS 2023 B21001 (Niagara County, NY)
+  - text: Only 88.6% of Niagara households have a wired broadband subscription, behind the national 91% baseline. The same Town of Niagara that hosts the Anthropic build sits in the lower-connectivity bucket for upstate New York.
+    source: Census ACS 2023 B28002 (Niagara County, NY)
 oh-fairfield:
   last_updated: '2026-05-17'
   takeaways:
@@ -555,6 +937,17 @@ oh-fairfield:
     source: data/sites/data_centers.csv (Lancaster Google) + data/cache/utility_rate_yoy.csv (Ohio Power Co, OH)
   sources:
   - https://en.wikipedia.org/wiki/Lancaster,_Ohio
+  - https://api.census.gov/data/2023/acs/acs5?get=B28002_004E,B28002_001E&for=county:045&in=state:39
+  - https://api.census.gov/data/2023/acs/acs5?get=B25064_001E&for=county:045&in=state:39
+  demographics:
+  - text: 91.2% of Fairfield County households subscribe to wired broadband, the highest connectivity rate of any Ohio county in this batch. The Google Lancaster build lands in the part of the central Ohio cluster least exposed to a residential digital divide.
+    source: Census ACS 2023 B28002 (Fairfield County, OH)
+  - text: Fairfield's poverty rate is 8.2% and unemployment is just 3.6%, the tightest labor market of the four Ohio AI counties. Any local hire for the Lancaster Google campus pulls from a workforce that is already near full employment.
+    source: Census ACS 2023 B17001 and B23025 (Fairfield County, OH)
+  - text: Median gross rent in Fairfield County is $1,114, well below the Franklin County figure of $1,233 next door. The 16-mile commute from Lancaster to Columbus is a rent arbitrage already running before Google adds construction labor demand.
+    source: Census ACS 2023 B25064 (Fairfield County, OH)
+  - text: 89.0% of Fairfield residents lived in the same county a year earlier, the lowest residential stickiness of the central Ohio AI cluster. The county is already a net in-migration destination for Columbus commuters, a flow the Google campus will accelerate.
+    source: Census ACS 2023 B07001 (Fairfield County, OH)
 oh-franklin:
   last_updated: '2026-05-17'
   takeaways:
@@ -566,7 +959,18 @@ oh-franklin:
     source: data/sites/data_centers.csv (Columbus Google, Hilliard)
   - text: Home prices rose 8.1% and property tax assessments rose 7.9% over three years, the most restrained pair in the central Ohio cluster. The 34.7 median age and university anchor partly explain why Franklin has absorbed the AI announcements without the price spike Licking saw next door.
     source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 39049) + Census ACS 2023 B01002
-  sources: []
+  sources:
+  - https://api.census.gov/data/2023/acs/acs5?get=B02001_003E,B02001_001E&for=county:049&in=state:39
+  - https://api.census.gov/data/2023/acs/acs5?get=C24050_004E,C24050_001E&for=county:049&in=state:39
+  demographics:
+  - text: Franklin County is 23.0% Black and 7.1% Hispanic, the most diverse county in the central Ohio AI cluster. Columbus absorbs the hyperscaler footprint without the demographic monoculture Licking and Fairfield show next door.
+    source: Census ACS 2023 B02001 and B03003 (Franklin County, OH)
+  - text: 93.3% of Franklin households have wired broadband, the highest in any Ohio batch-3 county. The 547,922-unit housing stock includes Ohio State student rentals and downtown Columbus apartments that already run on fiber the rural AI counties lack.
+    source: Census ACS 2023 B28002 and B25003 (Franklin County, OH)
+  - text: Only 53.0% of Franklin's housing is owner-occupied (290,219 units), the lowest of any Ohio AI county. The Google Columbus and AWS Hilliard builds therefore land in a rental-heavy market where landlord pass-throughs, not homeowner tax escrows, capture the bill-side rate impact.
+    source: Census ACS 2023 B25003 (Franklin County, OH)
+  - text: Manufacturing has fallen to 7.5% of Franklin's workforce, half the share in Trumbull County. The Columbus cluster is the only Ohio AI county where the data center buildout is layering on a service economy rather than backfilling a deindustrialized one.
+    source: Census ACS 2023 C24050 (Franklin County, OH)
 oh-licking:
   last_updated: '2026-05-17'
   takeaways:
@@ -581,6 +985,17 @@ oh-licking:
   sources:
   - https://en.wikipedia.org/wiki/New_Albany,_Ohio
   - https://dcpulse.com/project/meta-prometheus-new-albany-1gw-ai-data-center
+  - https://api.census.gov/data/2023/acs/acs5?get=B07001_017E,B07001_001E&for=county:089&in=state:39
+  - https://api.census.gov/data/2023/acs/acs5?get=B23025_005E,B23025_002E&for=county:089&in=state:39
+  demographics:
+  - text: Only 89.7% of Licking residents lived in the same county a year earlier, signaling 10.3% turnover. New Albany's master-planned absorption capacity is being tested by construction labor inflow tied to four hyperscaler campuses energizing on overlapping timelines.
+    source: Census ACS 2023 B07001 (Licking County, OH)
+  - text: 91.9% wired broadband adoption sits between Franklin (93.3%) and Fairfield (91.2%), placing Licking in the middle of the central Ohio cluster despite hosting the largest single AI build in the world.
+    source: Census ACS 2023 B28002 (Licking County, OH)
+  - text: Manufacturing employs 11.0% of Licking's workforce, well above Franklin's 7.5%. The Heath and Hebron Microsoft sites are landing in a county whose workforce already includes the kind of plant-operator skill base hyperscaler operations teams hire from.
+    source: Census ACS 2023 C24050 (Licking County, OH)
+  - text: Licking has an unemployment rate of just 3.2%, the lowest of any Ohio batch-3 county. The four-campus, 1 GW-plus build is therefore drawing construction labor from a market already at structural full employment.
+    source: Census ACS 2023 B23025 (Licking County, OH)
 ok-mayes:
   last_updated: '2026-05-17'
   takeaways:
@@ -594,6 +1009,17 @@ ok-mayes:
     source: data/cache/property_tax_yoy.csv + data/cache/realestate_yoy.csv (FIPS 40097)
   sources:
   - https://en.wikipedia.org/wiki/Pryor_Creek,_Oklahoma
+  - https://api.census.gov/data/2023/acs/acs5?get=B02001_002E,B02001_001E&for=county:097&in=state:40
+  - https://api.census.gov/data/2023/acs/acs5?get=B28002_004E,B28002_001E&for=county:097&in=state:40
+  demographics:
+  - text: Mayes County is only 63.8% white and includes a substantial Cherokee Nation citizen population, with the MidAmerica Industrial Park sitting inside the Cherokee Nation reservation boundary reaffirmed by McGirt v Oklahoma.
+    source: Census ACS 2023 B02001 (Mayes County, OK)
+  - text: 17.6% of Mayes residents live below the poverty line and 6.6% are unemployed, the highest combined economic stress in any batch-3 county. Google's Pryor expansion is therefore the largest single private payroll in a county where wage absorption matters more than the marginal kilowatt-hour.
+    source: Census ACS 2023 B17001 and B23025 (Mayes County, OK)
+  - text: Only 86.1% of Mayes households have wired broadband, leaving roughly 2,100 of the 15,267 occupied units without a fixed connection. The same county that hosts one of Google's largest global compute footprints has a residential connectivity gap larger than the population of its second-largest town.
+    source: Census ACS 2023 B28002 (Mayes County, OK)
+  - text: Veterans are 9.1% of Mayes adults 18 and over, well above the national 6.2% baseline. Camp Gruber and the Tulsa veteran-services network feed a labor pool that hyperscale operations teams routinely recruit from.
+    source: Census ACS 2023 B21001 (Mayes County, OK)
 ok-muskogee:
   last_updated: '2026-05-17'
   takeaways:
@@ -607,6 +1033,17 @@ ok-muskogee:
     source: 'sources[0] (Wikipedia: Muskogee, OK)'
   sources:
   - https://en.wikipedia.org/wiki/Muskogee,_Oklahoma
+  - https://api.census.gov/data/2023/acs/acs5?get=B02001_002E,B02001_001E&for=county:101&in=state:40
+  - https://api.census.gov/data/2023/acs/acs5?get=B28002_004E,B28002_001E&for=county:101&in=state:40
+  demographics:
+  - text: Muskogee County is just 55.9% white, the most racially diverse county in the batch-3 set after Franklin OH. The Five Civilized Tribes Museum sits in the county seat, and Cherokee, Muscogee, and Choctaw citizen populations overlap the Core Scientific build's labor shed.
+    source: Census ACS 2023 B02001 (Muskogee County, OK)
+  - text: Only 76.2% of Muskogee households subscribe to wired broadband, the lowest connectivity rate in any batch-3 county and behind even Mayes next door. A county hosting a 70 MW AI training site has nearly one in four homes without a fixed internet connection.
+    source: Census ACS 2023 B28002 (Muskogee County, OK)
+  - text: Muskogee's 20.3% poverty rate is the highest in the batch-3 set, and 9.2% of adults are veterans. The Core Scientific build, the Stardust lithium refinery, and the announced Google expansion are landing in a county where one in five residents lives below the federal poverty line.
+    source: Census ACS 2023 B17001 and B21001 (Muskogee County, OK)
+  - text: Manufacturing employs 14.4% of the Muskogee workforce, and the county's median rent of $824 is the lowest of any batch-3 county. CoreWeave's tenants are arriving in a market with both the rent base and the skilled-trades inventory to absorb a build without immediate displacement.
+    source: Census ACS 2023 C24050 and B25064 (Muskogee County, OK)
 or-crook:
   last_updated: '2026-05-17'
   takeaways:
@@ -620,6 +1057,17 @@ or-crook:
     source: 'sources[0] (Wikipedia: Prineville, OR) + data/sites/data_centers.csv (Prineville Meta)'
   sources:
   - https://en.wikipedia.org/wiki/Prineville,_Oregon
+  - https://api.census.gov/data/2023/acs/acs5?get=B21001_002E,B21001_001E&for=county:013&in=state:41
+  - https://api.census.gov/data/2023/acs/acs5?get=B25064_001E&for=county:013&in=state:41
+  demographics:
+  - text: 11.8% of Crook County adults are veterans (2,428 veterans), the highest veteran share in any batch-3 county. The retired-military draw of Central Oregon shapes the labor pool Apple and Meta hire local operators from.
+    source: Census ACS 2023 B21001 (Crook County, OR)
+  - text: Median gross rent in Crook County is $1,224, more than Wasco ($978) and Umatilla ($962) combined per square foot proxy. Prineville's housing market is the most expensive in the Oregon AI hydro cluster, a consequence of the 14-year Apple and Meta capital flow.
+    source: Census ACS 2023 B25064 (Crook County, OR)
+  - text: 75.6% of Crook County housing is owner-occupied, the highest ownership rate of any Oregon AI county. The Prineville campuses sit in a market where any further price spike from new builds flows mostly to existing homeowner equity rather than rental displacement.
+    source: Census ACS 2023 B25003 (Crook County, OR)
+  - text: Only 84.1% of Crook residents lived in the same county a year earlier, the lowest residential stickiness of any Oregon AI county. The Bonneville Power-anchored data center economy is actively pulling in-migration in a county of 25,651 people.
+    source: Census ACS 2023 B07001 (Crook County, OR)
 or-morrow:
   last_updated: '2026-05-17'
   takeaways:
@@ -633,6 +1081,17 @@ or-morrow:
     source: data/cache/property_tax_yoy.csv (FIPS 41049) + data/sites/data_centers.csv (Boardman, Morrow County Expansion)
   sources:
   - https://en.wikipedia.org/wiki/Boardman,_Oregon
+  - https://api.census.gov/data/2023/acs/acs5?get=B03003_003E,B03003_001E&for=county:049&in=state:41
+  - https://api.census.gov/data/2023/acs/acs5?get=C24050_004E,C24050_001E&for=county:049&in=state:41
+  demographics:
+  - text: Morrow County is 41.2% Hispanic countywide, the most Hispanic-majority population of any AI county in the country outside Texas. AWS's Boardman footprint sits inside the Columbia Basin irrigation belt that has employed Mexican-American agricultural labor for four generations.
+    source: Census ACS 2023 B03003 (Morrow County, OR)
+  - text: Median gross rent in Morrow County is $910 and 70.9% of housing is owner-occupied. The 16-building AWS expansion is therefore landing on a stable owner-resident base, with limited rental inventory for the construction labor surge that 12,249 residents cannot absorb internally.
+    source: Census ACS 2023 B25064 and B25003 (Morrow County, OR)
+  - text: Only 87.3% of Morrow households have wired broadband, despite Umatilla Electric Cooperative serving the largest AI campus in Eastern Oregon. The cooperative's fiber buildout for AWS has not yet flowed to residential customers in Boardman, Heppner, and Irrigon.
+    source: Census ACS 2023 B28002 (Morrow County, OR)
+  - text: Manufacturing employs 15.5% of Morrow's workforce (829 jobs), most of it food processing at Lamb Weston and Tillamook. The AWS data center is the first non-agricultural industrial employer in the county not tied to the Bonneville hydro export economy.
+    source: Census ACS 2023 C24050 (Morrow County, OR)
 or-umatilla:
   last_updated: '2026-05-17'
   takeaways:
@@ -646,6 +1105,17 @@ or-umatilla:
     source: 'Census ACS 2023 B15003 + sources[0] (Wikipedia: Hermiston, OR)'
   sources:
   - https://en.wikipedia.org/wiki/Hermiston,_Oregon
+  - https://api.census.gov/data/2023/acs/acs5?get=B03003_003E,B03003_001E&for=county:059&in=state:41
+  - https://api.census.gov/data/2023/acs/acs5?get=B28002_004E,B28002_001E&for=county:059&in=state:41
+  demographics:
+  - text: Umatilla County is 28.9% Hispanic (23,185 residents), the second-highest Hispanic share of any Oregon AI county after Morrow. The same demographic concentration that built the Hermiston watermelon and onion economy now staffs the AWS data hall operations.
+    source: Census ACS 2023 B03003 (Umatilla County, OR)
+  - text: Only 85.3% of Umatilla households have wired broadband, the lowest connectivity rate among Oregon AI counties. The Umatilla Indian Reservation and the Pendleton-Hermiston-Boardman triangle hold the deepest digital-divide pockets in the Columbia River corridor.
+    source: Census ACS 2023 B28002 (Umatilla County, OR)
+  - text: Manufacturing employs 9.0% of Umatilla's workforce while owner-occupied housing is at 67.1%. The AWS campuses share an industrial enterprise zone with Lamb Weston, ConAgra, and the Boeing-supplier corridor, all of which compete for the same rental base in Hermiston.
+    source: Census ACS 2023 C24050 and B25003 (Umatilla County, OR)
+  - text: Median gross rent of $962 sits below the $978 rent in Wasco County despite Umatilla being four times larger. The Hermiston rental ceiling has been disciplined by the Port of Morrow enterprise zone, which keeps industrial demand from flowing fully into the residential market.
+    source: Census ACS 2023 B25064 (Umatilla County, OR)
 or-wasco:
   last_updated: '2026-05-17'
   takeaways:
@@ -659,6 +1129,17 @@ or-wasco:
     source: 'data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 41065) + sources[0] (Wikipedia: The Dalles, OR)'
   sources:
   - https://en.wikipedia.org/wiki/The_Dalles,_Oregon
+  - https://api.census.gov/data/2023/acs/acs5?get=B02001_002E,B02001_001E&for=county:065&in=state:41
+  - https://api.census.gov/data/2023/acs/acs5?get=B25003_002E,B25003_001E&for=county:065&in=state:41
+  demographics:
+  - text: Wasco County is 19.8% Hispanic and only 79.6% white. The Confederated Tribes of Warm Springs reservation borders the county to the south, anchoring a Native and Latino labor history that predates the Google build by more than a century.
+    source: Census ACS 2023 B02001 and B03003 (Wasco County, OR)
+  - text: Wasco County has a 7.7% unemployment rate, the highest in the entire batch-3 set. The Dalles is therefore the rare AI county where 19 years of Google operations have not delivered a meaningfully tighter labor market than the rural Pacific Northwest baseline.
+    source: Census ACS 2023 B23025 (Wasco County, OR)
+  - text: 9.5% of Wasco adults 18 and over are veterans (1,986 veterans). The Dalles VA outpatient clinic and the Columbia Gorge military retiree corridor feed an operations-and-maintenance labor base Google has tapped since 2006.
+    source: Census ACS 2023 B21001 (Wasco County, OR)
+  - text: Only 87.9% of Wasco households have wired broadband, and only 66.2% of housing is owner-occupied. The Dalles has the most rental-heavy housing market in the Oregon AI cluster, which limits how much of Google's land-value uplift flows to existing residents.
+    source: Census ACS 2023 B28002 and B25003 (Wasco County, OR)
 or-washington:
   last_updated: '2026-05-17'
   takeaways:
@@ -672,6 +1153,17 @@ or-washington:
     source: data/cache/realestate_yoy.csv (FIPS 41067)
   sources:
   - https://en.wikipedia.org/wiki/Hillsboro,_Oregon
+  - https://api.census.gov/data/2023/acs/acs5?get=B02001_005E,B02001_001E&for=county:067&in=state:41
+  - https://api.census.gov/data/2023/acs/acs5?get=B25064_001E&for=county:067&in=state:41
+  demographics:
+  - text: Washington County is 11.2% Asian (67,098 residents) and 18.2% Hispanic, the most diverse county in the Oregon AI cluster. Hillsboro's Silicon Forest workforce has carried a Chinese, Vietnamese, and Indian engineering base since the 1990s Intel buildout.
+    source: Census ACS 2023 B02001 and B03003 (Washington County, OR)
+  - text: Manufacturing still employs 17.6% of Washington County's workforce (55,826 jobs), the highest manufacturing share of any Oregon AI county. The CoreWeave Hillsboro build inherits the fiber, fab-experienced labor, and substation density that Intel's contraction is releasing.
+    source: Census ACS 2023 C24050 (Washington County, OR)
+  - text: 94.7% of Washington households subscribe to wired broadband, the highest connectivity in any batch-3 county. Hillsboro's three trans-Pacific cable landings and Frontier's residential fiber footprint give the CoreWeave campus a connectivity floor no other AI county matches.
+    source: Census ACS 2023 B28002 (Washington County, OR)
+  - text: Median gross rent is $1,773, the highest of any AI county nationwide. The CoreWeave/Flexential build lands in a rental market where the residential cost burden is already structural, well before any AI-driven rate pass-through.
+    source: Census ACS 2023 B25064 (Washington County, OR)
 pa-lancaster:
   last_updated: '2026-05-17'
   takeaways:
@@ -685,6 +1177,17 @@ pa-lancaster:
     source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 42071)
   sources:
   - https://en.wikipedia.org/wiki/Lancaster,_Pennsylvania
+  - https://api.census.gov/data/2023/acs/acs5?get=B03003_003E,B03003_001E&for=county:071&in=state:42
+  - https://api.census.gov/data/2023/acs/acs5?get=C24050_004E,C24050_001E&for=county:071&in=state:42
+  demographics:
+  - text: Lancaster County is 11.3% Hispanic countywide (62,574 residents), well above the Pennsylvania 8% average, with much of the concentration in the city of Lancaster itself. The CoreWeave campus lands in the most Latino county of any Pennsylvania AI build.
+    source: Census ACS 2023 B03003 (Lancaster County, PA)
+  - text: Manufacturing employs 14.4% of Lancaster's workforce (40,467 jobs), the deepest industrial labor base of any Pennsylvania AI county. The Plain Sect (Amish and Mennonite) economy's emphasis on trades carpentry and metalwork feeds construction labor for the 300 MW Chirisa build.
+    source: Census ACS 2023 C24050 (Lancaster County, PA)
+  - text: Lancaster's 3.3% unemployment rate is the lowest of any Pennsylvania batch-3 county. The CoreWeave Lancaster build will draw construction crews into a market that has been near structural full employment since 2022.
+    source: Census ACS 2023 B23025 (Lancaster County, PA)
+  - text: Only 86.9% of Lancaster households have wired broadband, depressed by the rural Plain Sect population that often does not subscribe by religious choice. The county's connectivity gap is therefore cultural, not infrastructure-driven, in contrast to Schuylkill and Luzerne.
+    source: Census ACS 2023 B28002 (Lancaster County, PA)
 pa-luzerne:
   last_updated: '2026-05-17'
   takeaways:
@@ -699,6 +1202,17 @@ pa-luzerne:
   sources:
   - https://en.wikipedia.org/wiki/Wilkes-Barre,_Pennsylvania
   - https://en.wikipedia.org/wiki/Susquehanna_Steam_Electric_Station
+  - https://api.census.gov/data/2023/acs/acs5?get=B03003_003E,B03003_001E&for=county:079&in=state:42
+  - https://api.census.gov/data/2023/acs/acs5?get=B28002_004E,B28002_001E&for=county:079&in=state:42
+  demographics:
+  - text: Luzerne County is 15.9% Hispanic (51,917 residents), the highest Hispanic share of any Pennsylvania AI county. The Wyoming Valley's Puerto Rican and Dominican migration since the 2000s has reshaped a county that was overwhelmingly white through the anthracite era.
+    source: Census ACS 2023 B03003 (Luzerne County, PA)
+  - text: Median gross rent in Luzerne is $958 against a county poverty rate of 15.4%. The AWS Susquehanna behind-the-meter deal lands in a county where one in seven residents is below the poverty line and rent absorbs the second-largest budget item for most households.
+    source: Census ACS 2023 B25064 and B17001 (Luzerne County, PA)
+  - text: Only 86.3% of Luzerne households subscribe to wired broadband, and Wilkes-Barre's pockets of fiber-less rowhomes overlap the same blocks with the 30.1% urban poverty rate. The AI economy is energizing in a county whose residential digital divide is structural.
+    source: Census ACS 2023 B28002 (Luzerne County, PA)
+  - text: Manufacturing still employs 12.0% of Luzerne's workforce (18,462 jobs), down from peak coal-era industrial employment but still well above the Pennsylvania average. The legacy plant-trades labor pool overlaps with the kind of operator skill base Talen Energy hires for the Susquehanna nuclear units.
+    source: Census ACS 2023 C24050 (Luzerne County, PA)
 pa-schuylkill:
   last_updated: '2026-05-17'
   takeaways:
@@ -712,6 +1226,17 @@ pa-schuylkill:
     source: data/sites/data_centers.csv (Tobyhanna Kline) + Census ACS 2024 B15003
   sources:
   - https://en.wikipedia.org/wiki/Schuylkill_County,_Pennsylvania
+  - https://api.census.gov/data/2023/acs/acs5?get=C24050_004E,C24050_001E&for=county:107&in=state:42
+  - https://api.census.gov/data/2023/acs/acs5?get=B25064_001E&for=county:107&in=state:42
+  demographics:
+  - text: Manufacturing still employs 19.3% of Schuylkill's workforce (12,504 jobs), the highest manufacturing share of any Pennsylvania AI county and the second-highest in the batch-3 set. The county replaced anthracite with food processing (Yuengling, Wegmans distribution) rather than the service economy the AWS Tobyhanna build implies.
+    source: Census ACS 2023 C24050 (Schuylkill County, PA)
+  - text: Only 84.7% of Schuylkill households have wired broadband, the lowest connectivity rate among Pennsylvania AI counties. The same Kline Township the AWS campus sits in is part of the rural northern-tier broadband gap PennDOT and PUC have been documenting since 2018.
+    source: Census ACS 2023 B28002 (Schuylkill County, PA)
+  - text: Schuylkill is 89.7% white and just 6.8% Hispanic, the most racially homogeneous county in the batch-3 set. The Pottsville and Schuylkill Haven labor pool that Yuengling has hired from for 195 years is the same one AWS construction crews now compete for.
+    source: Census ACS 2023 B02001 and B03003 (Schuylkill County, PA)
+  - text: 76.3% of Schuylkill housing is owner-occupied, the highest ownership rate in any Pennsylvania AI county. Median gross rent is just $842, the second-lowest in the batch-3 set after Trumbull OH, which makes the 23.5% home-price spike a homeowner equity story rather than a renter displacement one.
+    source: Census ACS 2023 B25003 and B25064 (Schuylkill County, PA)
 sc-berkeley:
   last_updated: '2026-05-17'
   takeaways:
@@ -726,6 +1251,17 @@ sc-berkeley:
   sources:
   - https://en.wikipedia.org/wiki/Berkeley_County,_South_Carolina
   - https://datacenters.google/locations/south-carolina/
+  - https://api.census.gov/data/2023/acs/acs5?get=B02001_003E,B02001_001E&for=county:015&in=state:45
+  - https://api.census.gov/data/2023/acs/acs5?get=B21001_002E,B21001_001E&for=county:015&in=state:45
+  demographics:
+  - text: Berkeley County is 23.2% Black and 8.9% Hispanic, the deepest combined non-white share of any batch-3 county outside Franklin OH. The Mount Holly Google campus sits in a Lowcountry corridor where the Gullah Geechee population has anchored Berkeley's coastal demographics for three centuries.
+    source: Census ACS 2023 B02001 and B03003 (Berkeley County, SC)
+  - text: 12.5% of Berkeley adults are veterans (21,799 veterans), the highest veteran share of any AI county on the East Coast. Joint Base Charleston's labor spillover gives Google the deepest operations-and-maintenance recruitment pool in the Southeast.
+    source: Census ACS 2023 B21001 (Berkeley County, SC)
+  - text: Manufacturing employs 13.2% of Berkeley's workforce (14,922 jobs), reflecting the Volvo, Boeing 787, and Nucor footprints already in the Lowcountry industrial belt. Google's $9 billion buildout layers AI capacity on top of an existing heavy-manufacturing labor base rather than into a deindustrialized one.
+    source: Census ACS 2023 C24050 (Berkeley County, SC)
+  - text: Median gross rent in Berkeley County is $1,518, well above the SC state average and second only to Washington County OR among batch-3 sites. The Charleston spillover means the same renter base that powers AI campus operations is paying near-coastal rents on a Lowcountry wage.
+    source: Census ACS 2023 B25064 (Berkeley County, SC)
 tn-sumner:
   last_updated: '2026-05-17'
   takeaways:
@@ -740,6 +1276,16 @@ tn-sumner:
   sources:
   - https://en.wikipedia.org/wiki/Sumner_County,_Tennessee
   - https://en.wikipedia.org/wiki/Gallatin,_Tennessee
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 72.2% of Sumner County households own their home, the highest ownership rate among the metro-scale counties in batch 4. Hispanic residents are just 6.9% of the population, the lowest Hispanic share of any batch-4 county.
+    source: Census ACS 2023 B25003, B03003 (FIPS 47165)
+  - text: Only 3.2% of Sumner's labor force is unemployed and 9.0% live below the poverty line, the tightest labor market in batch 4. Meta's 2024 Gallatin expansion is landing in a county that is already near full employment.
+    source: Census ACS 2023 B23025, B17001 (FIPS 47165)
+  - text: 10.5% of Sumner's working population is in manufacturing, the highest mfg share of any Tennessee county in batch 4. Nissan suppliers and Gap's regional distribution hub feed that baseline.
+    source: Census ACS 2023 C24050 (FIPS 47165)
+  - text: 92.1% of Sumner households have broadband, the highest connectivity rate in batch 4 outside the DFW suburbs. Veterans are 7.4% of adults, lifted by the Nashville metro's proximity to Fort Campbell.
+    source: Census ACS 2023 B28002, B21001 (FIPS 47165)
 tx-armstrong:
   last_updated: '2026-05-17'
   takeaways:
@@ -754,6 +1300,16 @@ tx-armstrong:
   sources:
   - https://en.wikipedia.org/wiki/Armstrong_County,_Texas
   - https://blog.google/company-news/inside-google/company-announcements/google-american-innovation-texas/
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: Just 5.8% of Armstrong residents live in poverty and only 0.9% are unemployed, the lowest poverty and unemployment of any Texas county in batch 4. The Google campus is landing in a county where the baseline labor market is essentially closed.
+    source: Census ACS 2023 B17001, B23025 (FIPS 48011)
+  - text: 81.8% of Armstrong households own their home, tied for the highest owner-occupied share in batch 4. Median gross rent is $1,010 on a rental stock of fewer than 130 units, meaning new arrivals have almost nowhere to land.
+    source: Census ACS 2023 B25003, B25064 (FIPS 48011)
+  - text: Hispanic residents make up 9.6% of Armstrong's 1,883 people, the lowest Hispanic share of any rural Texas county in batch 4. 92.6% of residents are white alone, atypical for the southern High Plains.
+    source: Census ACS 2023 B03003, B02001 (FIPS 48011)
+  - text: 91.9% of Armstrong households have broadband at home, far above the rural Texas average. 93.0% of residents over 1 lived in the same house a year ago, the most settled population in batch 4.
+    source: Census ACS 2023 B28002, B07001 (FIPS 48011)
 tx-bell:
   last_updated: '2026-05-17'
   takeaways:
@@ -767,6 +1323,16 @@ tx-bell:
     source: Census ACS 2024 B15003 + data/sites/data_centers.csv
   sources:
   - https://en.wikipedia.org/wiki/Bell_County,_Texas
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 19.4% of Bell County adults are veterans, the highest veteran share in batch 4 and roughly four times the Texas average. Fort Cavazos retirees and active-duty separations dominate the post-service civilian labor market around the Meta Temple site.
+    source: Census ACS 2023 B21001 (FIPS 48027)
+  - text: Bell County is 52.1% white, 23.3% Black, and 25.8% Hispanic, the most racially balanced batch-4 county. Killeen and Temple have absorbed Army-driven demographic mixing for decades, distinct from rural Texas next door.
+    source: Census ACS 2023 B02001, B03003 (FIPS 48027)
+  - text: 14.6% of Bell residents live in poverty and 6.5% are unemployed, both well above the Texas state baseline. The Meta campus enters a labor market where one in seven residents already qualifies as poor.
+    source: Census ACS 2023 B17001, B23025 (FIPS 48027)
+  - text: Only 56.2% of Bell households own their home, the second lowest owner-occupied rate in batch 4 after Shelby. Military-rotation rentals depress the ownership baseline that Killeen's home-price decline would normally help.
+    source: Census ACS 2023 B25003 (FIPS 48027)
 tx-bexar:
   last_updated: '2026-05-17'
   takeaways:
@@ -780,6 +1346,16 @@ tx-bexar:
     source: data/sites/data_centers.csv (operational since 2008)
   sources:
   - https://en.wikipedia.org/wiki/Bexar_County,_Texas
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: Bexar County is 59.5% Hispanic, the only majority-Hispanic county in batch 4 that hosts a hyperscaler campus. Microsoft has been running its San Antonio site inside this demographic for 17 years before the AI build cycle.
+    source: Census ACS 2023 B03003 (FIPS 48029)
+  - text: 9.7% of Bexar adults are veterans, lifted by Joint Base San Antonio and the Lackland medical complex. That is a ready labor pool with security clearances within a 30-mile radius of the Microsoft campus.
+    source: Census ACS 2023 B21001 (FIPS 48029)
+  - text: Median gross rent in Bexar is $1,290, the second highest in batch 4 after Plano. 59.1% of households own their home, low for a non-coastal Texas metro and a sign that the existing service-sector wage floor cannot reach the median home value of $262,200.
+    source: Census ACS 2023 B25064, B25003 (FIPS 48029)
+  - text: Only 5.6% of Bexar's working population is in manufacturing, the lowest mfg share of any major Texas metro in batch 4. The San Antonio labor market runs on hospitality, healthcare, and military services, not factory wages.
+    source: Census ACS 2023 C24050 (FIPS 48029)
 tx-childress:
   last_updated: '2026-05-17'
   takeaways:
@@ -794,6 +1370,16 @@ tx-childress:
   sources:
   - https://iren.com/data-centers/childress
   - https://en.wikipedia.org/wiki/Childress,_Texas
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: Hispanic residents make up 34.0% of Childress County's 6,772 people. Combined with 6.7% Black residents, more than 40% of the county is non-white, atypical for the eastern Panhandle.
+    source: Census ACS 2023 B03003, B02001 (FIPS 48075)
+  - text: Only 0.5% of the Childress labor force is officially unemployed, the lowest unemployment of any Texas county in batch 4. The Childress Regional Medical Center and the state prison unit anchor a labor market with almost no slack for IREN's 750 MW expansion.
+    source: Census ACS 2023 B23025 (FIPS 48075)
+  - text: Just 80.8% of Childress households have broadband at home, the second lowest connectivity in batch 4 after Mitchell. About 1,300 residents face a digital-divide gap as a 750 MW AI campus connects to ERCOT in their county.
+    source: Census ACS 2023 B28002 (FIPS 48075)
+  - text: Only 2.9% of Childress adults are veterans, the lowest veteran share in batch 4. Manufacturing employs 6.5% of workers, with no large industrial anchor in the county before IREN.
+    source: Census ACS 2023 B21001, C24050 (FIPS 48075)
 tx-collin:
   last_updated: '2026-05-17'
   takeaways:
@@ -807,6 +1393,16 @@ tx-collin:
     source: data/cache/utility_rate_yoy.csv (no Oncor residential row) + sources[0]
   sources:
   - https://en.wikipedia.org/wiki/Plano,_Texas
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 17.6% of Collin County residents are Asian, the highest Asian share of any batch-4 county and more than four times the Texas state average. Plano's tech-corporate base has built an Asian-American population near the size of San Francisco's.
+    source: Census ACS 2023 B02001 (FIPS 48085)
+  - text: 96.1% of Collin households have broadband at home, the highest connectivity rate in batch 4. The CoreWeave Plano campus is landing in the most digitally connected county on the list.
+    source: Census ACS 2023 B28002 (FIPS 48085)
+  - text: Only 4.9% of Collin adults are veterans, the lowest veteran share of any major Texas metro in batch 4. The labor market is dominated by white-collar transplants, not military or oilfield service workers.
+    source: Census ACS 2023 B21001 (FIPS 48085)
+  - text: Just 6.3% of Collin residents live in poverty and 4.1% are unemployed, the lowest poverty rate in batch 4 outside Armstrong. Manufacturing employs 8.4% of workers, lifted by Texas Instruments and Toyota's North American plant footprint.
+    source: Census ACS 2023 B17001, B23025, C24050 (FIPS 48085)
 tx-denton:
   last_updated: '2026-05-17'
   takeaways:
@@ -820,6 +1416,16 @@ tx-denton:
     source: data/sites/data_centers.csv + Census ACS 2024 B15003
   sources:
   - https://investors.corescientific.com/news-events/press-releases/detail/110/core-scientific-and-coreweave-announce-1-2-billion-expansion-at-denton-tx-site
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 10.3% of Denton County residents are Asian, the second highest Asian share in batch 4 after Collin. Frisco, Lewisville, and the I-35 tech corridor have built an Asian-American base larger than the entire population of any rural batch-4 county.
+    source: Census ACS 2023 B02001 (FIPS 48121)
+  - text: 95.5% of Denton households have broadband at home, second only to Collin in batch 4. The CoreWeave Denton site is anchoring on a fiber footprint already built for the suburban DFW workforce.
+    source: Census ACS 2023 B28002 (FIPS 48121)
+  - text: 65.4% of Denton households own their home and median gross rent is $1,642. The 20.5% utility-rate jump combined with $1,642 monthly rent means the per-household exposure to AI-driven bill increases is concentrated on the renter third of the county.
+    source: Census ACS 2023 B25003, B25064 (FIPS 48121)
+  - text: Manufacturing employs 8.2% of Denton's workers and only 6.0% of adults are veterans. Peterbilt's truck plant in Denton city is the largest single industrial employer, a payroll the CoreWeave site will not match.
+    source: Census ACS 2023 C24050, B21001 (FIPS 48121)
 tx-dickens:
   last_updated: '2026-05-17'
   takeaways:
@@ -833,6 +1439,16 @@ tx-dickens:
     source: data/cache/utility_rate_yoy.csv (no AEP Texas residential row) + data/sites/data_centers.csv
   sources:
   - https://en.wikipedia.org/wiki/Dickens_County,_Texas
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: Hispanic residents make up 34.0% of Dickens County's 1,641 people, identical to Childress. Combined, more than a third of the county that hosts Galaxy's 800 MW Helios campus is non-white.
+    source: Census ACS 2023 B03003 (FIPS 48125)
+  - text: 81.4% of Dickens households own their home, tied for the highest ownership rate in batch 4. Median gross rent is $753 on a rental stock of about 60 units, meaning the campus workforce has effectively no rental landing pad in the county itself.
+    source: Census ACS 2023 B25003, B25064 (FIPS 48125)
+  - text: 14.5% of Dickens residents live in poverty and only 2.5% of workers are in manufacturing, the lowest mfg share of any Texas county in batch 4. Helios will be the first industrial-scale employer the county has had in living memory.
+    source: Census ACS 2023 B17001, C24050 (FIPS 48125)
+  - text: Only 85.5% of Dickens households have broadband at home, leaving about 240 residents off the network as a 15-year CoreWeave AI lease moves in next door. Veterans are 4.0% of adults, half the rural Texas baseline.
+    source: Census ACS 2023 B28002, B21001 (FIPS 48125)
 tx-ellis:
   last_updated: '2026-05-17'
   takeaways:
@@ -846,6 +1462,16 @@ tx-ellis:
     source: data/sites/data_centers.csv + data/cache/utility_rate_yoy.csv (no Oncor residential row)
   sources:
   - https://en.wikipedia.org/wiki/Midlothian,_Texas
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 11.8% of Ellis County's working population is in manufacturing, the highest mfg share in batch 4 and double the Texas state baseline. The cement plants and Gerdau steel mill already anchor an industrial-grid corner that Google's two campuses are extending.
+    source: Census ACS 2023 C24050 (FIPS 48139)
+  - text: 76.3% of Ellis households own their home, the highest ownership rate of any metro-scale county in batch 4. The county sits between Dallas exurbs and rural cropland, and its housing stock has stayed mostly out of the DFW rental market.
+    source: Census ACS 2023 B25003 (FIPS 48139)
+  - text: 27.6% of Ellis residents are Hispanic, the highest Hispanic share of any DFW-suburban county in batch 4. Midlothian and Waxahachie absorbed working-class Latino families pushed out of inner Dallas during the 2010s housing run.
+    source: Census ACS 2023 B03003 (FIPS 48139)
+  - text: Just 8.1% of Ellis residents live in poverty and 4.0% are unemployed, both at the metro-Texas baseline despite the heavy-industrial labor mix. 91.7% of households have broadband at home.
+    source: Census ACS 2023 B17001, B23025, B28002 (FIPS 48139)
 tx-hale:
   last_updated: '2026-05-17'
   takeaways:
@@ -859,6 +1485,16 @@ tx-hale:
     source: data/cache/utility_rate_yoy.csv (no AEP Texas residential row) + data/sites/data_centers.csv
   sources:
   - https://en.wikipedia.org/wiki/Plainview,_Texas
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 60.8% of Hale County residents are Hispanic, the second highest Hispanic share in batch 4 after Bexar. The TeraWulf Abernathy campus is landing in a majority-Hispanic county with falling population.
+    source: Census ACS 2023 B03003 (FIPS 48189)
+  - text: 19.0% of Hale residents live below the poverty line, the highest poverty rate in batch 4. Cargill's Plainview beef plant closed in 2013 and the county has not replaced that wage floor.
+    source: Census ACS 2023 B17001 (FIPS 48189)
+  - text: Only 80.8% of Hale households have broadband at home, tied for second lowest in batch 4. The TeraWulf site is plugging into ERCOT in a county where one in five households is offline.
+    source: Census ACS 2023 B28002 (FIPS 48189)
+  - text: 5.9% of Hale's labor force works in manufacturing and 4.2% of adults are veterans. The Wayland Baptist student population skews the broader workforce demographics in Plainview.
+    source: Census ACS 2023 C24050, B21001 (FIPS 48189)
 tx-haskell:
   last_updated: '2026-05-17'
   takeaways:
@@ -873,6 +1509,16 @@ tx-haskell:
   sources:
   - https://en.wikipedia.org/wiki/Haskell_County,_Texas
   - https://blog.google/company-news/inside-google/company-announcements/google-american-innovation-texas/
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 74.1% of Haskell County households own their home, far above the Texas state baseline. Median gross rent is $824 on a rental stock of fewer than 600 units, leaving any incoming Google construction workforce without an in-county housing supply.
+    source: Census ACS 2023 B25003, B25064 (FIPS 48207)
+  - text: 26.0% of Haskell residents are Hispanic and only 1.9% of the labor force is in manufacturing, the lowest mfg share of any Texas county in batch 4. Cotton and wheat farming have been the labor baseline for a century.
+    source: Census ACS 2023 B03003, C24050 (FIPS 48207)
+  - text: Just 84.2% of Haskell households have broadband at home and 6.6% of adults are veterans. The Google solar-plus-battery co-located build is the first industrial-scale infrastructure investment in the county in decades.
+    source: Census ACS 2023 B28002, B21001 (FIPS 48207)
+  - text: 14.2% of Haskell residents live in poverty and 5.4% are unemployed, on a population of 5,390. The county would have to double its workforce to staff a 1 GW data-center campus, an option the demographics do not currently support.
+    source: Census ACS 2023 B17001, B23025, B01003 (FIPS 48207)
 tx-milam:
   last_updated: '2026-05-17'
   takeaways:
@@ -886,6 +1532,16 @@ tx-milam:
     source: data/cache/utility_rate_yoy.csv (no Oncor residential row) + data/sites/data_centers.csv
   sources:
   - https://en.wikipedia.org/wiki/Rockdale,_Texas
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 77.4% of Milam County households own their home and median gross rent is $948. The Stargate Milam campus is landing in a county with one of the higher batch-4 ownership baselines, on a rental stock of about 1,400 units.
+    source: Census ACS 2023 B25003, B25064 (FIPS 48331)
+  - text: 25.6% of Milam residents are Hispanic and 9.6% are Black, making the county more racially diverse than the rural Texas average. The Rockdale-Cameron labor corridor has absorbed migrant farm and industrial workers since the Alcoa era.
+    source: Census ACS 2023 B03003, B02001 (FIPS 48331)
+  - text: 15.8% of Milam residents live in poverty and 6.9% of adults are veterans. The 1.2 GW Stargate campus is moving into a county where one in six residents already lives below the poverty line.
+    source: Census ACS 2023 B17001, B21001 (FIPS 48331)
+  - text: Only 83.1% of Milam households have broadband at home, leaving about 4,300 residents off the network as the largest batch-4 AI campus prepares to energize. 6.5% of workers are in manufacturing, a fraction of what Alcoa employed at peak.
+    source: Census ACS 2023 B28002, C24050 (FIPS 48331)
 tx-mitchell:
   last_updated: '2026-05-17'
   takeaways:
@@ -899,6 +1555,16 @@ tx-mitchell:
     source: data/cache/property_tax_yoy.csv (FIPS 48335) + data/cache/utility_rate_yoy.csv (no AEP Texas residential row)
   sources:
   - https://en.wikipedia.org/wiki/Colorado_City,_Texas
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: 38.7% of Mitchell County residents are Hispanic, the highest Hispanic share of any West Texas county in batch 4 outside the Hale-Plainview corridor. Colorado City sits on the eastern edge of the Permian's Latino agricultural-labor belt.
+    source: Census ACS 2023 B03003 (FIPS 48335)
+  - text: Median gross rent in Mitchell County is $481, the lowest in batch 4 by a wide margin. The Cipher Barber Lake workforce can find a rental for less than $500 a month, but the rental stock is barely 700 units total.
+    source: Census ACS 2023 B25064, B25003 (FIPS 48335)
+  - text: Only 80.0% of Mitchell households have broadband at home, the lowest connectivity rate in batch 4. About 1,800 residents are offline in the same county where a 300 MW AI campus is being announced.
+    source: Census ACS 2023 B28002 (FIPS 48335)
+  - text: 13.2% of Mitchell residents live in poverty and 4.7% are unemployed. Manufacturing employs only 4.6% of the labor force, with the state prison unit and oilfield service work absorbing most of the employed adults.
+    source: Census ACS 2023 B17001, B23025, C24050 (FIPS 48335)
 tx-oldham:
   last_updated: '2026-05-17'
   takeaways:
@@ -912,6 +1578,16 @@ tx-oldham:
     source: Census ACS 2023 B19013, B25077 (FIPS 48359)
   sources:
   - https://en.wikipedia.org/wiki/Oldham_County,_Texas
+  - https://api.census.gov/data/2023/acs/acs5
+  demographics:
+  - text: Only 0.7% of Oldham County's labor force is officially unemployed, on a working population of fewer than 800 adults. The Hut 8 Vega campus is landing in the tightest labor market in batch 4 by raw numbers.
+    source: Census ACS 2023 B23025 (FIPS 48359)
+  - text: 11.3% of Oldham's workers are in manufacturing, second only to Nolan in West Texas batch 4. The Vega industrial corridor along I-40 has absorbed wind-tower and pipeline fabrication for two decades.
+    source: Census ACS 2023 C24050 (FIPS 48359)
+  - text: 24.5% of Oldham residents are Hispanic and 9.8% of adults are veterans, the highest vet share of any rural Texas county in batch 4. Amarillo Air Force Base separations and Pantex retirees feed the local civilian base.
+    source: Census ACS 2023 B03003, B21001 (FIPS 48359)
+  - text: 17.7% of Oldham residents live in poverty despite the $76,402 median income, the second highest poverty rate in batch 4. The ranching-landowner income concentration leaves the wage-worker third of the county exposed.
+    source: Census ACS 2023 B17001 (FIPS 48359)
 tx-shackelford:
   last_updated: '2026-05-17'
   takeaways:
@@ -925,6 +1601,15 @@ tx-shackelford:
     source: 'sources[0] (Wikipedia: Albany, Texas)'
   sources:
   - https://en.wikipedia.org/wiki/Albany,_Texas
+  demographics:
+  - text: 91.0% of Shackelford County residents lived in the same house one year earlier, the highest residential stability in this batch. Stargate will need to import nearly every operator from outside the 3,169-person base.
+    source: Census ACS 2023 B07001 (FIPS 48417)
+  - text: The county is 86.8% white, 12.7% Hispanic, and 1.2% Black, the smallest Black population share of any Texas county in this batch. The Hispanic share has nearly doubled since 2010 driven by oilfield service work.
+    source: Census ACS 2023 B02001, B03003 (FIPS 48417)
+  - text: Median gross rent in Shackelford County is $485 per month, the lowest in this batch by a factor of two. A construction-trade family relocated for Stargate can absorb the cost of living with room to spare.
+    source: Census ACS 2023 B25064 (FIPS 48417)
+  - text: 81.9% of occupied homes are owner-occupied and only 5.7% of adults are veterans, the lowest veteran share of any county in this batch. This is ranching country first, with no nearby base anchoring federal-employee turnover.
+    source: Census ACS 2023 B25003, B21001 (FIPS 48417)
 tx-wilbarger:
   last_updated: '2026-05-17'
   takeaways:
@@ -938,6 +1623,15 @@ tx-wilbarger:
     source: data/cache/property_tax_yoy.csv (FIPS 48487) + data/cache/utility_rate_yoy.csv (no AEP Texas residential row)
   sources:
   - https://en.wikipedia.org/wiki/Vernon,_Texas
+  demographics:
+  - text: Unemployment in Wilbarger County is 9.8%, the highest in this batch and more than triple the national figure. The Google AES Vernon campus is landing in a labor market that already cannot place its existing workforce.
+    source: Census ACS 2023 B23025 (FIPS 48487)
+  - text: 18.8% of Wilbarger residents live below the poverty line and median gross rent is $862 per month. Manufacturing already employs 12.1% of the workforce, the highest share of any Texas county in this batch, anchored by the Tyson bacon plant.
+    source: Census ACS 2023 B17001, B25064, C24050 (FIPS 48487)
+  - text: 29.9% of Wilbarger residents are Hispanic, the largest Hispanic share of the West Texas counties in this batch. Only 78.0% of households have a home broadband subscription, the lowest broadband share among the Texas counties here.
+    source: Census ACS 2023 B03003, B28002 (FIPS 48487)
+  - text: 83.3% of Wilbarger residents lived in the same house one year earlier, lower than Shackelford or Mason but high enough that the Google campus will pull most of its construction crew from outside the county.
+    source: Census ACS 2023 B07001 (FIPS 48487)
 ut-utah:
   last_updated: '2026-05-17'
   takeaways:
@@ -951,6 +1645,15 @@ ut-utah:
     source: data/cache/realestate_yoy.csv (FIPS 49049) + Census ACS 2023 B19013
   sources:
   - https://en.wikipedia.org/wiki/Eagle_Mountain,_Utah
+  demographics:
+  - text: Only 3.2% of Utah County adults are veterans, the lowest veteran share of any county in this batch by a wide margin. Meta's Eagle Mountain workforce will recruit from a young Mormon talent pool, not the federal-employee pipeline that anchors NOVA.
+    source: Census ACS 2023 B21001 (FIPS 49049)
+  - text: 92.0% of Utah County households have a home broadband subscription and only 8.7% live below the poverty line. The combination is unusual in this batch and reflects the BYU and Silicon Slopes overlap inside one county.
+    source: Census ACS 2023 B28002, B17001 (FIPS 49049)
+  - text: The county is 83.7% white, 13.9% Hispanic, 1.5% Asian, and 0.7% Black, the smallest Black share of any data-center county in this batch. The Hispanic share is the only non-white population large enough to register.
+    source: Census ACS 2023 B02001, B03003 (FIPS 49049)
+  - text: Median gross rent in Utah County is $1,441 per month against a 68.1% owner-occupancy rate. Manufacturing employs 9.0% of the workforce, larger than Loudoun's 4.4% and on par with Mecklenburg's 9.6%.
+    source: Census ACS 2023 B25064, B25003, C24050 (FIPS 49049)
 va-chesterfield:
   last_updated: '2026-05-17'
   takeaways:
@@ -963,6 +1666,15 @@ va-chesterfield:
   - text: 42.7% of Chesterfield residents over 25 hold a bachelor's degree, well above the national 35% but below Loudoun's 64% and Henrico's 45.7%. The county is the suburban-family bedroom for Richmond, not the data-center magnet that Northern Virginia is.
     source: Census ACS 2023 B15003 (Chesterfield County, VA)
   sources: []
+  demographics:
+  - text: Chesterfield is 23.5% Black, 11.4% Hispanic, and 3.5% Asian against a 59.5% white share. The Black population share is the second-highest in this batch behind Henrico, and well above neighboring Loudoun's 7.7%.
+    source: Census ACS 2023 B02001, B03003 (FIPS 51041)
+  - text: Median gross rent in Chesterfield County is $1,542 per month, less than two-thirds of Loudoun's $2,317 despite the same Dominion rate-of-load shock. 77.3% of occupied homes are owner-occupied, the highest in Virginia data-center counties tied with Loudoun.
+    source: Census ACS 2023 B25064, B25003 (FIPS 51041)
+  - text: Only 6.8% of Chesterfield residents live below the poverty line, the lowest poverty rate of any Virginia data-center county in this batch outside Loudoun and Stafford. 9.0% of adults are veterans, comparable to Henrico but well below Stafford's 17.5%.
+    source: Census ACS 2023 B17001, B21001 (FIPS 51041)
+  - text: 88.0% of Chesterfield residents lived in the same house one year earlier. The county is the suburban anchor that retains families, not the transient corridor that Loudoun has become for federal contractors.
+    source: Census ACS 2023 B07001 (FIPS 51041)
 va-henrico:
   last_updated: '2026-05-17'
   takeaways:
@@ -976,6 +1688,15 @@ va-henrico:
     source: data/cache/utility_rate_yoy.csv (Virginia Electric & Power Co, VA) + data/sites/data_centers.csv
   sources:
   - https://en.wikipedia.org/wiki/Henrico_County,_Virginia
+  demographics:
+  - text: Henrico is 29.7% Black, 9.5% Asian, and 6.7% Hispanic against a 51.3% white share, the most racially balanced county in this batch. The Asian share is the second-highest behind Loudoun's 21.0% and the Black share is the highest in any Virginia data-center county here.
+    source: Census ACS 2023 B02001, B03003 (FIPS 51087)
+  - text: Only 64.6% of occupied homes are owner-occupied, the lowest ownership rate of the six Virginia counties in this batch. Median gross rent is $1,474 per month, comparable to Chesterfield's $1,542.
+    source: Census ACS 2023 B25003, B25064 (FIPS 51087)
+  - text: 8.4% of Henrico residents live below the poverty line and 3.9% of the workforce is unemployed. Manufacturing employs only 5.9% of workers, less than Chesterfield's 6.9% despite hosting Meta and QTS at the White Oak Technology Park.
+    source: Census ACS 2023 B17001, B23025, C24050 (FIPS 51087)
+  - text: 91.8% of Henrico households have a home broadband subscription, in line with Chesterfield's 93.9% but well below Loudoun's 96.7%. The data centers serving global traffic from Sandston cannot fully close the gap inside their own county.
+    source: Census ACS 2023 B28002 (FIPS 51087)
 va-loudoun:
   last_updated: '2026-05-17'
   takeaways:
@@ -989,6 +1710,15 @@ va-loudoun:
     source: 'Census ACS 2023 B01003 + sources[0] (Wikipedia: Data Center Alley)'
   sources:
   - https://en.wikipedia.org/wiki/Loudoun_County,_Virginia
+  demographics:
+  - text: Loudoun is 21.0% Asian, 14.2% Hispanic, and 7.7% Black against a 55.4% white share, the largest Asian population share of any county in this batch. Northern Virginia's Indian and Korean communities concentrate inside this single Dominion rate jurisdiction.
+    source: Census ACS 2023 B02001, B03003 (FIPS 51107)
+  - text: Only 4.0% of Loudoun residents live below the poverty line, the lowest poverty rate in this batch. Yet median gross rent is $2,317 per month, the highest rent in this batch and roughly three times Mecklenburg's $804.
+    source: Census ACS 2023 B17001, B25064 (FIPS 51107)
+  - text: 96.7% of Loudoun households have a home broadband subscription, the highest in this batch but only 4 points above Utah County's 92.0%. Data Center Alley does not deliver a corresponding lead in household connectivity over wealthy non-data-center counties.
+    source: Census ACS 2023 B28002 (FIPS 51107)
+  - text: Manufacturing employs only 4.4% of the Loudoun workforce, the smallest manufacturing share of any Virginia county in this batch. Unemployment is 3.2% and 88.6% of residents lived in the same house a year ago, a stable knowledge-economy base anchoring the data-center build.
+    source: Census ACS 2023 C24050, B23025, B07001 (FIPS 51107)
 va-mecklenburg:
   last_updated: '2026-05-17'
   takeaways:
@@ -1002,6 +1732,15 @@ va-mecklenburg:
     source: data/cache/utility_rate_yoy.csv (Virginia Electric & Power Co, VA) + Census ACS 2023 B19013
   sources:
   - https://en.wikipedia.org/wiki/Boydton,_Virginia
+  demographics:
+  - text: Mecklenburg is 32.9% Black against a 61.9% white share and just 3.0% Hispanic. The Black population share is the largest of any county in this batch and a sharper contrast against Loudoun's 7.7% than any income gap.
+    source: Census ACS 2023 B02001, B03003 (FIPS 51117)
+  - text: Only 71.8% of Mecklenburg households have a home broadband subscription, the lowest broadband share of any county in this batch. Microsoft's $850 million Boydton campus moves cloud bytes for the world from a county where 28% of households have no home internet.
+    source: Census ACS 2023 B28002 (FIPS 51117)
+  - text: 17.4% of Mecklenburg residents live below the poverty line and median gross rent is $804 per month. Both numbers put the county closer to rural West Virginia or West Texas than to neighboring Dominion Virginia data-center counties.
+    source: Census ACS 2023 B17001, B25064 (FIPS 51117)
+  - text: Unemployment is just 3.0% on a small 12,887-person labor force, the tightest market of any Virginia county in this batch outside Loudoun. Manufacturing already employs 9.6% of workers, the largest manufacturing share of the six Virginia counties here.
+    source: Census ACS 2023 B23025, C24050 (FIPS 51117)
 va-prince-william:
   last_updated: '2026-05-17'
   takeaways:
@@ -1015,6 +1754,15 @@ va-prince-william:
     source: 'data/sites/data_centers.csv (Manassas, AWS) + sources[0] (Wikipedia: Prince William County, Virginia)'
   sources:
   - https://en.wikipedia.org/wiki/Prince_William_County,_Virginia
+  demographics:
+  - text: Prince William is 25.7% Hispanic, 20.5% Black, and 9.8% Asian against a 46.6% white share, the only Virginia county in this batch where no racial or ethnic group holds an outright majority. The Hispanic share is the largest of any Virginia county here.
+    source: Census ACS 2023 B02001, B03003 (FIPS 51153)
+  - text: 11.7% of Prince William adults are veterans, the second-highest veteran share in this batch behind Stafford's 17.5%. Manassas's proximity to Quantico and the Pentagon anchors a security-cleared workforce that the AWS campus inherits.
+    source: Census ACS 2023 B21001 (FIPS 51153)
+  - text: Median gross rent in Prince William County is $2,002 per month, $315 below Loudoun's $2,317 and $77 above Stafford's $1,925. The county is the rent spillover between the Ashburn ceiling and the federal-pay floor.
+    source: Census ACS 2023 B25064 (FIPS 51153)
+  - text: Only 6.1% of Prince William residents live below the poverty line and 96.2% of households have a home broadband subscription. The Digital Gateway rezoning fight is being waged by homeowners who already have everything the data centers offer.
+    source: Census ACS 2023 B17001, B28002 (FIPS 51153)
 va-stafford:
   last_updated: '2026-05-17'
   takeaways:
@@ -1028,6 +1776,15 @@ va-stafford:
     source: data/cache/realestate_yoy.csv (FIPS 51179) + Census ACS 2023 B25077
   sources:
   - https://en.wikipedia.org/wiki/Stafford_County,_Virginia
+  demographics:
+  - text: 17.5% of Stafford adults are veterans, the highest veteran share of any county in this batch and more than triple the national 5.5%. Quantico, the FBI Academy, and NCIS HQ together produce a security-cleared talent base that competes directly with AWS for the same workers.
+    source: Census ACS 2023 B21001 (FIPS 51179)
+  - text: 80.8% of occupied Stafford homes are owner-occupied, the highest in any Virginia data-center county in this batch. Only 5.1% live below the poverty line, the lowest poverty rate in this batch behind Loudoun.
+    source: Census ACS 2023 B25003, B17001 (FIPS 51179)
+  - text: Median gross rent is $1,925 per month and only 3.7% of the workforce is unemployed. Manufacturing employs just 2.6% of workers, the smallest manufacturing share of any county in this batch as the federal-services economy crowds out anything else.
+    source: Census ACS 2023 B25064, B23025, C24050 (FIPS 51179)
+  - text: Stafford is 19.3% Black, 15.9% Hispanic, and 3.8% Asian against a 57.2% white share. 96.4% of households have a home broadband subscription, statistically tied with Loudoun and Prince William.
+    source: Census ACS 2023 B02001, B03003, B28002 (FIPS 51179)
 wa-grant:
   last_updated: '2026-05-17'
   takeaways:
@@ -1041,6 +1798,15 @@ wa-grant:
     source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 53025)
   sources:
   - https://en.wikipedia.org/wiki/Quincy,_Washington
+  demographics:
+  - text: 43.3% of Grant County residents are Hispanic, the largest Hispanic share of any county in this batch and more than triple any other county here. The Quincy data centers operate inside the heart of Washington's Yakima Valley agricultural workforce.
+    source: Census ACS 2023 B03003 (FIPS 53025)
+  - text: Unemployment in Grant County is 6.3% and 15.0% of residents live below the poverty line. The Microsoft, Yahoo, Dell, and Intuit cluster has been operating for nearly two decades without pulling the host county out of either statistic.
+    source: Census ACS 2023 B23025, B17001 (FIPS 53025)
+  - text: Median gross rent in Grant County is $1,059 per month and 65.6% of homes are owner-occupied. Manufacturing employs 10.8% of the workforce, largely food processing tied to the Columbia Basin irrigation district.
+    source: Census ACS 2023 B25064, B25003, C24050 (FIPS 53025)
+  - text: 89.7% of Grant households have a home broadband subscription, lower than every other data-center cluster in this batch except Mecklenburg, Wilbarger, and Mason. Two decades of hyperscaler operation has not closed the in-county digital divide.
+    source: Census ACS 2023 B28002 (FIPS 53025)
 wi-dodge:
   last_updated: '2026-05-17'
   takeaways:
@@ -1054,6 +1820,15 @@ wi-dodge:
     source: Census ACS 2023 B19013, B25077, B15003 (FIPS 55027)
   sources:
   - https://en.wikipedia.org/wiki/Beaver_Dam,_Wisconsin
+  demographics:
+  - text: 26.9% of Dodge County workers are employed in manufacturing, the largest manufacturing share of any county in this batch by 6 points. Meta's Beaver Dam campus is landing in a county where the existing industrial base is already more than a quarter of all jobs.
+    source: Census ACS 2023 C24050 (FIPS 55027)
+  - text: Dodge County is 90.0% white, 6.4% Hispanic, 2.7% Black, and 0.5% Asian, the second-whitest county in this batch behind Mason WV. Only 88.8% of households have a home broadband subscription, the lowest broadband share among the Wisconsin counties here.
+    source: Census ACS 2023 B02001, B03003, B28002 (FIPS 55027)
+  - text: Median gross rent in Dodge County is $963 per month and unemployment is 3.9%. Only 7.9% of residents live below the poverty line, half of Racine's 10.8% just two counties south.
+    source: Census ACS 2023 B25064, B23025, B17001 (FIPS 55027)
+  - text: 90.2% of Dodge residents lived in the same house one year earlier and 7.5% of adults are veterans. The county is residentially stable and not yet pulling the migration churn that the Meta announcement is likely to bring.
+    source: Census ACS 2023 B07001, B21001 (FIPS 55027)
 wi-ozaukee:
   last_updated: '2026-05-17'
   takeaways:
@@ -1067,3 +1842,12 @@ wi-ozaukee:
     source: data/cache/realestate_yoy.csv + data/cache/property_tax_yoy.csv (FIPS 55089)
   sources:
   - https://en.wikipedia.org/wiki/Port_Washington,_Wisconsin
+  demographics:
+  - text: Ozaukee County is 90.8% white, 3.6% Hispanic, 2.1% Asian, and only 1.5% Black, the whitest data-center county in Wisconsin and a sharp contrast against neighboring Racine's 10.6% Black share. The Stargate Lighthouse build is landing in the least-diverse hyperscaler county in the state.
+    source: Census ACS 2023 B02001, B03003 (FIPS 55089)
+  - text: 19.6% of Ozaukee workers are in manufacturing and only 4.6% of residents live below the poverty line. Unemployment is 2.5%, the tightest labor market in Wisconsin and matched only by Taylor TX in this batch.
+    source: Census ACS 2023 C24050, B17001, B23025 (FIPS 55089)
+  - text: Median gross rent in Ozaukee County is $1,112 per month against a 72.8% owner-occupancy rate. 93.0% of households have a home broadband subscription, the highest broadband share in Wisconsin data-center counties.
+    source: Census ACS 2023 B25064, B25003, B28002 (FIPS 55089)
+  - text: 89.3% of Ozaukee residents lived in the same house one year earlier and only 5.7% of adults are veterans. The county is a stable bedroom commuter base for Milwaukee professionals, not a transient industrial workforce.
+    source: Census ACS 2023 B07001, B21001 (FIPS 55089)

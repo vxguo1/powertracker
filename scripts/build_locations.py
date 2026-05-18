@@ -96,6 +96,34 @@ def render_takeaways_html(slug: str) -> str:
     )
 
 
+def render_demographics_html(slug: str) -> str:
+    """Build the 'Local socioeconomics' section for a county. Same shape and
+    styling as render_takeaways_html but pulls from the `demographics` key.
+    Empty string when the slug has no demographics entry."""
+    entries = load_takeaways().get(slug)
+    if not entries or not entries.get("demographics"):
+        return ""
+    items = []
+    for t in entries["demographics"]:
+        text = (t.get("text") or "").strip()
+        src = (t.get("source") or "").strip()
+        if not text:
+            continue
+        items.append(
+            f'<li><span class="t">{html.escape(text)}</span>'
+            f'<span class="s">Source: {html.escape(src)}</span></li>'
+        )
+    if not items:
+        return ""
+    body = "\n    ".join(items)
+    return (
+        '<h2 class="section">Local socioeconomics</h2>\n'
+        '  <ul class="takeaways">\n    '
+        + body
+        + '\n  </ul>'
+    )
+
+
 W, H = 1200, 630
 BG = (255, 255, 255)
 ACCENT = (215, 38, 61)        # #d7263d
@@ -735,6 +763,7 @@ def render_county_page(out: Path, county: dict, today: str) -> None:
         map_url=map_url,
         map_label="Open on map",
         takeaways_html=render_takeaways_html(slug),
+        demographics_html=render_demographics_html(slug),
         list_heading="Campuses in this county",
         list_html=site_html,
         back_url="/rankings",
@@ -837,6 +866,7 @@ def render_site_page(out: Path, site: dict, county: dict | None, today: str) -> 
         map_url=map_url,
         map_label="Open on map",
         takeaways_html="",
+        demographics_html="",
         list_heading="Source",
         list_html=f'<li><a href="{html.escape(site.get("source") or "#")}" '
                   f'target="_blank" rel="noopener">{html.escape(site.get("source") or "—")}</a></li>',
@@ -994,6 +1024,8 @@ LOCATION_PAGE_TEMPLATE = """<!DOCTYPE html>
   <a class="cta" href="{map_url}">{map_label} &rarr;</a>
 
   {takeaways_html}
+
+  {demographics_html}
 
   <h2 class="section">{list_heading}</h2>
   <ul class="list">
