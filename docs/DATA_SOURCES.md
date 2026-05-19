@@ -95,20 +95,21 @@ need `build_tiles.py`. Just deploy.
 
 ### 6. Reddit ICE raid mentions (live)
 
-- **Upstream**: `reddit.com/search.json` (unauthenticated), 8 queries (`"ICE raid"`, `"ICE arrest"`, etc.).
-- **Script**: [scripts/fetch_ice_hotzones_reddit.py](../scripts/fetch_ice_hotzones_reddit.py)
+- **Upstream**: `oauth.reddit.com/search` (OAuth, password-grant on a script app), 8 queries (`"ICE raid"`, `"ICE arrest"`, etc.). Reddit blocks unauthenticated requests from cloud-provider IP ranges (GitHub Actions runners included), so the daily refresh requires Reddit OAuth credentials.
+- **Script**: [scripts/fetch_ice_hotzones_reddit.py](../scripts/fetch_ice_hotzones_reddit.py); shared OAuth client at [src/powertracker/reddit.py](../src/powertracker/reddit.py).
+- **Auth**: 4 credentials provided via env vars (`REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `REDDIT_USERNAME`, `REDDIT_PASSWORD`) or keys-folder files (`reddit_powertracker_clientid.txt`, etc.). The credentials belong to a script-type app created at [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps).
 - **Cadence**: continuous; we read a 30-day window of the firehose.
 - **Refresh**: daily via [refresh-reddit.yml](../.github/workflows/refresh-reddit.yml).
-- **Caveats**: Reddit caps search results at ~100 per query; we top out at ~500–800 unique posts/month regardless of true volume. Heavily biased toward areas with active local subs. Crowd-sourced — not an enforcement record.
+- **Caveats**: Reddit caps search results at ~100 per query; we top out at ~500-800 unique posts/month regardless of true volume. Heavily biased toward areas with active local subs. Crowd-sourced, not an enforcement record. Authenticated requests are rate-limited to 100 QPM, well above what 8 queries with 1s spacing consume.
 - **Geocoding deps**: requires `data/cache/us_cities.csv` (entry #17).
 
 ### 7. Reddit protest mentions (live)
 
-- **Upstream**: `reddit.com/search.json` (unauthenticated), 11 queries (`"protest in"`, `"rally in"`, `"march on"`, `"demonstration in"`, `"protest erupted"`, plus a few topic-specific phrases).
-- **Script**: [scripts/fetch_protest_hotzones.py](../scripts/fetch_protest_hotzones.py)
+- **Upstream**: `oauth.reddit.com/search` (OAuth, see #6 for auth setup), 11 queries (`"protest in"`, `"rally in"`, `"march on"`, `"demonstration in"`, `"protest erupted"`, plus a few topic-specific phrases).
+- **Script**: [scripts/fetch_protest_hotzones.py](../scripts/fetch_protest_hotzones.py); shared OAuth client at [src/powertracker/reddit.py](../src/powertracker/reddit.py).
 - **Cadence**: continuous; rolling 30-day window.
 - **Refresh**: daily via [refresh-reddit.yml](../.github/workflows/refresh-reddit.yml).
-- **Caveats**: "protest" is far more common on Reddit than "ICE raid" — expect bigger denominators and lower geocoding match rates. Same crowd-sourcing biases as #6. Shares the geocoding stack (subreddit map + `City, ST` regex + major-city allowlist) with the ICE crawler.
+- **Caveats**: "protest" is far more common on Reddit than "ICE raid", so expect bigger denominators and lower geocoding match rates. Same crowd-sourcing biases as #6. Shares the geocoding stack (subreddit map + `City, ST` regex + major-city allowlist) and the OAuth credentials with the ICE crawler.
 
 ### 8. Deportation Data Project (via Big Local News)
 
@@ -274,6 +275,10 @@ Secrets and variables → Actions):
 | `CLOUDFLARE_API_TOKEN` | all five | Workers Scripts: Edit, scoped to the powertracker account |
 | `CLOUDFLARE_ACCOUNT_ID` | all five | The `d8e8518b7870983e964bdd183fc718b6` account id |
 | `EIA_API_KEY` | refresh-eia-demand | Free key from [eia.gov/opendata/register](https://www.eia.gov/opendata/register.php) |
+| `REDDIT_CLIENT_ID` | refresh-reddit | "personal use script" string from the [Reddit script app](https://www.reddit.com/prefs/apps) |
+| `REDDIT_CLIENT_SECRET` | refresh-reddit | Secret field on the same Reddit script app |
+| `REDDIT_USERNAME` | refresh-reddit | Reddit username that owns the script app |
+| `REDDIT_PASSWORD` | refresh-reddit | Password for that Reddit account |
 
 All commits use the repo's built-in `GITHUB_TOKEN`. Concurrency groups
 prevent overlapping runs of the same workflow.
