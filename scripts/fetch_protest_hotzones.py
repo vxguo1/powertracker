@@ -22,9 +22,8 @@ import csv
 import json
 import math
 import re
+import sys
 import time
-import urllib.request
-import urllib.error
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -32,6 +31,9 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CITIES_CSV = REPO_ROOT / "data" / "cache" / "us_cities.csv"
 OUT = REPO_ROOT / "app" / "protest_hotzones.geojson"
+
+sys.path.insert(0, str(REPO_ROOT / "src"))
+from powertracker import reddit  # noqa: E402
 
 QUERIES = [
     '"protest in"',
@@ -46,7 +48,6 @@ QUERIES = [
     '"pro-Palestine rally"',
     '"Black Lives Matter protest"',
 ]
-UA = "powertracker/0.1 (data overlay; contact via github)"
 
 STATE_NAMES = {
     "AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas","CA":"California",
@@ -132,20 +133,6 @@ SUBREDDIT_CITY: dict[str, tuple[str, str]] = {
     "saltlakecity": ("Salt Lake City", "UT"),
     "morriscountyicenews": ("Morristown", "NJ"),
 }
-
-
-def reddit_search(query: str, t: str = "month", limit: int = 100,
-                  sort: str = "new") -> list[dict]:
-    url = ("https://www.reddit.com/search.json"
-           f"?q={urllib.request.quote(query)}&t={t}&sort={sort}&limit={limit}")
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
-    try:
-        with urllib.request.urlopen(req, timeout=30) as r:
-            data = json.load(r)
-    except urllib.error.HTTPError as e:
-        print(f"  ! {query}: HTTP {e.code}")
-        return []
-    return [c["data"] for c in data.get("data", {}).get("children", [])]
 
 
 def load_cities() -> tuple[dict[str, list[tuple[str, str, float, float]]],
@@ -255,12 +242,18 @@ def main() -> None:
     print("Querying Reddit ...")
     posts: dict[str, dict] = {}
     for q in QUERIES:
-        results = reddit_search(q)
+        results = reddit.search(q)
         print(f"  {q}: {len(results)} posts")
         for p in results:
             posts.setdefault(p["permalink"], p)
-        time.sleep(2)  # be polite, unauthenticated endpoint
+        time.sleep(1)  # 100 QPM ceiling on authenticated requests
     print(f"Unique posts: {len(posts)}")
+
+    if not posts:
+        # See sibling script for the rationale: don't overwrite the
+        # committed file with an empty result.
+        print(f"No posts returned. Leaving {OUT} untouched.")
+        return
 
     cutoff = datetime.now(timezone.utc) - timedelta(days=30)
     fresh = [p for p in posts.values() if p.get("created_utc")
